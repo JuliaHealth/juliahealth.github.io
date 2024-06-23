@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.47">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jacob S. Zelko">
+<meta name="dcterms.date" content="2024-06-23">
+<meta name="description" content="An overview of how to use the observational health tools within JuliaHealth to explore the usage of various Anthracyclines alongside diseases of interest.">
+
+<title>Exploring Anthracyclines and Disease within an OMOP CDM Database – The JuliaHealth Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../profile.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "?"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Exploring Anthracyclines and Disease within an OMOP CDM Database – The JuliaHealth Blog">
+<meta property="og:description" content="An overview of how to use the observational health tools within JuliaHealth to explore the usage of various Anthracyclines alongside diseases of interest.">
+<meta property="og:site_name" content="The JuliaHealth Blog">
+<meta property="og:locale" content="en_EN">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../profile.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The JuliaHealth Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Write with Us</span>
+    </span>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-chat-with-us" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Chat with Us</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-chat-with-us">    
+        <li>
+    <a class="dropdown-item" href="https://julialang.org/slack/"><i class="bi bi-slack" role="img">
+</i> 
+ <span class="dropdown-text">Slack (#health-and-medicine)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://julialang.zulipchat.com/"><i class="bi bi-lightning-charge-fill" role="img">
+</i> 
+ <span class="dropdown-text">Julia Zulip</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://discourse.julialang.org/"><i class="bi bi-pencil-square" role="img">
+</i> 
+ <span class="dropdown-text">Julia Discourse</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <span class="nav-link">
+<span class="menu-text">Join JuliaHealth</span>
+    </span>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+ <span class="dropdown-text">Source Code</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose">
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<p><strong>Navigation &amp; Tips:</strong></p>
+<ul>
+<li><p>Press <strong>?</strong> for search</p></li>
+<li><p><strong>“&lt;/&gt; Code”</strong> for code nav</p></li>
+</ul>
+</div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set-Up</a></li>
+  <li><a href="#creating-drug-and-disease-look-ups" id="toc-creating-drug-and-disease-look-ups" class="nav-link" data-scroll-target="#creating-drug-and-disease-look-ups">Creating Drug and Disease Look-Ups</a></li>
+  <li><a href="#generating-ad-hoc-phenotype-definitions" id="toc-generating-ad-hoc-phenotype-definitions" class="nav-link" data-scroll-target="#generating-ad-hoc-phenotype-definitions">Generating Ad Hoc Phenotype Definitions</a></li>
+  <li><a href="#analyzing-the-omopcdm-database" id="toc-analyzing-the-omopcdm-database" class="nav-link" data-scroll-target="#analyzing-the-omopcdm-database">Analyzing the OMOPCDM Database</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JuliaHealth/JuliaHealthBlog/edit/main/posts/complex_characterization/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Exploring Anthracyclines and Disease within an OMOP CDM Database</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">cardiovascular disease</div>
+    <div class="quarto-category">omop cdm</div>
+    <div class="quarto-category">observational health</div>
+    <div class="quarto-category">cancer</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    An overview of how to use the observational health tools within JuliaHealth to explore the usage of various Anthracyclines alongside diseases of interest.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jacob S. Zelko </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 23, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>This is a small sample notebook I threw together to illustrate how to further build a small characterization study when exploring drugs and conditions of interest. It goes into a bit more depth on how to find drugs and diseases folks are interested in.</p>
+</section>
+<section id="set-up" class="level1">
+<h1>Set-Up</h1>
+<p>Loading required packages</p>
+<div id="efa20891" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">using</span> <span class="bu">JSON3</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">using</span> <span class="bu">HTTP</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">using</span> <span class="bu">OMOPCDMCohortCreator</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">import</span> <span class="bu">DBInterface</span>:</span>
+<span id="cb1-6"><a href="#cb1-6"></a>    connect,</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    execute</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="im">import</span> <span class="bu">LibPQ</span>:</span>
+<span id="cb1-9"><a href="#cb1-9"></a>    Connection</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Creating connection to database</p>
+<div id="c6f3bcad" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1"></a>conn <span class="op">=</span> <span class="fu">connect</span>(</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    Connection, </span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="st">"user=thecedarprince dbname=synthea"</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>PostgreSQL connection (CONNECTION_OK) with parameters:
+  user = thecedarprince
+  passfile = /home/thecedarprince/.pgpass
+  channel_binding = prefer
+  dbname = synthea
+  port = 5432
+  client_encoding = UTF8
+  options = -c DateStyle=ISO,YMD -c IntervalStyle=iso_8601 -c TimeZone=UTC
+  application_name = LibPQ.jl
+  sslmode = prefer
+  sslcompression = 0
+  sslsni = 1
+  ssl_min_protocol_version = TLSv1.2
+  gssencmode = prefer
+  krbsrvname = postgres
+  target_session_attrs = any</code></pre>
+</div>
+</div>
+<p>Generating database details for the synthetic database we are connecting to (this is used internally by the <code>OMOPCDMCohortCreator.jl</code> packag):</p>
+<div id="3e69d2bc" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">GenerateDatabaseDetails</span>(<span class="op">:</span>postgresql, <span class="st">"omop"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">GenerateTables</span>(conn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: Global database dialect set to: postgresql
+[ Info: Global schema set to: omop
+[ Info: source_to_concept_map table generated internally
+[ Info: payer_plan_period table generated internally
+[ Info: vocabulary table generated internally
+[ Info: note_nlp table generated internally
+[ Info: procedure_occurrence table generated internally
+[ Info: domain table generated internally
+[ Info: metadata table generated internally
+[ Info: cohort_summary_stats table generated internally
+[ Info: fact_relationship table generated internally
+[ Info: drug_exposure table generated internally
+[ Info: all_visits table generated internally
+[ Info: final_visit_ids table generated internally
+[ Info: person table generated internally
+[ Info: cost table generated internally
+[ Info: observation table generated internally
+[ Info: provider table generated internally
+[ Info: visit_detail table generated internally
+[ Info: assign_all_visit_ids table generated internally
+[ Info: device_exposure table generated internally
+[ Info: measurement table generated internally
+[ Info: source_to_standard_vocab_map table generated internally
+[ Info: location table generated internally
+[ Info: visit_occurrence table generated internally
+[ Info: relationship table generated internally
+[ Info: dose_era table generated internally
+[ Info: concept table generated internally
+[ Info: death table generated internally
+[ Info: concept_class table generated internally
+[ Info: drug_era table generated internally
+[ Info: note table generated internally
+[ Info: episode_event table generated internally
+[ Info: episode table generated internally
+[ Info: specimen table generated internally
+[ Info: condition_occurrence table generated internally
+[ Info: cohort_inclusion table generated internally
+[ Info: cohort table generated internally
+[ Info: concept_ancestor table generated internally
+[ Info: cohort_inclusion_stats table generated internally
+[ Info: cohort_inclusion_result table generated internally
+[ Info: observation_period table generated internally
+[ Info: condition_era table generated internally
+[ Info: concept_relationship table generated internally
+[ Info: cohort_censor_stats table generated internally
+[ Info: concept_synonym table generated internally
+[ Info: cdm_source table generated internally
+[ Info: cohort_definition table generated internally
+[ Info: drug_strength table generated internally
+[ Info: source_to_source_vocab_map table generated internally
+[ Info: care_site table generated internally</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>PostgreSQL connection (CONNECTION_OK) with parameters:
+  user = thecedarprince
+  passfile = /home/thecedarprince/.pgpass
+  channel_binding = prefer
+  dbname = synthea
+  port = 5432
+  client_encoding = UTF8
+  options = -c DateStyle=ISO,YMD -c IntervalStyle=iso_8601 -c TimeZone=UTC
+  application_name = LibPQ.jl
+  sslmode = prefer
+  sslcompression = 0
+  sslsni = 1
+  ssl_min_protocol_version = TLSv1.2
+  gssencmode = prefer
+  krbsrvname = postgres
+  target_session_attrs = any</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-drug-and-disease-look-ups" class="level1">
+<h1>Creating Drug and Disease Look-Ups</h1>
+<p>Here are the anthracyclines we are exploring:</p>
+<div id="a7a877de" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1"></a>drugs <span class="op">=</span> [</span>
+<span id="cb8-2"><a href="#cb8-2"></a>    (name <span class="op">=</span> <span class="st">"Daunorubicin"</span>, id <span class="op">=</span> <span class="fl">1311799</span>),</span>
+<span id="cb8-3"><a href="#cb8-3"></a>    (name <span class="op">=</span> <span class="st">"Doxorubicin"</span>, id <span class="op">=</span> <span class="fl">1338512</span>),</span>
+<span id="cb8-4"><a href="#cb8-4"></a>    (name <span class="op">=</span> <span class="st">"Epirubicin"</span>, id <span class="op">=</span> <span class="fl">1344354</span>),</span>
+<span id="cb8-5"><a href="#cb8-5"></a>    (name <span class="op">=</span> <span class="st">"Idarubicin"</span>, id <span class="op">=</span> <span class="fl">19078097</span>),</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    (name <span class="op">=</span> <span class="st">"Mitoxantrone"</span>, id <span class="op">=</span> <span class="fl">1309188</span>),</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    (name <span class="op">=</span> <span class="st">"Valrubicin"</span>, id <span class="op">=</span> <span class="fl">19012543</span>),</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    (name <span class="op">=</span> <span class="st">"Ibrutinib"</span>, id <span class="op">=</span> <span class="fl">44507848</span>),</span>
+<span id="cb8-9"><a href="#cb8-9"></a>    (name <span class="op">=</span> <span class="st">"Acalabrutinib"</span>, id <span class="op">=</span> <span class="fl">792764</span>),</span>
+<span id="cb8-10"><a href="#cb8-10"></a>    (name <span class="op">=</span> <span class="st">"Zanubrutinib"</span>, id <span class="op">=</span> <span class="fl">37497691</span>),</span>
+<span id="cb8-11"><a href="#cb8-11"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>9-element Vector{@NamedTuple{name::String, id::Int64}}:
+ (name = "Daunorubicin", id = 1311799)
+ (name = "Doxorubicin", id = 1338512)
+ (name = "Epirubicin", id = 1344354)
+ (name = "Idarubicin", id = 19078097)
+ (name = "Mitoxantrone", id = 1309188)
+ (name = "Valrubicin", id = 19012543)
+ (name = "Ibrutinib", id = 44507848)
+ (name = "Acalabrutinib", id = 792764)
+ (name = "Zanubrutinib", id = 37497691)</code></pre>
+</div>
+</div>
+<p>Here are the diseases we are exploring:</p>
+<div id="8776cacb" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1"></a>diseases <span class="op">=</span> [</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    (name <span class="op">=</span> <span class="st">"Myocardial Infarction"</span>, id <span class="op">=</span> <span class="fl">4329847</span>),</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    (name <span class="op">=</span> <span class="st">"Heart Failure"</span>, id <span class="op">=</span> <span class="fl">316139</span>),</span>
+<span id="cb10-4"><a href="#cb10-4"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>2-element Vector{@NamedTuple{name::String, id::Int64}}:
+ (name = "Myocardial Infarction", id = 4329847)
+ (name = "Heart Failure", id = 316139)</code></pre>
+</div>
+</div>
+<p>For both these drugs and diseases, the IDs come from <a href="https://atlas-demo.ohdsi.org/#/search">ATLAS</a>, a tool to develop computable phenotype definitions (i.e.&nbsp;translating a disease phenotype definition to the same thing but in code). How these IDs were found for a drug is as follows (using Doxorubicin as an example):</p>
+<ol type="1">
+<li><p>Search within ATLAS for Doxorubicin.</p></li>
+<li><p>Click any Doxorubicin-related drug name.</p></li>
+<li><p>Look through the related concepts or hierarchy (in the parent section) for the ingredient version of the drug.</p></li>
+<li><p>Copy that ID for the ingredient version of Doxorubicin.</p></li>
+</ol>
+<p>That is the ID we used here as it is the base for all other Doxorubicin medications.</p>
+<p>Next, we can do something similar for Myocardial Infarction:</p>
+<ol type="1">
+<li><p>Search within ATLAS for Myocardial Infarction.</p></li>
+<li><p>Click any Myocardial Infarction-related name.</p></li>
+<li><p>Look through the hierarchy of this disease. The condition version we are looking for is that parent concepts are too broad for our condition and the current condition we select should have children that encompass all diseases we want (in this case, this is <a href="https://atlas-demo.ohdsi.org/#/concept/4329847">recorded condition</a> is the perfect level of granularity).</p></li>
+<li><p>Copy that ID for the ingredient version of Myocardial Infarction.</p></li>
+</ol>
+<p>That is the ID we used here as it is the base for all other Myocardial Infarction-related disease conditions.</p>
+<p>Next, we’ll discuss how to create a query that includes the derivatives of the general concepts for the drugs and diseases we found.</p>
+</section>
+<section id="generating-ad-hoc-phenotype-definitions" class="level1">
+<h1>Generating Ad Hoc Phenotype Definitions</h1>
+<p>Here, we programmatically query the public ATLAS instance that is running to get the children IDs of the general concepts (referred to as descendants in ATLAS). In this case, we are, in a very ad hoc way, creating an implicit computable phenotype definition where we are looking for all drugs and diseases that are based off our general concepts. This is great for rapid prototyping, but a phenotype definition must be scrutinized ruthlessly when moving towards a final version for patient analysis (see: <a href="https://arxiv.org/abs/2304.06504">Zelko, Jacob S., et al.&nbsp;“Developing a Robust Computable Phenotype Definition Workflow to Describe Health and Disease in Observational Health Research.” arXiv preprint arXiv:2304.06504 (2023).</a> which discussed more about this process).</p>
+<p>This is how we do that for drugs:</p>
+<div id="78562127" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1"></a>drug_descendants <span class="op">=</span> []</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="cf">for</span> drug <span class="kw">in</span> drugs</span>
+<span id="cb12-3"><a href="#cb12-3"></a>    path <span class="op">=</span> <span class="st">"https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/</span><span class="sc">$</span>(drug.id)<span class="st">/descendants/"</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>    descendants <span class="op">=</span> </span>
+<span id="cb12-5"><a href="#cb12-5"></a>        HTTP.<span class="fu">get</span>(path) <span class="op">|&gt;</span> </span>
+<span id="cb12-6"><a href="#cb12-6"></a>        x <span class="op">-&gt;</span> <span class="fu">String</span>(x.body) <span class="op">|&gt;</span> </span>
+<span id="cb12-7"><a href="#cb12-7"></a>        JSON3.read</span>
+<span id="cb12-8"><a href="#cb12-8"></a>    <span class="fu">push!</span>(drug_descendants, descendants)</span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>This is how we do that for diseases:</p>
+<div id="fb2d06bf" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1"></a>disease_descendants <span class="op">=</span> []</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="cf">for</span> disease <span class="kw">in</span> diseases</span>
+<span id="cb13-3"><a href="#cb13-3"></a>    path <span class="op">=</span> <span class="st">"https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/</span><span class="sc">$</span>(disease.id)<span class="st">/descendants/"</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>    descendants <span class="op">=</span> </span>
+<span id="cb13-5"><a href="#cb13-5"></a>        HTTP.<span class="fu">get</span>(path) <span class="op">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6"></a>        x <span class="op">-&gt;</span> <span class="fu">String</span>(x.body) <span class="op">|&gt;</span> </span>
+<span id="cb13-7"><a href="#cb13-7"></a>        JSON3.read</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="fu">push!</span>(disease_descendants, descendants)</span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="analyzing-the-omopcdm-database" class="level1">
+<h1>Analyzing the OMOPCDM Database</h1>
+<p>Find users of the drugs we are interested in:</p>
+<div id="ed938d6b" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1"></a>drug_users <span class="op">=</span> <span class="fu">Dict</span>()</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="cf">for</span> (idx, drug) <span class="kw">in</span> <span class="fu">enumerate</span>(drugs)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>    ids <span class="op">=</span> OMOPCDMCohortCreator.<span class="fu">DrugExposureFilterPersonIDs</span>(</span>
+<span id="cb14-4"><a href="#cb14-4"></a>        [</span>
+<span id="cb14-5"><a href="#cb14-5"></a>            drug[<span class="op">:</span>CONCEPT_ID] </span>
+<span id="cb14-6"><a href="#cb14-6"></a>            for drug <span class="kw">in</span> drug_descendants[idx]</span>
+<span id="cb14-7"><a href="#cb14-7"></a>        ], conn).person_id</span>
+<span id="cb14-8"><a href="#cb14-8"></a>    <span class="fu">push!</span>(</span>
+<span id="cb14-9"><a href="#cb14-9"></a>        drug_users, </span>
+<span id="cb14-10"><a href="#cb14-10"></a>        drug.name <span class="op">=&gt;</span> </span>
+<span id="cb14-11"><a href="#cb14-11"></a>            (ids <span class="op">=</span> ids, count <span class="op">=</span> <span class="fu">length</span>(ids))</span>
+<span id="cb14-12"><a href="#cb14-12"></a>    )</span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.</code></pre>
+</div>
+</div>
+<p>Find patients diagnosed with the conditions we are interested in:</p>
+<div id="bff1c9f9" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1"></a>diseased_patients <span class="op">=</span> <span class="fu">Dict</span>()</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="cf">for</span> (idx, disease) <span class="kw">in</span> <span class="fu">enumerate</span>(diseases)</span>
+<span id="cb16-3"><a href="#cb16-3"></a>    ids <span class="op">=</span> <span class="fu">ConditionFilterPersonIDs</span>(</span>
+<span id="cb16-4"><a href="#cb16-4"></a>        [</span>
+<span id="cb16-5"><a href="#cb16-5"></a>            d[<span class="op">:</span>CONCEPT_ID] </span>
+<span id="cb16-6"><a href="#cb16-6"></a>            for d <span class="kw">in</span> disease_descendants[idx]</span>
+<span id="cb16-7"><a href="#cb16-7"></a>            ], conn).person_id</span>
+<span id="cb16-8"><a href="#cb16-8"></a>    <span class="fu">push!</span>(</span>
+<span id="cb16-9"><a href="#cb16-9"></a>        diseased_patients, </span>
+<span id="cb16-10"><a href="#cb16-10"></a>        disease.name <span class="op">=&gt;</span> </span>
+<span id="cb16-11"><a href="#cb16-11"></a>            (ids <span class="op">=</span> ids, count <span class="op">=</span> <span class="fu">length</span>(ids))</span>
+<span id="cb16-12"><a href="#cb16-12"></a>        )</span>
+<span id="cb16-13"><a href="#cb16-13"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.</code></pre>
+</div>
+</div>
+<p>Find the combination of patients diagnosed with the conditions we are interested in and taking the drugs we want to investigate:</p>
+<div id="76127f7e" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1"></a>condition_mix <span class="op">=</span> <span class="fu">Dict</span>()</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="cf">for</span> pg <span class="kw">in</span> <span class="fu">keys</span>(diseased_patients)</span>
+<span id="cb18-3"><a href="#cb18-3"></a>    <span class="fu">push!</span>(condition_mix, pg <span class="op">=&gt;</span> <span class="fu">Dict</span>())</span>
+<span id="cb18-4"><a href="#cb18-4"></a>    <span class="cf">for</span> du <span class="kw">in</span> <span class="fu">keys</span>(drug_users)</span>
+<span id="cb18-5"><a href="#cb18-5"></a>        mix <span class="op">=</span> <span class="fu">intersect</span>(</span>
+<span id="cb18-6"><a href="#cb18-6"></a>            diseased_patients[pg].ids, </span>
+<span id="cb18-7"><a href="#cb18-7"></a>            drug_users[du].ids</span>
+<span id="cb18-8"><a href="#cb18-8"></a>        )</span>
+<span id="cb18-9"><a href="#cb18-9"></a>        <span class="fu">push!</span>(</span>
+<span id="cb18-10"><a href="#cb18-10"></a>            condition_mix[pg], </span>
+<span id="cb18-11"><a href="#cb18-11"></a>            du <span class="op">=&gt;</span> (ids <span class="op">=</span> mix, count <span class="op">=</span> <span class="fu">length</span>(mix))</span>
+<span id="cb18-12"><a href="#cb18-12"></a>        )</span>
+<span id="cb18-13"><a href="#cb18-13"></a>    <span class="cf">end</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{s._zelko2024,
+  author = {S. Zelko, Jacob},
+  title = {Exploring {Anthracyclines} and {Disease} Within an {OMOP}
+    {CDM} {Database}},
+  date = {2024-06-23},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-s._zelko2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+S. Zelko, Jacob. 2024. <span>“Exploring Anthracyclines and Disease
+Within an OMOP CDM Database.”</span> June 23, 2024. <a href="https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/">https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/</a>.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/juliahealth\.org\/JuliaHealthBlog\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">---</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="an">title:</span><span class="co"> "Exploring Anthracyclines and Disease within an OMOP CDM Database"</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="an">description:</span><span class="co"> "An overview of how to use the observational health tools within JuliaHealth to explore the usage of various Anthracyclines alongside diseases of interest."</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="an">author:</span><span class="co"> "Jacob S. Zelko"</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="an">date:</span><span class="co"> "6/23/2024"</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="an">categories:</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co">  - cardiovascular disease</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="co">  - omop cdm</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a><span class="co">  - observational health</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a><span class="co">  - cancer</span></span>
+<span id="cb19-12"><a href="#cb19-12"></a><span class="co">---</span></span>
+<span id="cb19-13"><a href="#cb19-13"></a></span>
+<span id="cb19-16"><a href="#cb19-16"></a><span class="in">```{julia}</span></span>
+<span id="cb19-17"><a href="#cb19-17"></a><span class="in">#| output: false</span></span>
+<span id="cb19-18"><a href="#cb19-18"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-19"><a href="#cb19-19"></a><span class="in">#| echo: false</span></span>
+<span id="cb19-20"><a href="#cb19-20"></a></span>
+<span id="cb19-21"><a href="#cb19-21"></a><span class="in">include("$(pwd())/src/setup.jl")</span></span>
+<span id="cb19-22"><a href="#cb19-22"></a><span class="in">```</span></span>
+<span id="cb19-23"><a href="#cb19-23"></a></span>
+<span id="cb19-24"><a href="#cb19-24"></a><span class="fu"># Background</span></span>
+<span id="cb19-25"><a href="#cb19-25"></a></span>
+<span id="cb19-26"><a href="#cb19-26"></a>This is a small sample notebook I threw together to illustrate how to further build a small characterization study when exploring drugs and conditions of interest.</span>
+<span id="cb19-27"><a href="#cb19-27"></a>It goes into a bit more depth on how to find drugs and diseases folks are interested in.</span>
+<span id="cb19-28"><a href="#cb19-28"></a></span>
+<span id="cb19-29"><a href="#cb19-29"></a><span class="fu"># Set-Up</span></span>
+<span id="cb19-30"><a href="#cb19-30"></a></span>
+<span id="cb19-31"><a href="#cb19-31"></a>Loading required packages</span>
+<span id="cb19-32"><a href="#cb19-32"></a></span>
+<span id="cb19-35"><a href="#cb19-35"></a><span class="in">```{julia}</span></span>
+<span id="cb19-36"><a href="#cb19-36"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-37"><a href="#cb19-37"></a><span class="in">using JSON3</span></span>
+<span id="cb19-38"><a href="#cb19-38"></a><span class="in">using HTTP</span></span>
+<span id="cb19-39"><a href="#cb19-39"></a><span class="in">using OMOPCDMCohortCreator</span></span>
+<span id="cb19-40"><a href="#cb19-40"></a></span>
+<span id="cb19-41"><a href="#cb19-41"></a><span class="in">import DBInterface:</span></span>
+<span id="cb19-42"><a href="#cb19-42"></a><span class="in">    connect,</span></span>
+<span id="cb19-43"><a href="#cb19-43"></a><span class="in">    execute</span></span>
+<span id="cb19-44"><a href="#cb19-44"></a><span class="in">import LibPQ:</span></span>
+<span id="cb19-45"><a href="#cb19-45"></a><span class="in">    Connection</span></span>
+<span id="cb19-46"><a href="#cb19-46"></a><span class="in">```</span></span>
+<span id="cb19-47"><a href="#cb19-47"></a></span>
+<span id="cb19-48"><a href="#cb19-48"></a>Creating connection to database</span>
+<span id="cb19-49"><a href="#cb19-49"></a></span>
+<span id="cb19-52"><a href="#cb19-52"></a><span class="in">```{julia}</span></span>
+<span id="cb19-53"><a href="#cb19-53"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-54"><a href="#cb19-54"></a><span class="in">conn = connect(</span></span>
+<span id="cb19-55"><a href="#cb19-55"></a><span class="in">    Connection, </span></span>
+<span id="cb19-56"><a href="#cb19-56"></a><span class="in">    "user=thecedarprince dbname=synthea"</span></span>
+<span id="cb19-57"><a href="#cb19-57"></a><span class="in">)</span></span>
+<span id="cb19-58"><a href="#cb19-58"></a><span class="in">```</span></span>
+<span id="cb19-59"><a href="#cb19-59"></a></span>
+<span id="cb19-60"><a href="#cb19-60"></a>Generating database details for the synthetic database we are connecting to (this is used internally by the <span class="in">`OMOPCDMCohortCreator.jl`</span> packag):</span>
+<span id="cb19-61"><a href="#cb19-61"></a></span>
+<span id="cb19-64"><a href="#cb19-64"></a><span class="in">```{julia}</span></span>
+<span id="cb19-65"><a href="#cb19-65"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-66"><a href="#cb19-66"></a><span class="in">GenerateDatabaseDetails(:postgresql, "omop")</span></span>
+<span id="cb19-67"><a href="#cb19-67"></a><span class="in">GenerateTables(conn)</span></span>
+<span id="cb19-68"><a href="#cb19-68"></a><span class="in">```</span></span>
+<span id="cb19-69"><a href="#cb19-69"></a></span>
+<span id="cb19-70"><a href="#cb19-70"></a><span class="fu"># Creating Drug and Disease Look-Ups</span></span>
+<span id="cb19-71"><a href="#cb19-71"></a></span>
+<span id="cb19-72"><a href="#cb19-72"></a>Here are the anthracyclines we are exploring:</span>
+<span id="cb19-73"><a href="#cb19-73"></a></span>
+<span id="cb19-76"><a href="#cb19-76"></a><span class="in">```{julia}</span></span>
+<span id="cb19-77"><a href="#cb19-77"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-78"><a href="#cb19-78"></a><span class="in">drugs = [</span></span>
+<span id="cb19-79"><a href="#cb19-79"></a><span class="in">    (name = "Daunorubicin", id = 1311799),</span></span>
+<span id="cb19-80"><a href="#cb19-80"></a><span class="in">    (name = "Doxorubicin", id = 1338512),</span></span>
+<span id="cb19-81"><a href="#cb19-81"></a><span class="in">    (name = "Epirubicin", id = 1344354),</span></span>
+<span id="cb19-82"><a href="#cb19-82"></a><span class="in">    (name = "Idarubicin", id = 19078097),</span></span>
+<span id="cb19-83"><a href="#cb19-83"></a><span class="in">    (name = "Mitoxantrone", id = 1309188),</span></span>
+<span id="cb19-84"><a href="#cb19-84"></a><span class="in">    (name = "Valrubicin", id = 19012543),</span></span>
+<span id="cb19-85"><a href="#cb19-85"></a><span class="in">    (name = "Ibrutinib", id = 44507848),</span></span>
+<span id="cb19-86"><a href="#cb19-86"></a><span class="in">    (name = "Acalabrutinib", id = 792764),</span></span>
+<span id="cb19-87"><a href="#cb19-87"></a><span class="in">    (name = "Zanubrutinib", id = 37497691),</span></span>
+<span id="cb19-88"><a href="#cb19-88"></a><span class="in">]</span></span>
+<span id="cb19-89"><a href="#cb19-89"></a><span class="in">```</span></span>
+<span id="cb19-90"><a href="#cb19-90"></a></span>
+<span id="cb19-91"><a href="#cb19-91"></a>Here are the diseases we are exploring:</span>
+<span id="cb19-92"><a href="#cb19-92"></a></span>
+<span id="cb19-95"><a href="#cb19-95"></a><span class="in">```{julia}</span></span>
+<span id="cb19-96"><a href="#cb19-96"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-97"><a href="#cb19-97"></a><span class="in">diseases = [</span></span>
+<span id="cb19-98"><a href="#cb19-98"></a><span class="in">    (name = "Myocardial Infarction", id = 4329847),</span></span>
+<span id="cb19-99"><a href="#cb19-99"></a><span class="in">    (name = "Heart Failure", id = 316139),</span></span>
+<span id="cb19-100"><a href="#cb19-100"></a><span class="in">]</span></span>
+<span id="cb19-101"><a href="#cb19-101"></a><span class="in">```</span></span>
+<span id="cb19-102"><a href="#cb19-102"></a></span>
+<span id="cb19-103"><a href="#cb19-103"></a>For both these drugs and diseases, the IDs come from <span class="co">[</span><span class="ot">ATLAS</span><span class="co">](https://atlas-demo.ohdsi.org/#/search)</span>, a tool to develop computable phenotype definitions (i.e. translating a disease phenotype definition to the same thing but in code).</span>
+<span id="cb19-104"><a href="#cb19-104"></a>How these IDs were found for a drug is as follows (using Doxorubicin as an example):</span>
+<span id="cb19-105"><a href="#cb19-105"></a></span>
+<span id="cb19-106"><a href="#cb19-106"></a><span class="ss">1. </span>Search within ATLAS for Doxorubicin.</span>
+<span id="cb19-107"><a href="#cb19-107"></a></span>
+<span id="cb19-108"><a href="#cb19-108"></a><span class="ss">2. </span>Click any Doxorubicin-related drug name.</span>
+<span id="cb19-109"><a href="#cb19-109"></a></span>
+<span id="cb19-110"><a href="#cb19-110"></a><span class="ss">3. </span>Look through the related concepts or hierarchy (in the parent section) for the ingredient version of the drug.</span>
+<span id="cb19-111"><a href="#cb19-111"></a></span>
+<span id="cb19-112"><a href="#cb19-112"></a><span class="ss">4. </span>Copy that ID for the ingredient version of Doxorubicin.</span>
+<span id="cb19-113"><a href="#cb19-113"></a></span>
+<span id="cb19-114"><a href="#cb19-114"></a>That is the ID we used here as it is the base for all other Doxorubicin medications.</span>
+<span id="cb19-115"><a href="#cb19-115"></a></span>
+<span id="cb19-116"><a href="#cb19-116"></a>Next, we can do something similar for Myocardial Infarction:</span>
+<span id="cb19-117"><a href="#cb19-117"></a></span>
+<span id="cb19-118"><a href="#cb19-118"></a><span class="ss">1. </span>Search within ATLAS for Myocardial Infarction.</span>
+<span id="cb19-119"><a href="#cb19-119"></a></span>
+<span id="cb19-120"><a href="#cb19-120"></a><span class="ss">2. </span>Click any Myocardial Infarction-related name.</span>
+<span id="cb19-121"><a href="#cb19-121"></a></span>
+<span id="cb19-122"><a href="#cb19-122"></a><span class="ss">3. </span>Look through the hierarchy of this disease. </span>
+<span id="cb19-123"><a href="#cb19-123"></a>The condition version we are looking for is that parent concepts are too broad for our condition and the current condition we select should have children that encompass all diseases we want (in this case, this is <span class="co">[</span><span class="ot">recorded condition</span><span class="co">](https://atlas-demo.ohdsi.org/#/concept/4329847)</span> is the perfect level of granularity).</span>
+<span id="cb19-124"><a href="#cb19-124"></a></span>
+<span id="cb19-125"><a href="#cb19-125"></a><span class="ss">4. </span>Copy that ID for the ingredient version of Myocardial Infarction.</span>
+<span id="cb19-126"><a href="#cb19-126"></a></span>
+<span id="cb19-127"><a href="#cb19-127"></a>That is the ID we used here as it is the base for all other Myocardial Infarction-related disease conditions.</span>
+<span id="cb19-128"><a href="#cb19-128"></a></span>
+<span id="cb19-129"><a href="#cb19-129"></a>Next, we'll discuss how to create a query that includes the derivatives of the general concepts for the drugs and diseases we found.</span>
+<span id="cb19-130"><a href="#cb19-130"></a></span>
+<span id="cb19-131"><a href="#cb19-131"></a><span class="fu"># Generating Ad Hoc Phenotype Definitions</span></span>
+<span id="cb19-132"><a href="#cb19-132"></a></span>
+<span id="cb19-133"><a href="#cb19-133"></a>Here, we programmatically query the public ATLAS instance that is running to get the children IDs of the general concepts (referred to as descendants in ATLAS).</span>
+<span id="cb19-134"><a href="#cb19-134"></a>In this case, we are, in a very ad hoc way, creating an implicit computable phenotype definition where we are looking for all drugs and diseases that are based off our general concepts.</span>
+<span id="cb19-135"><a href="#cb19-135"></a>This is great for rapid prototyping, but a phenotype definition must be scrutinized ruthlessly when moving towards a final version for patient analysis (see: <span class="co">[</span><span class="ot">Zelko, Jacob S., et al. "Developing a Robust Computable Phenotype Definition Workflow to Describe Health and Disease in Observational Health Research." arXiv preprint arXiv:2304.06504 (2023).</span><span class="co">](https://arxiv.org/abs/2304.06504)</span> which discussed more about this process).</span>
+<span id="cb19-136"><a href="#cb19-136"></a></span>
+<span id="cb19-137"><a href="#cb19-137"></a>This is how we do that for drugs:</span>
+<span id="cb19-138"><a href="#cb19-138"></a></span>
+<span id="cb19-141"><a href="#cb19-141"></a><span class="in">```{julia}</span></span>
+<span id="cb19-142"><a href="#cb19-142"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-143"><a href="#cb19-143"></a><span class="in">drug_descendants = []</span></span>
+<span id="cb19-144"><a href="#cb19-144"></a><span class="in">for drug in drugs</span></span>
+<span id="cb19-145"><a href="#cb19-145"></a><span class="in">    path = "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/$(drug.id)/descendants/"</span></span>
+<span id="cb19-146"><a href="#cb19-146"></a><span class="in">    descendants = </span></span>
+<span id="cb19-147"><a href="#cb19-147"></a><span class="in">        HTTP.get(path) |&gt; </span></span>
+<span id="cb19-148"><a href="#cb19-148"></a><span class="in">        x -&gt; String(x.body) |&gt; </span></span>
+<span id="cb19-149"><a href="#cb19-149"></a><span class="in">        JSON3.read</span></span>
+<span id="cb19-150"><a href="#cb19-150"></a><span class="in">    push!(drug_descendants, descendants)</span></span>
+<span id="cb19-151"><a href="#cb19-151"></a><span class="in">end</span></span>
+<span id="cb19-152"><a href="#cb19-152"></a><span class="in">```</span></span>
+<span id="cb19-153"><a href="#cb19-153"></a></span>
+<span id="cb19-154"><a href="#cb19-154"></a>This is how we do that for diseases:</span>
+<span id="cb19-155"><a href="#cb19-155"></a></span>
+<span id="cb19-158"><a href="#cb19-158"></a><span class="in">```{julia}</span></span>
+<span id="cb19-159"><a href="#cb19-159"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-160"><a href="#cb19-160"></a><span class="in">disease_descendants = []</span></span>
+<span id="cb19-161"><a href="#cb19-161"></a><span class="in">for disease in diseases</span></span>
+<span id="cb19-162"><a href="#cb19-162"></a><span class="in">    path = "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/$(disease.id)/descendants/"</span></span>
+<span id="cb19-163"><a href="#cb19-163"></a><span class="in">    descendants = </span></span>
+<span id="cb19-164"><a href="#cb19-164"></a><span class="in">        HTTP.get(path) |&gt; </span></span>
+<span id="cb19-165"><a href="#cb19-165"></a><span class="in">        x -&gt; String(x.body) |&gt; </span></span>
+<span id="cb19-166"><a href="#cb19-166"></a><span class="in">        JSON3.read</span></span>
+<span id="cb19-167"><a href="#cb19-167"></a><span class="in">    push!(disease_descendants, descendants)</span></span>
+<span id="cb19-168"><a href="#cb19-168"></a><span class="in">end</span></span>
+<span id="cb19-169"><a href="#cb19-169"></a><span class="in">```</span></span>
+<span id="cb19-170"><a href="#cb19-170"></a></span>
+<span id="cb19-171"><a href="#cb19-171"></a><span class="fu"># Analyzing the OMOPCDM Database</span></span>
+<span id="cb19-172"><a href="#cb19-172"></a></span>
+<span id="cb19-173"><a href="#cb19-173"></a>Find users of the drugs we are interested in:</span>
+<span id="cb19-174"><a href="#cb19-174"></a></span>
+<span id="cb19-177"><a href="#cb19-177"></a><span class="in">```{julia}</span></span>
+<span id="cb19-178"><a href="#cb19-178"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-179"><a href="#cb19-179"></a><span class="in">drug_users = Dict()</span></span>
+<span id="cb19-180"><a href="#cb19-180"></a><span class="in">for (idx, drug) in enumerate(drugs)</span></span>
+<span id="cb19-181"><a href="#cb19-181"></a><span class="in">    ids = OMOPCDMCohortCreator.DrugExposureFilterPersonIDs(</span></span>
+<span id="cb19-182"><a href="#cb19-182"></a><span class="in">        [</span></span>
+<span id="cb19-183"><a href="#cb19-183"></a><span class="in">            drug[:CONCEPT_ID] </span></span>
+<span id="cb19-184"><a href="#cb19-184"></a><span class="in">            for drug in drug_descendants[idx]</span></span>
+<span id="cb19-185"><a href="#cb19-185"></a><span class="in">        ], conn).person_id</span></span>
+<span id="cb19-186"><a href="#cb19-186"></a><span class="in">    push!(</span></span>
+<span id="cb19-187"><a href="#cb19-187"></a><span class="in">        drug_users, </span></span>
+<span id="cb19-188"><a href="#cb19-188"></a><span class="in">        drug.name =&gt; </span></span>
+<span id="cb19-189"><a href="#cb19-189"></a><span class="in">            (ids = ids, count = length(ids))</span></span>
+<span id="cb19-190"><a href="#cb19-190"></a><span class="in">    )</span></span>
+<span id="cb19-191"><a href="#cb19-191"></a><span class="in">end</span></span>
+<span id="cb19-192"><a href="#cb19-192"></a><span class="in">```</span></span>
+<span id="cb19-193"><a href="#cb19-193"></a></span>
+<span id="cb19-194"><a href="#cb19-194"></a>Find patients diagnosed with the conditions we are interested in:</span>
+<span id="cb19-195"><a href="#cb19-195"></a></span>
+<span id="cb19-198"><a href="#cb19-198"></a><span class="in">```{julia}</span></span>
+<span id="cb19-199"><a href="#cb19-199"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-200"><a href="#cb19-200"></a><span class="in">diseased_patients = Dict()</span></span>
+<span id="cb19-201"><a href="#cb19-201"></a><span class="in">for (idx, disease) in enumerate(diseases)</span></span>
+<span id="cb19-202"><a href="#cb19-202"></a><span class="in">    ids = ConditionFilterPersonIDs(</span></span>
+<span id="cb19-203"><a href="#cb19-203"></a><span class="in">        [</span></span>
+<span id="cb19-204"><a href="#cb19-204"></a><span class="in">            d[:CONCEPT_ID] </span></span>
+<span id="cb19-205"><a href="#cb19-205"></a><span class="in">            for d in disease_descendants[idx]</span></span>
+<span id="cb19-206"><a href="#cb19-206"></a><span class="in">            ], conn).person_id</span></span>
+<span id="cb19-207"><a href="#cb19-207"></a><span class="in">    push!(</span></span>
+<span id="cb19-208"><a href="#cb19-208"></a><span class="in">        diseased_patients, </span></span>
+<span id="cb19-209"><a href="#cb19-209"></a><span class="in">        disease.name =&gt; </span></span>
+<span id="cb19-210"><a href="#cb19-210"></a><span class="in">            (ids = ids, count = length(ids))</span></span>
+<span id="cb19-211"><a href="#cb19-211"></a><span class="in">        )</span></span>
+<span id="cb19-212"><a href="#cb19-212"></a><span class="in">end</span></span>
+<span id="cb19-213"><a href="#cb19-213"></a><span class="in">```</span></span>
+<span id="cb19-214"><a href="#cb19-214"></a></span>
+<span id="cb19-215"><a href="#cb19-215"></a>Find the combination of patients diagnosed with the conditions we are interested in and taking the drugs we want to investigate:</span>
+<span id="cb19-216"><a href="#cb19-216"></a></span>
+<span id="cb19-219"><a href="#cb19-219"></a><span class="in">```{julia}</span></span>
+<span id="cb19-220"><a href="#cb19-220"></a><span class="in">#| eval: true</span></span>
+<span id="cb19-221"><a href="#cb19-221"></a><span class="in">condition_mix = Dict()</span></span>
+<span id="cb19-222"><a href="#cb19-222"></a><span class="in">for pg in keys(diseased_patients)</span></span>
+<span id="cb19-223"><a href="#cb19-223"></a><span class="in">    push!(condition_mix, pg =&gt; Dict())</span></span>
+<span id="cb19-224"><a href="#cb19-224"></a><span class="in">    for du in keys(drug_users)</span></span>
+<span id="cb19-225"><a href="#cb19-225"></a><span class="in">        mix = intersect(</span></span>
+<span id="cb19-226"><a href="#cb19-226"></a><span class="in">            diseased_patients[pg].ids, </span></span>
+<span id="cb19-227"><a href="#cb19-227"></a><span class="in">            drug_users[du].ids</span></span>
+<span id="cb19-228"><a href="#cb19-228"></a><span class="in">        )</span></span>
+<span id="cb19-229"><a href="#cb19-229"></a><span class="in">        push!(</span></span>
+<span id="cb19-230"><a href="#cb19-230"></a><span class="in">            condition_mix[pg], </span></span>
+<span id="cb19-231"><a href="#cb19-231"></a><span class="in">            du =&gt; (ids = mix, count = length(mix))</span></span>
+<span id="cb19-232"><a href="#cb19-232"></a><span class="in">        )</span></span>
+<span id="cb19-233"><a href="#cb19-233"></a><span class="in">    end</span></span>
+<span id="cb19-234"><a href="#cb19-234"></a><span class="in">end</span></span>
+<span id="cb19-235"><a href="#cb19-235"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.youtube.com/c/TheJuliaLanguage">
+      <i class="bi bi-youtube" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml">
+      <i class="bi bi-rss" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://julialang.org/slack/">
+      <i class="bi bi-slack" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://x.com/julialanguage">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JuliaHealth/JuliaHealthBlog/edit/main/posts/complex_characterization/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

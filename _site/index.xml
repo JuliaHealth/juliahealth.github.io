@@ -10,7 +10,709 @@
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.47</generator>
-<lastBuildDate>Sat, 22 Jun 2024 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 23 Jun 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Exploring Anthracyclines and Disease within an OMOP CDM Database</title>
+  <dc:creator>Jacob S. Zelko</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="background" class="level1">
+<h1>Background</h1>
+<p>This is a small sample notebook I threw together to illustrate how to further build a small characterization study when exploring drugs and conditions of interest. It goes into a bit more depth on how to find drugs and diseases folks are interested in.</p>
+</section>
+<section id="set-up" class="level1">
+<h1>Set-Up</h1>
+<p>Loading required packages</p>
+<div id="efa20891" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">JSON3</span></span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">HTTP</span></span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">OMOPCDMCohortCreator</span></span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">DBInterface</span>:</span>
+<span id="cb1-6">    connect,</span>
+<span id="cb1-7">    execute</span>
+<span id="cb1-8"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">LibPQ</span>:</span>
+<span id="cb1-9">    Connection</span></code></pre></div>
+</details>
+</div>
+<p>Creating connection to database</p>
+<div id="c6f3bcad" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1">conn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">connect</span>(</span>
+<span id="cb2-2">    Connection, </span>
+<span id="cb2-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"user=thecedarprince dbname=synthea"</span></span>
+<span id="cb2-4">)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>PostgreSQL connection (CONNECTION_OK) with parameters:
+  user = thecedarprince
+  passfile = /home/thecedarprince/.pgpass
+  channel_binding = prefer
+  dbname = synthea
+  port = 5432
+  client_encoding = UTF8
+  options = -c DateStyle=ISO,YMD -c IntervalStyle=iso_8601 -c TimeZone=UTC
+  application_name = LibPQ.jl
+  sslmode = prefer
+  sslcompression = 0
+  sslsni = 1
+  ssl_min_protocol_version = TLSv1.2
+  gssencmode = prefer
+  krbsrvname = postgres
+  target_session_attrs = any</code></pre>
+</div>
+</div>
+<p>Generating database details for the synthetic database we are connecting to (this is used internally by the <code>OMOPCDMCohortCreator.jl</code> packag):</p>
+<div id="3e69d2bc" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GenerateDatabaseDetails</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>postgresql, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"omop"</span>)</span>
+<span id="cb5-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GenerateTables</span>(conn)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>[ Info: Global database dialect set to: postgresql
+[ Info: Global schema set to: omop
+[ Info: source_to_concept_map table generated internally
+[ Info: payer_plan_period table generated internally
+[ Info: vocabulary table generated internally
+[ Info: note_nlp table generated internally
+[ Info: procedure_occurrence table generated internally
+[ Info: domain table generated internally
+[ Info: metadata table generated internally
+[ Info: cohort_summary_stats table generated internally
+[ Info: fact_relationship table generated internally
+[ Info: drug_exposure table generated internally
+[ Info: all_visits table generated internally
+[ Info: final_visit_ids table generated internally
+[ Info: person table generated internally
+[ Info: cost table generated internally
+[ Info: observation table generated internally
+[ Info: provider table generated internally
+[ Info: visit_detail table generated internally
+[ Info: assign_all_visit_ids table generated internally
+[ Info: device_exposure table generated internally
+[ Info: measurement table generated internally
+[ Info: source_to_standard_vocab_map table generated internally
+[ Info: location table generated internally
+[ Info: visit_occurrence table generated internally
+[ Info: relationship table generated internally
+[ Info: dose_era table generated internally
+[ Info: concept table generated internally
+[ Info: death table generated internally
+[ Info: concept_class table generated internally
+[ Info: drug_era table generated internally
+[ Info: note table generated internally
+[ Info: episode_event table generated internally
+[ Info: episode table generated internally
+[ Info: specimen table generated internally
+[ Info: condition_occurrence table generated internally
+[ Info: cohort_inclusion table generated internally
+[ Info: cohort table generated internally
+[ Info: concept_ancestor table generated internally
+[ Info: cohort_inclusion_stats table generated internally
+[ Info: cohort_inclusion_result table generated internally
+[ Info: observation_period table generated internally
+[ Info: condition_era table generated internally
+[ Info: concept_relationship table generated internally
+[ Info: cohort_censor_stats table generated internally
+[ Info: concept_synonym table generated internally
+[ Info: cdm_source table generated internally
+[ Info: cohort_definition table generated internally
+[ Info: drug_strength table generated internally
+[ Info: source_to_source_vocab_map table generated internally
+[ Info: care_site table generated internally</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>PostgreSQL connection (CONNECTION_OK) with parameters:
+  user = thecedarprince
+  passfile = /home/thecedarprince/.pgpass
+  channel_binding = prefer
+  dbname = synthea
+  port = 5432
+  client_encoding = UTF8
+  options = -c DateStyle=ISO,YMD -c IntervalStyle=iso_8601 -c TimeZone=UTC
+  application_name = LibPQ.jl
+  sslmode = prefer
+  sslcompression = 0
+  sslsni = 1
+  ssl_min_protocol_version = TLSv1.2
+  gssencmode = prefer
+  krbsrvname = postgres
+  target_session_attrs = any</code></pre>
+</div>
+</div>
+</section>
+<section id="creating-drug-and-disease-look-ups" class="level1">
+<h1>Creating Drug and Disease Look-Ups</h1>
+<p>Here are the anthracyclines we are exploring:</p>
+<div id="a7a877de" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1">drugs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb8-2">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Daunorubicin"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1311799</span>),</span>
+<span id="cb8-3">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Doxorubicin"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1338512</span>),</span>
+<span id="cb8-4">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Epirubicin"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1344354</span>),</span>
+<span id="cb8-5">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Idarubicin"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">19078097</span>),</span>
+<span id="cb8-6">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Mitoxantrone"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1309188</span>),</span>
+<span id="cb8-7">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Valrubicin"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">19012543</span>),</span>
+<span id="cb8-8">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Ibrutinib"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">44507848</span>),</span>
+<span id="cb8-9">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Acalabrutinib"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">792764</span>),</span>
+<span id="cb8-10">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Zanubrutinib"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">37497691</span>),</span>
+<span id="cb8-11">]</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>9-element Vector{@NamedTuple{name::String, id::Int64}}:
+ (name = "Daunorubicin", id = 1311799)
+ (name = "Doxorubicin", id = 1338512)
+ (name = "Epirubicin", id = 1344354)
+ (name = "Idarubicin", id = 19078097)
+ (name = "Mitoxantrone", id = 1309188)
+ (name = "Valrubicin", id = 19012543)
+ (name = "Ibrutinib", id = 44507848)
+ (name = "Acalabrutinib", id = 792764)
+ (name = "Zanubrutinib", id = 37497691)</code></pre>
+</div>
+</div>
+<p>Here are the diseases we are exploring:</p>
+<div id="8776cacb" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1">diseases <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb10-2">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Myocardial Infarction"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4329847</span>),</span>
+<span id="cb10-3">    (name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Heart Failure"</span>, id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">316139</span>),</span>
+<span id="cb10-4">]</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>2-element Vector{@NamedTuple{name::String, id::Int64}}:
+ (name = "Myocardial Infarction", id = 4329847)
+ (name = "Heart Failure", id = 316139)</code></pre>
+</div>
+</div>
+<p>For both these drugs and diseases, the IDs come from <a href="https://atlas-demo.ohdsi.org/#/search">ATLAS</a>, a tool to develop computable phenotype definitions (i.e.&nbsp;translating a disease phenotype definition to the same thing but in code). How these IDs were found for a drug is as follows (using Doxorubicin as an example):</p>
+<ol type="1">
+<li><p>Search within ATLAS for Doxorubicin.</p></li>
+<li><p>Click any Doxorubicin-related drug name.</p></li>
+<li><p>Look through the related concepts or hierarchy (in the parent section) for the ingredient version of the drug.</p></li>
+<li><p>Copy that ID for the ingredient version of Doxorubicin.</p></li>
+</ol>
+<p>That is the ID we used here as it is the base for all other Doxorubicin medications.</p>
+<p>Next, we can do something similar for Myocardial Infarction:</p>
+<ol type="1">
+<li><p>Search within ATLAS for Myocardial Infarction.</p></li>
+<li><p>Click any Myocardial Infarction-related name.</p></li>
+<li><p>Look through the hierarchy of this disease. The condition version we are looking for is that parent concepts are too broad for our condition and the current condition we select should have children that encompass all diseases we want (in this case, this is <a href="https://atlas-demo.ohdsi.org/#/concept/4329847">recorded condition</a> is the perfect level of granularity).</p></li>
+<li><p>Copy that ID for the ingredient version of Myocardial Infarction.</p></li>
+</ol>
+<p>That is the ID we used here as it is the base for all other Myocardial Infarction-related disease conditions.</p>
+<p>Next, we’ll discuss how to create a query that includes the derivatives of the general concepts for the drugs and diseases we found.</p>
+</section>
+<section id="generating-ad-hoc-phenotype-definitions" class="level1">
+<h1>Generating Ad Hoc Phenotype Definitions</h1>
+<p>Here, we programmatically query the public ATLAS instance that is running to get the children IDs of the general concepts (referred to as descendants in ATLAS). In this case, we are, in a very ad hoc way, creating an implicit computable phenotype definition where we are looking for all drugs and diseases that are based off our general concepts. This is great for rapid prototyping, but a phenotype definition must be scrutinized ruthlessly when moving towards a final version for patient analysis (see: <a href="https://arxiv.org/abs/2304.06504">Zelko, Jacob S., et al.&nbsp;“Developing a Robust Computable Phenotype Definition Workflow to Describe Health and Disease in Observational Health Research.” arXiv preprint arXiv:2304.06504 (2023).</a> which discussed more about this process).</p>
+<p>This is how we do that for drugs:</p>
+<div id="78562127" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1">drug_descendants <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb12-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> drug <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> drugs</span>
+<span id="cb12-3">    path <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>(drug.id)<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/descendants/"</span></span>
+<span id="cb12-4">    descendants <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> </span>
+<span id="cb12-5">        HTTP.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get</span>(path) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb12-6">        x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">String</span>(x.body) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb12-7">        JSON3.read</span>
+<span id="cb12-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(drug_descendants, descendants)</span>
+<span id="cb12-9"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</div>
+<p>This is how we do that for diseases:</p>
+<div id="fb2d06bf" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1">disease_descendants <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb13-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> disease <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> diseases</span>
+<span id="cb13-3">    path <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>(disease.id)<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/descendants/"</span></span>
+<span id="cb13-4">    descendants <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> </span>
+<span id="cb13-5">        HTTP.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get</span>(path) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb13-6">        x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">String</span>(x.body) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> </span>
+<span id="cb13-7">        JSON3.read</span>
+<span id="cb13-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(disease_descendants, descendants)</span>
+<span id="cb13-9"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</div>
+</section>
+<section id="analyzing-the-omopcdm-database" class="level1">
+<h1>Analyzing the OMOPCDM Database</h1>
+<p>Find users of the drugs we are interested in:</p>
+<div id="ed938d6b" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb14-1">drug_users <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Dict</span>()</span>
+<span id="cb14-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> (idx, drug) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">enumerate</span>(drugs)</span>
+<span id="cb14-3">    ids <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> OMOPCDMCohortCreator.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">DrugExposureFilterPersonIDs</span>(</span>
+<span id="cb14-4">        [</span>
+<span id="cb14-5">            drug[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>CONCEPT_ID] </span>
+<span id="cb14-6">            for drug <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> drug_descendants[idx]</span>
+<span id="cb14-7">        ], conn).person_id</span>
+<span id="cb14-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(</span>
+<span id="cb14-9">        drug_users, </span>
+<span id="cb14-10">        drug.name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=&gt;</span> </span>
+<span id="cb14-11">            (ids <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ids, count <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">length</span>(ids))</span>
+<span id="cb14-12">    )</span>
+<span id="cb14-13"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.</code></pre>
+</div>
+</div>
+<p>Find patients diagnosed with the conditions we are interested in:</p>
+<div id="bff1c9f9" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb16-1">diseased_patients <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Dict</span>()</span>
+<span id="cb16-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> (idx, disease) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">enumerate</span>(diseases)</span>
+<span id="cb16-3">    ids <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ConditionFilterPersonIDs</span>(</span>
+<span id="cb16-4">        [</span>
+<span id="cb16-5">            d[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>CONCEPT_ID] </span>
+<span id="cb16-6">            for d <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> disease_descendants[idx]</span>
+<span id="cb16-7">            ], conn).person_id</span>
+<span id="cb16-8">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(</span>
+<span id="cb16-9">        diseased_patients, </span>
+<span id="cb16-10">        disease.name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=&gt;</span> </span>
+<span id="cb16-11">            (ids <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ids, count <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">length</span>(ids))</span>
+<span id="cb16-12">        )</span>
+<span id="cb16-13"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.
+WARNING:  database "synthea" has a collation version mismatch
+DETAIL:  The database was created using collation version 2.37, but the operating system provides version 2.38.
+HINT:  Rebuild all objects in this database that use the default collation and run ALTER DATABASE synthea REFRESH COLLATION VERSION, or build PostgreSQL with the right library version.</code></pre>
+</div>
+</div>
+<p>Find the combination of patients diagnosed with the conditions we are interested in and taking the drugs we want to investigate:</p>
+<div id="76127f7e" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb18-1">condition_mix <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Dict</span>()</span>
+<span id="cb18-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> pg <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">keys</span>(diseased_patients)</span>
+<span id="cb18-3">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(condition_mix, pg <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Dict</span>())</span>
+<span id="cb18-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> du <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">keys</span>(drug_users)</span>
+<span id="cb18-5">        mix <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">intersect</span>(</span>
+<span id="cb18-6">            diseased_patients[pg].ids, </span>
+<span id="cb18-7">            drug_users[du].ids</span>
+<span id="cb18-8">        )</span>
+<span id="cb18-9">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(</span>
+<span id="cb18-10">            condition_mix[pg], </span>
+<span id="cb18-11">            du <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=&gt;</span> (ids <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> mix, count <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">length</span>(mix))</span>
+<span id="cb18-12">        )</span>
+<span id="cb18-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb18-14"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</div>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{s._zelko2024,
+  author = {S. Zelko, Jacob},
+  title = {Exploring {Anthracyclines} and {Disease} Within an {OMOP}
+    {CDM} {Database}},
+  date = {2024-06-23},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-s._zelko2024" class="csl-entry quarto-appendix-citeas">
+S. Zelko, Jacob. 2024. <span>“Exploring Anthracyclines and Disease
+Within an OMOP CDM Database.”</span> June 23, 2024. <a href="https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/">https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/</a>.
+</div></div></section></div> ]]></description>
+  <category>cardiovascular disease</category>
+  <category>omop cdm</category>
+  <category>observational health</category>
+  <category>cancer</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/complex_characterization/</guid>
+  <pubDate>Sun, 23 Jun 2024 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Dummy Post</title>
   <dc:creator>Foobar </dc:creator>

@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/complex_characterization/index.html",
       "/posts/dummy/index.html"
     ]
   }
