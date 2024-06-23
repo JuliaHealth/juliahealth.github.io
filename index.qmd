@@ -2,12 +2,13 @@
 listing:
   contents: posts
   sort: "date desc"
-  fields: [image, date, title, author, reading-time, description]
+  fields: [image, date, title, author, reading-time, description, categories]
   type: default
   categories: true
   sort-ui: true
   filter-ui: false
   feed: true
+  max-description-length: 100
 page-layout: full
 toc: false
 title-block-banner: true
