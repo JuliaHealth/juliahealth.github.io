@@ -1,0 +1,214 @@
+---
+title: "Exploring Anthracyclines and Disease within an OMOP CDM Database"
+description: "An overview of how to use the observational health tools within JuliaHealth to explore the usage of various Anthracyclines alongside diseases of interest."
+author: "Jacob S. Zelko"
+date: "6/23/2024"
+toc: true
+categories:
+  - cardiovascular disease
+  - omop cdm
+  - observational health
+  - cancer
+---
+
+```{julia}
+#| output: false
+#| eval: true
+#| echo: false
+
+include("$(pwd())/src/setup.jl")
+```
+
+# Background
+
+This is a small sample notebook I threw together to illustrate how to further build a small characterization study when exploring drugs and conditions of interest.
+It goes into a bit more depth on how to find drugs and diseases folks are interested in.
+
+# Set-Up
+
+Loading required packages
+
+```{julia}
+#| eval: true
+using JSON3
+using HTTP
+using OMOPCDMCohortCreator
+
+import DBInterface:
+    connect,
+    execute
+import LibPQ:
+    Connection
+```
+
+Creating connection to database
+
+```{julia}
+#| eval: true
+conn = connect(
+    Connection, 
+    "user=thecedarprince dbname=synthea"
+)
+```
+
+Generating database details for the synthetic database we are connecting to (this is used internally by the `OMOPCDMCohortCreator.jl` packag):
+
+```{julia}
+#| eval: true
+GenerateDatabaseDetails(:postgresql, "omop")
+GenerateTables(conn)
+```
+
+# Creating Drug and Disease Look-Ups
+
+Here are the anthracyclines we are exploring:
+
+```{julia}
+#| eval: true
+drugs = [
+    (name = "Daunorubicin", id = 1311799),
+    (name = "Doxorubicin", id = 1338512),
+    (name = "Epirubicin", id = 1344354),
+    (name = "Idarubicin", id = 19078097),
+    (name = "Mitoxantrone", id = 1309188),
+    (name = "Valrubicin", id = 19012543),
+    (name = "Ibrutinib", id = 44507848),
+    (name = "Acalabrutinib", id = 792764),
+    (name = "Zanubrutinib", id = 37497691),
+]
+```
+
+Here are the diseases we are exploring:
+
+```{julia}
+#| eval: true
+diseases = [
+    (name = "Myocardial Infarction", id = 4329847),
+    (name = "Heart Failure", id = 316139),
+]
+```
+
+For both these drugs and diseases, the IDs come from [ATLAS](https://atlas-demo.ohdsi.org/#/search), a tool to develop computable phenotype definitions (i.e. translating a disease phenotype definition to the same thing but in code).
+How these IDs were found for a drug is as follows (using Doxorubicin as an example):
+
+1. Search within ATLAS for Doxorubicin.
+
+2. Click any Doxorubicin-related drug name.
+
+3. Look through the related concepts or hierarchy (in the parent section) for the ingredient version of the drug.
+
+4. Copy that ID for the ingredient version of Doxorubicin.
+
+That is the ID we used here as it is the base for all other Doxorubicin medications.
+
+Next, we can do something similar for Myocardial Infarction:
+
+1. Search within ATLAS for Myocardial Infarction.
+
+2. Click any Myocardial Infarction-related name.
+
+3. Look through the hierarchy of this disease. 
+The condition version we are looking for is that parent concepts are too broad for our condition and the current condition we select should have children that encompass all diseases we want (in this case, this is [recorded condition](https://atlas-demo.ohdsi.org/#/concept/4329847) is the perfect level of granularity).
+
+4. Copy that ID for the ingredient version of Myocardial Infarction.
+
+That is the ID we used here as it is the base for all other Myocardial Infarction-related disease conditions.
+
+Next, we'll discuss how to create a query that includes the derivatives of the general concepts for the drugs and diseases we found.
+
+# Generating Ad Hoc Phenotype Definitions
+
+Here, we programmatically query the public ATLAS instance that is running to get the children IDs of the general concepts (referred to as descendants in ATLAS).
+In this case, we are, in a very ad hoc way, creating an implicit computable phenotype definition where we are looking for all drugs and diseases that are based off our general concepts.
+This is great for rapid prototyping, but a phenotype definition must be scrutinized ruthlessly when moving towards a final version for patient analysis (see: [Zelko, Jacob S., et al. "Developing a Robust Computable Phenotype Definition Workflow to Describe Health and Disease in Observational Health Research." arXiv preprint arXiv:2304.06504 (2023).](https://arxiv.org/abs/2304.06504) which discussed more about this process).
+
+This is how we do that for drugs:
+
+```{julia}
+#| eval: true
+drug_descendants = []
+for drug in drugs
+    path = "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/$(drug.id)/descendants/"
+    descendants = 
+        HTTP.get(path) |> 
+        x -> String(x.body) |> 
+        JSON3.read
+    push!(drug_descendants, descendants)
+end
+```
+
+This is how we do that for diseases:
+
+```{julia}
+#| eval: true
+disease_descendants = []
+for disease in diseases
+    path = "https://atlas-demo.ohdsi.org/WebAPI/vocabulary/ATLASPROD/concept/$(disease.id)/descendants/"
+    descendants = 
+        HTTP.get(path) |> 
+        x -> String(x.body) |> 
+        JSON3.read
+    push!(disease_descendants, descendants)
+end
+```
+
+# Analyzing the OMOPCDM Database
+
+Find users of the drugs we are interested in:
+
+```{julia}
+#| eval: true
+drug_users = Dict()
+for (idx, drug) in enumerate(drugs)
+    ids = OMOPCDMCohortCreator.DrugExposureFilterPersonIDs(
+        [
+            drug[:CONCEPT_ID] 
+            for drug in drug_descendants[idx]
+        ], conn).person_id
+    push!(
+        drug_users, 
+        drug.name => 
+            (ids = ids, count = length(ids))
+    )
+end
+```
+
+Find patients diagnosed with the conditions we are interested in:
+
+```{julia}
+#| eval: true
+diseased_patients = Dict()
+for (idx, disease) in enumerate(diseases)
+    ids = ConditionFilterPersonIDs(
+        [
+            d[:CONCEPT_ID] 
+            for d in disease_descendants[idx]
+            ], conn).person_id
+    push!(
+        diseased_patients, 
+        disease.name => 
+            (ids = ids, count = length(ids))
+        )
+end
+```
+
+Find the combination of patients diagnosed with the conditions we are interested in and taking the drugs we want to investigate:
+
+```{julia}
+#| eval: true
+condition_mix = Dict()
+for pg in keys(diseased_patients)
+    push!(condition_mix, pg => Dict())
+    for du in keys(drug_users)
+        mix = intersect(
+            diseased_patients[pg].ids, 
+            drug_users[du].ids
+        )
+        push!(
+            condition_mix[pg], 
+            du => (ids = mix, count = length(mix))
+        )
+    end
+end
+```
+
