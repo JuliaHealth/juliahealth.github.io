@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "Code\n\n\n\n\n\nWelcome to the JuliaHealthBlog! 👋\n\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n\n\n\n\n\n\n\n\n\n\nDummy Post\n\n\n\n\n\nPost description\n\n\n\n\n\nJun 22, 2024\n\n\nFoobar\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "posts/dummy/index.html",
+    "href": "posts/dummy/index.html",
+    "title": "Dummy Post",
+    "section": "",
+    "text": "Seciton 1\nSmall dummy blog post\n\n\nSection 2\n\n\nSection 3\n\n\n\n\n\n\n Back to topCitationBibTeX citation:@online{2024,\n  author = {, Foobar},\n  title = {Dummy {Post}},\n  date = {2024-06-22},\n  url = {https://juliahealth.org/JuliaHealthBlog/posts/dummy/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nFoobar. 2024. “Dummy Post.” June 22, 2024. https://juliahealth.org/JuliaHealthBlog/posts/dummy/."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog\n\n\n\n Back to top"
+  }
+]
