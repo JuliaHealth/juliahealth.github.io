@@ -1,0 +1,79 @@
+project:
+  type: website
+
+website:
+  favicon: profile.png
+  margin-header: | 
+    **Navigation & Tips:** 
+
+    - Press **?** for search
+
+    - **"</> Code"** for code nav 
+  open-graph: 
+    locale: en_EN
+    site-name: The JuliaHealth Blog
+  search:
+    keyboard-shortcut: ["?"]
+  title: "The JuliaHealth Blog"
+  site-url: https://juliahealth.org/JuliaHealthBlog/
+  repo-url: https://github.com/JuliaHealth/JuliaHealthBlog
+  repo-actions: [edit, issue]
+  issue-url: https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose
+
+  back-to-top-navigation: true
+  page-navigation: true
+  bread-crumbs: true
+  page-footer: 
+    left: "Copyright 2024, JuliaHealth."
+    center:
+      - icon: github
+        href: https://github.com/JuliaHealth/JuliaHealthBlog
+      - icon: youtube
+        href: https://www.youtube.com/c/TheJuliaLanguage
+      - icon: rss
+        href: index.xml
+      - icon: slack
+        href: https://julialang.org/slack/
+      - icon: twitter
+        href: https://x.com/julialanguage
+  navbar:
+    title: "The JuliaHealth Blog"
+    logo: profile.png
+    pinned: true
+    left:
+      - text: "Posts"
+        href: index.qmd
+      - text: "Write with Us"
+      - text: "Chat with Us"
+        menu:
+          - icon: slack
+            text: Slack (#health-and-medicine)
+            href: https://julialang.org/slack/
+          - icon: lightning-charge-fill
+            text: Julia Zulip 
+            href: https://julialang.zulipchat.com/
+          - icon: pencil-square
+            text: Julia Discourse
+            href: https://discourse.julialang.org/
+      - text: "Join JuliaHealth"
+      
+    right:
+      - icon: github
+        menu:
+          - text: Source Code
+            href: https://github.com/JuliaHealth/JuliaHealthBlog
+          - text: Report a Bug
+            href: https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose
+
+format:
+  julia-html:
+    theme: theme-light.scss
+    light: flatly
+    dark: darkly
+    css: styles.css
+    toc: true
+    code-fold: true
+    code-tools: true
+    code-line-numbers: true
+
+jupyter: julia-1.10
