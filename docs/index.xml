@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>The JuliaHealth Blog</title>
+<link>https://juliahealth.org/JuliaHealthBlog/</link>
+<atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.5.47</generator>
+<lastBuildDate>Sat, 22 Jun 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Dummy Post</title>
+  <dc:creator>Foobar </dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="seciton-1" class="level1">
+<h1>Seciton 1</h1>
+<p>Small dummy blog post</p>
+</section>
+<section id="section-2" class="level1">
+<h1>Section 2</h1>
+</section>
+<section id="section-3" class="level1">
+<h1>Section 3</h1>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{2024,
+  author = {, Foobar},
+  title = {Dummy {Post}},
+  date = {2024-06-22},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/dummy/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-2024" class="csl-entry quarto-appendix-citeas">
+Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://juliahealth.org/JuliaHealthBlog/posts/dummy/">https://juliahealth.org/JuliaHealthBlog/posts/dummy/</a>.
+</div></div></section></div> ]]></description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
+  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
