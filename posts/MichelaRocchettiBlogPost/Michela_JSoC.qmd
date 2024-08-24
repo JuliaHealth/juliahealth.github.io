@@ -1,0 +1,43 @@
+---
+title: "JSoC'24 @JuliaHealth"
+description: "A resumee of my project work for Julia Summer of Code"
+author: "Michela Rocchetti"
+date: "9/26/2024"
+toc: true
+categories:
+  - news
+  - code
+  - analysis
+---
+# About me 
+Hi, I am Michela, I am from Rome and I hold a Master's degree in Physics of complex systems. My interest topics are the usage of modeling and AI methodologies in healthcare.
+
+# Project description 
+
+The primary objective of this proposal is to develop a native Julia package to interact with the APIs built around IPUMS datasets, 
+provide useful utilities in this package to manipulate IPUMS data sources,
+ and compose this package with the broader Julia ecosystem to enable novel research in health, economics, and more. In a long term view, 
+ IPUMS.jl can be used as a viable alternative to IPUMS.
+
+ The informations and the data collected by IPUMS are useful for comparative research, as well as analysis of indiviudals in their living context and 
+ those data can be used for crating a more comprehensive dataset to be at disposal, facilitating research into social determinant of health data for different types of 
+ diseases, social communities and geographical areas.
+
+
+# Tasks and Goals
+
+1. Expand some of the functionality drafted in ipumsr  IPUMS NHGIS
+    - Create a link between OpenAPI documentation and the functions internally used in IPUMS.jl:
+    updating already present function, determine if updating is needed and test them
+    - Develop functionality similar to the get_metadata_nghis function present in ipumsr
+
+2. Update IPUMS documentation
+    - Set-up and deploy of DocumenterVitepress.jl  
+    - Write a blog post on how IPUMS.jl can compose within the ecosystem.
+
+
+# Workflow 
+
+
+
+# Accomplished goals and future developement 
