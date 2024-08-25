@@ -14,6 +14,10 @@ Hi, I am Michela, I am from Rome and I hold a Master's degree in Physics of comp
 
 # Project description 
 
+IPUMS is the “world’s largest available individual database of census microdata”, it provides
+suvey data and census records from across the world. Several projects are within it,furnishing a wide variety of datasets.
+To find out more about IPUMS, visit the [website](https://www.ipums.org) 
+
 The primary objective of this proposal is to develop a native Julia package to interact with the APIs built around IPUMS datasets, 
 provide useful utilities in this package to manipulate IPUMS data sources,
  and compose this package with the broader Julia ecosystem to enable novel research in health, economics, and more. In a long term view, 
@@ -37,7 +41,50 @@ provide useful utilities in this package to manipulate IPUMS data sources,
 
 
 # Workflow 
+The first task was to migrate documents from Documenter to DocumenterVitepress.The aim of this issue is to assist with the significant refactor underway across JuliaHealth, 
+aimed at enhancing the discoverability and cohesion of the JuliaHealth ecosystem, particularly in relation to documentation.This issue is intended to offer guidance on migrating
+the IPUMS.jl documentation site from Documenter.jl to DocumenterVitepress.jl, in order to create a more engaging entry point for new Julia users interested in health research within the Julia community.
+To complete this task, what was done was to add a dependency of DocumenterVitepress into the docs directory of the IPUMS.jl repository. 
+When this was completed, the file Documenter.jl make.jl were migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file pages, paragraphs and subparagraphs were added, in order to have
+a structure for the webpage explaining the IPUMS.jl package. In this prespective, some pages were added:
+  1. Home: to explain the main purpose of this work and to give general informations.
+  2. Workflows: to explain the work process behind.
+  3. How to: to give general information on how to make things work.
+  4. Tutorials: some tutorials on what is possible to do with IPUMS.jl and how to make it work 
+  5. Examples: some activity examples.
+  6. Mission: to better explain why IPUMS.jl package is useful for the community and its final objective and possible implications
+  7. References: references used to write the pages down.
+
+This first task requires some time, in particular to set up github  and cloning the repository locally in a correct manner.
+
+The second task consisted in updating the documentation across IPUMS.jl.To do that, function within the model folder in the IPUMS.jl folder were modified. The main objective of this task was to provide
+a description of the function and its attributes and an example of possible implementation and outcome. The documentation to be updated was of various type of function:
+  1. DataExtract
+  2. Dataset
+  3. DataTable
+  4. TimeSeriesTable
+  5. Error
+  6. Shapefile.
+  Each of those macrocategories (from 1 to 4) contains a set of function each, signaling the  different expected output and specific purpose.
+  Information about what each function does and about the meaning of each specific input variable, were found on the IPUMS website and references were given in writing down
+  the documentation. 
+  After writing down the description of function and inputs, examples were then formulated starting from IPUMS website: signing up to ipums, an API key 
+  is given and this is used,among the other things, to run pre-written code on the website. This code is concenring examples of those functions, and those examples
+  were re-adapted by changing some input values and fitting them to work in Julia framework.The latter task was done simply rewriting some structures, such as dictionary,maps or lists, in
+  Julia language. 
+
+  A last task consisted in testing functions in the 'api_IPUMSAPI.jl' file. In this file, the function to be tested and other functions are defined and the main ones are extracted to be
+  available in the whole framework. The functions to be tested were the following:
+    1. metadata_nhgis_data_tables_get
+    2. metadata_nhgis_datasets_dataset_data_tables_data_table_get
+    3. metadata_nhgis_datasets_dataset_get
+    4. metadata_nhgis_datasets_get
+    All those functions defined in the .jl file are coming from the `api_metadata.R` file of the ipumsr package. 
+    Before working on the Julia files, a work of testing and undestanding of the original R function was done using R studio. 
+    Each function was then tested giving the api key coming from the IPUMS registration as an input, as well as other input exaples which were taken from the documentation 
+    or from the IPUMS website. All the functions were displayed succesfully giving the expected outcome, from which it can be concluded that the translation from R to Julia is happened successfully.
 
 
 
-# Accomplished goals and future developement 
+
+# Accomplished goals and future developement. 
