@@ -10,7 +10,20 @@ categories:
   - analysis
 ---
 # About me 
-Hi, I am Michela, I am from Rome and I hold a Master's degree in Physics of complex systems. My interest topics are the usage of modeling and AI methodologies in healthcare.
+
+Hi! I am Michela, I hold a Master's degree in Physics of complex systems and I am actually working as a software engineer in Rome, were I came from . 
+During my university years I gained interest in the usage of modeling and AI methodologies to improve healthcare, and how those tools can be used 
+to better undestand how the cultural and social background is infuencing the health of indiviudals. My intersts also concern the computational modeling 
+of the brain and the human body and their implications on a better undestanding of certain pathological conditions. 
+With those motivation in mind, I found out about Google Summer of Code. Since I have studied Julia in some courses I decided to choose this language
+,also since it is expanding quickly, and I found the project of Jacob Zelko (@TheCedarPrince), starting this experience. 
+
+For further informations about me and the project:
+- Linkedin: [Michela Rocchetti](https://www.linkedin.com/in/michela-rocchetti-261793218/)
+- GitHub: [MichelaRocchetti](https://github.com/MichelaRocchetti)
+
+# Background
+
 
 # Project description 
 
@@ -88,3 +101,11 @@ a description of the function and its attributes and an example of possible impl
 
 
 # Accomplished goals and future developement. 
+
+The project was a 90 hours small project and during this time, the documentation were completed and the testing of metadata function were done, as well as the migration from Documenter.jl to DocumenterVitepress.jl.
+During those months, some things has been getting longer then I expected because of some issues occurred,thus some things with respect to the original plan were missing. However, this time was useful to learn new things, I saw how 
+I can work with an in-developing package,how to work with large datasets and how to write a documentation. Moreover, I had the occasion to better undestand how to work with Git and GitHub. In the end I learned some new stuff about R, which was a language completely unknown to me but also to 
+work again intensely with Julia, a language that I have worked with during my university years.
+More importantly, I had the chance to work in a large Open source project, to be part of a large community and to learn how to communicate efficiently with it. A particular thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, to help me through this process.
+Future developements of this work could include a deepening of the work me and my mentors have started, with the possibility to integrate this package with other
+machine learning packages in Julia and, from that, doing new analysis of data in terms of social and geographical implications on health.
