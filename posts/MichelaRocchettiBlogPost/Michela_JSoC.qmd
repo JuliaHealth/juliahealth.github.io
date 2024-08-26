@@ -14,79 +14,78 @@ categories:
 # Hello! 👋
 
 Hi! I am Michela, I have a Master's degree in Physics of Complex Systems and I am currently working as a software engineer in Rome, where I am from. 
-During my studies, I became interested in the use of modelling and AI methods to improve healthcare and how these tools can be used to to better understand how cultural and social backgrounds influence the health of individuals. 
-I am also interested in computational modelling of the brain and the human body and its implications for a better understanding of certain pathological conditions. 
+During my studies, I became interested in the use of modeling and AI methods to improve healthcare and how these tools can be used to better understand how cultural and social backgrounds influence the health of individuals. 
+I am also interested in the computational modeling of the brain and the human body and its implications for a better understanding of certain pathological conditions. 
 
 With these motivations in mind, I heard about Google Summer of Code. 
 Since I had studied Julia in some courses and given that the language is expanding rapidly, I decided to find a project within Julia. 
 As a result, I found the project of [Jacob Zelko (@TheCedarPrince)](https://jacobzelko.com) to start this experience. 
 
-> For more information about me you could find me here: [**LinkedIn**](https://www.linkedin.com/in/michela-rocchetti-261793218/), [**GitHub**](https://github.com/MichelaRocchetti)
+> For more information about me you can find me here: [**LinkedIn**](https://www.linkedin.com/in/michela-rocchetti-261793218/), [**GitHub**](https://github.com/MichelaRocchetti)
 
 # Project Description 
 
 *IPUMS* is the "world's largest available single database of census microdata", providing survey and census data from around the world. 
 It includes several projects that provide a wide variety of datasets.
 The information and data collected by *IPUMS* are useful for comparative research, as well as for the analysis of individuals in their life contexts.
-These data can be used to create a more comprehensive dataset that will facilitate research on the social determinants of health for different types of diseases, social communities and geographical areas. 
+These data can be used to create a more comprehensive dataset that will facilitate research on the social determinants of health for different types of diseases, social communities, and geographical areas. 
 
 ![](./IPUMS_grid_logo.png)
 
 > To learn more about IPUMS, visit the [website](https://www.ipums.org) 
 
-The primary objectives of this proposal is to:
+# Tasks and Goals
+The primary objectives of this proposal are to:
 
 1. Develop a native Julia package to interact with the APIs available around the datasets *IPUMS* provides.
 
 2. Provide useful utilities within this package for manipulating *IPUMS* datasets.
 
-3. Compose this package with the wider Julia ecosystem to enable novel research in health, economics and more. 
+3. Compose this package with the wider Julia ecosystem to enable novel research in health, economics, and more. 
 
-# Tasks and Goals
+To achieve this, the work was distributed as follows:
 
 1. Expand some of the functionality developed in `ipumsr`  *IPUMS* NHGIS
     - Create a link between OpenAPI documentation and the functions internally used in IPUMS.jl:
-    updating already present function, determine if updating is needed and test them
+    updating already present functions, determining if updating is needed, and testing them
     - Develop functionality similar to the get_metadata_nghis function present in ipumsr
 
 2. Update *IPUMS* documentation
-    - Set-up and deploy of DocumenterVitepress.jl  
-    - Write a blog post on how IPUMS.jl can compose within the ecosystem.
+    - Set up and deploy DocumenterVitepress.jl  
+    - Write a blog post on how IPUMS.jl can be composed within the ecosystem.
 
 
-# Workflow 
+# How the work was done
 
-The first task was to migrate documents from Documenter to DocumenterVitepress.The aim of this issue is to support the significant refactoring underway across JuliaHealth, 
-aimed at improving the discoverability and cohesion of the JuliaHealth ecosystem, particularly in relation to documentation.This issue is intended to provide guidance on migrating the
-the IPUMS.jl documentation site from Documenter.jl to DocumenterVitepress.jl, in order to create a more attractive entry point for new Julia users interested in health research within the Julia community.
+The first task was to migrate documents from Documenter to DocumenterVitepress.The aim of this issue is to support the significant refactoring underway across JuliaHealth,  aimed at improving the discoverability and cohesion of the JuliaHealth ecosystem, particularly in relation to documentation. This issue is intended to create a more attractive entry point for new Julia users interested in health research within the Julia community.
 To accomplish this task, a dependency of DocumenterVitepress was added to the docs directory of the IPUMS.jl repository. 
-Once this was done, the Documenter.jl make.jl file was migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file, pages, paragraphs and sub-paragraphs were added in order to
-structure for the web page explaining the IPUMS.jl package. With this in mind, several pages have been added:
-  1. Home: to explain the main purpose of this work and to give general information.
-  2. Workflows: to explain the working process behind it.
+Once this was done, the Documenter.jl make.jl file was migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file, pages, paragraphs, and sub-paragraphs were added in order to structure the web page explaining the IPUMS.jl package. With this in mind, several pages have been added:
+  1. Home: to explain the main purpose and to give general information.
+  2. Workflows: to explain the working process.
   3. How to: to give general information on how to do things.
   4. Tutorials: some tutorials about what you can do with IPUMS.jl and how to make it work. 
   5. Examples: some examples of activities.
   6. Mission: to better explain why the IPUMS.jl package is useful for the community, and its final goal and possible impact.
   7. References: references used to write the pages.
 
-This first task takes some time, especially setting up GitHub and cloning the repository locally. At this point, my experience with GitHub was really limited
-and I had to learn how to use the Git environment from scratch. I found the support of my mentors and searching for material online was really helpful. 
+This first task takes some time, especially setting up GitHub and cloning the repository locally. At this point, my experience with GitHub was really limited and I had to learn how to use the Git environment from scratch, for example how to do continuous integration (to commit code to a shared repository), documentation release and merge, and local testing. I found the support of my mentors and searching for material online was really helpful. 
 
 The second task was to update the documentation of IPUMS.jl by modifying the functionality within the model folder in the IPUMS.jl folder. The main aim of this task was to
-a description of the function and its attributes, and an example of possible implementation and result, and finally to show how to use it. The documentation to be updated was of several types of function:
+a description of the function and its attributes, an example of possible implementation and result, and finally to show how to use it. The documentation to be updated as of several types of functions:
   1. Data extract
   2. Data set
   3. Data Table
   4. Time series table
   5. Error
   6. Shapefile.
-  Each of these macro-categories (from 1 to 4) contains a set of functions, each signalling the different expected output and specific purpose.
+  Each of these macro-categories (from 1 to 4) contains a set of functions, each signaling the different expected output and specific purpose.
   Information about what each function does, and the meaning of each specific input variable, has been found on the *IPUMS* website and references have been made in the written documentation.
   documentation. 
+
+# How to work with IPUMS
  After writing down the description of the function and the inputs, examples were formulated, starting from the *IPUMS* website: when you register at [IPUMS](https://uma.pop.umn.edu/usa/user/new), an API key is given. 
-  which is used, among other things, to run pre-written code on the website. This code contains examples of these functions, and these examples have been
-  have been adapted by changing some input values and adapting them to work in the Julia framework.The latter task was done by simply rewriting some structures, such as dictionary, maps or lists, in the
+  which is used, among other things, to run pre-written code on the website. This code contains examples of these functions, and these examples 
+  have been adapted by changing some input values and adapting them to work in the Julia framework. The latter task was done by simply rewriting some structures, such as dictionaries, maps, or lists, in the
   Julia language. 
   Here is a small guide on how to set up working with the API:
     1. Create an *IPUMS* account
@@ -95,6 +94,8 @@ a description of the function and its attributes, and an example of possible imp
     4. Use the key to run the code that is already available on the [*IPUMS* Developer Portal](https://developer.ipums.org/docs/v2/reference/), where you will also find 
        information about the variables and packages.
 
+# Functions testing
+
   A final task was to test the functions in the 'api_IPUMSAPI.jl' file. In this file, the function to be tested and other functions are defined and the most important ones are extracted to be available in the
   available throughout the framework. The functions to be tested were the following
     1. metadata_nhgis_data_tables_get
@@ -102,9 +103,11 @@ a description of the function and its attributes, and an example of possible imp
     3. metadata_nhgis_datasets_dataset_get
     4. metadata_nhgis_datasets_get
     All these functions defined in the .jl file come from the `api_metadata.R` file of the ipumsr package. 
-    Before working on the Julia files, a work of testing and understanding of the original R function was done using R studio. 
+    Before working on the Julia files, testing and understanding the original R function was done using R studio. 
+
 
 ![](./rstudio.png)
+
 
 Each function was then tested using the API key from the *IPUMS* registration as well as other input examples taken from the documentation or the *IPUMS* website. 
 or from the *IPUMS* website. All functions were displayed successfully, giving the expected result, so it can be concluded that the translation from R to Julia is successful.
@@ -129,14 +132,113 @@ res1 = metadata_nhgis_data_tables_get(api, version)
 res2 = metadata_nhgis_datasets_dataset_get(api, "2022_ACS1", "2");
 
 res3 = metadata_nhgis_datasets_dataset_data_tables_data_table_get(api, "2022_ACS1","B01001", "2");
-```
 
+res4 = metadata_nhgis_datasets_get(api, "2");
+```
+The output was: 
+```
+res1 = 
+500-element Vector{IPUMS.DataTableFull}:
+ {
+  "name": "NT1",
+  "nhgisCode": "AAA",
+  "description": "Total Population",
+  "universe": "Persons",
+  "sequence": 1,
+  "datasetName": "1790_cPop",
+  "nVariables": [
+    1
+  ]
+}
+
+ {
+  "name": "NT2",
+  "nhgisCode": "AAK",
+  "description": "Urban Population (Incorporated Places 2,500 and Over)",
+  "universe": "Urban Persons (Incorporated Places 2,500 and Over)",
+  "sequence": 2,
+  "datasetName": "1790_cPop",
+  "nVariables": [
+    1
+  ]
+}
+
+ {
+  "name": "NT3",
+  "nhgisCode": "AAN",
+  "description": "Urban Population in Cities of 25,000 and Over",
+  "universe": "Urban Persons in Cities of 25,000 and Over",
+  "sequence": 3,
+  "datasetName": "1790_cPop",
+  "nVariables": [
+    1
+  ]
+}
+
+
+
+. . . 
+
+ {
+  "name": "NT11",
+  "nhgisCode": "ALJ",
+  "description": "People Employed in All Classes of Occupations by Place of Birth",
+  "universe": "Employed Persons",
+  "sequence": 11,
+  "datasetName": "1870_sROG",
+  "nVariables": [
+    13
+  ]
+}
+
+. . .
+
+res4 = 
+(IPUMS.DatasetSimple[{
+  "name": "1790_cPop",
+  "description": "Population Data [US, States & Counties]",
+  "group": "1790 Census",
+  "sequence": 101
+}
+, {
+  "name": "1800_cPop",
+  "description": "Population Data [US, States & Counties]",
+  "group": "1800 Census",
+  "sequence": 201
+}
+, {
+  "name": "1810_cPop",
+  "description": "Population Data [US, States & Counties]",
+  "group": "1810 Census",
+  "sequence": 301
+}
+
+. . .
+
+, {
+  "name": "2018_2022_ACS5c",
+  "description": "5-Year Data [2018-2022, Summary by Residence 1 Year Ago]",
+  "group": "2022 American Community Survey",
+  "sequence": 6104
+}
+, {
+  "name": "2018_2022_ACS5d",
+  "description": "5-Year Data [2018-2022, Summary by Place of Work]",
+  "group": "2022 American Community Survey",
+  "sequence": 6105
+}
+], OpenAPI.Clients.ApiResponse(Downloads.Response("https", "https://api.ipums.org/metadata/nhgis/datasets?version=2", 200, "HTTP/1.1 200 OK", ["cache-control" => "max-age=0, private, must-revalidate", "content-length" => "35813", "content-type" => "application/json; charset=utf-8", "date" => "Mon, 26 Aug 2024 08:09:50 GMT", "etag" => "W/\"0b26f3e3bfa77cf76ff6c67dcc2e0423\"", "referrer-policy" => "strict-origin-when-cross-origin", "server" => "nginx/1.22.1", "vary" => "Origin", "x-content-type-options" => "nosniff", "x-frame-options" => "SAMEORIGIN", "x-permitted-cross-domain-policies" => "none", "x-ratelimit-limit" => "-1", "x-ratelimit-remaining" => "0", "x-ratelimit-reset" => "0", "x-request-id" => "bbc59b60-a744-4e98-b5ed-888a8cc9d987", "x-runtime" => "0.011391", "x-xss-protection" => "0"])))
+
+```
 # Accomplished Goals and Future Development
 
-The project was a 90 hour small project and during this time the documentation was completed and the testing of the metadata function was done, as well as the migration from Documenter.jl to DocumenterVitepress.jl.
-During these months some things took longer than I expected because of some problems that occurred, so some things were missing in relation to the original plan. However, this time was useful to learn new things, I saw how to work with a 
-I saw how to work with a package under development, how to work with large datasets and how to write documentation. I also had the opportunity to better understand how to work with Git and GitHub. Finally, I learnt some new things about R, which was a completely unknown language to me. 
-Julia, a language I had worked with during my time at university.
-More importantly, I had the chance to work in a large open source project, to be part of a large community, and to learn how to communicate with it efficiently. A special thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, for helping me through this process.
-Future developments of this work could include deepening the work that my mentors and I have started, with the possibility of integrating this package with other
-machine learning packages in Julia and, from there, doing new analyses of the data in terms of social and geographical implications for health.
+The project was a 90-hour small project and during this time the documentation was completed and the testing of the metadata function was done, as well as the migration from Documenter.jl to DocumenterVitepress.jl.
+During these months some things took longer than I expected because of some problems that occurred, so some things were missing in relation to the original plan. However, this time was useful for learning new things: 
+  - I saw how to work with a package under development, how to work with large datasets, and how to write documentation 
+  - I  had the opportunity to better understand how to work with Git and GitHub
+  - I learned some new things about R, which was a completely unknown language to me. 
+  - I deepened my knowledge of Julia, a language I had worked with during my time at university.
+  - I had the chance to work on a large open-source project, to be part of a large community, and to learn how to communicate with it efficiently. A     
+    special thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, for helping me through this process.
+
+Future developments of this work could include deepening the work that my mentors and I have started, with the possibility of integrating this package with other machine learning packages in Julia and, from there, doing new analyses of the data in terms of social and geographical implications for health.
