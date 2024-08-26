@@ -10,10 +10,18 @@
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/index.html</loc>
-    <lastmod>2024-06-23T07:03:36.327Z</lastmod>
+    <lastmod>2024-08-26T17:19:31.858Z</lastmod>
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/posts/dummy/index.html</loc>
     <lastmod>2024-06-23T07:14:13.271Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/MichelaRocchettiBlogPost/Michela_JSoC.html</loc>
+    <lastmod>2024-08-26T17:20:31.626Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</loc>
+    <lastmod>2024-08-26T17:20:31.626Z</lastmod>
   </url>
 </urlset>
