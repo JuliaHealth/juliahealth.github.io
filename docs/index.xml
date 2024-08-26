@@ -10,7 +10,213 @@
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.47</generator>
-<lastBuildDate>Sat, 22 Jun 2024 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 26 Aug 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>GSoC ’24: IPUMS.jl Small Project</title>
+  <dc:creator>Michela Rocchetti</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="hello" class="level1">
+<h1>Hello! 👋</h1>
+<p>Hi! I am Michela, I have a Master’s degree in Physics of Complex Systems and I am currently working as a software engineer in Rome, where I am from. During my studies, I became interested in the use of modeling and AI methods to improve healthcare and how these tools can be used to better understand how cultural and social backgrounds influence the health of individuals. I am also interested in the computational modeling of the brain and the human body and its implications for a better understanding of certain pathological conditions.</p>
+<p>With these motivations in mind, I heard about Google Summer of Code. Since I had studied Julia in some courses and given that the language is expanding rapidly, I decided to find a project within Julia. As a result, I found the project of <a href="https://jacobzelko.com">Jacob Zelko (<span class="citation" data-cites="TheCedarPrince">@TheCedarPrince</span>)</a> to start this experience.</p>
+<blockquote class="blockquote">
+<p>If you want to learn more about me, you can connect with me here: <a href="https://www.linkedin.com/in/michela-rocchetti-261793218/"><strong>LinkedIn</strong></a>, <a href="https://github.com/MichelaRocchetti"><strong>GitHub</strong></a></p>
+</blockquote>
+</section>
+<section id="project-description" class="level1">
+<h1>Project Description</h1>
+<p><em>IPUMS</em> is the “world’s largest available single database of census microdata”, providing survey and census data from around the world. It includes several projects that provide a wide variety of datasets. The information and data collected by <em>IPUMS</em> are useful for comparative research, as well as for the analysis of individuals in their life contexts. These data can be used to create a more comprehensive dataset that will facilitate research on the social determinants of health for different types of diseases, social communities, and geographical areas.</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/IPUMS_grid_logo.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>To learn more about IPUMS, visit the <a href="https://www.ipums.org">website</a></p>
+</blockquote>
+</section>
+<section id="tasks-and-goals" class="level1">
+<h1>Tasks and Goals</h1>
+<p>The primary objectives of this proposal are to:</p>
+<ol type="1">
+<li><p>Develop a native Julia package to interact with the APIs available around the datasets <em>IPUMS</em> provides.</p></li>
+<li><p>Provide useful utilities within this package for manipulating <em>IPUMS</em> datasets.</p></li>
+<li><p>Compose this package with the wider Julia ecosystem to enable novel research in health, economics, and more.</p></li>
+</ol>
+<p>To achieve this, the work was distributed as follows:</p>
+<ol type="1">
+<li>Expand some of the functionality developed in <code>ipumsr</code> <em>IPUMS</em> NHGIS
+<ul>
+<li>Create a link between OpenAPI documentation and the functions internally used in IPUMS.jl: updating already present functions, determining if updating is needed, and testing them</li>
+<li>Develop functionality similar to the get_metadata_nghis function present in ipumsr</li>
+</ul></li>
+<li>Update <em>IPUMS</em> documentation
+<ul>
+<li>Set up and deploy DocumenterVitepress.jl<br>
+</li>
+<li>Write a blog post on how IPUMS.jl can be composed within the ecosystem.</li>
+</ul></li>
+</ol>
+</section>
+<section id="how-the-work-was-done" class="level1">
+<h1>How the work was done</h1>
+<p>The first task was to migrate documents from Documenter to DocumenterVitepress.This issue aims to support the significant refactoring underway across JuliaHealth, aimed at improving the discoverability and cohesion of the JuliaHealth ecosystem, particularly about documentation. This issue is intended to create a more attractive entry point for new Julia users interested in health research within the Julia community. To accomplish this task, a dependency of DocumenterVitepress was added to the docs directory of the IPUMS.jl repository. Once this was done, the Documenter.jl make.jl file was migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file, the pages structure were added to the web page explaining the IPUMS.jl package. With this in mind, those were added: 1. Home: to explain the main purpose of the package 2. Workflows: to explain the working process 3. How to: to give general information 4. Tutorials: to show how to use IPUMS.jl<br>
+5. Examples: some examples of activities 6. Mission: to explain why the package is useful for the community 7. References: references used to write the pages.</p>
+<p>This first task takes some time, especially setting up GitHub and cloning the repository locally. At this point, my experience with GitHub was really limited and I had to learn how to use the Git environment from scratch, for example how to do continuous integration (to commit code to a shared repository), documentation release and merge, and local testing. I found the support of my mentors and searching for material online was really helpful.</p>
+<p>The second task was to update the documentation of IPUMS.jl by modifying the functionality within the model folder in the IPUMS.jl folder. The main aim of this task was to a description of the function and its attributes, an example of possible implementation and result, and finally to show how to use it. The documentation to be updated as of several types of functions: 1. Data extract 2. Data set 3. Data Table 4. Time series table 5. Error 6. Shapefile. Each of these macro-categories (from 1 to 4) contains a set of functions, each signaling the different expected output and specific purpose. Information about what each function does, and the meaning of each specific input variable, has been found on the <em>IPUMS</em> website and references have been made in the written documentation.</p>
+</section>
+<section id="how-to-work-with-ipums" class="level1">
+<h1>How to work with IPUMS</h1>
+<p>After writing down the description of the function and the inputs, examples were formulated, starting from the <em>IPUMS</em> website: when you register at <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS</a>, an API key is given. which is used, among other things, to run pre-written code on the website. This code contains examples of these functions, and these examples have been adapted by changing some input values and adapting them to work in the Julia framework. The latter task was done by simply rewriting some structures, such as dictionaries, maps, or lists, in the Julia language. Here is a small guide on how to set up working with the API: 1. Create an <em>IPUMS</em> account 2. Log in to your account 3. Copy the API key, which can be obtained from the <a href="https://account.ipums.org/api_keys">website</a> 4. Use the key to run the code that is already available on the <a href="https://developer.ipums.org/docs/v2/reference/"><em>IPUMS</em> Developer Portal</a>, where you will also find information about the variables and packages.</p>
+</section>
+<section id="functions-testing" class="level1">
+<h1>Functions testing</h1>
+<p>A final task was to test the functions in the ‘api_IPUMSAPI.jl’ file. In this file, the function to be tested and other functions are defined and the most important ones are extracted to be available in the available throughout the framework. Some of the functions to be tested were the following:</p>
+<ol type="1">
+<li><code>metadata_nhgis_data_tables_get</code></li>
+<li><code>metadata_nhgis_datasets_dataset_data_tables_data_table_get</code></li>
+<li><code>metadata_nhgis_datasets_dataset_get</code></li>
+<li><code>metadata_nhgis_datasets_get</code></li>
+</ol>
+<p>Before working on the Julia files, testing and understanding the original R function was done using R studio.</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/rstudio.png" class="img-fluid"></p>
+<p>Each function was then tested using the API key from the <em>IPUMS</em> registration as well as other input examples taken from the documentation or the <em>IPUMS</em> website. or from the <em>IPUMS</em> website. All functions were displayed successfully, giving the expected result, so it can be concluded that the translation from R to Julia is successful.</p>
+<div id="2" class="cell" data-execution_count="0">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">IPUMS</span></span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">OpenAPI</span></span>
+<span id="cb1-3"></span>
+<span id="cb1-4">api_key <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"insert your key here"</span></span>
+<span id="cb1-5"></span>
+<span id="cb1-6">version <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span></span>
+<span id="cb1-7">page_number <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb1-8">page_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2500</span></span>
+<span id="cb1-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#media_type = </span></span>
+<span id="cb1-10"></span>
+<span id="cb1-11">api <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">IPUMSAPI</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://api.ipums.org"</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Dict</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Authorization"</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=&gt;</span> api_key));</span>
+<span id="cb1-12"></span>
+<span id="cb1-13">res1 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">metadata_nhgis_data_tables_get</span>(api, version)</span>
+<span id="cb1-14"></span>
+<span id="cb1-15">res2 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">metadata_nhgis_datasets_dataset_get</span>(api, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2022_ACS1"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span>);</span>
+<span id="cb1-16"></span>
+<span id="cb1-17">res3 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">metadata_nhgis_datasets_dataset_data_tables_data_table_get</span>(api, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2022_ACS1"</span>,<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"B01001"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span>);</span>
+<span id="cb1-18"></span>
+<span id="cb1-19">res4 <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">metadata_nhgis_datasets_get</span>(api, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2"</span>);</span></code></pre></div>
+</details>
+</div>
+<p>An example of the output is:</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource {json} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1">. . .</span>
+<span id="cb2-2"></span>
+<span id="cb2-3">{</span>
+<span id="cb2-4">  "name": "NT1",</span>
+<span id="cb2-5">  "nhgisCode": "AAA",</span>
+<span id="cb2-6">  "description": "Total Population",</span>
+<span id="cb2-7">  "universe": "Persons",</span>
+<span id="cb2-8">  "sequence": 1,</span>
+<span id="cb2-9">  "datasetName": "1790_cPop",</span>
+<span id="cb2-10">  "nVariables": [</span>
+<span id="cb2-11">    1</span>
+<span id="cb2-12">  ]</span>
+<span id="cb2-13">}</span>
+<span id="cb2-14"></span>
+<span id="cb2-15">. . .</span></code></pre></div>
+</section>
+<section id="accomplished-goals-and-future-development" class="level1">
+<h1>Accomplished Goals and Future Development</h1>
+<p>The project was a 90-hour small project and during this time the documentation was completed and the testing of the metadata function was done, as well as the migration from Documenter.jl to DocumenterVitepress.jl. During these months some things took longer than I expected because of some problems that occurred, so some things were missing in relation to the original plan. However, this time was useful for learning new things: - I saw how to work with a package under development, how to work with large datasets, and how to write documentation - I had the opportunity to better understand how to work with Git and GitHub - I learned some new things about R, which was a completely unknown language to me. - I deepened my knowledge of Julia, a language I had worked with during my time at university. - I had the chance to work on a large open-source project, to be part of a large community, and to learn how to communicate with it efficiently.</p>
+<p>A special thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, for helping me through this process.</p>
+<p>Future developments of this work could include deepening the work that my mentors and I have started, with the possibility of integrating this package with other machine learning packages in Julia and, from there, doing new analyses of the data in terms of social and geographical implications for health.</p>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rocchetti2024,
+  author = {Rocchetti, Michela},
+  title = {GSoC ’24: {IPUMS.jl} {Small} {Project}},
+  date = {2024-08-26},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rocchetti2024" class="csl-entry quarto-appendix-citeas">
+Rocchetti, Michela. 2024. <span>“GSoC ’24: IPUMS.jl Small
+Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html">https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</a>.
+</div></div></section></div> ]]></description>
+  <category>gsoc</category>
+  <category>geospatial</category>
+  <category>census</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
+  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Dummy Post</title>
   <dc:creator>Foobar </dc:creator>
@@ -23,6 +229,38 @@
 <section id="seciton-1" class="level1">
 <h1>Seciton 1</h1>
 <p>Small dummy blog post</p>
+<div id="2" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span></code></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>4</code></pre>
+</div>
+</div>
+<div id="4" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span></code></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>4</code></pre>
+</div>
+</div>
 </section>
 <section id="section-2" class="level1">
 <h1>Section 2</h1>
