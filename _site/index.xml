@@ -229,7 +229,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
 <section id="seciton-1" class="level1">
 <h1>Seciton 1</h1>
 <p>Small dummy blog post</p>
-<div id="53431042" class="cell" data-execution_count="1">
+<div id="2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="fl" style="color: #AD0000;
@@ -240,11 +240,11 @@ font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">2</span></span></code></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>4</code></pre>
 </div>
 </div>
-<div id="1662c2c2" class="cell" data-execution_count="2">
+<div id="4" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><span class="fu" style="color: #4758AB;

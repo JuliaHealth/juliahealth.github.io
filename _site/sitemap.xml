@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.myblogexample.io/index.html</loc>
-    <lastmod>2024-06-23T05:36:56.714Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.myblogexample.io/posts/dummy/index.html</loc>
-    <lastmod>2024-06-23T05:09:06.549Z</lastmod>
-  </url>
-  <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/index.html</loc>
     <lastmod>2024-08-26T17:38:28.656Z</lastmod>
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/posts/dummy/index.html</loc>
-    <lastmod>2024-06-23T07:14:13.271Z</lastmod>
+    <lastmod>2024-08-26T17:52:52.169Z</lastmod>
   </url>
   <url>
-    <loc>https://juliahealth.org/JuliaHealthBlog/posts/MichelaRocchettiBlogPost/Michela_JSoC.html</loc>
-    <lastmod>2024-08-26T17:20:31.626Z</lastmod>
+    <loc>https://juliahealth.org/JuliaHealthBlog/about.html</loc>
+    <lastmod>2024-08-26T02:57:07.220Z</lastmod>
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</loc>

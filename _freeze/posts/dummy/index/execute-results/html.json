@@ -1,8 +1,8 @@
 {
-  "hash": "54d805263816b7c559ed9fbc7558b794",
+  "hash": "618860a13f9698fab47bfadeda85813f",
   "result": {
-    "engine": "jupyter",
-    "markdown": "---\ntitle: \"Dummy Post\"\ndescription: \"Post description\"\nauthor: \"Foobar\"\ndate: \"6/22/2024\"\ntoc: true\ncategories:\n  - news\n  - code\n  - analysis\n---\n\n\n# Seciton 1\n\nSmall dummy blog post\n\n::: {#53431042 .cell execution_count=1}\n``` {.julia .cell-code}\n2 + 2\n```\n\n::: {.cell-output .cell-output-display execution_count=19}\n```\n4\n```\n:::\n:::\n\n\n::: {#1662c2c2 .cell execution_count=2}\n``` {.julia .cell-code}\nprintln(2 + 2)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n4\n```\n:::\n:::\n\n\n# Section 2\n\n# Section 3\n\n",
+    "engine": "julia",
+    "markdown": "---\ntitle: \"Dummy Post\"\ndescription: \"Post description\"\nauthor: \"Foobar\"\ndate: \"6/22/2024\"\ntoc: true\nengine: julia\ncategories:\n  - news\n  - code\n  - analysis\n---\n\n# Seciton 1\n\nSmall dummy blog post\n\n::: {#2 .cell execution_count=1}\n``` {.julia .cell-code}\n2 + 2\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\n4\n```\n:::\n:::\n\n\n\n::: {#4 .cell execution_count=1}\n``` {.julia .cell-code}\nprintln(2 + 2)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n4\n```\n:::\n:::\n\n\n\n# Section 2\n\n# Section 3\n\n",
     "supporting": [
       "index_files"
     ],
