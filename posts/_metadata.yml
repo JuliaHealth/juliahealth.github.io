@@ -3,7 +3,7 @@
 # freeze computational output
 # (see https://quarto.org/docs/projects/code-execution.html#freeze)
 execute:
-  freeze: true
+  freeze: auto
   eval: true
   echo: true
   output: true
