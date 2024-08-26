@@ -57,15 +57,15 @@ To achieve this, the work was distributed as follows:
 
 # How the work was done
 
-The first task was to migrate documents from Documenter to DocumenterVitepress.The aim of this issue is to support the significant refactoring underway across JuliaHealth,  aimed at improving the discoverability and cohesion of the JuliaHealth ecosystem, particularly in relation to documentation. This issue is intended to create a more attractive entry point for new Julia users interested in health research within the Julia community.
+The first task was to migrate documents from Documenter to DocumenterVitepress.This issue aims to support the significant refactoring underway across JuliaHealth,  aimed at improving the discoverability and cohesion of the JuliaHealth ecosystem, particularly about documentation. This issue is intended to create a more attractive entry point for new Julia users interested in health research within the Julia community.
 To accomplish this task, a dependency of DocumenterVitepress was added to the docs directory of the IPUMS.jl repository. 
-Once this was done, the Documenter.jl make.jl file was migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file, pages, paragraphs, and sub-paragraphs were added in order to structure the web page explaining the IPUMS.jl package. With this in mind, several pages have been added:
-  1. Home: to explain the main purpose and to give general information.
-  2. Workflows: to explain the working process.
-  3. How to: to give general information on how to do things.
-  4. Tutorials: some tutorials about what you can do with IPUMS.jl and how to make it work. 
-  5. Examples: some examples of activities.
-  6. Mission: to better explain why the IPUMS.jl package is useful for the community, and its final goal and possible impact.
+Once this was done, the Documenter.jl make.jl file was migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file, the pages structure were added to the web page explaining the IPUMS.jl package. With this in mind, those were added:
+  1. Home: to explain the main purpose of the package
+  2. Workflows: to explain the working process
+  3. How to: to give general information 
+  4. Tutorials: to show how to use IPUMS.jl  
+  5. Examples: some examples of activities
+  6. Mission: to explain why the package is useful for the community
   7. References: references used to write the pages.
 
 This first task takes some time, especially setting up GitHub and cloning the repository locally. At this point, my experience with GitHub was really limited and I had to learn how to use the Git environment from scratch, for example how to do continuous integration (to commit code to a shared repository), documentation release and merge, and local testing. I found the support of my mentors and searching for material online was really helpful. 
