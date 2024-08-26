@@ -5,6 +5,7 @@ author: "Michela Rocchetti"
 date: "8/26/2024"
 toc: true
 engine: julia
+image: false
 categories:
   - gsoc
   - geospatial 
@@ -21,7 +22,7 @@ With these motivations in mind, I heard about Google Summer of Code.
 Since I had studied Julia in some courses and given that the language is expanding rapidly, I decided to find a project within Julia. 
 As a result, I found the project of [Jacob Zelko (@TheCedarPrince)](https://jacobzelko.com) to start this experience. 
 
-> For more information about me you can find me here: [**LinkedIn**](https://www.linkedin.com/in/michela-rocchetti-261793218/), [**GitHub**](https://github.com/MichelaRocchetti)
+> If you want to learn more about me, you can connect with me here: [**LinkedIn**](https://www.linkedin.com/in/michela-rocchetti-261793218/), [**GitHub**](https://github.com/MichelaRocchetti)
 
 # Project Description 
 
@@ -80,34 +81,31 @@ a description of the function and its attributes, an example of possible impleme
   6. Shapefile.
   Each of these macro-categories (from 1 to 4) contains a set of functions, each signaling the different expected output and specific purpose.
   Information about what each function does, and the meaning of each specific input variable, has been found on the *IPUMS* website and references have been made in the written documentation.
-  documentation. 
 
 # How to work with IPUMS
  After writing down the description of the function and the inputs, examples were formulated, starting from the *IPUMS* website: when you register at [IPUMS](https://uma.pop.umn.edu/usa/user/new), an API key is given. 
-  which is used, among other things, to run pre-written code on the website. This code contains examples of these functions, and these examples 
-  have been adapted by changing some input values and adapting them to work in the Julia framework. The latter task was done by simply rewriting some structures, such as dictionaries, maps, or lists, in the
-  Julia language. 
-  Here is a small guide on how to set up working with the API:
-    1. Create an *IPUMS* account
-    2. Log in to your account 
-    3. Copy the API key, which can be obtained from the [website](https://account.ipums.org/api_keys)
-    4. Use the key to run the code that is already available on the [*IPUMS* Developer Portal](https://developer.ipums.org/docs/v2/reference/), where you will also find 
-       information about the variables and packages.
+which is used, among other things, to run pre-written code on the website. This code contains examples of these functions, and these examples 
+have been adapted by changing some input values and adapting them to work in the Julia framework. The latter task was done by simply rewriting some structures, such as dictionaries, maps, or lists, in the
+Julia language. 
+Here is a small guide on how to set up working with the API:
+1. Create an *IPUMS* account
+2. Log in to your account 
+3. Copy the API key, which can be obtained from the [website](https://account.ipums.org/api_keys)
+4. Use the key to run the code that is already available on the [*IPUMS* Developer Portal](https://developer.ipums.org/docs/v2/reference/), where you will also find information about the variables and packages.
 
 # Functions testing
 
   A final task was to test the functions in the 'api_IPUMSAPI.jl' file. In this file, the function to be tested and other functions are defined and the most important ones are extracted to be available in the
-  available throughout the framework. The functions to be tested were the following
-    1. metadata_nhgis_data_tables_get
-    2. metadata_nhgis_datasets_dataset_data_tables_data_table_get
-    3. metadata_nhgis_datasets_dataset_get
-    4. metadata_nhgis_datasets_get
-    All these functions defined in the .jl file come from the `api_metadata.R` file of the ipumsr package. 
-    Before working on the Julia files, testing and understanding the original R function was done using R studio. 
+  available throughout the framework. Some of the functions to be tested were the following:
+  
+ 1. `metadata_nhgis_data_tables_get`
+ 2. `metadata_nhgis_datasets_dataset_data_tables_data_table_get`
+ 3. `metadata_nhgis_datasets_dataset_get`
+ 4. `metadata_nhgis_datasets_get`
 
+ Before working on the Julia files, testing and understanding the original R function was done using R studio. 
 
 ![](./rstudio.png)
-
 
 Each function was then tested using the API key from the *IPUMS* registration as well as other input examples taken from the documentation or the *IPUMS* website. 
 or from the *IPUMS* website. All functions were displayed successfully, giving the expected result, so it can be concluded that the translation from R to Julia is successful.
@@ -135,11 +133,13 @@ res3 = metadata_nhgis_datasets_dataset_data_tables_data_table_get(api, "2022_ACS
 
 res4 = metadata_nhgis_datasets_get(api, "2");
 ```
-The output was: 
-```
-res1 = 
-500-element Vector{IPUMS.DataTableFull}:
- {
+
+An example of the output is: 
+
+```{json}
+. . .
+
+{
   "name": "NT1",
   "nhgisCode": "AAA",
   "description": "Total Population",
@@ -151,85 +151,9 @@ res1 =
   ]
 }
 
- {
-  "name": "NT2",
-  "nhgisCode": "AAK",
-  "description": "Urban Population (Incorporated Places 2,500 and Over)",
-  "universe": "Urban Persons (Incorporated Places 2,500 and Over)",
-  "sequence": 2,
-  "datasetName": "1790_cPop",
-  "nVariables": [
-    1
-  ]
-}
-
- {
-  "name": "NT3",
-  "nhgisCode": "AAN",
-  "description": "Urban Population in Cities of 25,000 and Over",
-  "universe": "Urban Persons in Cities of 25,000 and Over",
-  "sequence": 3,
-  "datasetName": "1790_cPop",
-  "nVariables": [
-    1
-  ]
-}
-
-
-
-. . . 
-
- {
-  "name": "NT11",
-  "nhgisCode": "ALJ",
-  "description": "People Employed in All Classes of Occupations by Place of Birth",
-  "universe": "Employed Persons",
-  "sequence": 11,
-  "datasetName": "1870_sROG",
-  "nVariables": [
-    13
-  ]
-}
-
 . . .
-
-res4 = 
-(IPUMS.DatasetSimple[{
-  "name": "1790_cPop",
-  "description": "Population Data [US, States & Counties]",
-  "group": "1790 Census",
-  "sequence": 101
-}
-, {
-  "name": "1800_cPop",
-  "description": "Population Data [US, States & Counties]",
-  "group": "1800 Census",
-  "sequence": 201
-}
-, {
-  "name": "1810_cPop",
-  "description": "Population Data [US, States & Counties]",
-  "group": "1810 Census",
-  "sequence": 301
-}
-
-. . .
-
-, {
-  "name": "2018_2022_ACS5c",
-  "description": "5-Year Data [2018-2022, Summary by Residence 1 Year Ago]",
-  "group": "2022 American Community Survey",
-  "sequence": 6104
-}
-, {
-  "name": "2018_2022_ACS5d",
-  "description": "5-Year Data [2018-2022, Summary by Place of Work]",
-  "group": "2022 American Community Survey",
-  "sequence": 6105
-}
-], OpenAPI.Clients.ApiResponse(Downloads.Response("https", "https://api.ipums.org/metadata/nhgis/datasets?version=2", 200, "HTTP/1.1 200 OK", ["cache-control" => "max-age=0, private, must-revalidate", "content-length" => "35813", "content-type" => "application/json; charset=utf-8", "date" => "Mon, 26 Aug 2024 08:09:50 GMT", "etag" => "W/\"0b26f3e3bfa77cf76ff6c67dcc2e0423\"", "referrer-policy" => "strict-origin-when-cross-origin", "server" => "nginx/1.22.1", "vary" => "Origin", "x-content-type-options" => "nosniff", "x-frame-options" => "SAMEORIGIN", "x-permitted-cross-domain-policies" => "none", "x-ratelimit-limit" => "-1", "x-ratelimit-remaining" => "0", "x-ratelimit-reset" => "0", "x-request-id" => "bbc59b60-a744-4e98-b5ed-888a8cc9d987", "x-runtime" => "0.011391", "x-xss-protection" => "0"])))
-
 ```
+
 # Accomplished Goals and Future Development
 
 The project was a 90-hour small project and during this time the documentation was completed and the testing of the metadata function was done, as well as the migration from Documenter.jl to DocumenterVitepress.jl.
@@ -238,7 +162,8 @@ During these months some things took longer than I expected because of some prob
   - I  had the opportunity to better understand how to work with Git and GitHub
   - I learned some new things about R, which was a completely unknown language to me. 
   - I deepened my knowledge of Julia, a language I had worked with during my time at university.
-  - I had the chance to work on a large open-source project, to be part of a large community, and to learn how to communicate with it efficiently. A     
-    special thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, for helping me through this process.
+  - I had the chance to work on a large open-source project, to be part of a large community, and to learn how to communicate with it efficiently. 
+
+A special thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, for helping me through this process.
 
 Future developments of this work could include deepening the work that my mentors and I have started, with the possibility of integrating this package with other machine learning packages in Julia and, from there, doing new analyses of the data in terms of social and geographical implications for health.
