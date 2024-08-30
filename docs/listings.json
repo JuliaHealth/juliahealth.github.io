@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ryan-gsoc/Ryan_GSOC.html",
       "/posts/michela-gsoc/Michela_JSoC.html",
       "/posts/dummy/index.html"
     ]
