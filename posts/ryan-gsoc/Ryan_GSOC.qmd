@@ -8,13 +8,15 @@ engine: julia
 image: false
 categories:
   - gsoc
-  - geospatial 
-  - census
+  - mri
+  - gpu
+  - hpc
+  - simulation
 ---
 
 # Hi! 👋
 
-I am Ryan, an MS student currently studying computer science at the University of Wisconsin-Madison. Looking for a project to work on this summer, my interest in high-performance computing and affinity for the Julia programming language drew me to Google Summer of Code, where I learned about this project opportunity to work on enchancing GPU support for KomaMRI.jl. 
+I am Ryan, an MS student currently studying computer science at the University of Wisconsin-Madison. Looking for a project to work on this summer, my interest in high-performance computing and affinity for the Julia programming language drew me to Google Summer of Code, where I learned about this project opportunity to work on enhancing GPU support for KomaMRI.jl. 
 
 In this post, I'd like to summarize what I did this summer and everything I learned along the way!
 
@@ -24,13 +26,13 @@ In this post, I'd like to summarize what I did this summer and everything I lear
 
 [KomaMRI](https://github.com/JuliaHealth/KomaMRI.jl) is a Julia package for efficiently simulating Magnetic Resonance Imaging (MRI) acquisitions. MRI simulation is a useful tool for researchers, as it allows testing new pulse sequences to analyze the signal output and image reconstruction quality without needing to actually take an MRI, which may be time or cost-prohibitive.
 
-In constrast to many other MRI simulators, KomaMRI.jl is open-source, cross-platform, and comes with an intuitive user interface (To learn more about KomaMRI, you can read the paper introducing it [here](https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.29635)). However, being developed fairly recently, there are still new features that can be added and optimization to be done.
+In contrast to many other MRI simulators, KomaMRI.jl is open-source, cross-platform, and comes with an intuitive user interface (To learn more about KomaMRI, you can read the paper introducing it [here](https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.29635)). However, being developed fairly recently, there are still new features that can be added and optimization to be done.
 
 # Project Goals
 
 The goals outlined by Carlos (my project mentor) and I the beginning of this summer were:
 
-1. Extend GPU support beyond CUDA to include AMD, Intel, and Apple Silicon GPUs, through the packages AMDGPU.jl, oneAPI.jl, and Metal.jl
+1. Extend GPU support beyond CUDA to include AMD, Intel, and Apple Silicon GPUs, through the packages [AMDGPU.jl](https://github.com/JuliaGPU/AMDGPU.jl), [oneAPI.jl](https://github.com/JuliaGPU/oneAPI.jl), and [Metal.jl](https://github.com/JuliaGPU/Metal.jl)
 
 2. Create a CI pipeline to be able to test each of the GPU backends
 
@@ -41,7 +43,7 @@ The goals outlined by Carlos (my project mentor) and I the beginning of this sum
 
 # Step 1: Support for Different GPU backends
 
-Previously, KomaMRI's support for GPU acceleration worked by converting each array used within the simulation to a `CuArray`, the device array type defined in CUDA.jl. This was done through a general `gpu` function. The inner simulation code is GPU-agnostic, as the same operations can be performed on a CuArray or a plain CPU Array. This approach is good for extensibility, as it does not require writing different simulation code for the CPU / GPU, or different GPU backends, and would only work in a language like Julia based on runtime dispatch!
+Previously, KomaMRI's support for GPU acceleration worked by converting each array used within the simulation to a `CuArray`, the device array type defined in [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl). This was done through a general `gpu` function. The inner simulation code is GPU-agnostic, as the same operations can be performed on a CuArray or a plain CPU Array. This approach is good for extensibility, as it does not require writing different simulation code for the CPU / GPU, or different GPU backends, and would only work in a language like Julia based on runtime dispatch!
 
 To extend this to multiple GPU backends, all that is needed is to generalize the `gpu` function to convert to either the device types of CUDA.jl, AMDGPU.jl, Metal.jl, or oneAPI.jl, depending on which backend is being used. To give an idea of what the gpu conversion code looked like before, here is a snippet:
 
@@ -64,11 +66,11 @@ cpu(x) = fmap(x -> adapt(KomaCPUAdaptor(), x), x)
 
 The `fmap` function is from the package `Functors.jl` and can recursively apply a function to a struct tagged with `@functor`. The function being applied is `adapt` from `Adapt.jl`, which will call the lower-level `adapt_storage` function to actually convert to / from the device type. The second parameter to `adapt` is what is being adapted, and the first is what it is being adapted to, which in this case is a custom adapter struct `KomaCUDAAdapter`. 
 
-One possible approach to generalize to different backends would be to define additional adapter structs for each backend and corresponding `adapt_storage` functions. This is what the popular machine learning library Flux.jl does. However, there is a simpler way!
+One possible approach to generalize to different backends would be to define additional adapter structs for each backend and corresponding `adapt_storage` functions. This is what the popular machine learning library [Flux.jl](https://github.com/FluxML/Flux.jl) does. However, there is a simpler way!
 
 Each backend package (CUDA.jl, Metal.jl, etc.) already defines `adapt_storage` functions for converting different types to / from corresponding device type. Reusing these functions is preferable to defining our own since, not only does it save work, but it allows us to rely on the expertise of the developers who wrote those packages! If there is an issue with types being converted incorrectly that is fixed in one of those packages, then we would not need to update our code to get this fix since we are using the definitions they created.
 
-Our final `gpu` and `cpu` functions are very simple. The `backend` parameter is a type derived from the abstract `Backend` type of `KernelAbstractions.jl`, which is extended by each of the backend packages:
+Our final `gpu` and `cpu` functions are very simple. The `backend` parameter is a type derived from the abstract `Backend` type of [`KernelAbstractions.jl`](https://github.com/JuliaGPU/KernelAbstractions.jl), which is extended by each of the backend packages:
 
 ```julia
 import KernelAbstractions as KA
@@ -86,7 +88,7 @@ The other work needed to generalize our GPU support involved switching to use [p
 
 # Step 2: Buildkite CI
 
-At the time the above pull request was merged, we weren't sure whether the added support for AMD and Intel GPUs actually worked, since we only had access to CUDA and Apple Silicon GPUs. So the next step was to set up a CI to test each GPU backend. To do this, we used Buildkite, which is a CI platform that many other Julia packages also use. Since there were many examples to follow, setting up our testing pipeline was not too difficult. Each step of the pipeline does the required environment setup and then calls `Pkg.test()` for KomaMRICore. As an example, here is what the AMDGPU step of our pipeline looks like:
+At the time the above pull request was merged, we weren't sure whether the added support for AMD and Intel GPUs actually worked, since we only had access to CUDA and Apple Silicon GPUs. So the next step was to set up a CI to test each GPU backend. To do this, we used [Buildkite](https://github.com/JuliaGPU/KernelAbstractions.jl), which is a CI platform that many other Julia packages also use. Since there were many examples to follow, setting up our testing pipeline was not too difficult. Each step of the pipeline does the required environment setup and then calls `Pkg.test()` for KomaMRICore. As an example, here is what the AMDGPU step of our pipeline looks like:
 
 ```{yml}
       - label: "AMDGPU: Run tests on v{{matrix.version}}"
@@ -123,7 +125,7 @@ At the time the above pull request was merged, we weren't sure whether the added
         timeout_in_minutes: 60
 ```
 
-We also decided that in addition to a testing CI, it would also be helpful to have a benchmarking CI to track performance changes resulting from each commit to the main branch of the repository. Lux.jl had a very nice-looking benchmarking page, so I decided to look into their approach. They were using [github-action-benchmark](https://github.com/benchmark-action/github-action-benchmark), a popular benchmarking action that integrates with the Julia package `BenchmarkTools.jl`. github-action-benchmark does two very useful things:
+We also decided that in addition to a testing CI, it would also be helpful to have a benchmarking CI to track performance changes resulting from each commit to the main branch of the repository. [Lux.jl](https://github.com/LuxDL/Lux.jl) had a very nice-looking benchmarking page, so I decided to look into their approach. They were using [github-action-benchmark](https://github.com/benchmark-action/github-action-benchmark), a popular benchmarking action that integrates with the Julia package [`BenchmarkTools.jl`](https://github.com/JuliaCI/BenchmarkTools.jl). github-action-benchmark does two very useful things:
 
 1. Collects benchmarking data into a json file and provides a default index.html to display this data. If put inside a relative path in the gh-pages branch of a repository, this results in a public benchmarking page which is automatically updated after each commit!
 
