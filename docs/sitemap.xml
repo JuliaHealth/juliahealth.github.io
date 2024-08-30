@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/index.html</loc>
-    <lastmod>2024-08-26T17:38:28.656Z</lastmod>
+    <lastmod>2024-08-28T02:38:15.011Z</lastmod>
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/posts/dummy/index.html</loc>
-    <lastmod>2024-08-26T17:52:52.169Z</lastmod>
+    <lastmod>2024-08-28T02:38:15.012Z</lastmod>
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/about.html</loc>
@@ -14,6 +14,10 @@
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</loc>
-    <lastmod>2024-08-26T17:38:28.656Z</lastmod>
+    <lastmod>2024-08-28T02:38:15.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</loc>
+    <lastmod>2024-08-30T22:15:17.314Z</lastmod>
   </url>
 </urlset>

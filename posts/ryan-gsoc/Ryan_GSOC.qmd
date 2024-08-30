@@ -45,7 +45,7 @@ Previously, KomaMRI's support for GPU acceleration worked by converting each arr
 
 To extend this to multiple GPU backends, all that is needed is to generalize the `gpu` function to convert to either the device types of CUDA.jl, AMDGPU.jl, Metal.jl, or oneAPI.jl, depending on which backend is being used. To give an idea of what the gpu conversion code looked like before, here is a snippet:
 
-```{julia}
+```julia
 struct KomaCUDAAdaptor end
 adapt_storage(to::KomaCUDAAdaptor, x) = CUDA.cu(x)
 
@@ -70,7 +70,7 @@ Each backend package (CUDA.jl, Metal.jl, etc.) already defines `adapt_storage` f
 
 Our final `gpu` and `cpu` functions are very simple. The `backend` parameter is a type derived from the abstract `Backend` type of `KernelAbstractions.jl`, which is extended by each of the backend packages:
 
-```{julia}
+```julia
 import KernelAbstractions as KA
 
 function gpu(x, backend::KA.GPU)
@@ -165,7 +165,7 @@ Other things we were able to do to speed up CPU computation time:
 
 3. Ensuring that each statement is fully broadcasted. We were surprised to see the difference between the following examples:
 
-```{Julia}
+```julia
 #Fast
 Bz = x .* seq.Gx' .+ y .* seq.Gy' .+ z .* seq.Gz' .+ p.Δw ./ T(2π .* γ)
 
@@ -199,7 +199,7 @@ A nice thing about MRI simulation is the independent spin property: if a phantom
 
 The following scripts worked, with the only necessary code change to the repository being a new + function to add two RawAcquisitionData structs:
 
-```{julia}
+```julia
 #Use multiple GPUs:
 using Distributed
 using CUDA
@@ -224,7 +224,7 @@ raw = Distributed.@distributed (+) for i=1:nworkers()
 end
 ```
 
-```{julia}
+```julia
 #Use multiple compute nodes
 using Distributed
 using ClusterManagers
