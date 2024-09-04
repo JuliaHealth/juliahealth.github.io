@@ -1,17 +1,84 @@
-# Google Summer of Code 2024 JuliaHealth Fellows !!
+---
+title: "GSoC '24: Developing Tooling for Observational Health Research in Julia"
+project mentor: "Jacob Scott Zelko & Mounika Thakkallapally"
+description: "A brief summary of my project for Google Summer of Code - 2024"
+author: "Jay Sanjay Landge"
+date: "9/5/2024"
+toc: true
+engine: julia
+image: false
+categories:
+  - gsoc
+  - mlj
+  - sql
+  - health-research
+  - data analysis
+---
+
+
+# Hey! Julia Fellows. 👋
+
+# Hi Everyone! 👋
+
+I am Jay Sanjay, currently pursing bachelors degree in Computational Sciences and Engineering at Indian Institute of Technology (IIT) - Hyderabad, India. Coming from a mathematics and data analysis backgroud, I was initially introduced to Julia at my university lecture. Later, I dwewled more into it and same across JuliaHealth community - an intersection of Julia, Health Research, Data Sciences and Informatics. Here, I met some of the great folks in Health Research and Data Informatics, and I decided to take on it in the form of a full fledged summer project. 
+In this blog I will briefly describe about what my project is and what all I did as a part of it.
+
+> If you want to know more about me, you can connect with on [**LinkedIn**](https://www.linkedin.com/in/jay-landge-589439260/) and follow me on [**GitHub**](https://github.com/Jay-sanjay)
 
 
 
-# Jay Sanjay Landge : Developing Tooling for Observational Health Research in Julia 
+# What is observational health research?
 
-## Goal of My Project:
+Observational Health Research refers to studies that analyze real-world data (such as patient medical claims, electronic health records, etc.) to understand patient health. These studies often encompass a vast amount of data concerning patient care. An outstanding challenge here is that these datasets can become very complex and grow large enough to require advanced computing methods to process this information.
 
 
 
-## About me:
+# What is Patient Pathways ?
 
-Sure, here is a revised version:
+Patient pathways refer to the journey that patients with specific medical conditions undergo in terms of their treatment. This concept goes beyond simple drug uptake statistics and looks at the sequence of treatments patients receive over time, including first-line treatments and subsequent therapies. Understanding patient pathways is essential for analyzing treatment patterns, adherence to clinical guidelines, and the rational use of drugs.
+To analyze patient pathways, one would typically use real-world data from sources such as electronic health records, claims data, and registries. However, barriers such as data interoperability and resource requirements have hindered the full utilization of real-world data for this purpose.
 
-Hi, I am Jay, an undergraduate student in Computational Engineering at the Indian Institute of Technology (IIT) Hyderabad, India. My primary research interests lie in Health Informatics and integrating AI into healthcare.
+So to address these challenges we wanna introduce to a set of tool to extract and analyze these patient pathways. These set of tool are based on the Observational Medical Outcomes Partnership (OMOP) common data model, which standardizes health care data to promote interoperability.
 
-## Image:
+
+# Project Description
+As part of this project with JuliaHealth,I developed a new package called [**OMOPCDMPathways.jl**](https://github.com/JuliaHealth/OMOPCDMPathways.jl). This package is designed for deployment in research projects, particularly those related to health and medical data analysis. Additionally, I have authored a developer guide for the package, providing instructions on its use and contribution. This project provided me with hands-on experience in developing production-level code and exposed me to open-source software development practices. I had the opportunity to work in a team, under my mentor, and ensured the integration of the package with the rest of JuliaHealth, facilitating its adoption and usability within the community.
+
+
+# Project Goals
+
+As a part of the development, I was majorly engaged with crafting the following functionalities:
+
+1. Selecting treatments of interest:  The first decision that was made was to decide the time from which the desired treatments of interest should be included in the treatment pathway study. Here the ‘periodPriorToIndex’ specifies the period (i.e. number of days) prior to the index date from which treatments should be included.
+
+2. Find Treatment History of Patients:  Create the treatment history of a patient based on target, event, and exit cohorts. Then filter patient events based on the start and end dates of the target cohort. Third, Calculate the duration of treatment eras and gap between treatments.
+
+3. Filters: Filter the treatment history based on the minEraDuration parameter and EraCollapse parameter.
+
+4. Create Continuous integration and Continuous Development pipeline for the package. 
+
+// Stretch Goals:
+
+(a) Composing with JuliaStats Ecosystem
+(b) Novel Visualizations for Pathways
+
+
+# Work Details
+
+**1. Setting up the package in JuliaHealth Channel**
+
+Initially, there was no package as such for pathways synthesis, so I had to build it from scratch. Firstly, the repository by the name [**OMOPCDMPathways.jl**](https://github.com/JuliaHealth/OMOPCDMPathways.jl). Once the repository was created, we were needed to have a skeleton for an standard Julia repository. For this we used the [PkgTemplate.jl](https://juliaci.github.io/PkgTemplates.jl/stable/user/) this provided a basic skeleton for the repository that included - folders for test suites, documentations, src [code files], GitHub files, Readme and Licensing file, toml and citation files. All this we can further edit and modify as per our work. By default PkgTemplate.jl uses [Documenter.jl](https://documenter.juliadocs.org/stable/) for the documentations part but as suggested and discussed with my mentor we decided to shift to [DocumenterVitepress.jl](https://luxdl.github.io/DocumenterVitepress.jl/dev/) for the documentations part.After we had shifted to DocumenterVitepress the main task now was to host the documentations, this was done using Github-Actions, detailed steps for hosting is provided at [this](https://documenter.juliadocs.org/stable/man/hosting/#Hosting-Documentation) page.Then we added the codecov to our package by trigering it via a dummy function and a corresponding test case for it. Also with the CI for the package was set up with it.And, now finally the repository was ready with test coverage, CI, documentations fully functionaly repository ready.
+
+
+**2. Loading the PostgreSQL Database**
+
+The main database we worked / has build analysis was on the freely avaiable OMOPCDM Database. 
+However, I was provided with some more extra synthetic databse from my mentor for further testing of the functionalities. 
+Being a very large database I had to strategcly download it futher, my mentor helped me in setting up the postgres on my local machine.
+Once, the database was set up proper testing was performed on it to check if things are as expected. And with this we were done with the database set up as well
+and could finally dive into the actual code logic for the Pathways synthesis.
+
+
+**3. Selecting treatments of interest**
+
+So, as a part of this we used the previously mentioned research paper and discussion with the mentors we came up with logic for it.
