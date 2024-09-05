@@ -57,7 +57,7 @@ As a part of the development, I was majorly engaged with crafting the following 
 
 5. Implement the combinationWindow function, that combines treatments with various overlapping strategies.
 
-## Stretch Goals:
+// Stretch Goals:
 
 (a) Composing with JuliaStats Ecosystem
 (b) Novel Visualizations for Pathways
@@ -75,11 +75,11 @@ New documentations using DocumenterVitepress: ![](./img2.png)
 
 **2. Loading the PostgreSQL Database**
 
-The main database we worked on/built analysis was the freely available OMOPCDM Database. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. And with this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.
+The main database we worked on/built analysis was the freely available OMOPCDM Database. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.
 
 **3. Testing and Development setup on my local computer**
  
-To get a proper environment for functionality creation and there concurrent testing we required proper testing setup so that we could test the new functions made at teh same time. This was done using [Revise.jl](https://timholy.github.io/Revise.jl/stable/). My mentor helped me in setting it up, added Revise.jl to the global julia environment and made a julia script by name “startup.jl” and added it to “/home/jay-sanjay/.julia/config/” path in my local computer.
+To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using [Revise.jl](https://timholy.github.io/Revise.jl/stable/). My mentor helped me set it up, added Revise.jl to the global Julia environment and made a Julia script by the name “startup.jl” and added it to “/home/jay-sanjay/.julia/config/” path in my local computer.
 
 Here is the sample for the startup.jl file:
 ```julia
@@ -133,13 +133,13 @@ end
 
 **4. Selecting treatments of interest**
 
-So, as a part of this we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, was also be desirable to include (some) treatments prior to the index date, for instance in case a specific disease diagnosis is only conformed after initiating treatment. Therefore, periodPriorToIndex specifes the period (i.e. number of days) prior to the index date from which treatments should be included. We have created two dispatches for this function.
-After that proper testing and documentations are also added.
+So, as a part of this, we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, it would also be desirable to include (some) treatments prior to the index date, for instance in case a specific disease diagnosis is only confirmed after initiating treatment. Therefore, periodPriorToIndex specifies the period (i.e. number of days) prior to the index date from which treatments should be included. We have created two dispatches for this function.
+After that proper testing and documentation are also added.
 
 A basic implementation for it is:
 (1) Construct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.
-(2) Executes the constructed SQL query using a database connection, fetching the results into a DataFrame.
-(3) If the DataFrame is not empty, converts cohort_start_date to DateTime and subtracts date_prior from each date, then returns the modified DataFrame.
+(2) Executes the constructed SQL query using a database connection, fetching the results into a data frame.
+(3) If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.
 
 This was then be called like this:
 ```julia
@@ -154,8 +154,8 @@ period_prior_to_index(
 
 **5. Filters applied**
 
-After this we where needed to get the patients database filtered more finely so that there is minimal varaitions can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. 
-After that proper testing and documentations are also added.
+After this, we where needed to get the patient's database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. 
+After that proper testing and documentation are also added.
 
 A basic implementation for the minEraDuration is:
 It filters the treatment history `DataFrame` to retain only those rows where the duration between `drug_exposure_end` and `drug_exposure_start` is at least `minEraDuration`.
@@ -175,8 +175,8 @@ julia> calculate_era_duration(test_df, 920000)
 
 
 Another filter we worked on is the EraCollapse. So, let's suppose a case where an individual receives the same treatment for a long period
-of time (e.g. need of chronic treatment). Then it's highky likely that the person woluld require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode and the eraCollapseSize denes the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e. seen as continuous treatment instead of a stop and re-initiation of the same treatment).
-After that proper testing and documentations are also added.
+of time (e.g. need for chronic treatment). Then it's highly likely that the person would require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode, and the eraCollapseSize deals with the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e. seen as a continuous treatment instead of a stop and re-initiation of the same treatment).
+After that proper testing and documentation are also added.
 
 A basic implementation for the eraCollapseSize is:
 (a) Sorts the dataframe by event_start_date and event_end_date.
@@ -267,28 +267,28 @@ Throughout the project, I regularly met with my mentor, [Jacob Zelko], and co-me
 
 **2. Personal Documentation**
 
-In addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on [Medium](https://medium.com/@landgejay124/gsoc-24-the-julia-language-62b809bbec49) to share my journey and experiences with the Julia Language community.
+In addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including the challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on [Medium](https://medium.com/@landgejay124/gsoc-24-the-julia-language-62b809bbec49) to share my journey and experiences with the Julia Language community.
 
 
 
 # Conclusions and Future Development
 
-This project was a 350-hour large project, since there were many goals to accomplish. Here is what all we accomplished:
+This project was a 350-hour large project since there were many goals to accomplish. Here is what we accomplished:
 
-1. Built a new repository in JuliaHealth land dedicated specially to Treatments Pathways synthesis.
+1. Built a new repository in JuliaHealth land dedicated especially to treatment pathways synthesis.
 
 2. CI/CD for the Package and Documentation hosting.
 
-3. All required basic functionalities required to built the pathways.
+3. All required basic functionalities required to build the pathways.
 
-4. Documentations and Test-suites added for each.
+4. Documentations and test suites added for each.
 
-Future work would include - Finish this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63) test-suites and documentations are remaining for this PR. Apart from that we would need to add a function that swees up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of runnning each of the function manually. Also, in future we would explore what statistical functionalities we would need to further explore pathways. Then, we could explore how to compose JuliaHealth with packages from ecosystems like [JuliaStats](https://juliastats.org/) and [JuliaDSP](https://docs.juliadsp.org/stable/contents/) (for time series analysis) that is mentioned in this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8)
-
+Future work would include - Finish this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63) test-suites and documentation are remaining for this PR. Apart from that, we would need to add a function that sews up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of running each of the functions manually. Also, in the future, we would explore what statistical functionalities we would need to further explore pathways. Then, we could explore how to compose JuliaHealth with packages from ecosystems like [JuliaStats](https://juliastats.org/) and [JuliaDSP](https://docs.juliadsp.org/stable/contents/) (for time series analysis) that is mentioned in this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8)
 
 # Acknowledgements 🙇‍♂️
 
 1. Jacob Zelko: aka, ”TheCedarPrince”
 2. Mounika Thakkallapally
+
 
 For there continuous help and support throughout the fellowship.
