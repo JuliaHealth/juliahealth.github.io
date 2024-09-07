@@ -78,6 +78,6 @@ format:
     code-line-numbers: true
     include-in-header: 
       - text: |-
-          <script data-goatcounter="https://[unique_code].goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+          <script data-goatcounter="https://juliahealthblog.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 jupyter: julia-1.10
