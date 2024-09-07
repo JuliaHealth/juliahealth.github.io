@@ -57,7 +57,7 @@ As a part of the development, I was majorly engaged with crafting the following 
 
 5. Implement the combinationWindow function, that combines treatments with various overlapping strategies.
 
-// Stretch Goals:
+**Stretch Goals:**
 
 (a) Composing with JuliaStats Ecosystem
 (b) Novel Visualizations for Pathways
@@ -67,40 +67,27 @@ As a part of the development, I was majorly engaged with crafting the following 
 
 **1. Setting up the package in JuliaHealth Channel**
 
-Initially, there was no package as such for pathways synthesis, so I had to build it from scratch. Firstly, the repository by the name [OMOPCDMPathways.jl](https://github.com/JuliaHealth/OMOPCDMPathways.jl). Once the repository was created, we needed to have a skeleton for a standard Julia repository. For this, we used the [PkgTemplate.jl](https://juliaci.github.io/PkgTemplates.jl/stable/user/) this provided a basic skeleton for the repository that included - folders for test suites, documentation, src [code files], GitHub files, Readme and Licensing file, toml and citation files. All this we can further edit and modify as per our work. By default, PkgTemplate.jl uses [Documenter.jl](https://documenter.juliadocs.org/stable/) for the documentation part but as suggested and discussed with my mentor we decided to shift to [DocumenterVitepress.jl](https://luxdl.github.io/DocumenterVitepress.jl/dev/) for the documentation part. However, we still faced some deployment issues in the new documentation thanks to Anshul for helping fix the [Deployment issues with DocumenterVitepress](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/15). With this, we were ready with the documentation set up and fully functional. After we had shifted to DocumenterVitepress the main task now was to host the documentation, this was done using Github-Actions, detailed steps for hosting are provided at [this](https://documenter.juliadocs.org/stable/man/hosting/#Hosting-Documentation) page. Then we added the codecov to our package by triggering it via a dummy function and a corresponding test case for it. Also, the CI for the package was set up with it. And, now finally the repository was ready with test coverage, CI, and documentation fully functional repository ready.
+Initially, there was no package as such for pathways synthesis, so I had to build it from scratch. Firstly, the repository by the name [OMOPCDMPathways.jl](https://github.com/JuliaHealth/OMOPCDMPathways.jl). Once the repository was created, we needed to have a skeleton for a standard Julia repository. For this, we used the [PkgTemplate.jl](https://juliaci.github.io/PkgTemplates.jl/stable/user/) this provided a basic skeleton for the repository that included - folders for test suites, documentation, src [code files], GitHub files, Readme and Licensing file, toml and citation files. All this we can further edit and modify as per our work. By default, PkgTemplate.jl uses [Documenter.jl](https://documenter.juliadocs.org/stable/) for the documentation part but as suggested and discussed with my mentor we decided to shift to [DocumenterVitepress.jl](https://luxdl.github.io/DocumenterVitepress.jl/dev/) for the documentation part. However, we still faced some deployment issues in the new documentation due to a few mistakes in the `make.jl` file, thanks to [Anshul](https://github.com/asinghvi17) for helping fix the [Deployment issues with DocumenterVitepress](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/15). With this, we were ready with the documentation set up and fully functional. After we had shifted to DocumenterVitepress the main task now was to host the documentation, this was done using Github-Actions, detailed steps for hosting are provided at [this](https://documenter.juliadocs.org/stable/man/hosting/#Hosting-Documentation) page. Then we added the codecov to our package by triggering it via a dummy function and a corresponding test case for it. Also, the CI for the package was set up with it. And, now finally the repository was ready with test coverage, CI, and documentation fully functional repository ready.
 Initial documentations: ![](./image.png)
 New documentations using DocumenterVitepress: ![](./img2.png)
-
+So, as a part of it I created a this [documentations](https://luxdl.github.io/DocumenterVitepress.jl/dev/documenter_to_vitepress_docs_example) which provides detailed steps for converting docs from Documenter to DocumenterVitepress.
 
 
 **2. Loading the PostgreSQL Database**
 
-The main database we worked on/built analysis was the freely available OMOPCDM Database. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.
+The main database we worked on/built analysis was the freely available OMOPCDM Database. The Database was PostgreSQL [here](https://www.devart.com/dbforge/postgresql/how-to-install-postgresql-on-linux/) are some instructions on how to set up Postgres in a linux machine. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.
 
 **3. Testing and Development setup on my local computer**
  
-To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using [Revise.jl](https://timholy.github.io/Revise.jl/stable/). My mentor helped me set it up, added Revise.jl to the global Julia environment and made a Julia script by the name “startup.jl” and added it to “/home/jay-sanjay/.julia/config/” path in my local computer.
+To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using [Revise.jl](https://timholy.github.io/Revise.jl/stable/), which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also PackageCompatUI that provides a terminal text interface to the [compat] section of a Julia Project.toml file, finally made a Julia script by the name “startup.jl” out of it. This script was then added it to “/home/jay-sanjay/.julia/config/” path in my local computer. 
 
 Here is the sample for the startup.jl file:
 ```julia
 
-using BenchmarkTools
-using OhMyREPL
 using PackageCompatUI
-using Pkg
 using PkgTemplates
 using Revise
-using REPL
 
-###################################
-# GENERAL CONFIGURATION
-###################################
-ENV["JULIA_EDITOR"] = "nvim"
-
-###################################
-# Revise.jl
-###################################
-enable_autocomplete_brackets(false)
 
 ###################################
 # HELPER FUNCTIONS
@@ -138,8 +125,15 @@ After that proper testing and documentation are also added.
 
 A basic implementation for it is:
 (1) Construct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.
-(2) Executes the constructed SQL query using a database connection, fetching the results into a data frame.
-(3) If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.
+(2) The SQL query construction and execution was done using the [FunSQL.jl](https://mechanicalrabbit.github.io/FunSQL.jl/stable/) library, in the below shown manner:
+```julia
+sql = From(tab) |>
+            Where(Fun.in(Get.cohort_definition_id, cohort_id...)) |>
+            Select(Get.cohort_definition_id, Get.subject_id, Get.cohort_start_date) |>
+            q -> render(q, dialect=dialect)
+```
+(3) Executes the constructed SQL query using a database connection, fetching the results into a data frame.
+(4) If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.
 
 This was then be called like this:
 ```julia
@@ -154,7 +148,8 @@ period_prior_to_index(
 
 **5. Filters applied**
 
-After this, we where needed to get the patient's database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. 
+After this, we where needed to get the patient's database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. All these implementations were more of Dataframe manipulation were I used [DataFrames.jl](https://dataframes.juliadata.org/stable/) package.
+
 After that proper testing and documentation are also added.
 
 A basic implementation for the minEraDuration is:
@@ -255,10 +250,6 @@ Here is the pictorial representation for the same:
 
 > *Note:* However, There are a few things left to cover here, most of which is the documentations and writing the test-suite for the same.
 
-Here's a refined version of what you wrote:
-
----
-
 # Contributions Beyond Coding
 
 **1. Organizing Meetings and Communication**
@@ -268,6 +259,10 @@ Throughout the project, I regularly met with my mentor, [Jacob Zelko], and co-me
 **2. Personal Documentation**
 
 In addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including the challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on [Medium](https://medium.com/@landgejay124/gsoc-24-the-julia-language-62b809bbec49) to share my journey and experiences with the Julia Language community.
+
+**3. Contributions to the rest of the JuliaHealth repositories**
+
+Earlier I have contributed a lot to the [OMOPCDMCohortCreator.jl](https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl) including adding new functionalities writing test suites, adding blogs including - [Patient Pathways within JuliaHealth](https://github.com/JuliaHealth/juliahealth.github.io/pull/124). Apart from that I also initiated 3 new releases of this package.
 
 
 
