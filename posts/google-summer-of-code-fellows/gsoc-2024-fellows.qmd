@@ -278,7 +278,7 @@ This project was a 350-hour large project since there were many goals to accompl
 
 4. Documentations and test suites added for each.
 
-Future work would include - Finish this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63) test-suites and documentation are remaining for this PR. Apart from that, we would need to add a [function](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/9) that sews up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of running each of the functions manually. Also, in the future, we would explore what statistical functionalities we would need to further explore pathways. Then, we could explore how to compose JuliaHealth with packages from ecosystems like [JuliaStats](https://juliastats.org/) and [JuliaDSP](https://docs.juliadsp.org/stable/contents/) (for time series analysis) that is mentioned in this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8)
+Future work would include - Finish this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63) test-suites and documentation are remaining for this PR. Apart from that, we would need to add a [function](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/9) that sews up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of running each of the functions manually. Also, in the future, we would explore what statistical functionalities we would need to further explore pathways. Then, we could explore how to compose JuliaHealth with packages from ecosystems like [JuliaStats](https://juliastats.org/) and [JuliaDSP](https://docs.juliadsp.org/stable/contents/) (for time series analysis) that is mentioned in this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8). And finally work on creating novel visualizations for the Pathways. Commonly used visualizations for treatment pathways (such as sunburst or icicle plots) showing which patients fall under what treatment pathways could be developed as plotting recipes to rapidly visualize various aspects of a patient’s care pathway.
 
 # Acknowledgements 🙇‍♂️
 
@@ -287,3 +287,6 @@ Future work would include - Finish this [PR](https://github.com/JuliaHealth/OMOP
 
 
 For there continuous help and support throughout the fellowship.
+
+
+
