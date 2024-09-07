@@ -1,31 +1,10 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this blog\n\n\n Back to top"
-  },
-  {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "",
     "section": "",
-    "text": "Code\n\n\n\n\n\nWelcome to the JuliaHealthBlog! 👋\n\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n\n\n\n\n\n\n\n\n\n\nDummy Post\n\n\n\n\n\nPost description\n\n\n\n\n\nJun 22, 2024\n\n\nFoobar\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
-    "section": "",
-    "text": "This is a post with executable code."
+    "text": "Code\n\n\n\n\n\nWelcome to the JuliaHealthBlog! 👋\n\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Developing Tooling for Observational Health Research in Julia\n\n\n\n\n\nA summary of my project for Google Summer of Code - 2024\n\n\n\n\n\nSep 7, 2024\n\n\nJay Sanjay Landge\n\n\n19 min\n\n\n\n\n\n\n\n\n\n\n\n\nDummy Post\n\n\n\n\n\nPost description\n\n\n\n\n\nJun 22, 2024\n\n\nFoobar\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "posts/dummy/index.html",
@@ -33,5 +12,103 @@
     "title": "Dummy Post",
     "section": "",
     "text": "Seciton 1\nSmall dummy blog post\n\n\nCode\n2 + 2\n\n\n4\n\n\n\n\nCode\nprintln(2 + 2)\n\n\n4\n\n\n\n\nSection 2\n\n\nSection 3\n\n\n\n\n\n\n Back to topCitationBibTeX citation:@online{2024,\n  author = {, Foobar},\n  title = {Dummy {Post}},\n  date = {2024-06-22},\n  url = {https://juliahealth.org/JuliaHealthBlog/posts/dummy/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nFoobar. 2024. “Dummy Post.” June 22, 2024. https://juliahealth.org/JuliaHealthBlog/posts/dummy/."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "",
+    "text": "I am Jay Sanjay, and I am pursuing a Bachelor’s degree in Computational Sciences and Engineering at the Indian Institute of Technology (IIT) in Hyderabad, India. Coming from a mathematics and data analysis background, I was initially introduced to Julia at my university lectures. Later, I delved more into the language and the JuliaHealth community - an intersection of Julia, Health Research, Data Sciences, and Informatics. Here, I met some of the great folks in JuliaHealth and I decided to take it on as a full-fledged summer project. In this blog, I will briefly describe what my project is and what I did as a part of it.\n\nIf you want to know more about me, you can connect with me on LinkedIn and follow me on GitHub"
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#what-is-observational-health-research",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#what-is-observational-health-research",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "What Is Observational Health Research?",
+    "text": "What Is Observational Health Research?\nObservational Health Research refers to studies that analyze real-world data (such as patient medical claims, electronic health records, etc.) to understand patient health. These studies often encompass a vast amount of data concerning patient care. An outstanding challenge here is that these datasets can become very complex and grow large enough to require advanced computing methods to process this information."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#what-are-patient-pathways",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#what-are-patient-pathways",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "What Are Patient Pathways?",
+    "text": "What Are Patient Pathways?\nPatient pathways refer to the journey that patients with specific medical conditions undergo in terms of their treatment. This concept goes beyond simple drug uptake statistics and looks at the sequence of treatments patients receive over time, including first-line treatments and subsequent therapies. Understanding patient pathways is essential for analyzing treatment patterns, adherence to clinical guidelines, and the disbursement of drugs. To analyze patient pathways, one would typically use real-world data from sources such as electronic health records, claims data, and registries. However, barriers such as data interoperability and resource requirements have hindered the full utilization of real-world data for this purpose.\nSo to address these challenges we (the JuliaHealth organization and I) want to develop a set of tools to extract and analyze these patient pathways. These sets of tools are based on the Observational Medical Outcomes Partnership (OMOP) Common Data Model, which standardizes healthcare data to promote interoperability."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#setting-up-the-package-in-juliahealth-channel",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#setting-up-the-package-in-juliahealth-channel",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "1. Setting Up the Package in JuliaHealth Channel",
+    "text": "1. Setting Up the Package in JuliaHealth Channel\nInitially, there was no package as such for generating pathways, so I had to build it from scratch. First, I created the repository with the name OMOPCDMPathways.jl. Once the repository was created, we needed to have a skeleton for a standard Julia repository. For this, we used the PkgTemplates.jl this provided a basic skeleton for the repository that included - folders for test suites, documentation, src code files, GitHub files, README and LICENSE file, TOML and citation files. All this we can further edit and modify as per our work. By default, PkgTemplate.jl uses Documenter.jl for the documentation part but as suggested and discussed with my mentor we decided to shift to DocumenterVitepress.jl for the documentation part. However, we still faced some deployment issues in the new documentation due to a few mistakes in the make.jl file, thanks to Anshul Singhvi for helping fix the Deployment issues with DocumenterVitepress. With this, we were ready with the documentation set up and fully functional. After we had shifted to DocumenterVitepress the main task now was to host the documentation, this was done using Github-Actions, detailed steps for hosting are provided at this page. Then we added the CodeCov to our package by triggering it via a dummy function and a corresponding test case for it. Also, the CI for the package was set up with it. And, now finally the repository was ready with test coverage, CI, and documentation fully functional repository ready. Here’s some snapshots of the documentation set-up:\n\n\nInitial documentation with Documenter.jl\n\n\n\nNew documentation using DocumenterVitepress.jl\n\nSo, as a part of it, I created this documentation which provides detailed steps for converting docs from Documenter to DocumenterVitepress."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#loading-the-postgresql-database",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#loading-the-postgresql-database",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "2. Loading the PostgreSQL Database",
+    "text": "2. Loading the PostgreSQL Database\nThe main database we worked on/built analysis was the freely available OMOPCDM Database. The Database was formatted within a PostgreSQL database with installation instructions here are some instructions on how to set up Postgres in a Linux machine. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#testing-and-development-setup-on-my-local-computer",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#testing-and-development-setup-on-my-local-computer",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "3. Testing and Development setup on my local computer",
+    "text": "3. Testing and Development setup on my local computer\nTo get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using Revise.jl, which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also PackageCompatUI that provides a terminal text interface to the [compat] section of a Julia Project.toml file, and finally made a Julia script by the name “startup.jl” out of it. This script was then added to /home/jay-sanjay/.julia/config/ path in my local computer.\nHere is the sample for the startup.jl file:\nusing PackageCompatUI\nusing PkgTemplates\nusing Revise\n\n###################################\n# HELPER FUNCTIONS\n###################################\nfunction template()\n    Template(;\n        user=\"jay-sanjay\",\n        dir=\"~/FOSS\",\n        authors=\"jaysanjay &lt;jaysanjay@gmail.com&gt; and contributors\",\n        julia=v\"1.6\",\n        plugins=[\n            ProjectFile(; version=v\"0.0.1\"),\n            Git(),\n            Readme(),\n            License(; name=\"MIT\"),\n            GitHubActions(; extra_versions=[\"1.6\", \"1\", \"nightly\"]),\n            TagBot(),\n            Codecov(),\n            Documenter{GitHubActions}(),\n            Citation(; readme = true),\n            RegisterAction(),\n            BlueStyleBadge(),\n            Formatter(;style = \"blue\")\n        ],\n    )\nend"
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#selecting-treatments-of-interest",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#selecting-treatments-of-interest",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "4. Selecting Treatments of Interest",
+    "text": "4. Selecting Treatments of Interest\nSo, as a part of this, we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, it would also be desirable to include (some) treatments before the index date, for instance in case a specific disease diagnosis is only confirmed after initiating treatment. Therefore, periodPriorToIndex specifies the period (i.e. number of days) before the index date from which treatments should be included. We have created two dispatches for this function. After that proper testing and documentation are also added.\nA basic implementation for it is:\n\nConstruct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.\nThe SQL query construction and execution was done using the FunSQL.jl library, in the below-shown manner:\n\nsql = From(tab) |&gt;\n            Where(Fun.in(Get.cohort_definition_id, cohort_id...)) |&gt;\n            Select(Get.cohort_definition_id, Get.subject_id, Get.cohort_start_date) |&gt;\n            q -&gt; render(q, dialect=dialect)\n\nExecutes the constructed SQL query using a database connection, fetching the results into a data frame.\nIf the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.\n\nThis was then be called this:\nperiod_prior_to_index(\n        cohort_id = [1, 1, 1, 1, 1], \n        conn; \n        date_prior = Day(100), \n        tab=cohort\n    )"
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#filters-applied",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#filters-applied",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "5. Filters Applied",
+    "text": "5. Filters Applied\nAfter this, we where needed to get the patient’s database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. All these implementations were more of Dataframe manipulation where I used DataFrames.jl package.\nAfter that proper testing and documentation are also added.\nA basic implementation for the minEraDuration is: It filters the treatment history DataFrame to retain only those rows where the duration between drug_exposure_end and drug_exposure_start is at least minEraDuration. This function can be used as follows:\n#| eval: false \n\ncalculate_era_duration(test_df, 920000)\n\n#= ... =#\n\n4×3 DataFrame\n Row │ person_id  drug_exposure_start  drug_exposure_end \n     │ Int64      Float64              Int64             \n─────┼───────────────────────────────────────────────────\n   1 │         1           -3.7273e8          -364953600\n   2 │         1            2.90304e7           31449600\n   3 │         1           -8.18208e7          -80006400\n   4 │         1            1.32918e9         1330387200\nAnother filter we worked on is the EraCollapse. So, let’s suppose a case where an individual receives the same treatment for a long period of time (e.g. need for chronic treatment). Then it’s highly likely that the person would require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode, and the eraCollapseSize deals with the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e. seen as a continuous treatment instead of a stop and re-initiation of the same treatment). After that proper testing and documentation are also added.\nA basic implementation for the eraCollapseSize is: (a) Sorts the data frame by event_start_date and event_end_date. (b) Calculates the gap between each era and the previous era. (c) Filters out rows with gap_same &gt; eraCollapseSize.\nThese functions can be used as follows:\n#| eval: false \n\n#= ... =#\n\nEraCollapse(treatment_history = test_df, eraCollapseSize = 400000000)\n4×4 DataFrame\n Row │ person_id  drug_exposure_start  drug_exposure_end  gap_same   \n     │ Int64      Float64              Int64              Float64    \n─────┼───────────────────────────────────────────────────────────────\n   1 │         1           -5.33347e8         -532483200  -1.86373e9\n   2 │         1           -3.7273e8          -364953600   1.59754e8\n   3 │         1           -8.18208e7          -80006400   2.83133e8\n   4 │         1            2.90304e7           31449600   1.09037e8"
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#treatment-history-of-the-patients",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#treatment-history-of-the-patients",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "6. Treatment History of the Patients",
+    "text": "6. Treatment History of the Patients\nThe create_treatment_history function constructs a detailed treatment history for patients in a target cohort by processing and filtering event cohort data from a given DataFrame. It begins by isolating the target cohort based on its cohort_id, adding a new column for the index_year derived from the cohort’s start date. Then, it selects relevant event cohorts based on a provided list of cohort IDs and merges them with the target cohort on the subject_id to associate events with individuals in the target group. The function applies different filtering criteria depending on whether the user is interested in treatments starting or ending within a specified period before the target cohort’s start date (defined by periodPriorToIndex). It keeps only the event cohorts that match the filtering condition, ensuring that only relevant treatments are considered. After filtering, the function calculates time gaps between consecutive cohort events for each patient, adding these gaps to the DataFrame. The final DataFrame provides a history of treatments, including the dates of events and the time intervals between them, offering a clear timeline of treatment for each patient. After that proper testing and documentation are also added."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#combinationwindow-functionality-to-combine-overlapping-treatments",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#combinationwindow-functionality-to-combine-overlapping-treatments",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "7. CombinationWindow Functionality To Combine Overlapping Treatments",
+    "text": "7. CombinationWindow Functionality To Combine Overlapping Treatments\nNow once we have the filtering of the treatments done, we need to combine the overlapping treatments based on some set of rules. The combinationWindow specifies the time that two event eras need to overlap to be considered a combination treatment. If there are more than two overlapping event eras, we sequentially combine treatments, starting from the ﬁrst two overlapping event eras.\nThe combination_Window function processes a patient’s treatment history by identifying overlapping treatment events and combining them into continuous treatment periods based on certain rules. It first converts event_cohort_id into strings and sorts the treatment data by person_id, event_start_date, and event_end_date. The helper function selectRowsCombinationWindow calculates gaps between consecutive treatments, marking rows where treatments overlap or occur too closely. In the main loop, the function checks these overlaps and gaps against a specified combinationWindow. If treatments overlap (or nearly overlap), the function adjusts the treatment periods by either merging adjacent rows or splitting rows to create continuous treatment periods. The process continues until all overlapping treatments are combined into one, creating an updated and accurate treatment history. The function ensures the final output reflects realistic treatment windows by handling special cases where gaps between treatments are smaller than the treatment durations themselves.\nIt mainly covers the three cases mentioned in the R-research paper:\n\nSwitch Case:\nCondition: If the gap between the two treatment events is smaller than the combinationWindow, but the gap is not equal to the duration of either event. Action: The event_end_date of the previous treatment is set to the event_start_date of the current treatment. This effectively “shifts” the previous treatment’s end date to eliminate the gap, merging the treatments into one continuous period. Purpose: This ensures that treatment gaps that are too small (less than combinationWindow) are treated as part of the same treatment window.\n#| eval: false \n\n#= ... =#\n\nif -gap_previous &lt; combinationWindow && !(-gap_previous in [duration_era, prev_duration_era])\n    treatment_history[i-1, :event_end_date] = treatment_history[i, :event_start_date]\nHere is the pictorial representation for the same: \n\n\nFRFS (First Row, First Shortened):\nCondition: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the two treatments, and the first treatment ends before or on the same date as the second treatment. Action: A new row is created where the second treatment’s event_end_date is set to the end date of the first treatment. This preserves the overlap but ensures that the earlier treatment period stays intact. Purpose: This prevents unnecessary truncation of the first treatment if it spans the entire overlap window.\n#| eval: false \n\n#= ... =#\n\nelseif -gap_previous &gt;= combinationWindow || -gap_previous in [duration_era, prev_duration_era]\n    if treatment_history[i-1, :event_end_date] &lt;= treatment_history[i, :event_end_date]\n        new_row = deepcopy(treatment_history[i, :])\n        new_row.event_end_date = treatment_history[i-1, :event_end_date]\n        append!(treatment_history, DataFrame(new_row'))\nHere is the pictorial representation for the same: \n\n\nLRFS (Last Row, First Shortened):\nCondition: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the treatments, and the first treatment ends after the second treatment. Action: The current treatment’s event_end_date is adjusted to match the event_end_date of the previous treatment. Purpose: This handles cases where the second treatment’s window should be shortened to prevent overlap with the previous treatment, merging them into a single continuous window.\n#| eval: false \n\n#= ... =#\n\nelse\n    treatment_history[i, :event_end_date] = treatment_history[i-1, :event_end_date]\nHere is the pictorial representation for the same: \n\nNote: However, There are a few things left to cover here, most of which are the documentation and writing the test suite for the same."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#organizing-meetings-and-communication",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#organizing-meetings-and-communication",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "1. Organizing Meetings and Communication",
+    "text": "1. Organizing Meetings and Communication\nThroughout the project, I regularly met with my mentor, [Jacob Zelko], and co-mentor, [Mounika], via weekly Zoom calls to discuss progress and seek guidance. During these meetings, we reviewed my work, identified areas where I needed help, and set clear goals for the upcoming weeks. We used Trello to organize and track these goals, ensuring that nothing was overlooked. My mentors provided detailed insights into specific technical aspects and guided me through the logic behind various functions. Outside of our scheduled meetings, they were always available for quick queries via Slack, ensuring constant support."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#personal-documentation",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#personal-documentation",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "2. Personal Documentation",
+    "text": "2. Personal Documentation\nIn addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including the challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on Medium to share my journey and experiences with the Julia Language community."
+  },
+  {
+    "objectID": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#contributions-to-the-rest-of-the-juliahealth-repositories",
+    "href": "posts/google-summer-of-code-fellows/gsoc-2024-fellows.html#contributions-to-the-rest-of-the-juliahealth-repositories",
+    "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
+    "section": "3. Contributions To the Rest of the JuliaHealth Repositories",
+    "text": "3. Contributions To the Rest of the JuliaHealth Repositories\nEarlier I have contributed a lot to the OMOPCDMCohortCreator.jl including adding new functionalities writing test suites, adding blogs including - Patient Pathways within JuliaHealth. Apart from that I also initiated 3 new releases of this package."
   }
 ]
