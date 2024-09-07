@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/index.html</loc>
-    <lastmod>2024-08-26T17:38:28.656Z</lastmod>
+    <lastmod>2024-09-07T18:30:55.130Z</lastmod>
   </url>
   <url>
-    <loc>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</loc>
-    <lastmod>2024-08-26T17:38:28.656Z</lastmod>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</loc>
+    <lastmod>2024-09-07T18:30:55.137Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/dummy/index.html</loc>
+    <lastmod>2024-09-07T18:30:55.130Z</lastmod>
   </url>
   <url>
     <loc>https://juliahealth.org/JuliaHealthBlog/about.html</loc>
     <lastmod>2024-08-26T02:57:07.220Z</lastmod>
   </url>
   <url>
-    <loc>https://juliahealth.org/JuliaHealthBlog/posts/dummy/index.html</loc>
-    <lastmod>2024-08-29T17:00:51.782Z</lastmod>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</loc>
+    <lastmod>2024-09-07T18:30:55.130Z</lastmod>
   </url>
   <url>
-    <loc>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</loc>
-    <lastmod>2024-08-30T23:54:54.671Z</lastmod>
+    <loc>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</loc>
+    <lastmod>2024-09-07T18:21:22.849Z</lastmod>
   </url>
 </urlset>
