@@ -12,3 +12,7 @@ about:
 ---
 
 About this blog
+
+Can I Trust My Privacy? 🔒
+
+**Yes!** We use [GoatCounter](https://www.goatcounter.com/) which is an open-source web analytics platform. It has a very strong privacy policy that forbids tracking users.

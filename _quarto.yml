@@ -57,6 +57,8 @@ website:
             text: Julia Discourse
             href: https://discourse.julialang.org/
       - text: "Join JuliaHealth"
+      - text: "About"
+        href: about.qmd
       
     right:
       - icon: github
