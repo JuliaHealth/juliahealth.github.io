@@ -5,11 +5,10 @@ project:
 website:
   favicon: profile.png
   margin-header: | 
-    **Navigation & Tips:** 
+    **Navigation:** 
 
-    - Press **?** for search
+    - Press "?" for search
 
-    - **"</> Code"** for code nav 
   open-graph: 
     locale: en_EN
     site-name: The JuliaHealth Blog
