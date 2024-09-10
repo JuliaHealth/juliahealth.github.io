@@ -7,6 +7,13 @@
     "text": "Yes! We use GoatCounter which is an open-source web analytics platform. It has a very strong privacy policy that forbids tracking users."
   },
   {
+    "objectID": "about.html#can-i-trust-my-privacy",
+    "href": "about.html#can-i-trust-my-privacy",
+    "title": "About the JuliaHealth Blog",
+    "section": "",
+    "text": "Yes! We use GoatCounter which is an open-source web analytics platform. It has a very strong privacy policy that forbids tracking users."
+  },
+  {
     "objectID": "posts/jay-gsoc/gsoc-2024-fellows.html",
     "href": "posts/jay-gsoc/gsoc-2024-fellows.html",
     "title": "GSoC ’24: Developing Tooling for Observational Health Research in Julia",
@@ -124,12 +131,5 @@
     "title": "",
     "section": "",
     "text": "Code\n\n\n\n\n\nWelcome to the JuliaHealthBlog! 👋\n\n\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Developing Tooling for Observational Health Research in Julia\n\n\n\n\n\nA summary of my project for Google Summer of Code - 2024\n\n\n\n\n\nSep 7, 2024\n\n\nJay Sanjay Landge\n\n\n19 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Enhancements to KomaMRI.jl GPU Support\n\n\n\n\n\nA summary of my project for Google Summer of Code\n\n\n\n\n\nAug 30, 2024\n\n\nRyan Kierulf\n\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: IPUMS.jl Small Project\n\n\n\n\n\nA summary of my project for Google Summer of Code\n\n\n\n\n\nAug 26, 2024\n\n\nMichela Rocchetti\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nDummy Post\n\n\n\n\n\nPost description\n\n\n\n\n\nJun 22, 2024\n\n\nFoobar\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "about.html#can-i-trust-my-privacy",
-    "href": "about.html#can-i-trust-my-privacy",
-    "title": "About the JuliaHealth Blog",
-    "section": "",
-    "text": "Yes! We use GoatCounter which is an open-source web analytics platform. It has a very strong privacy policy that forbids tracking users."
   }
 ]
