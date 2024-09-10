@@ -5,7 +5,7 @@ project:
 website:
   favicon: profile.png
   margin-header: | 
-    **Navigation:** 
+    Navigation:
 
     - Press "?" for search
 
