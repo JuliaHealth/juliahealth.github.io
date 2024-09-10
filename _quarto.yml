@@ -44,7 +44,9 @@ website:
       - text: "Posts"
         href: index.qmd
       - text: "Write with Us"
-      - text: "Chat with Us"
+      - text: "About"
+        href: about.qmd
+      - text: "Join JuliaHealth"
         menu:
           - icon: slack
             text: Slack (#health-and-medicine)
@@ -55,7 +57,6 @@ website:
           - icon: pencil-square
             text: Julia Discourse
             href: https://discourse.julialang.org/
-      - text: "Join JuliaHealth"
       
     right:
       - icon: github
