@@ -1,0 +1,51 @@
+---
+title: "GSOC Co-Mentoring Experience"
+description: "Post description"
+author: "Mounika Thakkallapally"
+date: "9/12/2024"
+toc: true
+engine: julia
+categories:
+  - Experience as a GSOC co-mentor
+---
+
+# Introduction
+
+Hello 👋, I am Mounika. I am a Data Engineer at Brown Center for Biomedical Informatics (BCBI). This summer, I had the privilege of co-mentoring a talented student, [Jay Sanjay](https://github.com/Jay-sanjay) alongside [Jacob Zelko (@TheCedarPrince)](https://jacobzelko.com) on a project for Google Summer of Code [GSOC](https://summerofcode.withgoogle.com/). Here, I would like to share my experience as a co-mentor, offering insights for future mentors and students alike. 
+
+Before diving into my experince, let me provide some background on how it all started. At the JuliaCon 2023 I had the chance to meet Jacob Zelko and have been following his work on Julia Health ever since. One day, I recived a message from Jacob asking if I'd be interested in co-mentoring Jay for his GSoC project. Fortunatly, I was already working on several projects at BCBI involving Julia programming, OMOP databases and OHDSI tools, all of which were closely aligned with Jay's project.
+
+# Mentor mentee relationship
+
+Jay, being a proactive student with a strong involvement in JuliaHealth, worked closely with Jacob to build a proposal for the project several months before GSoC began this year. His early involvement and familiarity with the community set a solid foundation for the project. Jacob, with his extensive experience mentoring GSoC students over the years, brought invaluable insights not only for Jay but also for me, as I was just beginning my journey as a mentor.
+
+Jacob established regular weekly Zoom meetings for three of us to discuss Jay's progress, review his accomplishments, and plan the next steps. During these meetings, I focused on taking detailed notes to ensure we stayed organized and up to date with all the tasks. We used [Trello](https://trello.com/), a project management tool, to track progress and manage project tasks efficiently. Additionally, we stayed connected thoughout the week via a dedicated slack channel for any ongoing discussions or questions.
+
+
+# technical Discussion 
+
+Jay's project "Developing Tooling for Observational Health Research in Julia" was inspired by the [TreatmentPatterns R package](https://www.sciencedirect.com/science/article/pii/S016926072200462X?via%3Dihub). The main goal of the project was to enhance observational research capabilities within the JuliaHealth ecosystem. To help Jay get started, Jacob created 10 to 15 GitHub issues, each linked to a specific function that Jay planned to work on.
+
+During our weekly meeting, we discussed the challenges Jay encountered, any roadblacks in his progress, and reviewed the pull requests he submitted on GitHub. These sessions allowed us to provide timely feedback and guide Jay through complex technical issues, ensuring steady progress throughout the project.
+
+# Learnings and Observations
+
+Jay's proactive approach, steady progress, thoughtful questions, and clear focus on completing the project are qualities from which every student can benefit. His dedication to learning and problem-solving made a significant impact on the success of the project.
+
+On the other hand, Jacob demonstrated what it means to be an effective mentor. He showed me how to foster a supportive, collaborative relationship with the student. These are the lessons that I will carry forward in future mentorship roles.
+
+# Conclusion
+
+Google Summer of Codes (GSoC) offers an incredible opportunity for students to hone their programming skills while contributing to impactful open-source projects. It was a rewarding experience to be part of this journey as a co-mentor, and I am grateful to Jacob for giving me the chance to be involved in such a meaning project with the Julia Health community.
+
+Through this experience, I not only gained insights into effective mentorship but also deepened my understanding of open-source collaboration and its potential to drive innovation in healthcare. I'm excited to explore further ways I can contribute to the Julia Health ecosystem and continue supporting the community.
+
+# Connection
+
+If you would like to know more about me, you can connect with me on [Linkedin](https://www.linkedin.com/in/mounika-thakkallapally/)
+
+
+
+
+
+

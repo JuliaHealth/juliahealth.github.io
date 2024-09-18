@@ -9,8 +9,61 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.47</generator>
-<lastBuildDate>Sat, 07 Sep 2024 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.57</generator>
+<lastBuildDate>Thu, 12 Sep 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>GSOC Co-Mentoring Experience</title>
+  <dc:creator>Mounika Thakkallapally</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Hello 👋, I am Mounika. I am a Data Engineer at Brown Center for Biomedical Informatics (BCBI). This summer, I had the pleasure of co-mentoring a talented student, Jay Sanjay along side <a href="https://jacobzelko.com">Jacob Zelko (<span class="citation" data-cites="TheCedarPrince">@TheCedarPrince</span>)</a> on a project for Google Summer of Codes <a href="https://summerofcode.withgoogle.com/">GSOC</a> and here is my experience as a co-mentor to the future mentors and students. Before we dive into my experince as a co-mentor, I would like to give a little background about where it all started. At the Julia con 2023 I first met Jacob Zelko and been following his work on Julia Health since then and one day I recived a text from him asking if I would be interested to be a co-mentor to Jay Sanjay for his GSOC project. Fortunatly I was working on a lot of projects at BCBI which involved Julia programming, OMOP databases, OHDSI tools which are closly related to Jay’s project.</p>
+</section>
+<section id="mentor-mentee-relationship" class="level1">
+<h1>Mentor mentee relationship</h1>
+<p>Jay being a pro active student and due to his involvment in JuliaHealth and his relationship with Jacob allowed him to build a proposal for the project a couple of months before GSOC started this year. Jacob having been experinced mentor of GSOC students in the past years, he had a lot to offer to Jay as well as to me who just began a journey as a mentor. Jacob set up regular weekly meetings for 3 of us to connect on Zoom to dicuss about what had Jay accomplished so far and what are his next steps. I was mainly focusing on taking meeting notes for us to review and stay up to date with all the tasks. We were using trello a project management tool which helped track the project tasks. Aditionally we were connected on slack channel for any dicussions during the week.</p>
+</section>
+<section id="technical-discussion" class="level1">
+<h1>technical Discussion</h1>
+<p>Jay’s project “Developing Tooling for Observational Health Research in Julia” was inspired by the <a href="https://www.sciencedirect.com/science/article/pii/S016926072200462X?via%3Dihub">TreatmentPatterns R package</a>. The main focus of this project is to leverage the observational research study within the JuliaHealth ecosystem. Jacob created 10 to 15 github issues to help Jay get started with developing the tool. Each issue was tied to a function which Jay plans to work. The weekly meetings were used to dicuss about challenges Jay was facing, any road blocks, about the Pull Requestes on github.</p>
+</section>
+<section id="learnings-and-observations" class="level1">
+<h1>Learnings and Observations</h1>
+<p>Jay beingvery pro active, making good progress every week, asking questions and moving in the direction of finishing the project are some of the qualities from which every student will benifit from. On the other hand Jacob showed me how to act as a good mentor and how to maintain a good relationship with the student.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>GSOC is a very good opportunity for students to enhance there programming skills. I would like to thank Jacob for giving me this opportunity to be a part of GSOC and Julia Health community. I am looking forward to ways that I can contribute to Julia Health in the future.</p>
+</section>
+<section id="connection" class="level1">
+<h1>Connection</h1>
+<p>If you would like to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/mounika-thakkallapally/">Linkedin</a></p>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{thakkallapally2024,
+  author = {Thakkallapally, Mounika},
+  title = {GSOC {Co-Mentoring} {Experience}},
+  date = {2024-09-12},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-thakkallapally2024" class="csl-entry quarto-appendix-citeas">
+Thakkallapally, Mounika. 2024. <span>“GSOC Co-Mentoring
+Experience.”</span> September 12, 2024. <a href="https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/">https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</a>.
+</div></div></section></div> ]]></description>
+  <category>Experience as a GSOC co-mentor</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
+  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
   <dc:creator>Jay Sanjay Landge</dc:creator>
