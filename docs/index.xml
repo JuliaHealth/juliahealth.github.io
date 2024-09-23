@@ -10,7 +10,7 @@
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.57</generator>
-<lastBuildDate>Thu, 12 Sep 2024 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 12 Sep 2024 05:00:00 GMT</lastBuildDate>
 <item>
   <title>GSOC Co-Mentoring Experience</title>
   <dc:creator>Mounika Thakkallapally</dc:creator>
@@ -22,23 +22,38 @@
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Hello 👋, I am Mounika. I am a Data Engineer at Brown Center for Biomedical Informatics (BCBI). This summer, I had the pleasure of co-mentoring a talented student, Jay Sanjay along side <a href="https://jacobzelko.com">Jacob Zelko (<span class="citation" data-cites="TheCedarPrince">@TheCedarPrince</span>)</a> on a project for Google Summer of Codes <a href="https://summerofcode.withgoogle.com/">GSOC</a> and here is my experience as a co-mentor to the future mentors and students. Before we dive into my experince as a co-mentor, I would like to give a little background about where it all started. At the Julia con 2023 I first met Jacob Zelko and been following his work on Julia Health since then and one day I recived a text from him asking if I would be interested to be a co-mentor to Jay Sanjay for his GSOC project. Fortunatly I was working on a lot of projects at BCBI which involved Julia programming, OMOP databases, OHDSI tools which are closly related to Jay’s project.</p>
+<p>Hello 👋, I am Mounika. I am a Data Engineer at <a href="https://bcbi.brown.edu/">Brown Center for Biomedical Informatics</a>. This summer, I had the privilege of co-mentoring a talented student, <a href="https://www.linkedin.com/in/jay-landge-589439260/">Jay Sanjay</a> alongside <a href="https://jacobzelko.com">Jacob Zelko (<span class="citation" data-cites="TheCedarPrince">@TheCedarPrince</span>)</a> on a <a href="https://summerofcode.withgoogle.com/programs/2024/projects/ZXVIYAXG">project</a> for Google Summer of Code <a href="https://summerofcode.withgoogle.com/">GSOC</a>. Here, I would like to share my experience as a co-mentor, offering insights for future mentors and students alike.</p>
+<p>Before diving into my experince, let me provide some background on how it all started. At the JuliaCon 2023 I had the chance to meet Jacob Zelko and have been following his work on <a href="https://juliahealth.org/">JuliaHealth</a> ever since. One day, I recived a message from Jacob asking if I’d be interested in co-mentoring Jay for his GSoC project. Fortunatly, I was already working on several projects at BCBI involving Julia programming, OMOP databases and <a href="https://ohdsi.org/">OHDSI</a> tools, all of which were closely aligned with Jay’s project.</p>
 </section>
 <section id="mentor-mentee-relationship" class="level1">
 <h1>Mentor mentee relationship</h1>
-<p>Jay being a pro active student and due to his involvment in JuliaHealth and his relationship with Jacob allowed him to build a proposal for the project a couple of months before GSOC started this year. Jacob having been experinced mentor of GSOC students in the past years, he had a lot to offer to Jay as well as to me who just began a journey as a mentor. Jacob set up regular weekly meetings for 3 of us to connect on Zoom to dicuss about what had Jay accomplished so far and what are his next steps. I was mainly focusing on taking meeting notes for us to review and stay up to date with all the tasks. We were using trello a project management tool which helped track the project tasks. Aditionally we were connected on slack channel for any dicussions during the week.</p>
+<p>Jay, being a proactive student with a strong involvement in JuliaHealth, worked closely with Jacob to build a proposal for the project several months before GSoC began this year. His early involvement and familiarity with the community set a solid foundation for the project. Jacob, with his extensive experience mentoring GSoC students over the years, brought invaluable insights not only for Jay but also for me, as I was just beginning my journey as a mentor.</p>
+<p>Jacob established regular weekly Zoom meetings for three of us to discuss Jay’s progress, review his accomplishments, and plan the next steps. During these meetings, I focused on taking detailed notes to ensure we stayed organized and up to date with all the tasks. We used <a href="https://trello.com/">Trello</a>, a project management tool, to track progress and manage project tasks efficiently. Additionally, we stayed connected thoughout the week via a dedicated slack channel for any ongoing discussions or questions.</p>
 </section>
 <section id="technical-discussion" class="level1">
 <h1>technical Discussion</h1>
-<p>Jay’s project “Developing Tooling for Observational Health Research in Julia” was inspired by the <a href="https://www.sciencedirect.com/science/article/pii/S016926072200462X?via%3Dihub">TreatmentPatterns R package</a>. The main focus of this project is to leverage the observational research study within the JuliaHealth ecosystem. Jacob created 10 to 15 github issues to help Jay get started with developing the tool. Each issue was tied to a function which Jay plans to work. The weekly meetings were used to dicuss about challenges Jay was facing, any road blocks, about the Pull Requestes on github.</p>
+<p>Jay’s project “Developing Tooling for Observational Health Research in Julia” was inspired by the <a href="https://www.sciencedirect.com/science/article/pii/S016926072200462X?via%3Dihub">TreatmentPatterns R package</a>. The main goal of the project was to enhance observational research capabilities within the JuliaHealth ecosystem. To help Jay get started, Jacob created 10 to 15 GitHub issues, each linked to a specific function that Jay planned to work on.</p>
+<p>During our weekly meeting, we discussed the challenges Jay encountered, any roadblacks in his progress, and reviewed the pull requests he submitted on GitHub. These sessions allowed us to provide timely feedback and guide Jay through complex technical issues, ensuring steady progress throughout the project.</p>
 </section>
 <section id="learnings-and-observations" class="level1">
 <h1>Learnings and Observations</h1>
-<p>Jay beingvery pro active, making good progress every week, asking questions and moving in the direction of finishing the project are some of the qualities from which every student will benifit from. On the other hand Jacob showed me how to act as a good mentor and how to maintain a good relationship with the student.</p>
+<p>Jay’s proactive approach, steady progress, thoughtful questions, and clear focus on completing the project are qualities from which every student can benefit. His dedication to learning and problem-solving made a significant impact on the success of the project.<br></p>
+<p>From a mentee’s perspective having the following qualities would be helpful<br>
+1. Stick to the proposal: While it’s natural to feel the urge explore new ideas beyond the original proposal, it’s essential to remain focused on the original proposal due to time constrains.<br>
+2.Adaptability and open-mindedness: Be open to feedback and willing to adjust the tasks as you face challenges.<br>
+3. Time Management: Many students juggle internships, interviews and other commitments during the summer. So it’s to manage time effectively and discuss with the mentor about the progress during those times.<br>
+4. Effective communication: Stay upto date with any updates from GSoC or from the mentor. Keeping your mentor updated about your progress or any challenges helps build a collaborative and supportive mentor relationship.</p>
+<p>On the other hand, Jacob demonstrated what it means to be an effective mentor. He showed me how to foster a supportive, collaborative relationship with the student. These are the lessons that I will carry forward in future mentorship roles:</p>
+<p>From a mentor’s perspective having the following qualities would be helpful<br>
+1. Clear communication: Communicating well in advance about the availability to meet or to review the work, having frequent meetings with the mentee would be helpful.<br>
+2. Encouragement: While offering support, it’s important to encourage the mentee to take ownership of the project.<br>
+3. Commitment and time: Mentoring GSoC is a voluntary role, often taken on in addition to regular professional work. Balancing GSoC with other work commitments requires effective time management and commitment.<br>
+4. Structured Guidence: Providing a well-organized plan, such as using task management tools like Trello and GitHub issues, ensures that the mentee can follow a clear path towards sucess completion of the project.</p>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>GSOC is a very good opportunity for students to enhance there programming skills. I would like to thank Jacob for giving me this opportunity to be a part of GSOC and Julia Health community. I am looking forward to ways that I can contribute to Julia Health in the future.</p>
+<p>Google Summer of Codes (GSoC) offers an incredible opportunity for students to hone their programming skills while contributing to impactful open-source projects. It was a rewarding experience to be part of this journey as a co-mentor, and I am grateful to Jacob for giving me the chance to be involved in such a meaning project with the Julia Health community.</p>
+<p>Through this experience, I not only gained insights into effective mentorship but also deepened my understanding of open-source collaboration and its potential to drive innovation in healthcare. I’m excited to explore further ways I can contribute to the Julia Health ecosystem and continue supporting the community.</p>
 </section>
 <section id="connection" class="level1">
 <h1>Connection</h1>
@@ -62,7 +77,7 @@ Experience.”</span> September 12, 2024. <a href="https://juliahealth.org/Julia
 </div></div></section></div> ]]></description>
   <category>Experience as a GSOC co-mentor</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 12 Sep 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -716,7 +731,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sat, 07 Sep 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -1318,7 +1333,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 30 Aug 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -1524,7 +1539,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Mon, 26 Aug 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -1596,7 +1611,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sat, 22 Jun 2024 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
