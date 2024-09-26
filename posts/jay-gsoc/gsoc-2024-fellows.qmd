@@ -6,7 +6,7 @@ date: "9/7/2024"
 bibliography: ./references.bib
 csl: ./../../ieee-with-url.csl
 toc: true
-engine: Julia
+engine: julia
 image: false
 categories:
   - gsoc
