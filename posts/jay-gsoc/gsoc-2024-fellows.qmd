@@ -319,7 +319,7 @@ Future work would include:
 
 1. [Jacob S. Zelko](https://jacobzelko.com): aka, [TheCedarPrince](https://github.com/TheCedarPrince)
 
-2. Mounika Thakkallapally
+2. [Mounika Thakkallapally](https://www.linkedin.com/in/mounika-thakkallapally/)
 
 Thank you for your continuous help and support throughout the fellowship.
 _Note: This blog post was also written with the assistance of LLM technologies to help with grammar, flow, and spelling!_
