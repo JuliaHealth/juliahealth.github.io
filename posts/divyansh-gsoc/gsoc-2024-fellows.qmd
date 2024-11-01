@@ -1,0 +1,348 @@
+---
+title: "GSoC '24: Adding functionalities to medical imaging visualizations"
+description: "A summary of my project for Google Summer of Code - 2024"
+author: "Divyansh Goyal"
+date: "1/11/2024"
+bibliography: ./references.bib
+csl: ./../../ieee-with-url.csl
+toc: true
+engine: julia
+image: false
+categories:
+  - gsoc
+  - openGl
+  - Medical Imaging
+  - Neuroscience
+---
+
+
+# Hello Everyone! 👋
+
+I am Divyansh, an undergraduate student from Guru Gobind Singh Indraprastha university, majoring in Artificial Intelligence and Machine Learning. Stumbling upon projects under the Juliahealth's sub-ecosystem of medical imaging packages, the intricacies of imaging modalities and file formats, reflected by their relevant project counterparts, captured the best of my interests. Working with standards such as NIfTI (Neuroimaging Informatics Technology Initiative) and DICOM (Digital Imaging and Communications in Medicine) with MedImages.jl, I became interested in the visualization routines of such imaging datasets and their integration within the segmentation pipelines for modern medical-imaging analysis.
+
+In this post, I’d like to summarize what I did this summer and everything I learned along the way, contributing to MedEye3d.jl medical imaging visualizer under GSOC-2024!
+
+> If you want to learn more about me, you can connect with me on [**LinkedIn**](https://www.linkedin.com/in/divyansh-goyal-34654b200/) and follow me on [**GitHub**](https://github.com/divital-coder)
+
+# Background
+
+## What is MedEye3d.jl?
+
+[MedEye3D.jl](https::/github.com/Juliahealth/MedEye3d.jl) is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.
+
+MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it [here](https://doi.org/10.26348/znwwsi.25.57)).
+
+## What features does this project encompass?
+
+This project covers implementation of several tasks that will enable the establishment of additional important functionalities within the MedEye3D package, facilitating enhancements within the visualization’s windowing for MRI and PET data, support for super voxels (sv), improved load times, high-level functionality implementation and robust viewing for multiple images.
+
+# Project Goals
+
+The goals outlined by Dr.Jakub Mitura (my project mentor) and I the beginning of this summer were:
+
+1. Migration of the package reliance from [Rocket.jl](https://github.com/reactivebayes/Rocket.jl) to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl's actor-subscription mechanism present at the core of MedEye3d.jl's event-driven programming. Here, Julia's threadsafe and asynchronous [channels](https://docs.julialang.org/en/v1/manual/asynchronous-programming/) provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket
+
+2. Implementation of high level functions with simplified basic usage: Prior to this, MedEye3d involved initialization of data, texture specifications and text display for a final visualization. To reduce complexity, methods to abstract such chores were devised and implemented which resulted in the exposure of functions for loading images, accessing display data and modification of display data. This also encompassed the loading of images via [MedImages.jl](https://github.com/juliahealth/MedImages.jl) which required prior work for the integration of C++ [ITK](https://github.com/InsightSoftwareConsortium/ITK) backend for image I/O.
+
+3. Improved precompilation with decreased outputs to reduce start time
+
+4. Automatic windowing for most common MRI and PET modalities: This task is a step in the direction of maintaining consistent visualizations across MRI and PET’s most common modalities, to mimic images similar to what is displayed within [3dSlicer](https://www.slicer.org/) for the same.
+
+5. Adding support for multi-image viewing with crosshair marker for image registration
+
+6. Adding support for the display of [SuperVoxels](https://doi.org/10.1016/j.cagd.2022.102080) sv with borders within the image slices to better understand anatomical regions within slices: Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.
+
+Additionally, we had a few stretch goals which are going to be a work in progress:
+
+1. Visualization of structures by 3D rendering using OpenGL,
+
+2. Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.
+
+3. Support for Apple users
+
+# Tasks
+
+## 1. Migration of the package from Rocket to Julia's Base.Channel
+
+Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within [MedEye3d.jl](https://github.com/Juliahealth/MedEye3d.jl) for event and state management routine. Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.
+```Julia
+"""
+configuring consumer function on_next! function using multiple dispatch mechanism in order to connect input to proper functions
+"""
+on_next!(stateObjects::Vector{StateDataFields}, data::Int64) = reactToScroll(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::forDisplayObjects) = setUpMainDisplay(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::ForWordsDispStruct) = setUpWordsDisplay(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::CalcDimsStruct) = setUpCalcDimsStruct(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::valueForMasToSetStruct) = setUpvalueForMasToSet(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::FullScrollableDat) = setUpForScrollData(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::SingleSliceDat) = updateSingleImagesDisplayedSetUp(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::Vector{MouseStruct}) = react_to_draw(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::MouseStruct) = reactToMouseDrag(data, stateObjects) #needs modification , with the react_to_draw, data of vectorStruct (MoustStruct)
+on_next!(stateObjects::Vector{StateDataFields}, data::KeyInputFields) = reactToKeyInput(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::DisplayedVoxels) = retrieveVoxelArray(data, stateObjects)
+on_next!(stateObjects::Vector{StateDataFields}, data::CustomDisplayedVoxels) = depositVoxelArray(data, stateObjects)
+on_error!(stateObjects::Vector{StateDataFields}, err) = error(err)
+on_complete!(stateObjects::Vector{StateDataFields}) = ""
+```
+
+
+ Then we added the CodeCov to our package by triggering it via a dummy function and a corresponding test case for it. Also, the CI for the package was set up with it. And, now finally the repository was ready with test coverage, CI, and documentation fully functional repository ready. Here's some snapshots of the  set-up:
+
+![](./image.png)
+
+> Initial documentation with Documenter.jl
+
+![](./img2.png)
+
+> New documentation using DocumenterVitepress.jl
+
+So, as a part of it, I created this [documentation](https://luxdl.github.io/DocumenterVitepress.jl/dev/documenter_to_vitepress_docs_example) which provides detailed steps for converting docs from Documenter to DocumenterVitepress.
+
+## 2. Implementation of high level functions with simplified basic usage
+
+The main database we worked on/built analysis was the freely available OMOPCDM Database. The Database was formatted within a PostgreSQL database with [installation instructions here](https://www.devart.com/dbforge/postgresql/how-to-install-postgresql-on-linux/) are some instructions on how to set up Postgres in a Linux machine. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.
+
+## 3. Testing and Development setup on my local computer
+
+To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using [Revise.jl](https://timholy.github.io/Revise.jl/stable/), which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also [PackageCompatUI](https://github.com/GunnarFarneback/PackageCompatUI.jl) that provides a terminal text interface to the [compat] section of a Julia Project.toml file, and finally made a Julia script by the name “startup.jl” out of it. This script was then added to `/home/jay-sanjay/.julia/config/` path in my local computer.
+
+Here is the sample for the startup.jl file:
+
+```julia
+using PackageCompatUI
+using PkgTemplates
+using Revise
+
+###################################
+# HELPER FUNCTIONS
+###################################
+function template()
+    Template(;
+        user="jay-sanjay",
+        dir="~/FOSS",
+        authors="jaysanjay <jaysanjay@gmail.com> and contributors",
+        julia=v"1.6",
+        plugins=[
+            ProjectFile(; version=v"0.0.1"),
+            Git(),
+            Readme(),
+            License(; name="MIT"),
+            GitHubActions(; extra_versions=["1.6", "1", "nightly"]),
+            TagBot(),
+            Codecov(),
+            Documenter{GitHubActions}(),
+            Citation(; readme = true),
+            RegisterAction(),
+            BlueStyleBadge(),
+            Formatter(;style = "blue")
+        ],
+    )
+end
+
+```
+
+
+## 4. Selecting Treatments of Interest
+
+So, as a part of this, we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, it would also be desirable to include (some) treatments before the index date, for instance in case a specific disease diagnosis is only confirmed after initiating treatment. Therefore, periodPriorToIndex specifies the period (i.e. number of days) before the index date from which treatments should be included. We have created two dispatches for this function.
+After that proper testing and documentation are also added.
+
+A basic implementation for it is:
+
+1. Construct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.
+
+2. The SQL query construction and execution was done using the [FunSQL.jl](https://mechanicalrabbit.github.io/FunSQL.jl/stable/) library, in the below-shown manner:
+
+```julia
+sql = From(tab) |>
+            Where(Fun.in(Get.cohort_definition_id, cohort_id...)) |>
+            Select(Get.cohort_definition_id, Get.subject_id, Get.cohort_start_date) |>
+            q -> render(q, dialect=dialect)
+```
+3. Executes the constructed SQL query using a database connection, fetching the results into a data frame.
+
+4. If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.
+
+This was then be called this:
+```julia
+period_prior_to_index(
+        cohort_id = [1, 1, 1, 1, 1],
+        conn;
+        date_prior = Day(100),
+        tab=cohort
+    )
+```
+
+
+## 5. Filters Applied
+
+After this, we where needed to get the patient's database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. All these implementations were more of Dataframe manipulation where I used [DataFrames.jl](https://dataframes.juliadata.org/stable/) package.
+
+After that proper testing and documentation are also added.
+
+A basic implementation for the minEraDuration is:
+It filters the treatment history `DataFrame` to retain only those rows where the duration between `drug_exposure_end` and `drug_exposure_start` is at least `minEraDuration`.
+This function can be used as follows:
+```julia
+#| eval: false
+
+calculate_era_duration(test_df, 920000)
+
+#= ... =#
+
+4×3 DataFrame
+ Row │ person_id  drug_exposure_start  drug_exposure_end
+     │ Int64      Float64              Int64
+─────┼───────────────────────────────────────────────────
+   1 │         1           -3.7273e8          -364953600
+   2 │         1            2.90304e7           31449600
+   3 │         1           -8.18208e7          -80006400
+   4 │         1            1.32918e9         1330387200
+```
+
+
+Another filter we worked on is the EraCollapse. So, let's suppose a case where an individual receives the same treatment for a long period
+of time (e.g. need for chronic treatment). Then it's highly likely that the person would require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode, and the eraCollapseSize deals with the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e. seen as a continuous treatment instead of a stop and re-initiation of the same treatment).
+After that proper testing and documentation are also added.
+
+A basic implementation for the eraCollapseSize is:
+(a) Sorts the data frame by event_start_date and event_end_date.
+(b) Calculates the gap between each era and the previous era.
+(c) Filters out rows with gap_same > eraCollapseSize.
+
+These functions can be used as follows:
+```julia
+#| eval: false
+
+#= ... =#
+
+EraCollapse(treatment_history = test_df, eraCollapseSize = 400000000)
+4×4 DataFrame
+ Row │ person_id  drug_exposure_start  drug_exposure_end  gap_same
+     │ Int64      Float64              Int64              Float64
+─────┼───────────────────────────────────────────────────────────────
+   1 │         1           -5.33347e8         -532483200  -1.86373e9
+   2 │         1           -3.7273e8          -364953600   1.59754e8
+   3 │         1           -8.18208e7          -80006400   2.83133e8
+   4 │         1            2.90304e7           31449600   1.09037e8
+```
+
+
+## 6. Treatment History of the Patients
+
+The `create_treatment_history` function constructs a detailed treatment history for patients in a target cohort by processing and filtering event cohort data from a given DataFrame. It begins by isolating the target cohort based on its `cohort_id`, adding a new column for the `index_year` derived from the cohort’s start date. Then, it selects relevant event cohorts based on a provided list of cohort IDs and merges them with the target cohort on the `subject_id` to associate events with individuals in the target group. The function applies different filtering criteria depending on whether the user is interested in treatments starting or ending within a specified period before the target cohort's start date (defined by `periodPriorToIndex`). It keeps only the event cohorts that match the filtering condition, ensuring that only relevant treatments are considered. After filtering, the function calculates time gaps between consecutive cohort events for each patient, adding these gaps to the DataFrame. The final DataFrame provides a history of treatments, including the dates of events and the time intervals between them, offering a clear timeline of treatment for each patient. After that proper testing and documentation are also added.
+
+
+## 7. CombinationWindow Functionality To Combine Overlapping Treatments
+
+Now once we have the filtering of the treatments done, we need to combine the overlapping treatments based on some set of rules. The combinationWindow specifies the time that two event eras need to overlap to be considered a combination treatment. If there are more than two overlapping event eras, we sequentially combine treatments, starting from the ﬁrst two overlapping event eras.
+
+The `combination_Window` function processes a patient's treatment history by identifying overlapping treatment events and combining them into continuous treatment periods based on certain rules. It first converts `event_cohort_id` into strings and sorts the treatment data by `person_id`, `event_start_date`, and `event_end_date`. The helper function `selectRowsCombinationWindow` calculates gaps between consecutive treatments, marking rows where treatments overlap or occur too closely. In the main loop, the function checks these overlaps and gaps against a specified `combinationWindow`. If treatments overlap (or nearly overlap), the function adjusts the treatment periods by either merging adjacent rows or splitting rows to create continuous treatment periods. The process continues until all overlapping treatments are combined into one, creating an updated and accurate treatment history. The function ensures the final output reflects realistic treatment windows by handling special cases where gaps between treatments are smaller than the treatment durations themselves.
+
+It mainly covers the three cases mentioned in the R-research paper:
+
+### Switch Case:
+
+*Condition*: If the gap between the two treatment events is smaller than the combinationWindow, but the gap is not equal to the duration of either event.
+*Action*: The event_end_date of the previous treatment is set to the event_start_date of the current treatment. This effectively "shifts" the previous treatment’s end date to eliminate the gap, merging the treatments into one continuous period.
+*Purpose*: This ensures that treatment gaps that are too small (less than combinationWindow) are treated as part of the same treatment window.
+
+```julia
+#| eval: false
+
+#= ... =#
+
+if -gap_previous < combinationWindow && !(-gap_previous in [duration_era, prev_duration_era])
+    treatment_history[i-1, :event_end_date] = treatment_history[i, :event_start_date]
+```
+Here is the pictorial representation for the same:
+![](./case1.png)
+
+### FRFS (First Row, First Shortened):
+
+*Condition*: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the two treatments, and the first treatment ends before or on the same date as the second treatment.
+*Action*: A new row is created where the second treatment’s event_end_date is set to the end date of the first treatment. This preserves the overlap but ensures that the earlier treatment period stays intact.
+*Purpose*: This prevents unnecessary truncation of the first treatment if it spans the entire overlap window.
+
+```julia
+#| eval: false
+
+#= ... =#
+
+elseif -gap_previous >= combinationWindow || -gap_previous in [duration_era, prev_duration_era]
+    if treatment_history[i-1, :event_end_date] <= treatment_history[i, :event_end_date]
+        new_row = deepcopy(treatment_history[i, :])
+        new_row.event_end_date = treatment_history[i-1, :event_end_date]
+        append!(treatment_history, DataFrame(new_row'))
+```
+Here is the pictorial representation for the same:
+![](./case2.png)
+
+### LRFS (Last Row, First Shortened):
+
+*Condition*: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the treatments, and the first treatment ends after the second treatment.
+*Action*: The current treatment’s event_end_date is adjusted to match the event_end_date of the previous treatment.
+*Purpose*: This handles cases where the second treatment's window should be shortened to prevent overlap with the previous treatment, merging them into a single continuous window.
+
+```julia
+#| eval: false
+
+#= ... =#
+
+else
+    treatment_history[i, :event_end_date] = treatment_history[i-1, :event_end_date]
+```
+Here is the pictorial representation for the same:
+![](./case3.png)
+
+
+> *Note:* However, There are a few things left to cover here, most of which are the documentation and writing the test suite for the same.
+
+# Contributions Beyond Coding
+
+## 1. Organizing Meetings and Communication
+
+Throughout the project, I regularly met with my mentor, [Jacob Zelko], and co-mentor, [Mounika], via weekly Zoom calls to discuss progress and seek guidance. During these meetings, we reviewed my work, identified areas where I needed help, and set clear goals for the upcoming weeks. We used Trello to organize and track these goals, ensuring that nothing was overlooked. My mentors provided detailed insights into specific technical aspects and guided me through the logic behind various functions. Outside of our scheduled meetings, they were always available for quick queries via Slack, ensuring constant support.
+
+## 2. Personal Documentation
+
+In addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including the challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on [Medium](https://medium.com/@landgejay124/gsoc-24-the-julia-language-62b809bbec49) to share my journey and experiences with the Julia Language community.
+
+## 3. Contributions To the Rest of the JuliaHealth Repositories
+
+Earlier I have contributed a lot to the [OMOPCDMCohortCreator.jl](https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl) including adding new functionalities writing test suites, adding blogs including - [Patient Pathways within JuliaHealth](https://github.com/JuliaHealth/juliahealth.github.io/pull/124). Apart from that I also initiated 3 new releases of this package.
+
+# Conclusions and Future Development
+
+This project was a 350-hour large project since there were many goals to accomplish. Here is what we accomplished:
+
+1. Built a new repository in JuliaHealth land dedicated especially to treatment pathways synthesis.
+
+2. CI/CD for the Package and Documentation hosting.
+
+3. All required basic functionalities required to build the pathways.
+
+4. Documentation and test suites added for each.
+
+Future work would include:
+
+- Finish this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63) test-suites and documentation are remaining for this PR.
+
+- Apart from that, we would need to add a [function](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/9) that sews up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of running each of the functions manually.
+
+- Also, in the future, we would explore what statistical functionalities we would need to further explore pathways.
+
+- Then, we could explore how to compose JuliaHealth with packages from ecosystems like [JuliaStats](https://juliastats.org/) and [JuliaDSP](https://docs.juliadsp.org/stable/contents/) (for time series analysis) that are mentioned in this [PR](https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8).
+
+- And finally work on creating novel visualizations for the Pathways. Commonly used visualizations for treatment pathways (such as sunburst or icicle plots) showing which patients fall under what treatment pathways could be developed as plotting recipes to visualize various aspects of a patient’s care pathway rapidly.
+
+# Acknowledgements 🙇‍♂️
+
+1. [Jacob S. Zelko](https://jacobzelko.com): aka, [TheCedarPrince](https://github.com/TheCedarPrince)
+
+2. [Mounika Thakkallapally](https://www.linkedin.com/in/mounika-thakkallapally/)
+
+Thank you for your continuous help and support throughout the fellowship.
+_Note: This blog post was also written with the assistance of LLM technologies to help with grammar, flow, and spelling!_
+
+
