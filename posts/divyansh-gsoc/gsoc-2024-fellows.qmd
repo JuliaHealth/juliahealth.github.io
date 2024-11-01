@@ -162,8 +162,7 @@ The `setTextureWindow` function utilizes a set of predefined keymap controls to 
 
 *   F7: Increase maximum value for display
 
-**Implementation of `setTextureWindow` Function**
-------------------------------------------------
+Implementation of `setTextureWindow` Function
 
 The `setTextureWindow` function is designed to update the texture window settings based on the input keymap control. The function takes three arguments:
 
@@ -220,11 +219,11 @@ end
 ```
 > Bone windowing in CT
 
-![./ct_windowing.png]
+![](./ct_windowing.png)
 
 > Bone windowing in PET
 
-![./pet_windowing.png]
+![](./pet_windowing.png)
 
 ## 5. Adding support for multi-image viewing with crosshair marker for image registration
 
