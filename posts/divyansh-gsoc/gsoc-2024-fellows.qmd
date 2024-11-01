@@ -2,7 +2,7 @@
 title: "GSoC '24: Adding functionalities to medical imaging visualizations"
 description: "A summary of my project for Google Summer of Code - 2024"
 author: "Divyansh Goyal"
-date: "1/11/2024"
+date: "11/1/2024"
 bibliography: ./references.bib
 csl: ./../../ieee-with-url.csl
 toc: true
@@ -64,85 +64,83 @@ Additionally, we had a few stretch goals which are going to be a work in progres
 
 ## 1. Migration of the package from Rocket to Julia's Base.Channel
 
-Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within [MedEye3d.jl](https://github.com/Juliahealth/MedEye3d.jl) for event and state management routine. Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.
+Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within [MedEye3d.jl](https://github.com/Juliahealth/MedEye3d.jl) for handling the event and state management routine. Julia has asynchronous, threadsafe [channels](https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels) which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:
 ```Julia
-"""
-configuring consumer function on_next! function using multiple dispatch mechanism in order to connect input to proper functions
-"""
-on_next!(stateObjects::Vector{StateDataFields}, data::Int64) = reactToScroll(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::forDisplayObjects) = setUpMainDisplay(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::ForWordsDispStruct) = setUpWordsDisplay(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::CalcDimsStruct) = setUpCalcDimsStruct(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::valueForMasToSetStruct) = setUpvalueForMasToSet(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::FullScrollableDat) = setUpForScrollData(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::SingleSliceDat) = updateSingleImagesDisplayedSetUp(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::Vector{MouseStruct}) = react_to_draw(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::MouseStruct) = reactToMouseDrag(data, stateObjects) #needs modification , with the react_to_draw, data of vectorStruct (MoustStruct)
-on_next!(stateObjects::Vector{StateDataFields}, data::KeyInputFields) = reactToKeyInput(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::DisplayedVoxels) = retrieveVoxelArray(data, stateObjects)
-on_next!(stateObjects::Vector{StateDataFields}, data::CustomDisplayedVoxels) = depositVoxelArray(data, stateObjects)
-on_error!(stateObjects::Vector{StateDataFields}, err) = error(err)
-on_complete!(stateObjects::Vector{StateDataFields}) = ""
+function consumer(channel::Base.Channel)
+    while(true)
+    channelData::String = take!(channel)
+    println("Channel got " * channelData)
+    end
+end
+
+newChannel = Base.Channel(100)
+
+@async consumer(newChannel)
+put!(newChannel, "apples")
+
 ```
+  
+Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.
 
+> Dump data in channel -> fetch data from the channel in an event loop -> invoke on_next!(state, channelData) -> invoke relevant functionality based on the type of arguments passed
+![](./multiple_dispatch_code.png)
 
- Then we added the CodeCov to our package by triggering it via a dummy function and a corresponding test case for it. Also, the CI for the package was set up with it. And, now finally the repository was ready with test coverage, CI, and documentation fully functional repository ready. Here's some snapshots of the  set-up:
+The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts. 
 
-![](./image.png)
-
-> Initial documentation with Documenter.jl
-
-![](./img2.png)
-
-> New documentation using DocumenterVitepress.jl
-
-So, as a part of it, I created this [documentation](https://luxdl.github.io/DocumenterVitepress.jl/dev/documenter_to_vitepress_docs_example) which provides detailed steps for converting docs from Documenter to DocumenterVitepress.
+![](./fixed_screen_tear.png)
 
 ## 2. Implementation of high level functions with simplified basic usage
 
-The main database we worked on/built analysis was the freely available OMOPCDM Database. The Database was formatted within a PostgreSQL database with [installation instructions here](https://www.devart.com/dbforge/postgresql/how-to-install-postgresql-on-linux/) are some instructions on how to set up Postgres in a Linux machine. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.
+Having a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases: 
 
-## 3. Testing and Development setup on my local computer
+1. Rendering an image-plane with OpenGL 
 
-To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using [Revise.jl](https://timholy.github.io/Revise.jl/stable/), which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also [PackageCompatUI](https://github.com/GunnarFarneback/PackageCompatUI.jl) that provides a terminal text interface to the [compat] section of a Julia Project.toml file, and finally made a Julia script by the name “startup.jl” out of it. This script was then added to `/home/jay-sanjay/.julia/config/` path in my local computer.
+2. Loading data slices from the image 
 
-Here is the sample for the startup.jl file:
+3. Creating texture specifications for modalities
 
-```julia
-using PackageCompatUI
-using PkgTemplates
-using Revise
+4. Producing the final segmentation display
 
-###################################
-# HELPER FUNCTIONS
-###################################
-function template()
-    Template(;
-        user="jay-sanjay",
-        dir="~/FOSS",
-        authors="jaysanjay <jaysanjay@gmail.com> and contributors",
-        julia=v"1.6",
-        plugins=[
-            ProjectFile(; version=v"0.0.1"),
-            Git(),
-            Readme(),
-            License(; name="MIT"),
-            GitHubActions(; extra_versions=["1.6", "1", "nightly"]),
-            TagBot(),
-            Codecov(),
-            Documenter{GitHubActions}(),
-            Citation(; readme = true),
-            RegisterAction(),
-            BlueStyleBadge(),
-            Formatter(;style = "blue")
-        ],
-    )
-end
-
+In order to simplify basic usage, high-level abstractions were put in place with the help of [MedImages.jl](https://github.com/MedImages.jl) (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accomodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:
+```Julia
+MedEye3d.SegmentationDisplay.displayImage()
 ```
+```Julia
+MedEye3d.DisplayDataManag.getDisplayedData()
+```
+```Julia
+MedEye3d.DisplayDataManag.setDisplayedData()
+```
+Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:
+
+```Julia
+using MedEye3d
+ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"
+medEyeStruct = MedEye3d.SegmentationDisplay.displayImage(ctNiftiImage)
+displayData = MedEye3d.DisplayDataManag.getDisplayedData(medEyeStruct, [Int32(1), Int32(2)]) #passing the active texture number
+
+# We need to check if the return type of the displayData is a single Array{Float32,3} or a vector{Array{Float32,3}}
+# Now in this case we are setting Gaussian noise over the manualModif Texture voxel layer, and the manualModif texture defaults to 2 for active number
+
+displayData[2][:, :, :] = randn(Float32, size(displayData[2]))
+MedEye3d.DisplayDataManag.setDisplayedData(medEyeStruct, displayData)
+```
+The result of this [Gaussian noise](https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html) within the annotation layer, made for an outcome like the following:
+
+![](./gaussian_noise_annotation.png)   
+
+## 3. Improved precompilation with decreased outputs to reduce start time
+
+Previously, the package's precompilation was failing in Julia v1.9 and v1.10 due to pattern matching errors arising after the usage of @match macros from the [Match.jl](https://github.com/JuliaServices/Match.jl) pkg in MedEye3d's keymapping workflow between GLFW callbacks from mouse and keyboard. The relevant equivalent native conditional (if-else) statements, resolved the issue and facilitated in successful precompilation of the package. Further, only following minimal outputs were produced during precompilation:
+   
+
+Changes highlighted within the following pull-request:
+[https://github.com/JuliaHealth/MedEye3d.jl/pull/12](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)     
 
 
-## 4. Selecting Treatments of Interest
+
+
+## 4. Automatic windowing for most common MRI and PET modalities
 
 So, as a part of this, we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, it would also be desirable to include (some) treatments before the index date, for instance in case a specific disease diagnosis is only confirmed after initiating treatment. Therefore, periodPriorToIndex specifies the period (i.e. number of days) before the index date from which treatments should be included. We have created two dispatches for this function.
 After that proper testing and documentation are also added.

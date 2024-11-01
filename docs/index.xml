@@ -9,8 +9,793 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.47</generator>
-<lastBuildDate>Thu, 12 Sep 2024 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.57</generator>
+<lastBuildDate>Thu, 31 Oct 2024 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
+  <dc:creator>Divyansh Goyal</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="hello-everyone" class="level1">
+<h1>Hello Everyone! 👋</h1>
+<p>I am Divyansh, an undergraduate student from Guru Gobind Singh Indraprastha university, majoring in Artificial Intelligence and Machine Learning. Stumbling upon projects under the Juliahealth’s sub-ecosystem of medical imaging packages, the intricacies of imaging modalities and file formats, reflected by their relevant project counterparts, captured the best of my interests. Working with standards such as NIfTI (Neuroimaging Informatics Technology Initiative) and DICOM (Digital Imaging and Communications in Medicine) with MedImages.jl, I became interested in the visualization routines of such imaging datasets and their integration within the segmentation pipelines for modern medical-imaging analysis.</p>
+<p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, contributing to MedEye3d.jl medical imaging visualizer under GSOC-2024!</p>
+<blockquote class="blockquote">
+<p>If you want to learn more about me, you can connect with me on <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/divital-coder"><strong>GitHub</strong></a></p>
+</blockquote>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="what-is-medeye3d.jl" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
+<p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.</p>
+<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>).</p>
+</section>
+<section id="what-features-does-this-project-encompass" class="level2">
+<h2 class="anchored" data-anchor-id="what-features-does-this-project-encompass">What features does this project encompass?</h2>
+<p>This project covers implementation of several tasks that will enable the establishment of additional important functionalities within the MedEye3D package, facilitating enhancements within the visualization’s windowing for MRI and PET data, support for super voxels (sv), improved load times, high-level functionality implementation and robust viewing for multiple images.</p>
+</section>
+</section>
+<section id="project-goals" class="level1">
+<h1>Project Goals</h1>
+<p>The goals outlined by Dr.Jakub Mitura (my project mentor) and I the beginning of this summer were:</p>
+<ol type="1">
+<li><p>Migration of the package reliance from <a href="https://github.com/reactivebayes/Rocket.jl">Rocket.jl</a> to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl’s actor-subscription mechanism present at the core of MedEye3d.jl’s event-driven programming. Here, Julia’s threadsafe and asynchronous <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">channels</a> provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket</p></li>
+<li><p>Implementation of high level functions with simplified basic usage: Prior to this, MedEye3d involved initialization of data, texture specifications and text display for a final visualization. To reduce complexity, methods to abstract such chores were devised and implemented which resulted in the exposure of functions for loading images, accessing display data and modification of display data. This also encompassed the loading of images via <a href="https://github.com/juliahealth/MedImages.jl">MedImages.jl</a> which required prior work for the integration of C++ <a href="https://github.com/InsightSoftwareConsortium/ITK">ITK</a> backend for image I/O.</p></li>
+<li><p>Improved precompilation with decreased outputs to reduce start time</p></li>
+<li><p>Automatic windowing for most common MRI and PET modalities: This task is a step in the direction of maintaining consistent visualizations across MRI and PET’s most common modalities, to mimic images similar to what is displayed within <a href="https://www.slicer.org/">3dSlicer</a> for the same.</p></li>
+<li><p>Adding support for multi-image viewing with crosshair marker for image registration</p></li>
+<li><p>Adding support for the display of <a href="https://doi.org/10.1016/j.cagd.2022.102080">SuperVoxels</a> sv with borders within the image slices to better understand anatomical regions within slices: Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.</p></li>
+</ol>
+<p>Additionally, we had a few stretch goals which are going to be a work in progress:</p>
+<ol type="1">
+<li><p>Visualization of structures by 3D rendering using OpenGL,</p></li>
+<li><p>Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.</p></li>
+<li><p>Support for Apple users</p></li>
+</ol>
+</section>
+<section id="tasks" class="level1">
+<h1>Tasks</h1>
+<section id="migration-of-the-package-from-rocket-to-julias-base.channel" class="level2">
+<h2 class="anchored" data-anchor-id="migration-of-the-package-from-rocket-to-julias-base.channel">1. Migration of the package from Rocket to Julia’s Base.Channel</h2>
+<p>Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image’s planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket’s actor-subscription mechanism and decided to integrate Julia’s Base.Channel within <a href="https://github.com/Juliahealth/MedEye3d.jl">MedEye3d.jl</a> for handling the event and state management routine. Julia has asynchronous, threadsafe <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels">channels</a> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">consumer</span>(channel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Base.Channel</span>)</span>
+<span id="cb1-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">while</span>(<span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">true</span>)</span>
+<span id="cb1-3">    channelData<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">String </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">take!</span>(channel)</span>
+<span id="cb1-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Channel got "</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> channelData)</span>
+<span id="cb1-5">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb1-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb1-7"></span>
+<span id="cb1-8">newChannel <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Base</span>.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Channel</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>)</span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@async</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">consumer</span>(newChannel)</span>
+<span id="cb1-11"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">put!</span>(newChannel, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"apples"</span>)</span></code></pre></div>
+<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.</p>
+<blockquote class="blockquote">
+<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke on_next!(state, channelData) -&gt; invoke relevant functionality based on the type of arguments passed <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multiple_dispatch_code.png" class="img-fluid"></p>
+</blockquote>
+<p>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/fixed_screen_tear.png" class="img-fluid"></p>
+</section>
+<section id="implementation-of-high-level-functions-with-simplified-basic-usage" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-of-high-level-functions-with-simplified-basic-usage">2. Implementation of high level functions with simplified basic usage</h2>
+<p>Having a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases:</p>
+<ol type="1">
+<li><p>Rendering an image-plane with OpenGL</p></li>
+<li><p>Loading data slices from the image</p></li>
+<li><p>Creating texture specifications for modalities</p></li>
+<li><p>Producing the final segmentation display</p></li>
+</ol>
+<p>In order to simplify basic usage, high-level abstractions were put in place with the help of <a href="https://github.com/MedImages.jl">MedImages.jl</a> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accomodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1">MedEye3d.SegmentationDisplay.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">displayImage</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1">MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getDisplayedData</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1">MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setDisplayedData</span>()</span></code></pre></div>
+<p>Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify to our liking. A sample script to achieve the former, is highlighted below:</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">MedEye3d</span></span>
+<span id="cb5-2">ctNiftiImage <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
+<span id="cb5-3">medEyeStruct <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MedEye3d.SegmentationDisplay.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">displayImage</span>(ctNiftiImage)</span>
+<span id="cb5-4">displayData <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getDisplayedData</span>(medEyeStruct, [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Int32</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Int32</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)]) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#passing the active texture number</span></span>
+<span id="cb5-5"></span>
+<span id="cb5-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># We need to check if the return type of the displayData is a single Array{Float32,3} or a vector{Array{Float32,3}}</span></span>
+<span id="cb5-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Now in this case we are setting Gaussian noise over the manualModif Texture voxel layer, and the manualModif texture defaults to 2 for active number</span></span>
+<span id="cb5-8"></span>
+<span id="cb5-9">displayData[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>][<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">randn</span>(<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Float32</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(displayData[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]))</span>
+<span id="cb5-10">MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setDisplayedData</span>(medEyeStruct, displayData)</span></code></pre></div>
+<p>The result of this <a href="https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html">Gaussian noise</a> within the annotation layer, made for an outcome like the following:</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gaussian_noise_annotation.png" class="img-fluid"></p>
+</section>
+<section id="improved-precompilation-with-decreased-outputs-to-reduce-start-time" class="level2">
+<h2 class="anchored" data-anchor-id="improved-precompilation-with-decreased-outputs-to-reduce-start-time">3. Improved precompilation with decreased outputs to reduce start time</h2>
+<p>To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using <a href="https://timholy.github.io/Revise.jl/stable/">Revise.jl</a>, which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also <a href="https://github.com/GunnarFarneback/PackageCompatUI.jl">PackageCompatUI</a> that provides a terminal text interface to the [compat] section of a Julia Project.toml file, and finally made a Julia script by the name “startup.jl” out of it. This script was then added to <code>/home/jay-sanjay/.julia/config/</code> path in my local computer.</p>
+<p>Here is the sample for the startup.jl file:</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">PackageCompatUI</span></span>
+<span id="cb6-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">PkgTemplates</span></span>
+<span id="cb6-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Revise</span></span>
+<span id="cb6-4"></span>
+<span id="cb6-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">###################################</span></span>
+<span id="cb6-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># HELPER FUNCTIONS</span></span>
+<span id="cb6-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">###################################</span></span>
+<span id="cb6-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">template</span>()</span>
+<span id="cb6-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Template</span>(;</span>
+<span id="cb6-10">        user<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"jay-sanjay"</span>,</span>
+<span id="cb6-11">        dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"~/FOSS"</span>,</span>
+<span id="cb6-12">        authors<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"jaysanjay &lt;jaysanjay@gmail.com&gt; and contributors"</span>,</span>
+<span id="cb6-13">        julia<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">v"1.6"</span>,</span>
+<span id="cb6-14">        plugins<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[</span>
+<span id="cb6-15">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ProjectFile</span>(; version<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">v"0.0.1"</span>),</span>
+<span id="cb6-16">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Git</span>(),</span>
+<span id="cb6-17">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Readme</span>(),</span>
+<span id="cb6-18">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">License</span>(; name<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MIT"</span>),</span>
+<span id="cb6-19">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GitHubActions</span>(; extra_versions<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1.6"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nightly"</span>]),</span>
+<span id="cb6-20">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">TagBot</span>(),</span>
+<span id="cb6-21">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Codecov</span>(),</span>
+<span id="cb6-22">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Documenter</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">{GitHubActions}</span>(),</span>
+<span id="cb6-23">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Citation</span>(; readme <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">true</span>),</span>
+<span id="cb6-24">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">RegisterAction</span>(),</span>
+<span id="cb6-25">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">BlueStyleBadge</span>(),</span>
+<span id="cb6-26">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Formatter</span>(;style <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"blue"</span>)</span>
+<span id="cb6-27">        ],</span>
+<span id="cb6-28">    )</span>
+<span id="cb6-29"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</section>
+<section id="automatic-windowing-for-most-common-mri-and-pet-modalities" class="level2">
+<h2 class="anchored" data-anchor-id="automatic-windowing-for-most-common-mri-and-pet-modalities">4. Automatic windowing for most common MRI and PET modalities</h2>
+<p>So, as a part of this, we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, it would also be desirable to include (some) treatments before the index date, for instance in case a specific disease diagnosis is only confirmed after initiating treatment. Therefore, periodPriorToIndex specifies the period (i.e.&nbsp;number of days) before the index date from which treatments should be included. We have created two dispatches for this function. After that proper testing and documentation are also added.</p>
+<p>A basic implementation for it is:</p>
+<ol type="1">
+<li><p>Construct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.</p></li>
+<li><p>The SQL query construction and execution was done using the <a href="https://mechanicalrabbit.github.io/FunSQL.jl/stable/">FunSQL.jl</a> library, in the below-shown manner:</p></li>
+</ol>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1">sql <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">From</span>(tab) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-2">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Where</span>(Fun.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">in</span>(Get.cohort_definition_id, cohort_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">...</span>)) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-3">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Select</span>(Get.cohort_definition_id, Get.subject_id, Get.cohort_start_date) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-4">            q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">render</span>(q, dialect<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>dialect)</span></code></pre></div>
+<ol start="3" type="1">
+<li><p>Executes the constructed SQL query using a database connection, fetching the results into a data frame.</p></li>
+<li><p>If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.</p></li>
+</ol>
+<p>This was then be called this:</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">period_prior_to_index</span>(</span>
+<span id="cb8-2">        cohort_id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>],</span>
+<span id="cb8-3">        conn;</span>
+<span id="cb8-4">        date_prior <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Day</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>),</span>
+<span id="cb8-5">        tab<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>cohort</span>
+<span id="cb8-6">    )</span></code></pre></div>
+</section>
+<section id="filters-applied" class="level2">
+<h2 class="anchored" data-anchor-id="filters-applied">5. Filters Applied</h2>
+<p>After this, we where needed to get the patient’s database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. All these implementations were more of Dataframe manipulation where I used <a href="https://dataframes.juliadata.org/stable/">DataFrames.jl</a> package.</p>
+<p>After that proper testing and documentation are also added.</p>
+<p>A basic implementation for the minEraDuration is: It filters the treatment history <code>DataFrame</code> to retain only those rows where the duration between <code>drug_exposure_end</code> and <code>drug_exposure_start</code> is at least <code>minEraDuration</code>. This function can be used as follows:</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| eval: false</span></span>
+<span id="cb9-2"></span>
+<span id="cb9-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">calculate_era_duration</span>(test_df, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">920000</span>)</span>
+<span id="cb9-4"></span>
+<span id="cb9-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#= ... =#</span></span>
+<span id="cb9-6"></span>
+<span id="cb9-7"><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">×</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> DataFrame</span>
+<span id="cb9-8"> Row │ person_id  drug_exposure_start  drug_exposure_end</span>
+<span id="cb9-9">     │ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int64</span>      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Float64</span>              <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int64</span></span>
+<span id="cb9-10">─────┼───────────────────────────────────────────────────</span>
+<span id="cb9-11">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>           <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.7273e8</span>          <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">364953600</span></span>
+<span id="cb9-12">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>            <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.90304e7</span>           <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">31449600</span></span>
+<span id="cb9-13">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>           <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8.18208e7</span>          <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">80006400</span></span>
+<span id="cb9-14">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>            <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.32918e9</span>         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1330387200</span></span></code></pre></div>
+<p>Another filter we worked on is the EraCollapse. So, let’s suppose a case where an individual receives the same treatment for a long period of time (e.g.&nbsp;need for chronic treatment). Then it’s highly likely that the person would require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode, and the eraCollapseSize deals with the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e.&nbsp;seen as a continuous treatment instead of a stop and re-initiation of the same treatment). After that proper testing and documentation are also added.</p>
+<p>A basic implementation for the eraCollapseSize is: (a) Sorts the data frame by event_start_date and event_end_date. (b) Calculates the gap between each era and the previous era. (c) Filters out rows with gap_same &gt; eraCollapseSize.</p>
+<p>These functions can be used as follows:</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| eval: false</span></span>
+<span id="cb10-2"></span>
+<span id="cb10-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#= ... =#</span></span>
+<span id="cb10-4"></span>
+<span id="cb10-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">EraCollapse</span>(treatment_history <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> test_df, eraCollapseSize <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">400000000</span>)</span>
+<span id="cb10-6"><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">×</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span> DataFrame</span>
+<span id="cb10-7"> Row │ person_id  drug_exposure_start  drug_exposure_end  gap_same</span>
+<span id="cb10-8">     │ <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int64</span>      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Float64</span>              <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int64</span>              <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Float64</span></span>
+<span id="cb10-9">─────┼───────────────────────────────────────────────────────────────</span>
+<span id="cb10-10">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>           <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5.33347e8</span>         <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">532483200</span>  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.86373e9</span></span>
+<span id="cb10-11">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>           <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.7273e8</span>          <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">364953600</span>   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.59754e8</span></span>
+<span id="cb10-12">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>           <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8.18208e7</span>          <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">80006400</span>   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.83133e8</span></span>
+<span id="cb10-13">   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span> │         <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>            <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.90304e7</span>           <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">31449600</span>   <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.09037e8</span></span></code></pre></div>
+</section>
+<section id="treatment-history-of-the-patients" class="level2">
+<h2 class="anchored" data-anchor-id="treatment-history-of-the-patients">6. Treatment History of the Patients</h2>
+<p>The <code>create_treatment_history</code> function constructs a detailed treatment history for patients in a target cohort by processing and filtering event cohort data from a given DataFrame. It begins by isolating the target cohort based on its <code>cohort_id</code>, adding a new column for the <code>index_year</code> derived from the cohort’s start date. Then, it selects relevant event cohorts based on a provided list of cohort IDs and merges them with the target cohort on the <code>subject_id</code> to associate events with individuals in the target group. The function applies different filtering criteria depending on whether the user is interested in treatments starting or ending within a specified period before the target cohort’s start date (defined by <code>periodPriorToIndex</code>). It keeps only the event cohorts that match the filtering condition, ensuring that only relevant treatments are considered. After filtering, the function calculates time gaps between consecutive cohort events for each patient, adding these gaps to the DataFrame. The final DataFrame provides a history of treatments, including the dates of events and the time intervals between them, offering a clear timeline of treatment for each patient. After that proper testing and documentation are also added.</p>
+</section>
+<section id="combinationwindow-functionality-to-combine-overlapping-treatments" class="level2">
+<h2 class="anchored" data-anchor-id="combinationwindow-functionality-to-combine-overlapping-treatments">7. CombinationWindow Functionality To Combine Overlapping Treatments</h2>
+<p>Now once we have the filtering of the treatments done, we need to combine the overlapping treatments based on some set of rules. The combinationWindow specifies the time that two event eras need to overlap to be considered a combination treatment. If there are more than two overlapping event eras, we sequentially combine treatments, starting from the ﬁrst two overlapping event eras.</p>
+<p>The <code>combination_Window</code> function processes a patient’s treatment history by identifying overlapping treatment events and combining them into continuous treatment periods based on certain rules. It first converts <code>event_cohort_id</code> into strings and sorts the treatment data by <code>person_id</code>, <code>event_start_date</code>, and <code>event_end_date</code>. The helper function <code>selectRowsCombinationWindow</code> calculates gaps between consecutive treatments, marking rows where treatments overlap or occur too closely. In the main loop, the function checks these overlaps and gaps against a specified <code>combinationWindow</code>. If treatments overlap (or nearly overlap), the function adjusts the treatment periods by either merging adjacent rows or splitting rows to create continuous treatment periods. The process continues until all overlapping treatments are combined into one, creating an updated and accurate treatment history. The function ensures the final output reflects realistic treatment windows by handling special cases where gaps between treatments are smaller than the treatment durations themselves.</p>
+<p>It mainly covers the three cases mentioned in the R-research paper:</p>
+<section id="switch-case" class="level3">
+<h3 class="anchored" data-anchor-id="switch-case">Switch Case:</h3>
+<p><em>Condition</em>: If the gap between the two treatment events is smaller than the combinationWindow, but the gap is not equal to the duration of either event. <em>Action</em>: The event_end_date of the previous treatment is set to the event_start_date of the current treatment. This effectively “shifts” the previous treatment’s end date to eliminate the gap, merging the treatments into one continuous period. <em>Purpose</em>: This ensures that treatment gaps that are too small (less than combinationWindow) are treated as part of the same treatment window.</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| eval: false</span></span>
+<span id="cb11-2"></span>
+<span id="cb11-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#= ... =#</span></span>
+<span id="cb11-4"></span>
+<span id="cb11-5"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>gap_previous <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> combinationWindow <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> !(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>gap_previous <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> [duration_era, prev_duration_era])</span>
+<span id="cb11-6">    treatment_history[i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_end_date] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> treatment_history[i, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_start_date]</span></code></pre></div>
+<p>Here is the pictorial representation for the same: <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/case1.png" class="img-fluid"></p>
+</section>
+<section id="frfs-first-row-first-shortened" class="level3">
+<h3 class="anchored" data-anchor-id="frfs-first-row-first-shortened">FRFS (First Row, First Shortened):</h3>
+<p><em>Condition</em>: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the two treatments, and the first treatment ends before or on the same date as the second treatment. <em>Action</em>: A new row is created where the second treatment’s event_end_date is set to the end date of the first treatment. This preserves the overlap but ensures that the earlier treatment period stays intact. <em>Purpose</em>: This prevents unnecessary truncation of the first treatment if it spans the entire overlap window.</p>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| eval: false</span></span>
+<span id="cb12-2"></span>
+<span id="cb12-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#= ... =#</span></span>
+<span id="cb12-4"></span>
+<span id="cb12-5">elseif <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>gap_previous <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> combinationWindow <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">||</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>gap_previous <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> [duration_era, prev_duration_era]</span>
+<span id="cb12-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> treatment_history[i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_end_date] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> treatment_history[i, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_end_date]</span>
+<span id="cb12-7">        new_row <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">deepcopy</span>(treatment_history[i, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>])</span>
+<span id="cb12-8">        new_row.event_end_date <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> treatment_history[i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_end_date]</span>
+<span id="cb12-9">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">append!</span>(treatment_history, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">DataFrame</span>(new_row<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">'</span>))</span></code></pre></div>
+<p>Here is the pictorial representation for the same: <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/case2.png" class="img-fluid"></p>
+</section>
+<section id="lrfs-last-row-first-shortened" class="level3">
+<h3 class="anchored" data-anchor-id="lrfs-last-row-first-shortened">LRFS (Last Row, First Shortened):</h3>
+<p><em>Condition</em>: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the treatments, and the first treatment ends after the second treatment. <em>Action</em>: The current treatment’s event_end_date is adjusted to match the event_end_date of the previous treatment. <em>Purpose</em>: This handles cases where the second treatment’s window should be shortened to prevent overlap with the previous treatment, merging them into a single continuous window.</p>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#| eval: false</span></span>
+<span id="cb13-2"></span>
+<span id="cb13-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#= ... =#</span></span>
+<span id="cb13-4"></span>
+<span id="cb13-5">else</span>
+<span id="cb13-6">    treatment_history[i, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_end_date] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> treatment_history[i<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>event_end_date]</span></code></pre></div>
+<p>Here is the pictorial representation for the same: <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/case3.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p><em>Note:</em> However, There are a few things left to cover here, most of which are the documentation and writing the test suite for the same.</p>
+</blockquote>
+</section>
+</section>
+</section>
+<section id="contributions-beyond-coding" class="level1">
+<h1>Contributions Beyond Coding</h1>
+<section id="organizing-meetings-and-communication" class="level2">
+<h2 class="anchored" data-anchor-id="organizing-meetings-and-communication">1. Organizing Meetings and Communication</h2>
+<p>Throughout the project, I regularly met with my mentor, [Jacob Zelko], and co-mentor, [Mounika], via weekly Zoom calls to discuss progress and seek guidance. During these meetings, we reviewed my work, identified areas where I needed help, and set clear goals for the upcoming weeks. We used Trello to organize and track these goals, ensuring that nothing was overlooked. My mentors provided detailed insights into specific technical aspects and guided me through the logic behind various functions. Outside of our scheduled meetings, they were always available for quick queries via Slack, ensuring constant support.</p>
+</section>
+<section id="personal-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="personal-documentation">2. Personal Documentation</h2>
+<p>In addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including the challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on <a href="https://medium.com/@landgejay124/gsoc-24-the-julia-language-62b809bbec49">Medium</a> to share my journey and experiences with the Julia Language community.</p>
+</section>
+<section id="contributions-to-the-rest-of-the-juliahealth-repositories" class="level2">
+<h2 class="anchored" data-anchor-id="contributions-to-the-rest-of-the-juliahealth-repositories">3. Contributions To the Rest of the JuliaHealth Repositories</h2>
+<p>Earlier I have contributed a lot to the <a href="https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl">OMOPCDMCohortCreator.jl</a> including adding new functionalities writing test suites, adding blogs including - <a href="https://github.com/JuliaHealth/juliahealth.github.io/pull/124">Patient Pathways within JuliaHealth</a>. Apart from that I also initiated 3 new releases of this package.</p>
+</section>
+</section>
+<section id="conclusions-and-future-development" class="level1">
+<h1>Conclusions and Future Development</h1>
+<p>This project was a 350-hour large project since there were many goals to accomplish. Here is what we accomplished:</p>
+<ol type="1">
+<li><p>Built a new repository in JuliaHealth land dedicated especially to treatment pathways synthesis.</p></li>
+<li><p>CI/CD for the Package and Documentation hosting.</p></li>
+<li><p>All required basic functionalities required to build the pathways.</p></li>
+<li><p>Documentation and test suites added for each.</p></li>
+</ol>
+<p>Future work would include:</p>
+<ul>
+<li><p>Finish this <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63">PR</a> test-suites and documentation are remaining for this PR.</p></li>
+<li><p>Apart from that, we would need to add a <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/9">function</a> that sews up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of running each of the functions manually.</p></li>
+<li><p>Also, in the future, we would explore what statistical functionalities we would need to further explore pathways.</p></li>
+<li><p>Then, we could explore how to compose JuliaHealth with packages from ecosystems like <a href="https://juliastats.org/">JuliaStats</a> and <a href="https://docs.juliadsp.org/stable/contents/">JuliaDSP</a> (for time series analysis) that are mentioned in this <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8">PR</a>.</p></li>
+<li><p>And finally work on creating novel visualizations for the Pathways. Commonly used visualizations for treatment pathways (such as sunburst or icicle plots) showing which patients fall under what treatment pathways could be developed as plotting recipes to visualize various aspects of a patient’s care pathway rapidly.</p></li>
+</ul>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements 🙇‍♂️</h1>
+<ol type="1">
+<li><p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p></li>
+<li><p><a href="https://www.linkedin.com/in/mounika-thakkallapally/">Mounika Thakkallapally</a></p></li>
+</ol>
+<p>Thank you for your continuous help and support throughout the fellowship. <em>Note: This blog post was also written with the assistance of LLM technologies to help with grammar, flow, and spelling!</em></p>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{goyal2024,
+  author = {Goyal, Divyansh},
+  title = {GSoC ’24: {Adding} Functionalities to Medical Imaging
+    Visualizations},
+  date = {2024-11-01},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-goyal2024" class="csl-entry quarto-appendix-citeas">
+<div class="">D.
+Goyal, <span>“GSoC ’24: Adding functionalities to medical imaging
+visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html">https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</a></div>
+</div></div></section></div> ]]></description>
+  <category>gsoc</category>
+  <category>openGl</category>
+  <category>Medical Imaging</category>
+  <category>Neuroscience</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
+  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
   <dc:creator>Mounika Thakkallapally</dc:creator>
@@ -98,7 +883,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -752,7 +1537,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -1354,7 +2139,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -1560,7 +2345,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -1632,7 +2417,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
