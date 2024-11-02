@@ -849,6 +849,9 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <blockquote class="blockquote">
 <p>Final result</p>
 </blockquote>
+<blockquote class="blockquote">
+<p><em>Note:</em> The image borders are intentional to emphasize the size of the visualizer which is currently defaulted to a certain width and height.</p>
+</blockquote>
 <p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/supervoxel_rendering_fixed.png" class="img-fluid"></p>
 <blockquote class="blockquote">
 <p><em>Note:</em> However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</p>

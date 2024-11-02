@@ -542,6 +542,9 @@ div.csl-indent {
 <blockquote class="blockquote">
 <p>Final result</p>
 </blockquote>
+<blockquote class="blockquote">
+<p><em>Note:</em> The image borders are intentional to emphasize the size of the visualizer which is currently defaulted to a certain width and height.</p>
+</blockquote>
 <p><img src="./supervoxel_rendering_fixed.png" class="img-fluid"></p>
 <blockquote class="blockquote">
 <p><em>Note:</em> However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</p>
@@ -1415,64 +1418,65 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-322"><a href="#cb9-322"></a></span>
 <span id="cb9-323"><a href="#cb9-323"></a><span class="at">&gt; Final result</span></span>
 <span id="cb9-324"><a href="#cb9-324"></a></span>
-<span id="cb9-325"><a href="#cb9-325"></a><span class="al">![](./supervoxel_rendering_fixed.png)</span></span>
+<span id="cb9-325"><a href="#cb9-325"></a><span class="at">&gt; *Note:* The image borders are intentional to emphasize the size of the visualizer which is currently defaulted to a certain width and height.</span></span>
 <span id="cb9-326"><a href="#cb9-326"></a></span>
-<span id="cb9-327"><a href="#cb9-327"></a></span>
-<span id="cb9-328"><a href="#cb9-328"></a><span class="at">&gt; *Note:* However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</span></span>
-<span id="cb9-329"><a href="#cb9-329"></a></span>
-<span id="cb9-330"><a href="#cb9-330"></a>(a) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/21</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/21)</span></span>
-<span id="cb9-331"><a href="#cb9-331"></a></span>
-<span id="cb9-332"><a href="#cb9-332"></a>(b) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/20</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/20)</span></span>
-<span id="cb9-333"><a href="#cb9-333"></a></span>
-<span id="cb9-334"><a href="#cb9-334"></a>(c) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/16</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/16)</span></span>
-<span id="cb9-335"><a href="#cb9-335"></a></span>
-<span id="cb9-336"><a href="#cb9-336"></a>(d) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/14</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/14)</span></span>
-<span id="cb9-337"><a href="#cb9-337"></a></span>
-<span id="cb9-338"><a href="#cb9-338"></a>(e) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/13</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/13)</span></span>
-<span id="cb9-339"><a href="#cb9-339"></a></span>
-<span id="cb9-340"><a href="#cb9-340"></a>(f) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)</span></span>
-<span id="cb9-341"><a href="#cb9-341"></a></span>
-<span id="cb9-342"><a href="#cb9-342"></a><span class="fu"># Contributions Beyond Coding</span></span>
-<span id="cb9-343"><a href="#cb9-343"></a></span>
-<span id="cb9-344"><a href="#cb9-344"></a><span class="fu">## 1. Mentoring and Guidance</span></span>
-<span id="cb9-345"><a href="#cb9-345"></a></span>
-<span id="cb9-346"><a href="#cb9-346"></a>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues in the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</span>
-<span id="cb9-347"><a href="#cb9-347"></a></span>
-<span id="cb9-348"><a href="#cb9-348"></a><span class="fu">## 2. Package Documentation and Community Contribution</span></span>
-<span id="cb9-349"><a href="#cb9-349"></a></span>
-<span id="cb9-350"><a href="#cb9-350"></a>I contributed to other medical imaging sub-ecosystem packages in JuliaHealth, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/Juliahealth/MedImages.jl)</span> and <span class="co">[</span><span class="ot">MedEval3D.jl</span><span class="co">](https://github.com/Juliahealth/MedEval3D.jl)</span>. Specifically, I set up documentation for these packages using DocuementerVitepress.jl. This not only enhanced the functionality of these packages but also helped maintain a coherent and organized package ecosystem.</span>
-<span id="cb9-351"><a href="#cb9-351"></a></span>
-<span id="cb9-352"><a href="#cb9-352"></a><span class="fu">## 3. Multirepo Management and Collaboration</span></span>
-<span id="cb9-353"><a href="#cb9-353"></a></span>
-<span id="cb9-354"><a href="#cb9-354"></a>In addition to my work on the MedEye3d visualizer, I made significant contributions to other JuliaHealth repositories, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/JuliaHealth/MedImages.jl)</span> and worked over an <span class="co">[</span><span class="ot">Insight Toolkit</span><span class="co">](https://github.com/InsightSoftwareConsortium/ITK)</span> wrapper library <span class="co">[</span><span class="ot">ITKIOWrapper.jl</span><span class="co">](https://github.com/JuliaHealth/ITKIOWrapper.jl)</span> for support in image I/O down the road in MedImages.jl. I also maintained relevant documentation and ensured continuous collaboration and synchronization across these packages.</span>
-<span id="cb9-355"><a href="#cb9-355"></a></span>
-<span id="cb9-356"><a href="#cb9-356"></a><span class="fu"># Conclusions and Future Development</span></span>
-<span id="cb9-357"><a href="#cb9-357"></a></span>
-<span id="cb9-358"><a href="#cb9-358"></a>Within the scope of this 350-hour project, a comprehensive range of objectives were successfully addressed. Noteworthy achievements include:</span>
-<span id="cb9-359"><a href="#cb9-359"></a></span>
-<span id="cb9-360"><a href="#cb9-360"></a><span class="ss">1. </span>Fixed screen tear and flicker within the visualizer. Integration of threadsafe Julia channels.</span>
-<span id="cb9-361"><a href="#cb9-361"></a></span>
-<span id="cb9-362"><a href="#cb9-362"></a><span class="ss">2. </span>Achieved multi-image display over CT and PET modalities with crosshair rendering (Although, only one modality can be visualize at a time, i.e either CT | CT or PET | PET).</span>
-<span id="cb9-363"><a href="#cb9-363"></a></span>
-<span id="cb9-364"><a href="#cb9-364"></a><span class="ss">3. </span>Achieved supervoxel display in single image display mode.</span>
-<span id="cb9-365"><a href="#cb9-365"></a></span>
-<span id="cb9-366"><a href="#cb9-366"></a><span class="ss">4. </span>Achieved automatic windowing of MRI and PET most common modalities.</span>
-<span id="cb9-367"><a href="#cb9-367"></a></span>
-<span id="cb9-368"><a href="#cb9-368"></a>Future work would include:</span>
-<span id="cb9-369"><a href="#cb9-369"></a></span>
-<span id="cb9-370"><a href="#cb9-370"></a><span class="ss">- </span>Support for the users on Darwin (Apple-based platforms).</span>
-<span id="cb9-371"><a href="#cb9-371"></a></span>
-<span id="cb9-372"><a href="#cb9-372"></a><span class="ss">- </span>Apart from that, we would need to add a function that dynamically allocates the texture number to the manual modification mask, regardless of the number of images passed for display, which is currently defaulted to 2.</span>
-<span id="cb9-373"><a href="#cb9-373"></a></span>
-<span id="cb9-374"><a href="#cb9-374"></a><span class="ss">- </span>Also, in the future, we would explore the stretch goals a bit more rigorously, particularly the implementation of <span class="co">[</span><span class="ot">MedVoxelHD</span><span class="co">](https://doi.org/10.1016/j.softx.2024.101744)</span> within MedEye3d.</span>
-<span id="cb9-375"><a href="#cb9-375"></a></span>
-<span id="cb9-376"><a href="#cb9-376"></a><span class="fu"># Acknowledgements 🙇‍♂️</span></span>
-<span id="cb9-377"><a href="#cb9-377"></a></span>
-<span id="cb9-378"><a href="#cb9-378"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">Jakub Mitura</span><span class="co">](https://orcid.org/0000-0003-1823-6823)</span>: aka, <span class="co">[</span><span class="ot">Dr. Jakub Mitura</span><span class="co">](https://github.com/jakubMitura14)</span></span>
-<span id="cb9-379"><a href="#cb9-379"></a></span>
-<span id="cb9-380"><a href="#cb9-380"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">Carlos Castillo Passi</span><span class="co">](https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en)</span>: aka, <span class="co">[</span><span class="ot">cncastillo</span><span class="co">](https://github.com/cncastillo)</span></span>
-<span id="cb9-381"><a href="#cb9-381"></a></span>
-<span id="cb9-382"><a href="#cb9-382"></a>I would like to thank my mentor Dr. Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb9-327"><a href="#cb9-327"></a><span class="al">![](./supervoxel_rendering_fixed.png)</span></span>
+<span id="cb9-328"><a href="#cb9-328"></a></span>
+<span id="cb9-329"><a href="#cb9-329"></a><span class="at">&gt; *Note:* However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</span></span>
+<span id="cb9-330"><a href="#cb9-330"></a></span>
+<span id="cb9-331"><a href="#cb9-331"></a>(a) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/21</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/21)</span></span>
+<span id="cb9-332"><a href="#cb9-332"></a></span>
+<span id="cb9-333"><a href="#cb9-333"></a>(b) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/20</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/20)</span></span>
+<span id="cb9-334"><a href="#cb9-334"></a></span>
+<span id="cb9-335"><a href="#cb9-335"></a>(c) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/16</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/16)</span></span>
+<span id="cb9-336"><a href="#cb9-336"></a></span>
+<span id="cb9-337"><a href="#cb9-337"></a>(d) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/14</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/14)</span></span>
+<span id="cb9-338"><a href="#cb9-338"></a></span>
+<span id="cb9-339"><a href="#cb9-339"></a>(e) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/13</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/13)</span></span>
+<span id="cb9-340"><a href="#cb9-340"></a></span>
+<span id="cb9-341"><a href="#cb9-341"></a>(f) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)</span></span>
+<span id="cb9-342"><a href="#cb9-342"></a></span>
+<span id="cb9-343"><a href="#cb9-343"></a><span class="fu"># Contributions Beyond Coding</span></span>
+<span id="cb9-344"><a href="#cb9-344"></a></span>
+<span id="cb9-345"><a href="#cb9-345"></a><span class="fu">## 1. Mentoring and Guidance</span></span>
+<span id="cb9-346"><a href="#cb9-346"></a></span>
+<span id="cb9-347"><a href="#cb9-347"></a>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues in the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</span>
+<span id="cb9-348"><a href="#cb9-348"></a></span>
+<span id="cb9-349"><a href="#cb9-349"></a><span class="fu">## 2. Package Documentation and Community Contribution</span></span>
+<span id="cb9-350"><a href="#cb9-350"></a></span>
+<span id="cb9-351"><a href="#cb9-351"></a>I contributed to other medical imaging sub-ecosystem packages in JuliaHealth, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/Juliahealth/MedImages.jl)</span> and <span class="co">[</span><span class="ot">MedEval3D.jl</span><span class="co">](https://github.com/Juliahealth/MedEval3D.jl)</span>. Specifically, I set up documentation for these packages using DocuementerVitepress.jl. This not only enhanced the functionality of these packages but also helped maintain a coherent and organized package ecosystem.</span>
+<span id="cb9-352"><a href="#cb9-352"></a></span>
+<span id="cb9-353"><a href="#cb9-353"></a><span class="fu">## 3. Multirepo Management and Collaboration</span></span>
+<span id="cb9-354"><a href="#cb9-354"></a></span>
+<span id="cb9-355"><a href="#cb9-355"></a>In addition to my work on the MedEye3d visualizer, I made significant contributions to other JuliaHealth repositories, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/JuliaHealth/MedImages.jl)</span> and worked over an <span class="co">[</span><span class="ot">Insight Toolkit</span><span class="co">](https://github.com/InsightSoftwareConsortium/ITK)</span> wrapper library <span class="co">[</span><span class="ot">ITKIOWrapper.jl</span><span class="co">](https://github.com/JuliaHealth/ITKIOWrapper.jl)</span> for support in image I/O down the road in MedImages.jl. I also maintained relevant documentation and ensured continuous collaboration and synchronization across these packages.</span>
+<span id="cb9-356"><a href="#cb9-356"></a></span>
+<span id="cb9-357"><a href="#cb9-357"></a><span class="fu"># Conclusions and Future Development</span></span>
+<span id="cb9-358"><a href="#cb9-358"></a></span>
+<span id="cb9-359"><a href="#cb9-359"></a>Within the scope of this 350-hour project, a comprehensive range of objectives were successfully addressed. Noteworthy achievements include:</span>
+<span id="cb9-360"><a href="#cb9-360"></a></span>
+<span id="cb9-361"><a href="#cb9-361"></a><span class="ss">1. </span>Fixed screen tear and flicker within the visualizer. Integration of threadsafe Julia channels.</span>
+<span id="cb9-362"><a href="#cb9-362"></a></span>
+<span id="cb9-363"><a href="#cb9-363"></a><span class="ss">2. </span>Achieved multi-image display over CT and PET modalities with crosshair rendering (Although, only one modality can be visualize at a time, i.e either CT | CT or PET | PET).</span>
+<span id="cb9-364"><a href="#cb9-364"></a></span>
+<span id="cb9-365"><a href="#cb9-365"></a><span class="ss">3. </span>Achieved supervoxel display in single image display mode.</span>
+<span id="cb9-366"><a href="#cb9-366"></a></span>
+<span id="cb9-367"><a href="#cb9-367"></a><span class="ss">4. </span>Achieved automatic windowing of MRI and PET most common modalities.</span>
+<span id="cb9-368"><a href="#cb9-368"></a></span>
+<span id="cb9-369"><a href="#cb9-369"></a>Future work would include:</span>
+<span id="cb9-370"><a href="#cb9-370"></a></span>
+<span id="cb9-371"><a href="#cb9-371"></a><span class="ss">- </span>Support for the users on Darwin (Apple-based platforms).</span>
+<span id="cb9-372"><a href="#cb9-372"></a></span>
+<span id="cb9-373"><a href="#cb9-373"></a><span class="ss">- </span>Apart from that, we would need to add a function that dynamically allocates the texture number to the manual modification mask, regardless of the number of images passed for display, which is currently defaulted to 2.</span>
+<span id="cb9-374"><a href="#cb9-374"></a></span>
+<span id="cb9-375"><a href="#cb9-375"></a><span class="ss">- </span>Also, in the future, we would explore the stretch goals a bit more rigorously, particularly the implementation of <span class="co">[</span><span class="ot">MedVoxelHD</span><span class="co">](https://doi.org/10.1016/j.softx.2024.101744)</span> within MedEye3d.</span>
+<span id="cb9-376"><a href="#cb9-376"></a></span>
+<span id="cb9-377"><a href="#cb9-377"></a><span class="fu"># Acknowledgements 🙇‍♂️</span></span>
+<span id="cb9-378"><a href="#cb9-378"></a></span>
+<span id="cb9-379"><a href="#cb9-379"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">Jakub Mitura</span><span class="co">](https://orcid.org/0000-0003-1823-6823)</span>: aka, <span class="co">[</span><span class="ot">Dr. Jakub Mitura</span><span class="co">](https://github.com/jakubMitura14)</span></span>
+<span id="cb9-380"><a href="#cb9-380"></a></span>
+<span id="cb9-381"><a href="#cb9-381"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">Carlos Castillo Passi</span><span class="co">](https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en)</span>: aka, <span class="co">[</span><span class="ot">cncastillo</span><span class="co">](https://github.com/cncastillo)</span></span>
+<span id="cb9-382"><a href="#cb9-382"></a></span>
+<span id="cb9-383"><a href="#cb9-383"></a>I would like to thank my mentor Dr. Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

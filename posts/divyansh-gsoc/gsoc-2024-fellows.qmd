@@ -322,8 +322,9 @@ At last, an appealing result hit our sight.
 
 > Final result
 
-![](./supervoxel_rendering_fixed.png)
+> *Note:* The image borders are intentional to emphasize the size of the visualizer which is currently defaulted to a certain width and height.
 
+![](./supervoxel_rendering_fixed.png)
 
 > *Note:* However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:
 
