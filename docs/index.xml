@@ -9,8 +9,8 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.47</generator>
-<lastBuildDate>Fri, 01 Nov 2024 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.57</generator>
+<lastBuildDate>Thu, 31 Oct 2024 18:30:00 GMT</lastBuildDate>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
   <dc:creator>Divyansh Goyal</dc:creator>
@@ -22,7 +22,7 @@
 
 <section id="hello-everyone" class="level1">
 <h1>Hello Everyone! 👋</h1>
-<p>I am Divyansh, an undergraduate student from Guru Gobind Singh Indraprastha university, majoring in Artificial Intelligence and Machine Learning. Stumbling upon projects under the Juliahealth’s sub-ecosystem of medical imaging packages, the intricacies of imaging modalities and file formats, reflected by their relevant project counterparts, captured the best of my interests. Working with standards such as NIfTI (Neuroimaging Informatics Technology Initiative) and DICOM (Digital Imaging and Communications in Medicine) with MedImages.jl, I became interested in the visualization routines of such imaging datasets and their integration within the segmentation pipelines for modern medical-imaging analysis.</p>
+<p>I am Divyansh, an undergraduate student from Guru Gobind Singh Indraprastha university, majoring in Artificial Intelligence and Machine Learning. Stumbling upon projects under the Juliahealth sub-ecosystem of medical imaging packages, the intricacies of imaging modalities and file formats, reflected in their relevant project counterparts, captured my interest. Working with standards such as NIfTI (Neuroimaging Informatics Technology Initiative) and DICOM (Digital Imaging and Communications in Medicine) with MedImages.jl, I became interested in the visualization routines of such imaging datasets and their integration within the segmentation pipelines for modern medical-imaging analysis.</p>
 <p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, contributing to MedEye3d.jl medical imaging visualizer under GSOC-2024!</p>
 <blockquote class="blockquote">
 <p>If you want to learn more about me, you can connect with me on <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/divital-coder"><strong>GitHub</strong></a></p>
@@ -32,14 +32,8 @@
 <h1>Background</h1>
 <section id="what-is-medeye3d.jl" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
-<!--
-   - TODO: Add links to Rocket and ModernGL
-   -->
-<p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.</p>
-<!--
-   - TODO: Add a bibliography reference to this paper for the blog 
-   -->
-<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>).</p>
+<p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of <a href="https://github.com/ReactiveBayes/Rocket.jl">Rocket.jl</a> and <a href="https://github.com/JuliaGL/ModernGL.jl">ModernGL.jl</a> ensures the high-performance robust visualizations that the package has to offer.</p>
+<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>) <span class="citation" data-cites="Mitura2021">[1]</span>.</p>
 </section>
 <section id="what-features-does-this-project-encompass" class="level2">
 <h2 class="anchored" data-anchor-id="what-features-does-this-project-encompass">What features does this project encompass?</h2>
@@ -48,9 +42,9 @@
 </section>
 <section id="project-goals" class="level1">
 <h1>Project Goals</h1>
-<p>The goals outlined by Dr.Jakub Mitura (my project mentor) and I the beginning of this summer were:</p>
+<p>The goals outlined by Dr.&nbsp;Jakub Mitura (my project mentor) and I, beginning of this summer were:</p>
 <ol type="1">
-<li><p>Migration of the package reliance from <a href="https://github.com/reactivebayes/Rocket.jl">Rocket.jl</a> to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl’s actor-subscription mechanism present at the core of MedEye3d.jl’s event-driven programming. Here, Julia’s threadsafe and asynchronous <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">channels</a> provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket</p></li>
+<li><p>Migration of package reliance from <a href="https://github.com/reactivebayes/Rocket.jl">Rocket.jl</a> to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl’s actor-subscription mechanism present at the core of MedEye3d.jl’s event-driven programming. Here, Julia’s threadsafe and asynchronous <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">channels</a> provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket</p></li>
 <li><p>Implementation of high level functions with simplified basic usage: Prior to this, MedEye3d involved initialization of data, texture specifications and text display for a final visualization. To reduce complexity, methods to abstract such chores were devised and implemented which resulted in the exposure of functions for loading images, accessing display data and modification of display data. This also encompassed the loading of images via <a href="https://github.com/juliahealth/MedImages.jl">MedImages.jl</a> which required prior work for the integration of C++ <a href="https://github.com/InsightSoftwareConsortium/ITK">ITK</a> backend for image I/O.</p></li>
 <li><p>Improved precompilation with decreased outputs to reduce start time</p></li>
 <li><p>Automatic windowing for most common MRI and PET modalities: This task is a step in the direction of maintaining consistent visualizations across MRI and PET’s most common modalities, to mimic images similar to what is displayed within <a href="https://www.slicer.org/">3dSlicer</a> for the same.</p></li>
@@ -66,9 +60,9 @@
 </section>
 <section id="tasks" class="level1">
 <h1>Tasks</h1>
-<section id="migration-of-the-package-from-rocket-to-julias-base.channel" class="level2">
-<h2 class="anchored" data-anchor-id="migration-of-the-package-from-rocket-to-julias-base.channel">1. Migration of the package from Rocket to Julia’s Base.Channel</h2>
-<p>Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image’s planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket’s actor-subscription mechanism and decided to integrate Julia’s Base.Channel within <a href="https://github.com/Juliahealth/MedEye3d.jl">MedEye3d.jl</a> for handling the event and state management routine. Julia has asynchronous, threadsafe <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels">channels</a> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</p>
+<section id="migration-of-package-from-rocket-to-julias-base.channel" class="level2">
+<h2 class="anchored" data-anchor-id="migration-of-package-from-rocket-to-julias-base.channel">1. Migration of package from Rocket to Julia’s Base.Channel</h2>
+<p>Initially, there was significant screen-tearing evident from the pixelated display of the rendered text and main image which, furthermore exhibited flickering upon scrolling through the slices in the relevant displayed image’s planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket’s actor-subscription mechanism and decided to integrate Julia’s Base.Channel within <a href="https://github.com/Juliahealth/MedEye3d.jl">MedEye3d.jl</a> for handling the event and state management routine. Julia has asynchronous, threadsafe <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels">channels</a> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</p>
 <div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
@@ -130,26 +124,24 @@ background-color: null;
 font-style: inherit;">put!</span>(newChannel, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"apples"</span>)</span></code></pre></div>
-<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the <code>on_next!</code> function, invokes different reactive components based on the types of arguments it is dealing with.</p>
-<!--
-   - TODO: functions in-text should be surrounded by ``'s
-   -->
+<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitated fixing the issue of screen tearing. Below is how the <code>on_next!</code> function, invokes different reactive components based on the types of arguments it is dealing with.</p>
 <blockquote class="blockquote">
-<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke <code>on_next!(state, channelData)</code> -&gt; invoke relevant functionality based on the type of arguments passed <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multiple_dispatch_code.png" class="img-fluid"></p>
+<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke <code>on_next!(state, channelData)</code> -&gt; invoke relevant functionality based on the type of arguments passed</p>
 </blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multiple_dispatch_code.png" class="img-fluid"></p>
 <p>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</p>
 <p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/fixed_screen_tear.png" class="img-fluid"></p>
 </section>
 <section id="implementation-of-high-level-functions-with-simplified-basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="implementation-of-high-level-functions-with-simplified-basic-usage">2. Implementation of high level functions with simplified basic usage</h2>
-<p>Having a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases:</p>
+<p>Implementing a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases:</p>
 <ol type="1">
 <li><p>Rendering an image-plane with OpenGL</p></li>
 <li><p>Loading data slices from the image</p></li>
 <li><p>Creating texture specifications for modalities</p></li>
 <li><p>Producing the final segmentation display</p></li>
 </ol>
-<p>In order to simplify basic usage, high-level abstractions were put in place with the help of <a href="https://github.com/MedImages.jl">MedImages.jl</a> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accomodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</p>
+<p>In order to simplify basic usage, high-level abstractions were put in place with the help of <a href="https://github.com/MedImages.jl">MedImages.jl</a> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accommodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</p>
 <div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1">MedEye3d.SegmentationDisplay.<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">displayImage</span>()</span></code></pre></div>
@@ -563,7 +555,7 @@ font-style: inherit;">end</span></span></code></pre></div>
 </section>
 <section id="adding-support-for-multi-image-viewing-with-crosshair-marker-for-image-registration" class="level2">
 <h2 class="anchored" data-anchor-id="adding-support-for-multi-image-viewing-with-crosshair-marker-for-image-registration">5. Adding support for multi-image viewing with crosshair marker for image registration</h2>
-<p>Following the mid-term evaluation, MedEye3d.jl underwent a significant enhancement, whereby a multi-image display capability was implemented through a series of refinements. Specifically, a novel approach was adopted, whereby separate openGL <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">fragment shaders</a> were introduced to concurrently render images on either side of the visualizer, namely the left and right views. Prior to integrating voxel data into the fragment shaders, an initial series of tests involved evaluating individual colors to validate the integrity of the double image display. A screenshot from one of these critical testing phases is presented below: <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multi_fragment_shader.png" class="img-fluid"></p>
+<p>Following the mid-term evaluation, MedEye3d.jl underwent a significant enhancement, whereby a multi-image display capability was implemented through a series of refinements. Specifically, a novel approach was adopted, whereby separate OpenGL <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">fragment shaders</a> were introduced to concurrently render images on either side of the visualizer, namely the left and right views. Prior to integrating voxel data into the fragment shaders, an initial series of tests involved evaluating individual colors to validate the integrity of the double image display. A screenshot from one of these critical testing phases is presented below: <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multi_fragment_shader.png" class="img-fluid"></p>
 <p>The shaders were further manipulated to automatically initialize for each of the images separately. Further, the reactive aspect of the visualizer in multi-image display mode was iterated upon and now, instead of a single state management struct, a vector of states was being passed around, facilitating the user to scroll each of the images separately just by simply hovering their mouse over either of the image, activating its relevant associated state struct.</p>
 <p>Down below, is the struct for state that handles all of the things currently related with an image:</p>
 <div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><span class="pp" style="color: #AD0000;
@@ -829,10 +821,10 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <li><p>Conversion of these x and y window coordinates into their relevant active image x and y texture coordinates</p></li>
 <li><p>Conversion of these texture coordinates into real space point with the help of spatial metadata</p></li>
 <li><p>Conversion of the real space point into the texture coordinates of the passive image</p></li>
-<li><p>Conversion of the passive image texture coordinates into their relevant openGl coordinate system values (-1 to 1)</p></li>
-<li><p>Rendering of crosshair on openGl coordinate in passive image</p></li>
+<li><p>Conversion of the passive image texture coordinates into their relevant OpenGL coordinate system values (-1 to 1)</p></li>
+<li><p>Rendering of crosshair on OpenGL coordinate in passive image</p></li>
 </ol>
-<p>Conversion between different coordinate systems and accounting for the image’s spatial metadata during calculating proved to be challenging at first, but with multiple revisions, a final solution was achieved with seemingly no noticable amount of lag or delay. One such frame of [CT] images with crosshair display in multi-image is depicted below:</p>
+<p>Conversion between different coordinate systems and accounting for the image’s spatial metadata during calculating proved to be challenging at first, but with multiple revisions, a final solution was achieved with seemingly no noticeable amount of lag or delay. One such frame of [CT] images with crosshair display in multi-image is depicted below:</p>
 <p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multi_image_ct_crosshair.png" class="img-fluid"></p>
 <blockquote class="blockquote">
 <p>Another frame from the openGL rendering cycle, highlighting PET images with crosshair display in multi-image mode:</p>
@@ -842,13 +834,13 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <section id="adding-support-for-the-display-of-supervoxels-sv-with-borders-within-the-image-slices-to-better-understand-anatomical-regions-within-slices" class="level2">
 <h2 class="anchored" data-anchor-id="adding-support-for-the-display-of-supervoxels-sv-with-borders-within-the-image-slices-to-better-understand-anatomical-regions-within-slices">6. Adding support for the display of <a href="https://doi.org/10.1016/j.cagd.2022.102080">SuperVoxels</a> sv with borders within the image slices to better understand anatomical regions within slices</h2>
 <p>In enhancing MedEye3d’s functionality, supporting super voxels (sv) with boundaries becomes paramount. The sv rendering, effectively capturing gradients, serves as the cornerstone for detecting these boundaries within both MRI and PET volumes. Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics. By integrating boundary detection for super-voxels, MedEye3d can offer enhanced segmentation capabilities, enabling more precise delineation and analysis of anatomical structures and pathological regions within medical imaging data.</p>
-<p><a href="https://www.sciencedirect.com/topics/computer-science/superpixel">Supervoxels</a> are basically a collection of voxels that share similar image properties. For example: in MRI scans of the brain cortex, super voxels could represent clusters of voxels corresponding to specific anatomical regions or functional areas. The main objective of this task was to add support for the display of super voxel-based segmentation of images, followed by some janitorial tasks :</p>
+<p><a href="https://www.sciencedirect.com/topics/computer-science/superpixel">Supervoxels</a> are basically a collection of voxels that share similar image properties. For example: in MRI scans of the brain cortex, super voxels could represent clusters of voxels corresponding to specific anatomical regions or functional areas. The main objective of this task was to add support for the display of super voxel-based segmentation of images, followed by some janitorial tasks:</p>
 <ol type="1">
 <li><p>Display of the borders of super-voxels (sv), extracted using the machine learning algorithms.</p></li>
 <li><p>Checking image gradient agreement with super-voxel borders.</p></li>
 </ol>
-<p>This initial workflow involved, the initialization of relevant buffers in openGl for dynamic rendering of lines over the image display, namely vertex array buffers (vao), vertex buffers (vbo) and edge buffers (ebo). Further, these buffers are updated on a scroll event, where the information from the currently displayed slice is passed to the event handler, which invokes a function that updates the vertex buffer (vbo) with new vertices pertaining to the relevant slice number and planar view, precalculated from an <a href="https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5">HDF5</a> file during initialization of the visualizer. For instance, if the user is scrolling in the 3rd axis (transversal plane) and is currently on slice 40, the supervoxel display will pertain to edges specifically calculated for that specific slice in that plane.</p>
-<p>Eventually, with ever so increasing number of attempts and a few hurdles along the way, one of which particularly stood out, since it marked our first step towards a good direction:</p>
+<p>This initial workflow involved, the initialization of relevant buffers in OpenGL for dynamic rendering of lines over the image display, namely vertex array buffers (vao), vertex buffers (vbo) and edge buffers (ebo). Further, these buffers are updated on a scroll event, where the information from the currently displayed slice is passed to the event handler, which invokes a function that updates the vertex buffer (vbo) with new vertices pertaining to the relevant slice number and planar view, precalculated from an <a href="https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5">HDF5</a> file during initialization of the visualizer. For instance, if the user is scrolling in the 3rd axis (transversal plane) and is currently on slice 40, the supervoxel display will pertain to edges specifically calculated for that specific slice in that plane.</p>
+<p>Eventually, with ever so increasing number of attempts and a few hurdles along the way, one of which particularly stood out since it marked our first step towards a good direction:</p>
 <blockquote class="blockquote">
 <p>Challenges in rendering</p>
 </blockquote>
@@ -875,7 +867,7 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <h1>Contributions Beyond Coding</h1>
 <section id="mentoring-and-guidance" class="level2">
 <h2 class="anchored" data-anchor-id="mentoring-and-guidance">1. Mentoring and Guidance</h2>
-<p>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues within the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</p>
+<p>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues in the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</p>
 </section>
 <section id="package-documentation-and-community-contribution" class="level2">
 <h2 class="anchored" data-anchor-id="package-documentation-and-community-contribution">2. Package Documentation and Community Contribution</h2>
@@ -892,12 +884,12 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <ol type="1">
 <li><p>Fixed screen tear and flicker within the visualizer. Integration of threadsafe Julia channels.</p></li>
 <li><p>Achieved multi-image display over CT and PET modalities with crosshair rendering (Although, only one modality can be visualize at a time, i.e either CT | CT or PET | PET).</p></li>
-<li><p>Achived supervoxel display in single image display mode.</p></li>
+<li><p>Achieved supervoxel display in single image display mode.</p></li>
 <li><p>Achieved automatic windowing of MRI and PET most common modalities.</p></li>
 </ol>
 <p>Future work would include:</p>
 <ul>
-<li><p>Support for the users on Darwin (Apple based platforms).</p></li>
+<li><p>Support for the users on Darwin (Apple-based platforms).</p></li>
 <li><p>Apart from that, we would need to add a function that dynamically allocates the texture number to the manual modification mask, regardless of the number of images passed for display, which is currently defaulted to 2.</p></li>
 <li><p>Also, in the future, we would explore the stretch goals a bit more rigorously, particularly the implementation of <a href="https://doi.org/10.1016/j.softx.2024.101744">MedVoxelHD</a> within MedEye3d.</p></li>
 </ul>
@@ -908,14 +900,19 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <li><p><a href="https://orcid.org/0000-0003-1823-6823">Jakub Mitura</a>: aka, <a href="https://github.com/jakubMitura14">Dr.&nbsp;Jakub Mitura</a></p></li>
 <li><p><a href="https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en">Carlos Castillo Passi</a>: aka, <a href="https://github.com/cncastillo">cncastillo</a></p></li>
 </ol>
-<p>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
+<p>I would like to thank my mentor Dr.&nbsp;Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
 
 
 <!-- -->
 
+
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{goyal2024,
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0">
+<div id="ref-Mitura2021" class="csl-entry">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">J. Mitura and B. E. Chrapko, <span>“3D medical segmentation visualization in julia with MedEye3d,”</span> <em>Zeszyty Naukowe Warszawskiej Wyższej Szkoły Informatyki</em>, vol. nr 25, pp. 57–67, 2021, doi: <a href="https://doi.org/10.26348/znwwsi.25.57">10.26348/znwwsi.25.57</a></div>
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{goyal2024,
   author = {Goyal, Divyansh},
   title = {GSoC ’24: {Adding} Functionalities to Medical Imaging
     Visualizations},
@@ -933,7 +930,7 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
   <category>imaging</category>
   <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -1022,7 +1019,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -1676,7 +1673,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -2278,7 +2275,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -2484,7 +2481,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -2556,7 +2553,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
