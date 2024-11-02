@@ -322,7 +322,7 @@ At last, an appealing result hit our sight.
 
 > *Note:* However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:
 
-(a) [https://github.com/JuliaHealth/MedEye3d.jl/pull/20](https://github.com/JuliaHealth/MedEye3d.jl/pull/21)
+(a) [https://github.com/JuliaHealth/MedEye3d.jl/pull/21](https://github.com/JuliaHealth/MedEye3d.jl/pull/21)
 
 (b) [https://github.com/JuliaHealth/MedEye3d.jl/pull/20](https://github.com/JuliaHealth/MedEye3d.jl/pull/20)
 
