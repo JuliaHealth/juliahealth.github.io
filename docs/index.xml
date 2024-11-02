@@ -9,8 +9,8 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.57</generator>
-<lastBuildDate>Thu, 31 Oct 2024 18:30:00 GMT</lastBuildDate>
+<generator>quarto-1.5.47</generator>
+<lastBuildDate>Fri, 01 Nov 2024 04:00:00 GMT</lastBuildDate>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
   <dc:creator>Divyansh Goyal</dc:creator>
@@ -33,7 +33,7 @@
 <section id="what-is-medeye3d.jl" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
 <p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of <a href="https://github.com/ReactiveBayes/Rocket.jl">Rocket.jl</a> and <a href="https://github.com/JuliaGL/ModernGL.jl">ModernGL.jl</a> ensures the high-performance robust visualizations that the package has to offer.</p>
-<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>) <span class="citation" data-cites="Mitura2021">[1]</span>.</p>
+<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a> <span class="citation" data-cites="Mitura2021">[1]</span>).</p>
 </section>
 <section id="what-features-does-this-project-encompass" class="level2">
 <h2 class="anchored" data-anchor-id="what-features-does-this-project-encompass">What features does this project encompass?</h2>
@@ -933,7 +933,7 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
   <category>imaging</category>
   <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
+  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -1022,7 +1022,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
+  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -1676,7 +1676,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
+  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -2278,7 +2278,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
+  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -2484,7 +2484,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
+  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -2556,7 +2556,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
+  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

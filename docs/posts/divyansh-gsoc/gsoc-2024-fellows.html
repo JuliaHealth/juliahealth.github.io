@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -313,7 +313,7 @@ div.csl-indent {
 <section id="what-is-medeye3d.jl" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
 <p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of <a href="https://github.com/ReactiveBayes/Rocket.jl">Rocket.jl</a> and <a href="https://github.com/JuliaGL/ModernGL.jl">ModernGL.jl</a> ensures the high-performance robust visualizations that the package has to offer.</p>
-<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>) <span class="citation" data-cites="Mitura2021"><a href="#ref-Mitura2021" role="doc-biblioref">[1]</a></span>.</p>
+<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a> <span class="citation" data-cites="Mitura2021"><a href="#ref-Mitura2021" role="doc-biblioref">[1]</a></span>).</p>
 </section>
 <section id="what-features-does-this-project-encompass" class="level2">
 <h2 class="anchored" data-anchor-id="what-features-does-this-project-encompass">What features does this project encompass?</h2>
@@ -1126,7 +1126,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-30"><a href="#cb9-30"></a></span>
 <span id="cb9-31"><a href="#cb9-31"></a><span class="co">[</span><span class="ot">MedEye3D.jl</span><span class="co">](https::/github.com/Juliahealth/MedEye3d.jl)</span> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of <span class="co">[</span><span class="ot">Rocket.jl</span><span class="co">](https://github.com/ReactiveBayes/Rocket.jl)</span> and <span class="co">[</span><span class="ot">ModernGL.jl</span><span class="co">](https://github.com/JuliaGL/ModernGL.jl)</span> ensures the high-performance robust visualizations that the package has to offer.</span>
 <span id="cb9-32"><a href="#cb9-32"></a></span>
-<span id="cb9-33"><a href="#cb9-33"></a>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <span class="co">[</span><span class="ot">here</span><span class="co">](https://doi.org/10.26348/znwwsi.25.57)</span>) <span class="co">[</span><span class="ot">@Mitura2021</span><span class="co">]</span>.</span>
+<span id="cb9-33"><a href="#cb9-33"></a>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <span class="co">[</span><span class="ot">here</span><span class="co">](https://doi.org/10.26348/znwwsi.25.57)</span> <span class="co">[</span><span class="ot">@Mitura2021</span><span class="co">]</span>).</span>
 <span id="cb9-34"><a href="#cb9-34"></a></span>
 <span id="cb9-35"><a href="#cb9-35"></a><span class="fu">## What features does this project encompass?</span></span>
 <span id="cb9-36"><a href="#cb9-36"></a></span>
@@ -1162,7 +1162,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-66"><a href="#cb9-66"></a></span>
 <span id="cb9-67"><a href="#cb9-67"></a>Initially, there was significant screen-tearing evident from the pixelated display of the rendered text and main image which, furthermore exhibited flickering upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within <span class="co">[</span><span class="ot">MedEye3d.jl</span><span class="co">](https://github.com/Juliahealth/MedEye3d.jl)</span> for handling the event and state management routine. Julia has asynchronous, threadsafe <span class="co">[</span><span class="ot">channels</span><span class="co">](https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels)</span> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</span>
 <span id="cb9-68"><a href="#cb9-68"></a></span>
-<span id="cb9-69"><a href="#cb9-69"></a><span class="in">```Julia</span></span>
+<span id="cb9-69"><a href="#cb9-69"></a><span class="in">```julia</span></span>
 <span id="cb9-70"><a href="#cb9-70"></a><span class="in">function consumer(channel::Base.Channel)</span></span>
 <span id="cb9-71"><a href="#cb9-71"></a><span class="in">    while(true)</span></span>
 <span id="cb9-72"><a href="#cb9-72"></a><span class="in">    channelData::String = take!(channel)</span></span>
@@ -1200,21 +1200,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-104"><a href="#cb9-104"></a></span>
 <span id="cb9-105"><a href="#cb9-105"></a>In order to simplify basic usage, high-level abstractions were put in place with the help of <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/MedImages.jl)</span> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accommodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</span>
 <span id="cb9-106"><a href="#cb9-106"></a></span>
-<span id="cb9-107"><a href="#cb9-107"></a><span class="in">```Julia</span></span>
+<span id="cb9-107"><a href="#cb9-107"></a><span class="in">```julia</span></span>
 <span id="cb9-108"><a href="#cb9-108"></a><span class="in">MedEye3d.SegmentationDisplay.displayImage()</span></span>
 <span id="cb9-109"><a href="#cb9-109"></a><span class="in">```</span></span>
 <span id="cb9-110"><a href="#cb9-110"></a></span>
-<span id="cb9-111"><a href="#cb9-111"></a><span class="in">```Julia</span></span>
+<span id="cb9-111"><a href="#cb9-111"></a><span class="in">```julia</span></span>
 <span id="cb9-112"><a href="#cb9-112"></a><span class="in">MedEye3d.DisplayDataManag.getDisplayedData()</span></span>
 <span id="cb9-113"><a href="#cb9-113"></a><span class="in">```</span></span>
 <span id="cb9-114"><a href="#cb9-114"></a></span>
-<span id="cb9-115"><a href="#cb9-115"></a><span class="in">```Julia</span></span>
+<span id="cb9-115"><a href="#cb9-115"></a><span class="in">```julia</span></span>
 <span id="cb9-116"><a href="#cb9-116"></a><span class="in">MedEye3d.DisplayDataManag.setDisplayedData()</span></span>
 <span id="cb9-117"><a href="#cb9-117"></a><span class="in">```</span></span>
 <span id="cb9-118"><a href="#cb9-118"></a></span>
 <span id="cb9-119"><a href="#cb9-119"></a>Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:</span>
 <span id="cb9-120"><a href="#cb9-120"></a></span>
-<span id="cb9-121"><a href="#cb9-121"></a><span class="in">```Julia</span></span>
+<span id="cb9-121"><a href="#cb9-121"></a><span class="in">```julia</span></span>
 <span id="cb9-122"><a href="#cb9-122"></a><span class="in">using MedEye3d</span></span>
 <span id="cb9-123"><a href="#cb9-123"></a><span class="in">ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
 <span id="cb9-124"><a href="#cb9-124"></a><span class="in">medEyeStruct = MedEye3d.SegmentationDisplay.displayImage(ctNiftiImage)</span></span>
@@ -1274,7 +1274,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-178"><a href="#cb9-178"></a><span class="ss">1.  </span>Checks the letter code of the keymap control and updates the minimum and maximum values of the texture specification accordingly.</span>
 <span id="cb9-179"><a href="#cb9-179"></a><span class="ss">2.  </span>Updates the uniforms for the texture specification using the <span class="in">`controlMinMaxUniformVals`</span> function.</span>
 <span id="cb9-180"><a href="#cb9-180"></a></span>
-<span id="cb9-181"><a href="#cb9-181"></a><span class="in">```Julia</span></span>
+<span id="cb9-181"><a href="#cb9-181"></a><span class="in">```julia</span></span>
 <span id="cb9-182"><a href="#cb9-182"></a><span class="in">function setTextureWindow(activeTextur::TextureSpec, stateObject::StateDataFields, windowControlStruct::WindowControlStruct)</span></span>
 <span id="cb9-183"><a href="#cb9-183"></a><span class="in">    activeTexturName = activeTextur.name</span></span>
 <span id="cb9-184"><a href="#cb9-184"></a><span class="in">    displayRange = activeTextur.minAndMaxValue[2] - activeTextur.minAndMaxValue[1]</span></span>
@@ -1333,7 +1333,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-237"><a href="#cb9-237"></a></span>
 <span id="cb9-238"><a href="#cb9-238"></a>Down below, is the struct for state that handles all of the things currently related with an image:</span>
 <span id="cb9-239"><a href="#cb9-239"></a></span>
-<span id="cb9-240"><a href="#cb9-240"></a><span class="in">```Julia</span></span>
+<span id="cb9-240"><a href="#cb9-240"></a><span class="in">```julia</span></span>
 <span id="cb9-241"><a href="#cb9-241"></a><span class="in">@with_kw mutable struct StateDataFields</span></span>
 <span id="cb9-242"><a href="#cb9-242"></a><span class="in">  currentDisplayedSlice::Int = 1 # stores information what slice number we are currently displaying</span></span>
 <span id="cb9-243"><a href="#cb9-243"></a><span class="in">  mainForDisplayObjects::forDisplayObjects = forDisplayObjects() # stores objects needed to  display using OpenGL and GLFW</span></span>
@@ -1364,7 +1364,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-268"><a href="#cb9-268"></a></span>
 <span id="cb9-269"><a href="#cb9-269"></a>Script for loading the same NIFTI image twice in the visualizer for side-by-side display:</span>
 <span id="cb9-270"><a href="#cb9-270"></a></span>
-<span id="cb9-271"><a href="#cb9-271"></a><span class="in">```Julia</span></span>
+<span id="cb9-271"><a href="#cb9-271"></a><span class="in">```julia</span></span>
 <span id="cb9-272"><a href="#cb9-272"></a><span class="in">using MedEye3d</span></span>
 <span id="cb9-273"><a href="#cb9-273"></a><span class="in">ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
 <span id="cb9-274"><a href="#cb9-274"></a><span class="in">MedEye3d.SegmentationDisplay.displayImage([[ctNiftiImage],[ctNifitImage]])</span></span>

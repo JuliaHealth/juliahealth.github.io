@@ -30,7 +30,7 @@ In this post, I’d like to summarize what I did this summer and everything I le
 
 [MedEye3D.jl](https::/github.com/Juliahealth/MedEye3d.jl) is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of [Rocket.jl](https://github.com/ReactiveBayes/Rocket.jl) and [ModernGL.jl](https://github.com/JuliaGL/ModernGL.jl) ensures the high-performance robust visualizations that the package has to offer.
 
-MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it [here](https://doi.org/10.26348/znwwsi.25.57)) [@Mitura2021].
+MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it [here](https://doi.org/10.26348/znwwsi.25.57) [@Mitura2021]).
 
 ## What features does this project encompass?
 
@@ -66,7 +66,7 @@ Additionally, we had a few stretch goals which are going to be a work in progres
 
 Initially, there was significant screen-tearing evident from the pixelated display of the rendered text and main image which, furthermore exhibited flickering upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within [MedEye3d.jl](https://github.com/Juliahealth/MedEye3d.jl) for handling the event and state management routine. Julia has asynchronous, threadsafe [channels](https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels) which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:
 
-```Julia
+```julia
 function consumer(channel::Base.Channel)
     while(true)
     channelData::String = take!(channel)
@@ -104,21 +104,21 @@ Implementing a bare-bones image visualization required a lot of function calls a
 
 In order to simplify basic usage, high-level abstractions were put in place with the help of [MedImages.jl](https://github.com/MedImages.jl) (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accommodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:
 
-```Julia
+```julia
 MedEye3d.SegmentationDisplay.displayImage()
 ```
 
-```Julia
+```julia
 MedEye3d.DisplayDataManag.getDisplayedData()
 ```
 
-```Julia
+```julia
 MedEye3d.DisplayDataManag.setDisplayedData()
 ```
 
 Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:
 
-```Julia
+```julia
 using MedEye3d
 ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"
 medEyeStruct = MedEye3d.SegmentationDisplay.displayImage(ctNiftiImage)
@@ -178,7 +178,7 @@ The function performs the following steps:
 1.  Checks the letter code of the keymap control and updates the minimum and maximum values of the texture specification accordingly.
 2.  Updates the uniforms for the texture specification using the `controlMinMaxUniformVals` function.
 
-```Julia
+```julia
 function setTextureWindow(activeTextur::TextureSpec, stateObject::StateDataFields, windowControlStruct::WindowControlStruct)
     activeTexturName = activeTextur.name
     displayRange = activeTextur.minAndMaxValue[2] - activeTextur.minAndMaxValue[1]
@@ -237,7 +237,7 @@ The shaders were further manipulated to automatically initialize for each of the
 
 Down below, is the struct for state that handles all of the things currently related with an image:
 
-```Julia
+```julia
 @with_kw mutable struct StateDataFields
   currentDisplayedSlice::Int = 1 # stores information what slice number we are currently displaying
   mainForDisplayObjects::forDisplayObjects = forDisplayObjects() # stores objects needed to  display using OpenGL and GLFW
@@ -268,7 +268,7 @@ After the integrity of the fragment shaders was verified in multi-image, voxel d
 
 Script for loading the same NIFTI image twice in the visualizer for side-by-side display:
 
-```Julia
+```julia
 using MedEye3d
 ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"
 MedEye3d.SegmentationDisplay.displayImage([[ctNiftiImage],[ctNifitImage]])
