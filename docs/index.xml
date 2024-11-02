@@ -9,8 +9,8 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.57</generator>
-<lastBuildDate>Thu, 31 Oct 2024 18:30:00 GMT</lastBuildDate>
+<generator>quarto-1.5.47</generator>
+<lastBuildDate>Fri, 01 Nov 2024 04:00:00 GMT</lastBuildDate>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
   <dc:creator>Divyansh Goyal</dc:creator>
@@ -32,7 +32,13 @@
 <h1>Background</h1>
 <section id="what-is-medeye3d.jl" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
+<!--
+   - TODO: Add links to Rocket and ModernGL
+   -->
 <p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.</p>
+<!--
+   - TODO: Add a bibliography reference to this paper for the blog 
+   -->
 <p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>).</p>
 </section>
 <section id="what-features-does-this-project-encompass" class="level2">
@@ -55,7 +61,7 @@
 <ol type="1">
 <li><p>Visualization of structures by 3D rendering using OpenGL,</p></li>
 <li><p>Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.</p></li>
-<li><p>Support for Apple users</p></li>
+<li><p>Support for OSX users</p></li>
 </ol>
 </section>
 <section id="tasks" class="level1">
@@ -124,9 +130,12 @@ background-color: null;
 font-style: inherit;">put!</span>(newChannel, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"apples"</span>)</span></code></pre></div>
-<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.</p>
+<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the <code>on_next!</code> function, invokes different reactive components based on the types of arguments it is dealing with.</p>
+<!--
+   - TODO: functions in-text should be surrounded by ``'s
+   -->
 <blockquote class="blockquote">
-<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke on_next!(state, channelData) -&gt; invoke relevant functionality based on the type of arguments passed <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multiple_dispatch_code.png" class="img-fluid"></p>
+<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke <code>on_next!(state, channelData)</code> -&gt; invoke relevant functionality based on the type of arguments passed <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multiple_dispatch_code.png" class="img-fluid"></p>
 </blockquote>
 <p>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</p>
 <p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/fixed_screen_tear.png" class="img-fluid"></p>
@@ -899,7 +908,7 @@ font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span
 <li><p><a href="https://orcid.org/0000-0003-1823-6823">Jakub Mitura</a>: aka, <a href="https://github.com/jakubMitura14">Dr.&nbsp;Jakub Mitura</a></p></li>
 <li><p><a href="https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en">Carlos Castillo Passi</a>: aka, <a href="https://github.com/cncastillo">cncastillo</a></p></li>
 </ol>
-<p>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for weaving Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
+<p>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
 
 
 <!-- -->
@@ -921,10 +930,10 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
 </div></div></section></div> ]]></description>
   <category>gsoc</category>
   <category>openGl</category>
-  <category>Medical Imaging</category>
-  <category>Neuroscience</category>
+  <category>imaging</category>
+  <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
+  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -1013,7 +1022,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
+  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -1667,7 +1676,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
+  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -2269,7 +2278,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
+  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -2475,7 +2484,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
+  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -2547,7 +2556,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
+  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

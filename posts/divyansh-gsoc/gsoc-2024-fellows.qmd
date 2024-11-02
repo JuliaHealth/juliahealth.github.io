@@ -11,8 +11,8 @@ image: false
 categories:
   - gsoc
   - openGl
-  - Medical Imaging
-  - Neuroscience
+  - imaging
+  - neuro
 ---
 
 
@@ -28,8 +28,14 @@ In this post, I’d like to summarize what I did this summer and everything I le
 
 ## What is MedEye3d.jl?
 
+<!--
+   - TODO: Add links to Rocket and ModernGL
+   -->
 [MedEye3D.jl](https::/github.com/Juliahealth/MedEye3d.jl) is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.
 
+<!--
+   - TODO: Add a bibliography reference to this paper for the blog 
+   -->
 MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it [here](https://doi.org/10.26348/znwwsi.25.57)).
 
 ## What features does this project encompass?
@@ -58,13 +64,14 @@ Additionally, we had a few stretch goals which are going to be a work in progres
 
 2. Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.
 
-3. Support for Apple users
+3. Support for OSX users
 
 # Tasks
 
 ## 1. Migration of the package from Rocket to Julia's Base.Channel
 
 Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within [MedEye3d.jl](https://github.com/Juliahealth/MedEye3d.jl) for handling the event and state management routine. Julia has asynchronous, threadsafe [channels](https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels) which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:
+
 ```Julia
 function consumer(channel::Base.Channel)
     while(true)
@@ -77,12 +84,14 @@ newChannel = Base.Channel(100)
 
 @async consumer(newChannel)
 put!(newChannel, "apples")
-
 ```
 
-Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.
+Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the `on_next!` function, invokes different reactive components based on the types of arguments it is dealing with.
 
-> Dump data in channel -> fetch data from the channel in an event loop -> invoke on_next!(state, channelData) -> invoke relevant functionality based on the type of arguments passed
+<!--
+   - TODO: functions in-text should be surrounded by ``'s
+   -->
+> Dump data in channel -> fetch data from the channel in an event loop -> invoke `on_next!(state, channelData)` -> invoke relevant functionality based on the type of arguments passed
 ![](./multiple_dispatch_code.png)
 
 The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.
@@ -102,15 +111,19 @@ Having a bare-bones image visualization required a lot of function calls and def
 4. Producing the final segmentation display
 
 In order to simplify basic usage, high-level abstractions were put in place with the help of [MedImages.jl](https://github.com/MedImages.jl) (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accomodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:
+
 ```Julia
 MedEye3d.SegmentationDisplay.displayImage()
 ```
+
 ```Julia
 MedEye3d.DisplayDataManag.getDisplayedData()
 ```
+
 ```Julia
 MedEye3d.DisplayDataManag.setDisplayedData()
 ```
+
 Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:
 
 ```Julia
@@ -125,6 +138,7 @@ displayData = MedEye3d.DisplayDataManag.getDisplayedData(medEyeStruct, [Int32(1)
 displayData[2][:, :, :] = randn(Float32, size(displayData[2]))
 MedEye3d.DisplayDataManag.setDisplayedData(medEyeStruct, displayData)
 ```
+
 The result of this [Gaussian noise](https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html) within the annotation layer, made for an outcome like the following:
 
 ![](./gaussian_noise_annotation.png)
@@ -138,9 +152,6 @@ Previously, the package's precompilation was failing in Julia v1.9 and v1.10 due
 Changes highlighted within the following pull-request:
 
 [https://github.com/JuliaHealth/MedEye3d.jl/pull/12](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)
-
-
-
 
 ## 4. Automatic [windowing](https://youtu.be/HaL-G43kwKA) for most common MRI and PET modalities
 
@@ -233,6 +244,7 @@ Following the mid-term evaluation, MedEye3d.jl underwent a significant enhanceme
 The shaders were further manipulated to automatically initialize for each of the images separately. Further, the reactive aspect of the visualizer in multi-image display mode was iterated upon and now, instead of a single state management struct, a vector of states was being passed around, facilitating the user to scroll each of the images separately just by simply hovering their mouse over either of the image, activating its relevant associated state struct.
 
 Down below, is the struct for state that handles all of the things currently related with an image:
+
 ```Julia
 @with_kw mutable struct StateDataFields
   currentDisplayedSlice::Int = 1 # stores information what slice number we are currently displaying
@@ -263,6 +275,7 @@ end
 After the integrity of the fragment shaders was verified in multi-image, voxel data for the images was integrated and further modifications to the high-level functions were made and eventually the following script produced a rather appealing result.
 
 Script for loading the same NIFTI image twice in the visualizer for side-by-side display:
+
 ```Julia
 using MedEye3d
 ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"
@@ -309,7 +322,7 @@ This initial workflow involved, the initialization of relevant buffers in openGl
 
 Eventually, with ever so increasing number of attempts and a few hurdles along the way, one of which particularly stood out, since it marked our first step towards a good direction:
 
->Challenges in rendering
+> Challenges in rendering
 
 ![](./supervoxel_rendering_issue.png)
 
@@ -374,7 +387,4 @@ Future work would include:
 
 2. [Carlos Castillo Passi](https://scholar.google.com/citations?user=WzleS8YAAAAJ&hl=en): aka, [cncastillo](https://github.com/cncastillo)
 
-I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for weaving Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.
-
-
-
+I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.

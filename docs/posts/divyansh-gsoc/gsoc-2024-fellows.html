@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.5.47">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -244,8 +244,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-categories">
     <div class="quarto-category">gsoc</div>
     <div class="quarto-category">openGl</div>
-    <div class="quarto-category">Medical Imaging</div>
-    <div class="quarto-category">Neuroscience</div>
+    <div class="quarto-category">imaging</div>
+    <div class="quarto-category">neuro</div>
   </div>
   </div>
 
@@ -292,7 +292,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Background</h1>
 <section id="what-is-medeye3d.jl" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
+<!--
+   - TODO: Add links to Rocket and ModernGL
+   -->
 <p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.</p>
+<!--
+   - TODO: Add a bibliography reference to this paper for the blog 
+   -->
 <p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a>).</p>
 </section>
 <section id="what-features-does-this-project-encompass" class="level2">
@@ -315,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p>Visualization of structures by 3D rendering using OpenGL,</p></li>
 <li><p>Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.</p></li>
-<li><p>Support for Apple users</p></li>
+<li><p>Support for OSX users</p></li>
 </ol>
 </section>
 <section id="tasks" class="level1">
@@ -334,9 +340,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9"></a></span>
 <span id="cb1-10"><a href="#cb1-10"></a><span class="pp">@async</span> <span class="fu">consumer</span>(newChannel)</span>
 <span id="cb1-11"><a href="#cb1-11"></a><span class="fu">put!</span>(newChannel, <span class="st">"apples"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.</p>
+<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the <code>on_next!</code> function, invokes different reactive components based on the types of arguments it is dealing with.</p>
+<!--
+   - TODO: functions in-text should be surrounded by ``'s
+   -->
 <blockquote class="blockquote">
-<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke on_next!(state, channelData) -&gt; invoke relevant functionality based on the type of arguments passed <img src="./multiple_dispatch_code.png" class="img-fluid"></p>
+<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke <code>on_next!(state, channelData)</code> -&gt; invoke relevant functionality based on the type of arguments passed <img src="./multiple_dispatch_code.png" class="img-fluid"></p>
 </blockquote>
 <p>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</p>
 <p><img src="./fixed_screen_tear.png" class="img-fluid"></p>
@@ -572,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://orcid.org/0000-0003-1823-6823">Jakub Mitura</a>: aka, <a href="https://github.com/jakubMitura14">Dr.&nbsp;Jakub Mitura</a></p></li>
 <li><p><a href="https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en">Carlos Castillo Passi</a>: aka, <a href="https://github.com/cncastillo">cncastillo</a></p></li>
 </ol>
-<p>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for weaving Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
+<p>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
 
 
 <!-- -->
@@ -1078,8 +1087,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-11"><a href="#cb9-11"></a><span class="an">categories:</span></span>
 <span id="cb9-12"><a href="#cb9-12"></a><span class="co">  - gsoc</span></span>
 <span id="cb9-13"><a href="#cb9-13"></a><span class="co">  - openGl</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">  - Medical Imaging</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">  - Neuroscience</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">  - imaging</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co">  - neuro</span></span>
 <span id="cb9-16"><a href="#cb9-16"></a><span class="co">---</span></span>
 <span id="cb9-17"><a href="#cb9-17"></a></span>
 <span id="cb9-18"><a href="#cb9-18"></a></span>
@@ -1095,355 +1104,366 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb9-28"><a href="#cb9-28"></a></span>
 <span id="cb9-29"><a href="#cb9-29"></a><span class="fu">## What is MedEye3d.jl?</span></span>
 <span id="cb9-30"><a href="#cb9-30"></a></span>
-<span id="cb9-31"><a href="#cb9-31"></a><span class="co">[</span><span class="ot">MedEye3D.jl</span><span class="co">](https::/github.com/Juliahealth/MedEye3d.jl)</span> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.</span>
-<span id="cb9-32"><a href="#cb9-32"></a></span>
-<span id="cb9-33"><a href="#cb9-33"></a>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <span class="co">[</span><span class="ot">here</span><span class="co">](https://doi.org/10.26348/znwwsi.25.57)</span>).</span>
-<span id="cb9-34"><a href="#cb9-34"></a></span>
-<span id="cb9-35"><a href="#cb9-35"></a><span class="fu">## What features does this project encompass?</span></span>
-<span id="cb9-36"><a href="#cb9-36"></a></span>
-<span id="cb9-37"><a href="#cb9-37"></a>This project covers implementation of several tasks that will enable the establishment of additional important functionalities within the MedEye3D package, facilitating enhancements within the visualization’s windowing for MRI and PET data, support for super voxels (sv), improved load times, high-level functionality implementation and robust viewing for multiple images.</span>
-<span id="cb9-38"><a href="#cb9-38"></a></span>
-<span id="cb9-39"><a href="#cb9-39"></a><span class="fu"># Project Goals</span></span>
+<span id="cb9-31"><a href="#cb9-31"></a><span class="co">&lt;!--</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a><span class="co">   - </span><span class="al">TODO</span><span class="co">: Add links to Rocket and ModernGL</span></span>
+<span id="cb9-33"><a href="#cb9-33"></a><span class="co">   --&gt;</span></span>
+<span id="cb9-34"><a href="#cb9-34"></a><span class="co">[</span><span class="ot">MedEye3D.jl</span><span class="co">](https::/github.com/Juliahealth/MedEye3d.jl)</span> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of Rocket.jl and ModernGL.jl ensures the high-performance robust visualizations that the package has to offer.</span>
+<span id="cb9-35"><a href="#cb9-35"></a></span>
+<span id="cb9-36"><a href="#cb9-36"></a><span class="co">&lt;!--</span></span>
+<span id="cb9-37"><a href="#cb9-37"></a><span class="co">   - </span><span class="al">TODO</span><span class="co">: Add a bibliography reference to this paper for the blog </span></span>
+<span id="cb9-38"><a href="#cb9-38"></a><span class="co">   --&gt;</span></span>
+<span id="cb9-39"><a href="#cb9-39"></a>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <span class="co">[</span><span class="ot">here</span><span class="co">](https://doi.org/10.26348/znwwsi.25.57)</span>).</span>
 <span id="cb9-40"><a href="#cb9-40"></a></span>
-<span id="cb9-41"><a href="#cb9-41"></a>The goals outlined by Dr.Jakub Mitura (my project mentor) and I the beginning of this summer were:</span>
+<span id="cb9-41"><a href="#cb9-41"></a><span class="fu">## What features does this project encompass?</span></span>
 <span id="cb9-42"><a href="#cb9-42"></a></span>
-<span id="cb9-43"><a href="#cb9-43"></a><span class="ss">1. </span>Migration of the package reliance from <span class="co">[</span><span class="ot">Rocket.jl</span><span class="co">](https://github.com/reactivebayes/Rocket.jl)</span> to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl's actor-subscription mechanism present at the core of MedEye3d.jl's event-driven programming. Here, Julia's threadsafe and asynchronous <span class="co">[</span><span class="ot">channels</span><span class="co">](https://docs.julialang.org/en/v1/manual/asynchronous-programming/)</span> provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket</span>
+<span id="cb9-43"><a href="#cb9-43"></a>This project covers implementation of several tasks that will enable the establishment of additional important functionalities within the MedEye3D package, facilitating enhancements within the visualization’s windowing for MRI and PET data, support for super voxels (sv), improved load times, high-level functionality implementation and robust viewing for multiple images.</span>
 <span id="cb9-44"><a href="#cb9-44"></a></span>
-<span id="cb9-45"><a href="#cb9-45"></a><span class="ss">2. </span>Implementation of high level functions with simplified basic usage: Prior to this, MedEye3d involved initialization of data, texture specifications and text display for a final visualization. To reduce complexity, methods to abstract such chores were devised and implemented which resulted in the exposure of functions for loading images, accessing display data and modification of display data. This also encompassed the loading of images via <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/juliahealth/MedImages.jl)</span> which required prior work for the integration of C++ <span class="co">[</span><span class="ot">ITK</span><span class="co">](https://github.com/InsightSoftwareConsortium/ITK)</span> backend for image I/O.</span>
+<span id="cb9-45"><a href="#cb9-45"></a><span class="fu"># Project Goals</span></span>
 <span id="cb9-46"><a href="#cb9-46"></a></span>
-<span id="cb9-47"><a href="#cb9-47"></a><span class="ss">3. </span>Improved precompilation with decreased outputs to reduce start time</span>
+<span id="cb9-47"><a href="#cb9-47"></a>The goals outlined by Dr.Jakub Mitura (my project mentor) and I the beginning of this summer were:</span>
 <span id="cb9-48"><a href="#cb9-48"></a></span>
-<span id="cb9-49"><a href="#cb9-49"></a><span class="ss">4. </span>Automatic windowing for most common MRI and PET modalities: This task is a step in the direction of maintaining consistent visualizations across MRI and PET’s most common modalities, to mimic images similar to what is displayed within <span class="co">[</span><span class="ot">3dSlicer</span><span class="co">](https://www.slicer.org/)</span> for the same.</span>
+<span id="cb9-49"><a href="#cb9-49"></a><span class="ss">1. </span>Migration of the package reliance from <span class="co">[</span><span class="ot">Rocket.jl</span><span class="co">](https://github.com/reactivebayes/Rocket.jl)</span> to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl's actor-subscription mechanism present at the core of MedEye3d.jl's event-driven programming. Here, Julia's threadsafe and asynchronous <span class="co">[</span><span class="ot">channels</span><span class="co">](https://docs.julialang.org/en/v1/manual/asynchronous-programming/)</span> provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket</span>
 <span id="cb9-50"><a href="#cb9-50"></a></span>
-<span id="cb9-51"><a href="#cb9-51"></a><span class="ss">5. </span>Adding support for multi-image viewing with crosshair marker for image registration</span>
+<span id="cb9-51"><a href="#cb9-51"></a><span class="ss">2. </span>Implementation of high level functions with simplified basic usage: Prior to this, MedEye3d involved initialization of data, texture specifications and text display for a final visualization. To reduce complexity, methods to abstract such chores were devised and implemented which resulted in the exposure of functions for loading images, accessing display data and modification of display data. This also encompassed the loading of images via <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/juliahealth/MedImages.jl)</span> which required prior work for the integration of C++ <span class="co">[</span><span class="ot">ITK</span><span class="co">](https://github.com/InsightSoftwareConsortium/ITK)</span> backend for image I/O.</span>
 <span id="cb9-52"><a href="#cb9-52"></a></span>
-<span id="cb9-53"><a href="#cb9-53"></a><span class="ss">6. </span>Adding support for the display of <span class="co">[</span><span class="ot">SuperVoxels</span><span class="co">](https://doi.org/10.1016/j.cagd.2022.102080)</span> sv with borders within the image slices to better understand anatomical regions within slices: Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.</span>
+<span id="cb9-53"><a href="#cb9-53"></a><span class="ss">3. </span>Improved precompilation with decreased outputs to reduce start time</span>
 <span id="cb9-54"><a href="#cb9-54"></a></span>
-<span id="cb9-55"><a href="#cb9-55"></a>Additionally, we had a few stretch goals which are going to be a work in progress:</span>
+<span id="cb9-55"><a href="#cb9-55"></a><span class="ss">4. </span>Automatic windowing for most common MRI and PET modalities: This task is a step in the direction of maintaining consistent visualizations across MRI and PET’s most common modalities, to mimic images similar to what is displayed within <span class="co">[</span><span class="ot">3dSlicer</span><span class="co">](https://www.slicer.org/)</span> for the same.</span>
 <span id="cb9-56"><a href="#cb9-56"></a></span>
-<span id="cb9-57"><a href="#cb9-57"></a><span class="ss">1. </span>Visualization of structures by 3D rendering using OpenGL,</span>
+<span id="cb9-57"><a href="#cb9-57"></a><span class="ss">5. </span>Adding support for multi-image viewing with crosshair marker for image registration</span>
 <span id="cb9-58"><a href="#cb9-58"></a></span>
-<span id="cb9-59"><a href="#cb9-59"></a><span class="ss">2. </span>Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.</span>
+<span id="cb9-59"><a href="#cb9-59"></a><span class="ss">6. </span>Adding support for the display of <span class="co">[</span><span class="ot">SuperVoxels</span><span class="co">](https://doi.org/10.1016/j.cagd.2022.102080)</span> sv with borders within the image slices to better understand anatomical regions within slices: Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.</span>
 <span id="cb9-60"><a href="#cb9-60"></a></span>
-<span id="cb9-61"><a href="#cb9-61"></a><span class="ss">3. </span>Support for Apple users</span>
+<span id="cb9-61"><a href="#cb9-61"></a>Additionally, we had a few stretch goals which are going to be a work in progress:</span>
 <span id="cb9-62"><a href="#cb9-62"></a></span>
-<span id="cb9-63"><a href="#cb9-63"></a><span class="fu"># Tasks</span></span>
+<span id="cb9-63"><a href="#cb9-63"></a><span class="ss">1. </span>Visualization of structures by 3D rendering using OpenGL,</span>
 <span id="cb9-64"><a href="#cb9-64"></a></span>
-<span id="cb9-65"><a href="#cb9-65"></a><span class="fu">## 1. Migration of the package from Rocket to Julia's Base.Channel</span></span>
+<span id="cb9-65"><a href="#cb9-65"></a><span class="ss">2. </span>Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.</span>
 <span id="cb9-66"><a href="#cb9-66"></a></span>
-<span id="cb9-67"><a href="#cb9-67"></a>Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within <span class="co">[</span><span class="ot">MedEye3d.jl</span><span class="co">](https://github.com/Juliahealth/MedEye3d.jl)</span> for handling the event and state management routine. Julia has asynchronous, threadsafe <span class="co">[</span><span class="ot">channels</span><span class="co">](https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels)</span> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</span>
-<span id="cb9-68"><a href="#cb9-68"></a><span class="in">```Julia</span></span>
-<span id="cb9-69"><a href="#cb9-69"></a><span class="in">function consumer(channel::Base.Channel)</span></span>
-<span id="cb9-70"><a href="#cb9-70"></a><span class="in">    while(true)</span></span>
-<span id="cb9-71"><a href="#cb9-71"></a><span class="in">    channelData::String = take!(channel)</span></span>
-<span id="cb9-72"><a href="#cb9-72"></a><span class="in">    println("Channel got " * channelData)</span></span>
-<span id="cb9-73"><a href="#cb9-73"></a><span class="in">    end</span></span>
-<span id="cb9-74"><a href="#cb9-74"></a><span class="in">end</span></span>
-<span id="cb9-75"><a href="#cb9-75"></a></span>
-<span id="cb9-76"><a href="#cb9-76"></a><span class="in">newChannel = Base.Channel(100)</span></span>
-<span id="cb9-77"><a href="#cb9-77"></a></span>
-<span id="cb9-78"><a href="#cb9-78"></a><span class="in">@async consumer(newChannel)</span></span>
-<span id="cb9-79"><a href="#cb9-79"></a><span class="in">put!(newChannel, "apples")</span></span>
-<span id="cb9-80"><a href="#cb9-80"></a></span>
-<span id="cb9-81"><a href="#cb9-81"></a><span class="in">```</span></span>
+<span id="cb9-67"><a href="#cb9-67"></a><span class="ss">3. </span>Support for OSX users</span>
+<span id="cb9-68"><a href="#cb9-68"></a></span>
+<span id="cb9-69"><a href="#cb9-69"></a><span class="fu"># Tasks</span></span>
+<span id="cb9-70"><a href="#cb9-70"></a></span>
+<span id="cb9-71"><a href="#cb9-71"></a><span class="fu">## 1. Migration of the package from Rocket to Julia's Base.Channel</span></span>
+<span id="cb9-72"><a href="#cb9-72"></a></span>
+<span id="cb9-73"><a href="#cb9-73"></a>Initially, there was a lot of screen-tearing evident from the pixelated display of the rendered text and main image which, further had an overhaul of flicker upon scrolling through the slices in the relevant displayed image's planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket's actor-subscription mechanism and decided to integrate Julia's Base.Channel within <span class="co">[</span><span class="ot">MedEye3d.jl</span><span class="co">](https://github.com/Juliahealth/MedEye3d.jl)</span> for handling the event and state management routine. Julia has asynchronous, threadsafe <span class="co">[</span><span class="ot">channels</span><span class="co">](https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels)</span> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</span>
+<span id="cb9-74"><a href="#cb9-74"></a></span>
+<span id="cb9-75"><a href="#cb9-75"></a><span class="in">```Julia</span></span>
+<span id="cb9-76"><a href="#cb9-76"></a><span class="in">function consumer(channel::Base.Channel)</span></span>
+<span id="cb9-77"><a href="#cb9-77"></a><span class="in">    while(true)</span></span>
+<span id="cb9-78"><a href="#cb9-78"></a><span class="in">    channelData::String = take!(channel)</span></span>
+<span id="cb9-79"><a href="#cb9-79"></a><span class="in">    println("Channel got " * channelData)</span></span>
+<span id="cb9-80"><a href="#cb9-80"></a><span class="in">    end</span></span>
+<span id="cb9-81"><a href="#cb9-81"></a><span class="in">end</span></span>
 <span id="cb9-82"><a href="#cb9-82"></a></span>
-<span id="cb9-83"><a href="#cb9-83"></a>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the on_next! function, invokes different reactive components based on the types of arguments it is dealing with.</span>
+<span id="cb9-83"><a href="#cb9-83"></a><span class="in">newChannel = Base.Channel(100)</span></span>
 <span id="cb9-84"><a href="#cb9-84"></a></span>
-<span id="cb9-85"><a href="#cb9-85"></a><span class="at">&gt; Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke on_next!(state, channelData) -&gt; invoke relevant functionality based on the type of arguments passed</span></span>
-<span id="cb9-86"><a href="#cb9-86"></a><span class="al">![](./multiple_dispatch_code.png)</span></span>
-<span id="cb9-87"><a href="#cb9-87"></a></span>
-<span id="cb9-88"><a href="#cb9-88"></a>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</span>
-<span id="cb9-89"><a href="#cb9-89"></a></span>
-<span id="cb9-90"><a href="#cb9-90"></a><span class="al">![](./fixed_screen_tear.png)</span></span>
-<span id="cb9-91"><a href="#cb9-91"></a></span>
-<span id="cb9-92"><a href="#cb9-92"></a><span class="fu">## 2. Implementation of high level functions with simplified basic usage</span></span>
-<span id="cb9-93"><a href="#cb9-93"></a></span>
-<span id="cb9-94"><a href="#cb9-94"></a>Having a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases:</span>
-<span id="cb9-95"><a href="#cb9-95"></a></span>
-<span id="cb9-96"><a href="#cb9-96"></a><span class="ss">1. </span>Rendering an image-plane with OpenGL</span>
-<span id="cb9-97"><a href="#cb9-97"></a></span>
-<span id="cb9-98"><a href="#cb9-98"></a><span class="ss">2. </span>Loading data slices from the image</span>
-<span id="cb9-99"><a href="#cb9-99"></a></span>
-<span id="cb9-100"><a href="#cb9-100"></a><span class="ss">3. </span>Creating texture specifications for modalities</span>
-<span id="cb9-101"><a href="#cb9-101"></a></span>
-<span id="cb9-102"><a href="#cb9-102"></a><span class="ss">4. </span>Producing the final segmentation display</span>
-<span id="cb9-103"><a href="#cb9-103"></a></span>
-<span id="cb9-104"><a href="#cb9-104"></a>In order to simplify basic usage, high-level abstractions were put in place with the help of <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/MedImages.jl)</span> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accomodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</span>
-<span id="cb9-105"><a href="#cb9-105"></a><span class="in">```Julia</span></span>
-<span id="cb9-106"><a href="#cb9-106"></a><span class="in">MedEye3d.SegmentationDisplay.displayImage()</span></span>
-<span id="cb9-107"><a href="#cb9-107"></a><span class="in">```</span></span>
-<span id="cb9-108"><a href="#cb9-108"></a><span class="in">```Julia</span></span>
-<span id="cb9-109"><a href="#cb9-109"></a><span class="in">MedEye3d.DisplayDataManag.getDisplayedData()</span></span>
-<span id="cb9-110"><a href="#cb9-110"></a><span class="in">```</span></span>
-<span id="cb9-111"><a href="#cb9-111"></a><span class="in">```Julia</span></span>
-<span id="cb9-112"><a href="#cb9-112"></a><span class="in">MedEye3d.DisplayDataManag.setDisplayedData()</span></span>
-<span id="cb9-113"><a href="#cb9-113"></a><span class="in">```</span></span>
-<span id="cb9-114"><a href="#cb9-114"></a>Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:</span>
-<span id="cb9-115"><a href="#cb9-115"></a></span>
-<span id="cb9-116"><a href="#cb9-116"></a><span class="in">```Julia</span></span>
-<span id="cb9-117"><a href="#cb9-117"></a><span class="in">using MedEye3d</span></span>
-<span id="cb9-118"><a href="#cb9-118"></a><span class="in">ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
-<span id="cb9-119"><a href="#cb9-119"></a><span class="in">medEyeStruct = MedEye3d.SegmentationDisplay.displayImage(ctNiftiImage)</span></span>
-<span id="cb9-120"><a href="#cb9-120"></a><span class="in">displayData = MedEye3d.DisplayDataManag.getDisplayedData(medEyeStruct, [Int32(1), Int32(2)]) #passing the active texture number</span></span>
-<span id="cb9-121"><a href="#cb9-121"></a></span>
-<span id="cb9-122"><a href="#cb9-122"></a><span class="in"># We need to check if the return type of the displayData is a single Array{Float32,3} or a vector{Array{Float32,3}}</span></span>
-<span id="cb9-123"><a href="#cb9-123"></a><span class="in"># Now in this case we are setting Gaussian noise over the manualModif Texture voxel layer, and the manualModif texture defaults to 2 for active number</span></span>
-<span id="cb9-124"><a href="#cb9-124"></a></span>
-<span id="cb9-125"><a href="#cb9-125"></a><span class="in">displayData[2][:, :, :] = randn(Float32, size(displayData[2]))</span></span>
-<span id="cb9-126"><a href="#cb9-126"></a><span class="in">MedEye3d.DisplayDataManag.setDisplayedData(medEyeStruct, displayData)</span></span>
-<span id="cb9-127"><a href="#cb9-127"></a><span class="in">```</span></span>
-<span id="cb9-128"><a href="#cb9-128"></a>The result of this <span class="co">[</span><span class="ot">Gaussian noise</span><span class="co">](https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html)</span> within the annotation layer, made for an outcome like the following:</span>
-<span id="cb9-129"><a href="#cb9-129"></a></span>
-<span id="cb9-130"><a href="#cb9-130"></a><span class="al">![](./gaussian_noise_annotation.png)</span></span>
-<span id="cb9-131"><a href="#cb9-131"></a></span>
-<span id="cb9-132"><a href="#cb9-132"></a><span class="fu">## 3. Improved precompilation with decreased outputs to reduce start time</span></span>
-<span id="cb9-133"><a href="#cb9-133"></a></span>
-<span id="cb9-134"><a href="#cb9-134"></a>Previously, the package's precompilation was failing in Julia v1.9 and v1.10 due to pattern matching errors arising after the usage of match macros from the <span class="co">[</span><span class="ot">Match.jl</span><span class="co">](https://github.com/JuliaServices/Match.jl)</span> pkg in MedEye3d's keymapping workflow between GLFW callbacks from mouse and keyboard. The relevant equivalent native conditional (if-else) statements, resolved the issue and facilitated in successful precompilation of the package. Further, only following minimal outputs were produced during precompilation:</span>
-<span id="cb9-135"><a href="#cb9-135"></a></span>
-<span id="cb9-136"><a href="#cb9-136"></a><span class="al">![](./precompilation_outputs.png)</span></span>
+<span id="cb9-85"><a href="#cb9-85"></a><span class="in">@async consumer(newChannel)</span></span>
+<span id="cb9-86"><a href="#cb9-86"></a><span class="in">put!(newChannel, "apples")</span></span>
+<span id="cb9-87"><a href="#cb9-87"></a><span class="in">```</span></span>
+<span id="cb9-88"><a href="#cb9-88"></a></span>
+<span id="cb9-89"><a href="#cb9-89"></a>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitating in fixing the issue of screen tearing. Below is how the <span class="in">`on_next!`</span> function, invokes different reactive components based on the types of arguments it is dealing with.</span>
+<span id="cb9-90"><a href="#cb9-90"></a></span>
+<span id="cb9-91"><a href="#cb9-91"></a><span class="co">&lt;!--</span></span>
+<span id="cb9-92"><a href="#cb9-92"></a><span class="co">   - </span><span class="al">TODO</span><span class="co">: functions in-text should be surrounded by ``'s</span></span>
+<span id="cb9-93"><a href="#cb9-93"></a><span class="co">   --&gt;</span></span>
+<span id="cb9-94"><a href="#cb9-94"></a><span class="at">&gt; Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke </span><span class="in">`on_next!(state, channelData)`</span><span class="at"> -&gt; invoke relevant functionality based on the type of arguments passed</span></span>
+<span id="cb9-95"><a href="#cb9-95"></a><span class="al">![](./multiple_dispatch_code.png)</span></span>
+<span id="cb9-96"><a href="#cb9-96"></a></span>
+<span id="cb9-97"><a href="#cb9-97"></a>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</span>
+<span id="cb9-98"><a href="#cb9-98"></a></span>
+<span id="cb9-99"><a href="#cb9-99"></a><span class="al">![](./fixed_screen_tear.png)</span></span>
+<span id="cb9-100"><a href="#cb9-100"></a></span>
+<span id="cb9-101"><a href="#cb9-101"></a><span class="fu">## 2. Implementation of high level functions with simplified basic usage</span></span>
+<span id="cb9-102"><a href="#cb9-102"></a></span>
+<span id="cb9-103"><a href="#cb9-103"></a>Having a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases:</span>
+<span id="cb9-104"><a href="#cb9-104"></a></span>
+<span id="cb9-105"><a href="#cb9-105"></a><span class="ss">1. </span>Rendering an image-plane with OpenGL</span>
+<span id="cb9-106"><a href="#cb9-106"></a></span>
+<span id="cb9-107"><a href="#cb9-107"></a><span class="ss">2. </span>Loading data slices from the image</span>
+<span id="cb9-108"><a href="#cb9-108"></a></span>
+<span id="cb9-109"><a href="#cb9-109"></a><span class="ss">3. </span>Creating texture specifications for modalities</span>
+<span id="cb9-110"><a href="#cb9-110"></a></span>
+<span id="cb9-111"><a href="#cb9-111"></a><span class="ss">4. </span>Producing the final segmentation display</span>
+<span id="cb9-112"><a href="#cb9-112"></a></span>
+<span id="cb9-113"><a href="#cb9-113"></a>In order to simplify basic usage, high-level abstractions were put in place with the help of <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/MedImages.jl)</span> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accomodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</span>
+<span id="cb9-114"><a href="#cb9-114"></a></span>
+<span id="cb9-115"><a href="#cb9-115"></a><span class="in">```Julia</span></span>
+<span id="cb9-116"><a href="#cb9-116"></a><span class="in">MedEye3d.SegmentationDisplay.displayImage()</span></span>
+<span id="cb9-117"><a href="#cb9-117"></a><span class="in">```</span></span>
+<span id="cb9-118"><a href="#cb9-118"></a></span>
+<span id="cb9-119"><a href="#cb9-119"></a><span class="in">```Julia</span></span>
+<span id="cb9-120"><a href="#cb9-120"></a><span class="in">MedEye3d.DisplayDataManag.getDisplayedData()</span></span>
+<span id="cb9-121"><a href="#cb9-121"></a><span class="in">```</span></span>
+<span id="cb9-122"><a href="#cb9-122"></a></span>
+<span id="cb9-123"><a href="#cb9-123"></a><span class="in">```Julia</span></span>
+<span id="cb9-124"><a href="#cb9-124"></a><span class="in">MedEye3d.DisplayDataManag.setDisplayedData()</span></span>
+<span id="cb9-125"><a href="#cb9-125"></a><span class="in">```</span></span>
+<span id="cb9-126"><a href="#cb9-126"></a></span>
+<span id="cb9-127"><a href="#cb9-127"></a>Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:</span>
+<span id="cb9-128"><a href="#cb9-128"></a></span>
+<span id="cb9-129"><a href="#cb9-129"></a><span class="in">```Julia</span></span>
+<span id="cb9-130"><a href="#cb9-130"></a><span class="in">using MedEye3d</span></span>
+<span id="cb9-131"><a href="#cb9-131"></a><span class="in">ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
+<span id="cb9-132"><a href="#cb9-132"></a><span class="in">medEyeStruct = MedEye3d.SegmentationDisplay.displayImage(ctNiftiImage)</span></span>
+<span id="cb9-133"><a href="#cb9-133"></a><span class="in">displayData = MedEye3d.DisplayDataManag.getDisplayedData(medEyeStruct, [Int32(1), Int32(2)]) #passing the active texture number</span></span>
+<span id="cb9-134"><a href="#cb9-134"></a></span>
+<span id="cb9-135"><a href="#cb9-135"></a><span class="in"># We need to check if the return type of the displayData is a single Array{Float32,3} or a vector{Array{Float32,3}}</span></span>
+<span id="cb9-136"><a href="#cb9-136"></a><span class="in"># Now in this case we are setting Gaussian noise over the manualModif Texture voxel layer, and the manualModif texture defaults to 2 for active number</span></span>
 <span id="cb9-137"><a href="#cb9-137"></a></span>
-<span id="cb9-138"><a href="#cb9-138"></a>Changes highlighted within the following pull-request:</span>
-<span id="cb9-139"><a href="#cb9-139"></a></span>
-<span id="cb9-140"><a href="#cb9-140"></a><span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)</span></span>
+<span id="cb9-138"><a href="#cb9-138"></a><span class="in">displayData[2][:, :, :] = randn(Float32, size(displayData[2]))</span></span>
+<span id="cb9-139"><a href="#cb9-139"></a><span class="in">MedEye3d.DisplayDataManag.setDisplayedData(medEyeStruct, displayData)</span></span>
+<span id="cb9-140"><a href="#cb9-140"></a><span class="in">```</span></span>
 <span id="cb9-141"><a href="#cb9-141"></a></span>
-<span id="cb9-142"><a href="#cb9-142"></a></span>
+<span id="cb9-142"><a href="#cb9-142"></a>The result of this <span class="co">[</span><span class="ot">Gaussian noise</span><span class="co">](https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html)</span> within the annotation layer, made for an outcome like the following:</span>
 <span id="cb9-143"><a href="#cb9-143"></a></span>
-<span id="cb9-144"><a href="#cb9-144"></a></span>
-<span id="cb9-145"><a href="#cb9-145"></a><span class="fu">## 4. Automatic [windowing](https://youtu.be/HaL-G43kwKA) for most common MRI and PET modalities</span></span>
-<span id="cb9-146"><a href="#cb9-146"></a></span>
-<span id="cb9-147"><a href="#cb9-147"></a>Windowing is a crucial aspect of medical imaging, particularly in MRI (Magnetic Resonance Imaging) and PET (Positron Emission Tomography) modalities. It enables radiologists to enhance the contrast of images, highlighting specific features and improving the overall diagnostic accuracy. Windowing involves controlling the display range of pixel values to optimize the contrast between different tissues or structures. The display range is defined by two values: the minimum (min) and maximum (max) values that contribute to the final range of pixels that are displayed. By adjusting these values, radiologists can enhance or suppress specific features in the image, facilitating a more accurate diagnosis.</span>
-<span id="cb9-148"><a href="#cb9-148"></a></span>
-<span id="cb9-149"><a href="#cb9-149"></a>The <span class="in">`setTextureWindow`</span> function utilizes a set of predefined keymap controls to simplify the windowing process. The F1-F7 keys are designated for controlling windowing in MRI and PET modalities. The keymap controls are as follows:</span>
-<span id="cb9-150"><a href="#cb9-150"></a></span>
-<span id="cb9-151"><a href="#cb9-151"></a><span class="ss">*   </span>F1: Display wide window for bone (CT) or increase minimum value for PET</span>
-<span id="cb9-152"><a href="#cb9-152"></a></span>
-<span id="cb9-153"><a href="#cb9-153"></a><span class="ss">*   </span>F2: Display window for soft tissues (CT) or increase minimum value for PET</span>
-<span id="cb9-154"><a href="#cb9-154"></a></span>
-<span id="cb9-155"><a href="#cb9-155"></a><span class="ss">*   </span>F3: Display wide window for lung viewing (CT) or increase minimum value for PET</span>
-<span id="cb9-156"><a href="#cb9-156"></a></span>
-<span id="cb9-157"><a href="#cb9-157"></a><span class="ss">*   </span>F4: Decrease minimum value for display</span>
-<span id="cb9-158"><a href="#cb9-158"></a></span>
-<span id="cb9-159"><a href="#cb9-159"></a><span class="ss">*   </span>F5: Increase minimum value for display</span>
-<span id="cb9-160"><a href="#cb9-160"></a></span>
-<span id="cb9-161"><a href="#cb9-161"></a><span class="ss">*   </span>F6: Decrease maximum value for display</span>
-<span id="cb9-162"><a href="#cb9-162"></a></span>
-<span id="cb9-163"><a href="#cb9-163"></a><span class="ss">*   </span>F7: Increase maximum value for display</span>
-<span id="cb9-164"><a href="#cb9-164"></a></span>
-<span id="cb9-165"><a href="#cb9-165"></a>Implementation of <span class="in">`setTextureWindow`</span> Function</span>
-<span id="cb9-166"><a href="#cb9-166"></a></span>
-<span id="cb9-167"><a href="#cb9-167"></a>The <span class="in">`setTextureWindow`</span> function is designed to update the texture window settings based on the input keymap control. The function takes three arguments:</span>
-<span id="cb9-168"><a href="#cb9-168"></a></span>
-<span id="cb9-169"><a href="#cb9-169"></a><span class="ss">*   </span><span class="in">`activeTextur`</span>: The current texture specification</span>
-<span id="cb9-170"><a href="#cb9-170"></a><span class="ss">*   </span><span class="in">`stateObject`</span>: The state data fields</span>
-<span id="cb9-171"><a href="#cb9-171"></a><span class="ss">*   </span><span class="in">`windowControlStruct`</span>: The window control structure containing the letter code for the keymap control</span>
-<span id="cb9-172"><a href="#cb9-172"></a></span>
-<span id="cb9-173"><a href="#cb9-173"></a>The function performs the following steps:</span>
-<span id="cb9-174"><a href="#cb9-174"></a></span>
-<span id="cb9-175"><a href="#cb9-175"></a><span class="ss">1.  </span>Checks the letter code of the keymap control and updates the minimum and maximum values of the texture specification accordingly.</span>
-<span id="cb9-176"><a href="#cb9-176"></a><span class="ss">2.  </span>Updates the uniforms for the texture specification using the <span class="in">`controlMinMaxUniformVals`</span> function.</span>
+<span id="cb9-144"><a href="#cb9-144"></a><span class="al">![](./gaussian_noise_annotation.png)</span></span>
+<span id="cb9-145"><a href="#cb9-145"></a></span>
+<span id="cb9-146"><a href="#cb9-146"></a><span class="fu">## 3. Improved precompilation with decreased outputs to reduce start time</span></span>
+<span id="cb9-147"><a href="#cb9-147"></a></span>
+<span id="cb9-148"><a href="#cb9-148"></a>Previously, the package's precompilation was failing in Julia v1.9 and v1.10 due to pattern matching errors arising after the usage of match macros from the <span class="co">[</span><span class="ot">Match.jl</span><span class="co">](https://github.com/JuliaServices/Match.jl)</span> pkg in MedEye3d's keymapping workflow between GLFW callbacks from mouse and keyboard. The relevant equivalent native conditional (if-else) statements, resolved the issue and facilitated in successful precompilation of the package. Further, only following minimal outputs were produced during precompilation:</span>
+<span id="cb9-149"><a href="#cb9-149"></a></span>
+<span id="cb9-150"><a href="#cb9-150"></a><span class="al">![](./precompilation_outputs.png)</span></span>
+<span id="cb9-151"><a href="#cb9-151"></a></span>
+<span id="cb9-152"><a href="#cb9-152"></a>Changes highlighted within the following pull-request:</span>
+<span id="cb9-153"><a href="#cb9-153"></a></span>
+<span id="cb9-154"><a href="#cb9-154"></a><span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)</span></span>
+<span id="cb9-155"><a href="#cb9-155"></a></span>
+<span id="cb9-156"><a href="#cb9-156"></a><span class="fu">## 4. Automatic [windowing](https://youtu.be/HaL-G43kwKA) for most common MRI and PET modalities</span></span>
+<span id="cb9-157"><a href="#cb9-157"></a></span>
+<span id="cb9-158"><a href="#cb9-158"></a>Windowing is a crucial aspect of medical imaging, particularly in MRI (Magnetic Resonance Imaging) and PET (Positron Emission Tomography) modalities. It enables radiologists to enhance the contrast of images, highlighting specific features and improving the overall diagnostic accuracy. Windowing involves controlling the display range of pixel values to optimize the contrast between different tissues or structures. The display range is defined by two values: the minimum (min) and maximum (max) values that contribute to the final range of pixels that are displayed. By adjusting these values, radiologists can enhance or suppress specific features in the image, facilitating a more accurate diagnosis.</span>
+<span id="cb9-159"><a href="#cb9-159"></a></span>
+<span id="cb9-160"><a href="#cb9-160"></a>The <span class="in">`setTextureWindow`</span> function utilizes a set of predefined keymap controls to simplify the windowing process. The F1-F7 keys are designated for controlling windowing in MRI and PET modalities. The keymap controls are as follows:</span>
+<span id="cb9-161"><a href="#cb9-161"></a></span>
+<span id="cb9-162"><a href="#cb9-162"></a><span class="ss">*   </span>F1: Display wide window for bone (CT) or increase minimum value for PET</span>
+<span id="cb9-163"><a href="#cb9-163"></a></span>
+<span id="cb9-164"><a href="#cb9-164"></a><span class="ss">*   </span>F2: Display window for soft tissues (CT) or increase minimum value for PET</span>
+<span id="cb9-165"><a href="#cb9-165"></a></span>
+<span id="cb9-166"><a href="#cb9-166"></a><span class="ss">*   </span>F3: Display wide window for lung viewing (CT) or increase minimum value for PET</span>
+<span id="cb9-167"><a href="#cb9-167"></a></span>
+<span id="cb9-168"><a href="#cb9-168"></a><span class="ss">*   </span>F4: Decrease minimum value for display</span>
+<span id="cb9-169"><a href="#cb9-169"></a></span>
+<span id="cb9-170"><a href="#cb9-170"></a><span class="ss">*   </span>F5: Increase minimum value for display</span>
+<span id="cb9-171"><a href="#cb9-171"></a></span>
+<span id="cb9-172"><a href="#cb9-172"></a><span class="ss">*   </span>F6: Decrease maximum value for display</span>
+<span id="cb9-173"><a href="#cb9-173"></a></span>
+<span id="cb9-174"><a href="#cb9-174"></a><span class="ss">*   </span>F7: Increase maximum value for display</span>
+<span id="cb9-175"><a href="#cb9-175"></a></span>
+<span id="cb9-176"><a href="#cb9-176"></a>Implementation of <span class="in">`setTextureWindow`</span> Function</span>
 <span id="cb9-177"><a href="#cb9-177"></a></span>
-<span id="cb9-178"><a href="#cb9-178"></a><span class="in">```Julia</span></span>
-<span id="cb9-179"><a href="#cb9-179"></a><span class="in">function setTextureWindow(activeTextur::TextureSpec, stateObject::StateDataFields, windowControlStruct::WindowControlStruct)</span></span>
-<span id="cb9-180"><a href="#cb9-180"></a><span class="in">    activeTexturName = activeTextur.name</span></span>
-<span id="cb9-181"><a href="#cb9-181"></a><span class="in">    displayRange = activeTextur.minAndMaxValue[2] - activeTextur.minAndMaxValue[1]</span></span>
-<span id="cb9-182"><a href="#cb9-182"></a><span class="in">    activeTexturStudyType = activeTextur.studyType</span></span>
-<span id="cb9-183"><a href="#cb9-183"></a><span class="in">    if windowControlStruct.letterCode == "F1"</span></span>
-<span id="cb9-184"><a href="#cb9-184"></a><span class="in">        if activeTexturStudyType == "CT"</span></span>
-<span id="cb9-185"><a href="#cb9-185"></a><span class="in">            #Bone windowing in CT</span></span>
-<span id="cb9-186"><a href="#cb9-186"></a><span class="in">            activeTextur.minAndMaxValue = Float32.([400, 1000])</span></span>
-<span id="cb9-187"><a href="#cb9-187"></a><span class="in">        elseif activeTexturStudyType == "PET"</span></span>
-<span id="cb9-188"><a href="#cb9-188"></a><span class="in">            activeTextur.minAndMaxValue[1] += 0.10 * displayRange #windowing for pet, in the case of PET simply increase the minimum by 20% , doing the same in f1,f2 and f3</span></span>
-<span id="cb9-189"><a href="#cb9-189"></a><span class="in">        end</span></span>
-<span id="cb9-190"><a href="#cb9-190"></a><span class="in">    elseif windowControlStruct.letterCode == "F2"</span></span>
-<span id="cb9-191"><a href="#cb9-191"></a><span class="in">        if activeTexturStudyType == "CT"</span></span>
-<span id="cb9-192"><a href="#cb9-192"></a><span class="in">            activeTextur.minAndMaxValue = Float32.([-40, 350])</span></span>
-<span id="cb9-193"><a href="#cb9-193"></a><span class="in">        elseif activeTexturStudyType == "PET"</span></span>
-<span id="cb9-194"><a href="#cb9-194"></a><span class="in">            activeTextur.minAndMaxValue[1] += 0.10 * displayRange</span></span>
-<span id="cb9-195"><a href="#cb9-195"></a><span class="in">        end</span></span>
-<span id="cb9-196"><a href="#cb9-196"></a><span class="in">    elseif windowControlStruct.letterCode == "F3"</span></span>
-<span id="cb9-197"><a href="#cb9-197"></a><span class="in">        if activeTexturStudyType == "CT"</span></span>
-<span id="cb9-198"><a href="#cb9-198"></a><span class="in">            activeTextur.minAndMaxValue = Float32.([-426, 1000])</span></span>
-<span id="cb9-199"><a href="#cb9-199"></a><span class="in">        elseif activeTexturStudyType == "PET"</span></span>
-<span id="cb9-200"><a href="#cb9-200"></a><span class="in">            activeTextur.minAndMaxValue[1] += 0.10 * displayRange</span></span>
-<span id="cb9-201"><a href="#cb9-201"></a><span class="in">        end</span></span>
-<span id="cb9-202"><a href="#cb9-202"></a><span class="in">    elseif windowControlStruct.letterCode == "F4"</span></span>
-<span id="cb9-203"><a href="#cb9-203"></a><span class="in">        activeTextur.minAndMaxValue[1] -= 0.20 * displayRange</span></span>
-<span id="cb9-204"><a href="#cb9-204"></a><span class="in">    elseif windowControlStruct.letterCode == "F5"</span></span>
-<span id="cb9-205"><a href="#cb9-205"></a><span class="in">        activeTextur.minAndMaxValue[1] += 0.20 * displayRange</span></span>
-<span id="cb9-206"><a href="#cb9-206"></a><span class="in">    elseif windowControlStruct.letterCode == "F6"</span></span>
-<span id="cb9-207"><a href="#cb9-207"></a><span class="in">        activeTextur.minAndMaxValue[2] -= 0.20 * displayRange</span></span>
-<span id="cb9-208"><a href="#cb9-208"></a><span class="in">    elseif windowControlStruct.letterCode == "F7"</span></span>
-<span id="cb9-209"><a href="#cb9-209"></a><span class="in">        activeTextur.minAndMaxValue[2] += 0.20 * displayRange</span></span>
-<span id="cb9-210"><a href="#cb9-210"></a><span class="in">    elseif windowControlStruct.letterCode == "F8"</span></span>
-<span id="cb9-211"><a href="#cb9-211"></a><span class="in">        activeTextur.uniforms.maskContribution -= 0.10</span></span>
-<span id="cb9-212"><a href="#cb9-212"></a><span class="in">    elseif windowControlStruct.letterCode == "F9"</span></span>
-<span id="cb9-213"><a href="#cb9-213"></a><span class="in">        activeTextur.uniforms.maskContribution += 0.10</span></span>
-<span id="cb9-214"><a href="#cb9-214"></a><span class="in">    end</span></span>
-<span id="cb9-215"><a href="#cb9-215"></a></span>
-<span id="cb9-216"><a href="#cb9-216"></a><span class="in">    stateObject.mainForDisplayObjects.listOfTextSpecifications = map(texture -&gt; texture.name == activeTexturName ? activeTextur : texture, stateObject.mainForDisplayObjects.listOfTextSpecifications)</span></span>
-<span id="cb9-217"><a href="#cb9-217"></a><span class="in">    coontrolMinMaxUniformVals(activeTextur)</span></span>
-<span id="cb9-218"><a href="#cb9-218"></a><span class="in">end</span></span>
-<span id="cb9-219"><a href="#cb9-219"></a><span class="in">```</span></span>
-<span id="cb9-220"><a href="#cb9-220"></a><span class="at">&gt; Bone windowing in CT</span></span>
-<span id="cb9-221"><a href="#cb9-221"></a></span>
-<span id="cb9-222"><a href="#cb9-222"></a><span class="al">![](./ct_windowing.png)</span></span>
-<span id="cb9-223"><a href="#cb9-223"></a></span>
-<span id="cb9-224"><a href="#cb9-224"></a><span class="at">&gt; Bone windowing in PET</span></span>
-<span id="cb9-225"><a href="#cb9-225"></a></span>
-<span id="cb9-226"><a href="#cb9-226"></a><span class="al">![](./pet_windowing.png)</span></span>
-<span id="cb9-227"><a href="#cb9-227"></a></span>
-<span id="cb9-228"><a href="#cb9-228"></a><span class="fu">## 5. Adding support for multi-image viewing with crosshair marker for image registration</span></span>
-<span id="cb9-229"><a href="#cb9-229"></a></span>
-<span id="cb9-230"><a href="#cb9-230"></a>Following the mid-term evaluation, MedEye3d.jl underwent a significant enhancement, whereby a multi-image display capability was implemented through a series of refinements. Specifically, a novel approach was adopted, whereby separate openGL <span class="co">[</span><span class="ot">fragment shaders</span><span class="co">](https://www.khronos.org/opengl/wiki/Fragment_Shader)</span> were introduced to concurrently render images on either side of the visualizer, namely the left and right views. Prior to integrating voxel data into the fragment shaders, an initial series of tests involved evaluating individual colors to validate the integrity of the double image display. A screenshot from one of these critical testing phases is presented below:</span>
-<span id="cb9-231"><a href="#cb9-231"></a><span class="al">![](./multi_fragment_shader.png)</span></span>
+<span id="cb9-178"><a href="#cb9-178"></a>The <span class="in">`setTextureWindow`</span> function is designed to update the texture window settings based on the input keymap control. The function takes three arguments:</span>
+<span id="cb9-179"><a href="#cb9-179"></a></span>
+<span id="cb9-180"><a href="#cb9-180"></a><span class="ss">*   </span><span class="in">`activeTextur`</span>: The current texture specification</span>
+<span id="cb9-181"><a href="#cb9-181"></a><span class="ss">*   </span><span class="in">`stateObject`</span>: The state data fields</span>
+<span id="cb9-182"><a href="#cb9-182"></a><span class="ss">*   </span><span class="in">`windowControlStruct`</span>: The window control structure containing the letter code for the keymap control</span>
+<span id="cb9-183"><a href="#cb9-183"></a></span>
+<span id="cb9-184"><a href="#cb9-184"></a>The function performs the following steps:</span>
+<span id="cb9-185"><a href="#cb9-185"></a></span>
+<span id="cb9-186"><a href="#cb9-186"></a><span class="ss">1.  </span>Checks the letter code of the keymap control and updates the minimum and maximum values of the texture specification accordingly.</span>
+<span id="cb9-187"><a href="#cb9-187"></a><span class="ss">2.  </span>Updates the uniforms for the texture specification using the <span class="in">`controlMinMaxUniformVals`</span> function.</span>
+<span id="cb9-188"><a href="#cb9-188"></a></span>
+<span id="cb9-189"><a href="#cb9-189"></a><span class="in">```Julia</span></span>
+<span id="cb9-190"><a href="#cb9-190"></a><span class="in">function setTextureWindow(activeTextur::TextureSpec, stateObject::StateDataFields, windowControlStruct::WindowControlStruct)</span></span>
+<span id="cb9-191"><a href="#cb9-191"></a><span class="in">    activeTexturName = activeTextur.name</span></span>
+<span id="cb9-192"><a href="#cb9-192"></a><span class="in">    displayRange = activeTextur.minAndMaxValue[2] - activeTextur.minAndMaxValue[1]</span></span>
+<span id="cb9-193"><a href="#cb9-193"></a><span class="in">    activeTexturStudyType = activeTextur.studyType</span></span>
+<span id="cb9-194"><a href="#cb9-194"></a><span class="in">    if windowControlStruct.letterCode == "F1"</span></span>
+<span id="cb9-195"><a href="#cb9-195"></a><span class="in">        if activeTexturStudyType == "CT"</span></span>
+<span id="cb9-196"><a href="#cb9-196"></a><span class="in">            #Bone windowing in CT</span></span>
+<span id="cb9-197"><a href="#cb9-197"></a><span class="in">            activeTextur.minAndMaxValue = Float32.([400, 1000])</span></span>
+<span id="cb9-198"><a href="#cb9-198"></a><span class="in">        elseif activeTexturStudyType == "PET"</span></span>
+<span id="cb9-199"><a href="#cb9-199"></a><span class="in">            activeTextur.minAndMaxValue[1] += 0.10 * displayRange #windowing for pet, in the case of PET simply increase the minimum by 20% , doing the same in f1,f2 and f3</span></span>
+<span id="cb9-200"><a href="#cb9-200"></a><span class="in">        end</span></span>
+<span id="cb9-201"><a href="#cb9-201"></a><span class="in">    elseif windowControlStruct.letterCode == "F2"</span></span>
+<span id="cb9-202"><a href="#cb9-202"></a><span class="in">        if activeTexturStudyType == "CT"</span></span>
+<span id="cb9-203"><a href="#cb9-203"></a><span class="in">            activeTextur.minAndMaxValue = Float32.([-40, 350])</span></span>
+<span id="cb9-204"><a href="#cb9-204"></a><span class="in">        elseif activeTexturStudyType == "PET"</span></span>
+<span id="cb9-205"><a href="#cb9-205"></a><span class="in">            activeTextur.minAndMaxValue[1] += 0.10 * displayRange</span></span>
+<span id="cb9-206"><a href="#cb9-206"></a><span class="in">        end</span></span>
+<span id="cb9-207"><a href="#cb9-207"></a><span class="in">    elseif windowControlStruct.letterCode == "F3"</span></span>
+<span id="cb9-208"><a href="#cb9-208"></a><span class="in">        if activeTexturStudyType == "CT"</span></span>
+<span id="cb9-209"><a href="#cb9-209"></a><span class="in">            activeTextur.minAndMaxValue = Float32.([-426, 1000])</span></span>
+<span id="cb9-210"><a href="#cb9-210"></a><span class="in">        elseif activeTexturStudyType == "PET"</span></span>
+<span id="cb9-211"><a href="#cb9-211"></a><span class="in">            activeTextur.minAndMaxValue[1] += 0.10 * displayRange</span></span>
+<span id="cb9-212"><a href="#cb9-212"></a><span class="in">        end</span></span>
+<span id="cb9-213"><a href="#cb9-213"></a><span class="in">    elseif windowControlStruct.letterCode == "F4"</span></span>
+<span id="cb9-214"><a href="#cb9-214"></a><span class="in">        activeTextur.minAndMaxValue[1] -= 0.20 * displayRange</span></span>
+<span id="cb9-215"><a href="#cb9-215"></a><span class="in">    elseif windowControlStruct.letterCode == "F5"</span></span>
+<span id="cb9-216"><a href="#cb9-216"></a><span class="in">        activeTextur.minAndMaxValue[1] += 0.20 * displayRange</span></span>
+<span id="cb9-217"><a href="#cb9-217"></a><span class="in">    elseif windowControlStruct.letterCode == "F6"</span></span>
+<span id="cb9-218"><a href="#cb9-218"></a><span class="in">        activeTextur.minAndMaxValue[2] -= 0.20 * displayRange</span></span>
+<span id="cb9-219"><a href="#cb9-219"></a><span class="in">    elseif windowControlStruct.letterCode == "F7"</span></span>
+<span id="cb9-220"><a href="#cb9-220"></a><span class="in">        activeTextur.minAndMaxValue[2] += 0.20 * displayRange</span></span>
+<span id="cb9-221"><a href="#cb9-221"></a><span class="in">    elseif windowControlStruct.letterCode == "F8"</span></span>
+<span id="cb9-222"><a href="#cb9-222"></a><span class="in">        activeTextur.uniforms.maskContribution -= 0.10</span></span>
+<span id="cb9-223"><a href="#cb9-223"></a><span class="in">    elseif windowControlStruct.letterCode == "F9"</span></span>
+<span id="cb9-224"><a href="#cb9-224"></a><span class="in">        activeTextur.uniforms.maskContribution += 0.10</span></span>
+<span id="cb9-225"><a href="#cb9-225"></a><span class="in">    end</span></span>
+<span id="cb9-226"><a href="#cb9-226"></a></span>
+<span id="cb9-227"><a href="#cb9-227"></a><span class="in">    stateObject.mainForDisplayObjects.listOfTextSpecifications = map(texture -&gt; texture.name == activeTexturName ? activeTextur : texture, stateObject.mainForDisplayObjects.listOfTextSpecifications)</span></span>
+<span id="cb9-228"><a href="#cb9-228"></a><span class="in">    coontrolMinMaxUniformVals(activeTextur)</span></span>
+<span id="cb9-229"><a href="#cb9-229"></a><span class="in">end</span></span>
+<span id="cb9-230"><a href="#cb9-230"></a><span class="in">```</span></span>
+<span id="cb9-231"><a href="#cb9-231"></a><span class="at">&gt; Bone windowing in CT</span></span>
 <span id="cb9-232"><a href="#cb9-232"></a></span>
-<span id="cb9-233"><a href="#cb9-233"></a>The shaders were further manipulated to automatically initialize for each of the images separately. Further, the reactive aspect of the visualizer in multi-image display mode was iterated upon and now, instead of a single state management struct, a vector of states was being passed around, facilitating the user to scroll each of the images separately just by simply hovering their mouse over either of the image, activating its relevant associated state struct.</span>
+<span id="cb9-233"><a href="#cb9-233"></a><span class="al">![](./ct_windowing.png)</span></span>
 <span id="cb9-234"><a href="#cb9-234"></a></span>
-<span id="cb9-235"><a href="#cb9-235"></a>Down below, is the struct for state that handles all of the things currently related with an image:</span>
-<span id="cb9-236"><a href="#cb9-236"></a><span class="in">```Julia</span></span>
-<span id="cb9-237"><a href="#cb9-237"></a><span class="in">@with_kw mutable struct StateDataFields</span></span>
-<span id="cb9-238"><a href="#cb9-238"></a><span class="in">  currentDisplayedSlice::Int = 1 # stores information what slice number we are currently displaying</span></span>
-<span id="cb9-239"><a href="#cb9-239"></a><span class="in">  mainForDisplayObjects::forDisplayObjects = forDisplayObjects() # stores objects needed to  display using OpenGL and GLFW</span></span>
-<span id="cb9-240"><a href="#cb9-240"></a><span class="in">  onScrollData::FullScrollableDat = FullScrollableDat()</span></span>
-<span id="cb9-241"><a href="#cb9-241"></a><span class="in">  textureToModifyVec::Vector{TextureSpec} = [] # texture that we want currently to modify - if list is empty it means that we do not intend to modify any texture</span></span>
-<span id="cb9-242"><a href="#cb9-242"></a><span class="in">  isSliceChanged::Bool = false # set to true when slice is changed set to false when we start interacting with this slice - thanks to this we know that when we start drawing on one slice and change the slice the line would star a new on new slice</span></span>
-<span id="cb9-243"><a href="#cb9-243"></a><span class="in">  textDispObj::ForWordsDispStruct = ForWordsDispStruct()# set of objects and constants needed for text diplay</span></span>
-<span id="cb9-244"><a href="#cb9-244"></a><span class="in">  currentlyDispDat::SingleSliceDat = SingleSliceDat() # holds the data displayed or in case of scrollable data view for accessing it</span></span>
-<span id="cb9-245"><a href="#cb9-245"></a><span class="in">  calcDimsStruct::CalcDimsStruct = CalcDimsStruct()   #data for calculations of necessary constants needed to calculate window size , mouse position ...</span></span>
-<span id="cb9-246"><a href="#cb9-246"></a><span class="in">  valueForMasToSet::valueForMasToSetStruct = valueForMasToSetStruct() # value that will be used to set  pixels where we would interact with mouse</span></span>
-<span id="cb9-247"><a href="#cb9-247"></a><span class="in">  lastRecordedMousePosition::CartesianIndex{3} = CartesianIndex(1, 1, 1) # last position of the mouse  related to right click - usefull to know onto which slice to change when dimensions of scroll change</span></span>
-<span id="cb9-248"><a href="#cb9-248"></a><span class="in">  forUndoVector::AbstractArray = [] # holds lambda functions that when invoked will  undo last operations</span></span>
-<span id="cb9-249"><a href="#cb9-249"></a><span class="in">  maxLengthOfForUndoVector::Int64 = 15 # number controls how many step at maximum we can get back</span></span>
-<span id="cb9-250"><a href="#cb9-250"></a><span class="in">  fieldKeyboardStruct::KeyboardStruct = KeyboardStruct()</span></span>
-<span id="cb9-251"><a href="#cb9-251"></a><span class="in">  displayMode::DisplayMode = SingleImage</span></span>
-<span id="cb9-252"><a href="#cb9-252"></a><span class="in">  imagePosition::Int64 = 1</span></span>
-<span id="cb9-253"><a href="#cb9-253"></a><span class="in">  switchIndex::Int = 1</span></span>
-<span id="cb9-254"><a href="#cb9-254"></a><span class="in">  mainRectFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
-<span id="cb9-255"><a href="#cb9-255"></a><span class="in">  crosshairFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
-<span id="cb9-256"><a href="#cb9-256"></a><span class="in">  textFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
-<span id="cb9-257"><a href="#cb9-257"></a><span class="in">  spacingsValue::Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} = [(1.0, 1.0, 1.0)]</span></span>
-<span id="cb9-258"><a href="#cb9-258"></a><span class="in">  originValue::Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} = [(1.0, 1.0, 1.0)]</span></span>
-<span id="cb9-259"><a href="#cb9-259"></a><span class="in">  supervoxelFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
-<span id="cb9-260"><a href="#cb9-260"></a><span class="in">end</span></span>
-<span id="cb9-261"><a href="#cb9-261"></a><span class="in">```</span></span>
-<span id="cb9-262"><a href="#cb9-262"></a></span>
-<span id="cb9-263"><a href="#cb9-263"></a>After the integrity of the fragment shaders was verified in multi-image, voxel data for the images was integrated and further modifications to the high-level functions were made and eventually the following script produced a rather appealing result.</span>
-<span id="cb9-264"><a href="#cb9-264"></a></span>
-<span id="cb9-265"><a href="#cb9-265"></a>Script for loading the same NIFTI image twice in the visualizer for side-by-side display:</span>
-<span id="cb9-266"><a href="#cb9-266"></a><span class="in">```Julia</span></span>
-<span id="cb9-267"><a href="#cb9-267"></a><span class="in">using MedEye3d</span></span>
-<span id="cb9-268"><a href="#cb9-268"></a><span class="in">ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
-<span id="cb9-269"><a href="#cb9-269"></a><span class="in">MedEye3d.SegmentationDisplay.displayImage([[ctNiftiImage],[ctNifitImage]])</span></span>
-<span id="cb9-270"><a href="#cb9-270"></a><span class="in">```</span></span>
-<span id="cb9-271"><a href="#cb9-271"></a><span class="at">&gt;Results in :</span></span>
-<span id="cb9-272"><a href="#cb9-272"></a></span>
-<span id="cb9-273"><a href="#cb9-273"></a><span class="al">![](./multi_image_ct.png)</span></span>
+<span id="cb9-235"><a href="#cb9-235"></a><span class="at">&gt; Bone windowing in PET</span></span>
+<span id="cb9-236"><a href="#cb9-236"></a></span>
+<span id="cb9-237"><a href="#cb9-237"></a><span class="al">![](./pet_windowing.png)</span></span>
+<span id="cb9-238"><a href="#cb9-238"></a></span>
+<span id="cb9-239"><a href="#cb9-239"></a><span class="fu">## 5. Adding support for multi-image viewing with crosshair marker for image registration</span></span>
+<span id="cb9-240"><a href="#cb9-240"></a></span>
+<span id="cb9-241"><a href="#cb9-241"></a>Following the mid-term evaluation, MedEye3d.jl underwent a significant enhancement, whereby a multi-image display capability was implemented through a series of refinements. Specifically, a novel approach was adopted, whereby separate openGL <span class="co">[</span><span class="ot">fragment shaders</span><span class="co">](https://www.khronos.org/opengl/wiki/Fragment_Shader)</span> were introduced to concurrently render images on either side of the visualizer, namely the left and right views. Prior to integrating voxel data into the fragment shaders, an initial series of tests involved evaluating individual colors to validate the integrity of the double image display. A screenshot from one of these critical testing phases is presented below:</span>
+<span id="cb9-242"><a href="#cb9-242"></a><span class="al">![](./multi_fragment_shader.png)</span></span>
+<span id="cb9-243"><a href="#cb9-243"></a></span>
+<span id="cb9-244"><a href="#cb9-244"></a>The shaders were further manipulated to automatically initialize for each of the images separately. Further, the reactive aspect of the visualizer in multi-image display mode was iterated upon and now, instead of a single state management struct, a vector of states was being passed around, facilitating the user to scroll each of the images separately just by simply hovering their mouse over either of the image, activating its relevant associated state struct.</span>
+<span id="cb9-245"><a href="#cb9-245"></a></span>
+<span id="cb9-246"><a href="#cb9-246"></a>Down below, is the struct for state that handles all of the things currently related with an image:</span>
+<span id="cb9-247"><a href="#cb9-247"></a></span>
+<span id="cb9-248"><a href="#cb9-248"></a><span class="in">```Julia</span></span>
+<span id="cb9-249"><a href="#cb9-249"></a><span class="in">@with_kw mutable struct StateDataFields</span></span>
+<span id="cb9-250"><a href="#cb9-250"></a><span class="in">  currentDisplayedSlice::Int = 1 # stores information what slice number we are currently displaying</span></span>
+<span id="cb9-251"><a href="#cb9-251"></a><span class="in">  mainForDisplayObjects::forDisplayObjects = forDisplayObjects() # stores objects needed to  display using OpenGL and GLFW</span></span>
+<span id="cb9-252"><a href="#cb9-252"></a><span class="in">  onScrollData::FullScrollableDat = FullScrollableDat()</span></span>
+<span id="cb9-253"><a href="#cb9-253"></a><span class="in">  textureToModifyVec::Vector{TextureSpec} = [] # texture that we want currently to modify - if list is empty it means that we do not intend to modify any texture</span></span>
+<span id="cb9-254"><a href="#cb9-254"></a><span class="in">  isSliceChanged::Bool = false # set to true when slice is changed set to false when we start interacting with this slice - thanks to this we know that when we start drawing on one slice and change the slice the line would star a new on new slice</span></span>
+<span id="cb9-255"><a href="#cb9-255"></a><span class="in">  textDispObj::ForWordsDispStruct = ForWordsDispStruct()# set of objects and constants needed for text diplay</span></span>
+<span id="cb9-256"><a href="#cb9-256"></a><span class="in">  currentlyDispDat::SingleSliceDat = SingleSliceDat() # holds the data displayed or in case of scrollable data view for accessing it</span></span>
+<span id="cb9-257"><a href="#cb9-257"></a><span class="in">  calcDimsStruct::CalcDimsStruct = CalcDimsStruct()   #data for calculations of necessary constants needed to calculate window size , mouse position ...</span></span>
+<span id="cb9-258"><a href="#cb9-258"></a><span class="in">  valueForMasToSet::valueForMasToSetStruct = valueForMasToSetStruct() # value that will be used to set  pixels where we would interact with mouse</span></span>
+<span id="cb9-259"><a href="#cb9-259"></a><span class="in">  lastRecordedMousePosition::CartesianIndex{3} = CartesianIndex(1, 1, 1) # last position of the mouse  related to right click - usefull to know onto which slice to change when dimensions of scroll change</span></span>
+<span id="cb9-260"><a href="#cb9-260"></a><span class="in">  forUndoVector::AbstractArray = [] # holds lambda functions that when invoked will  undo last operations</span></span>
+<span id="cb9-261"><a href="#cb9-261"></a><span class="in">  maxLengthOfForUndoVector::Int64 = 15 # number controls how many step at maximum we can get back</span></span>
+<span id="cb9-262"><a href="#cb9-262"></a><span class="in">  fieldKeyboardStruct::KeyboardStruct = KeyboardStruct()</span></span>
+<span id="cb9-263"><a href="#cb9-263"></a><span class="in">  displayMode::DisplayMode = SingleImage</span></span>
+<span id="cb9-264"><a href="#cb9-264"></a><span class="in">  imagePosition::Int64 = 1</span></span>
+<span id="cb9-265"><a href="#cb9-265"></a><span class="in">  switchIndex::Int = 1</span></span>
+<span id="cb9-266"><a href="#cb9-266"></a><span class="in">  mainRectFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
+<span id="cb9-267"><a href="#cb9-267"></a><span class="in">  crosshairFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
+<span id="cb9-268"><a href="#cb9-268"></a><span class="in">  textFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
+<span id="cb9-269"><a href="#cb9-269"></a><span class="in">  spacingsValue::Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} = [(1.0, 1.0, 1.0)]</span></span>
+<span id="cb9-270"><a href="#cb9-270"></a><span class="in">  originValue::Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} = [(1.0, 1.0, 1.0)]</span></span>
+<span id="cb9-271"><a href="#cb9-271"></a><span class="in">  supervoxelFields::GlShaderAndBufferFields = GlShaderAndBufferFields()</span></span>
+<span id="cb9-272"><a href="#cb9-272"></a><span class="in">end</span></span>
+<span id="cb9-273"><a href="#cb9-273"></a><span class="in">```</span></span>
 <span id="cb9-274"><a href="#cb9-274"></a></span>
-<span id="cb9-275"><a href="#cb9-275"></a>Crosshair marker for image registration are displayed in the relevant passive image to hightlight the same anatomical regions based on the spatial meta-data of the images i.e spacing, origin and direction. In order to achive the crosshair rendering in the passive image, the following action items were devised:</span>
+<span id="cb9-275"><a href="#cb9-275"></a>After the integrity of the fragment shaders was verified in multi-image, voxel data for the images was integrated and further modifications to the high-level functions were made and eventually the following script produced a rather appealing result.</span>
 <span id="cb9-276"><a href="#cb9-276"></a></span>
-<span id="cb9-277"><a href="#cb9-277"></a>(a) Retrieval of GLFW Mouse Callbacks for x and y position of the cursor in window coordinates (0 to window-width) from the active image</span>
+<span id="cb9-277"><a href="#cb9-277"></a>Script for loading the same NIFTI image twice in the visualizer for side-by-side display:</span>
 <span id="cb9-278"><a href="#cb9-278"></a></span>
-<span id="cb9-279"><a href="#cb9-279"></a>(b) Conversion of these x and y window coordinates into their relevant active image x and y texture coordinates</span>
-<span id="cb9-280"><a href="#cb9-280"></a></span>
-<span id="cb9-281"><a href="#cb9-281"></a>(c) Conversion of these texture coordinates into real space point with the help of spatial metadata</span>
-<span id="cb9-282"><a href="#cb9-282"></a></span>
-<span id="cb9-283"><a href="#cb9-283"></a>(d) Conversion of the real space point into the texture coordinates of the passive image</span>
-<span id="cb9-284"><a href="#cb9-284"></a></span>
-<span id="cb9-285"><a href="#cb9-285"></a>(e) Conversion of the passive image texture coordinates into their relevant openGl coordinate system values (-1 to 1)</span>
-<span id="cb9-286"><a href="#cb9-286"></a></span>
-<span id="cb9-287"><a href="#cb9-287"></a>(f) Rendering of crosshair on openGl coordinate in passive image</span>
-<span id="cb9-288"><a href="#cb9-288"></a></span>
-<span id="cb9-289"><a href="#cb9-289"></a>Conversion between different coordinate systems and accounting for the image's spatial metadata during calculating proved to be challenging at first, but with multiple revisions, a final solution was achieved with seemingly no noticable amount of lag or delay. One such frame of <span class="co">[</span><span class="ot">CT</span><span class="co">]</span> images with crosshair display in multi-image is depicted below:</span>
-<span id="cb9-290"><a href="#cb9-290"></a></span>
-<span id="cb9-291"><a href="#cb9-291"></a><span class="al">![](./multi_image_ct_crosshair.png)</span></span>
-<span id="cb9-292"><a href="#cb9-292"></a></span>
-<span id="cb9-293"><a href="#cb9-293"></a><span class="at">&gt;Another frame from the openGL rendering cycle, highlighting PET images with crosshair display in multi-image mode:</span></span>
-<span id="cb9-294"><a href="#cb9-294"></a></span>
-<span id="cb9-295"><a href="#cb9-295"></a><span class="al">![](./pet_multi_image.png)</span></span>
-<span id="cb9-296"><a href="#cb9-296"></a></span>
-<span id="cb9-297"><a href="#cb9-297"></a><span class="fu">## 6. Adding support for the display of [SuperVoxels](https://doi.org/10.1016/j.cagd.2022.102080) sv with borders within the image slices to better understand anatomical regions within slices</span></span>
-<span id="cb9-298"><a href="#cb9-298"></a></span>
-<span id="cb9-299"><a href="#cb9-299"></a>In enhancing MedEye3d's functionality, supporting super voxels (sv)  with boundaries becomes paramount. The sv rendering, effectively capturing gradients, serves as the cornerstone for detecting these boundaries within both MRI and PET volumes. Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.</span>
-<span id="cb9-300"><a href="#cb9-300"></a>By integrating boundary detection for super-voxels, MedEye3d can offer enhanced segmentation capabilities, enabling more precise delineation and analysis of anatomical structures and pathological regions within medical imaging data.</span>
+<span id="cb9-279"><a href="#cb9-279"></a><span class="in">```Julia</span></span>
+<span id="cb9-280"><a href="#cb9-280"></a><span class="in">using MedEye3d</span></span>
+<span id="cb9-281"><a href="#cb9-281"></a><span class="in">ctNiftiImage = "/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
+<span id="cb9-282"><a href="#cb9-282"></a><span class="in">MedEye3d.SegmentationDisplay.displayImage([[ctNiftiImage],[ctNifitImage]])</span></span>
+<span id="cb9-283"><a href="#cb9-283"></a><span class="in">```</span></span>
+<span id="cb9-284"><a href="#cb9-284"></a><span class="at">&gt;Results in :</span></span>
+<span id="cb9-285"><a href="#cb9-285"></a></span>
+<span id="cb9-286"><a href="#cb9-286"></a><span class="al">![](./multi_image_ct.png)</span></span>
+<span id="cb9-287"><a href="#cb9-287"></a></span>
+<span id="cb9-288"><a href="#cb9-288"></a>Crosshair marker for image registration are displayed in the relevant passive image to hightlight the same anatomical regions based on the spatial meta-data of the images i.e spacing, origin and direction. In order to achive the crosshair rendering in the passive image, the following action items were devised:</span>
+<span id="cb9-289"><a href="#cb9-289"></a></span>
+<span id="cb9-290"><a href="#cb9-290"></a>(a) Retrieval of GLFW Mouse Callbacks for x and y position of the cursor in window coordinates (0 to window-width) from the active image</span>
+<span id="cb9-291"><a href="#cb9-291"></a></span>
+<span id="cb9-292"><a href="#cb9-292"></a>(b) Conversion of these x and y window coordinates into their relevant active image x and y texture coordinates</span>
+<span id="cb9-293"><a href="#cb9-293"></a></span>
+<span id="cb9-294"><a href="#cb9-294"></a>(c) Conversion of these texture coordinates into real space point with the help of spatial metadata</span>
+<span id="cb9-295"><a href="#cb9-295"></a></span>
+<span id="cb9-296"><a href="#cb9-296"></a>(d) Conversion of the real space point into the texture coordinates of the passive image</span>
+<span id="cb9-297"><a href="#cb9-297"></a></span>
+<span id="cb9-298"><a href="#cb9-298"></a>(e) Conversion of the passive image texture coordinates into their relevant openGl coordinate system values (-1 to 1)</span>
+<span id="cb9-299"><a href="#cb9-299"></a></span>
+<span id="cb9-300"><a href="#cb9-300"></a>(f) Rendering of crosshair on openGl coordinate in passive image</span>
 <span id="cb9-301"><a href="#cb9-301"></a></span>
-<span id="cb9-302"><a href="#cb9-302"></a><span class="co">[</span><span class="ot">Supervoxels</span><span class="co">](https://www.sciencedirect.com/topics/computer-science/superpixel)</span> are basically a collection of voxels that share similar image properties. For example: in MRI scans of the brain cortex, super voxels could represent clusters of voxels corresponding to specific anatomical regions or functional areas.  The main objective of this task was to add support for the display of super voxel-based segmentation of images, followed by some janitorial tasks :</span>
+<span id="cb9-302"><a href="#cb9-302"></a>Conversion between different coordinate systems and accounting for the image's spatial metadata during calculating proved to be challenging at first, but with multiple revisions, a final solution was achieved with seemingly no noticable amount of lag or delay. One such frame of <span class="co">[</span><span class="ot">CT</span><span class="co">]</span> images with crosshair display in multi-image is depicted below:</span>
 <span id="cb9-303"><a href="#cb9-303"></a></span>
-<span id="cb9-304"><a href="#cb9-304"></a><span class="ss">1. </span>Display of the borders of super-voxels (sv), extracted using the machine learning algorithms.</span>
+<span id="cb9-304"><a href="#cb9-304"></a><span class="al">![](./multi_image_ct_crosshair.png)</span></span>
 <span id="cb9-305"><a href="#cb9-305"></a></span>
-<span id="cb9-306"><a href="#cb9-306"></a><span class="ss">2. </span>Checking image gradient agreement with super-voxel borders.</span>
+<span id="cb9-306"><a href="#cb9-306"></a><span class="at">&gt;Another frame from the openGL rendering cycle, highlighting PET images with crosshair display in multi-image mode:</span></span>
 <span id="cb9-307"><a href="#cb9-307"></a></span>
-<span id="cb9-308"><a href="#cb9-308"></a>This initial workflow involved, the initialization of relevant buffers in openGl for dynamic rendering of lines over the image display, namely vertex array buffers (vao), vertex buffers (vbo) and edge buffers (ebo). Further, these buffers are updated on a scroll event, where the information from the currently displayed slice is passed to the event handler, which invokes a function that updates the vertex buffer (vbo) with new vertices pertaining to the relevant slice number and planar view, precalculated from an <span class="co">[</span><span class="ot">HDF5</span><span class="co">](https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5)</span> file during initialization of the visualizer. For instance, if the user is scrolling in the 3rd axis (transversal plane) and is currently on slice 40, the supervoxel display will pertain to edges specifically calculated for that specific slice in that plane.</span>
+<span id="cb9-308"><a href="#cb9-308"></a><span class="al">![](./pet_multi_image.png)</span></span>
 <span id="cb9-309"><a href="#cb9-309"></a></span>
-<span id="cb9-310"><a href="#cb9-310"></a>Eventually, with ever so increasing number of attempts and a few hurdles along the way, one of which particularly stood out, since it marked our first step towards a good direction:</span>
+<span id="cb9-310"><a href="#cb9-310"></a><span class="fu">## 6. Adding support for the display of [SuperVoxels](https://doi.org/10.1016/j.cagd.2022.102080) sv with borders within the image slices to better understand anatomical regions within slices</span></span>
 <span id="cb9-311"><a href="#cb9-311"></a></span>
-<span id="cb9-312"><a href="#cb9-312"></a><span class="at">&gt;Challenges in rendering</span></span>
-<span id="cb9-313"><a href="#cb9-313"></a></span>
-<span id="cb9-314"><a href="#cb9-314"></a><span class="al">![](./supervoxel_rendering_issue.png)</span></span>
-<span id="cb9-315"><a href="#cb9-315"></a></span>
-<span id="cb9-316"><a href="#cb9-316"></a>At last, an appealing result hit our sight.</span>
-<span id="cb9-317"><a href="#cb9-317"></a></span>
-<span id="cb9-318"><a href="#cb9-318"></a><span class="at">&gt; Final result</span></span>
-<span id="cb9-319"><a href="#cb9-319"></a></span>
-<span id="cb9-320"><a href="#cb9-320"></a><span class="al">![](./supervoxel_rendering_fixed.png)</span></span>
-<span id="cb9-321"><a href="#cb9-321"></a></span>
+<span id="cb9-312"><a href="#cb9-312"></a>In enhancing MedEye3d's functionality, supporting super voxels (sv)  with boundaries becomes paramount. The sv rendering, effectively capturing gradients, serves as the cornerstone for detecting these boundaries within both MRI and PET volumes. Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.</span>
+<span id="cb9-313"><a href="#cb9-313"></a>By integrating boundary detection for super-voxels, MedEye3d can offer enhanced segmentation capabilities, enabling more precise delineation and analysis of anatomical structures and pathological regions within medical imaging data.</span>
+<span id="cb9-314"><a href="#cb9-314"></a></span>
+<span id="cb9-315"><a href="#cb9-315"></a><span class="co">[</span><span class="ot">Supervoxels</span><span class="co">](https://www.sciencedirect.com/topics/computer-science/superpixel)</span> are basically a collection of voxels that share similar image properties. For example: in MRI scans of the brain cortex, super voxels could represent clusters of voxels corresponding to specific anatomical regions or functional areas.  The main objective of this task was to add support for the display of super voxel-based segmentation of images, followed by some janitorial tasks :</span>
+<span id="cb9-316"><a href="#cb9-316"></a></span>
+<span id="cb9-317"><a href="#cb9-317"></a><span class="ss">1. </span>Display of the borders of super-voxels (sv), extracted using the machine learning algorithms.</span>
+<span id="cb9-318"><a href="#cb9-318"></a></span>
+<span id="cb9-319"><a href="#cb9-319"></a><span class="ss">2. </span>Checking image gradient agreement with super-voxel borders.</span>
+<span id="cb9-320"><a href="#cb9-320"></a></span>
+<span id="cb9-321"><a href="#cb9-321"></a>This initial workflow involved, the initialization of relevant buffers in openGl for dynamic rendering of lines over the image display, namely vertex array buffers (vao), vertex buffers (vbo) and edge buffers (ebo). Further, these buffers are updated on a scroll event, where the information from the currently displayed slice is passed to the event handler, which invokes a function that updates the vertex buffer (vbo) with new vertices pertaining to the relevant slice number and planar view, precalculated from an <span class="co">[</span><span class="ot">HDF5</span><span class="co">](https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5)</span> file during initialization of the visualizer. For instance, if the user is scrolling in the 3rd axis (transversal plane) and is currently on slice 40, the supervoxel display will pertain to edges specifically calculated for that specific slice in that plane.</span>
 <span id="cb9-322"><a href="#cb9-322"></a></span>
-<span id="cb9-323"><a href="#cb9-323"></a><span class="at">&gt; *Note:* However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</span></span>
+<span id="cb9-323"><a href="#cb9-323"></a>Eventually, with ever so increasing number of attempts and a few hurdles along the way, one of which particularly stood out, since it marked our first step towards a good direction:</span>
 <span id="cb9-324"><a href="#cb9-324"></a></span>
-<span id="cb9-325"><a href="#cb9-325"></a>(a) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/21</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/21)</span></span>
+<span id="cb9-325"><a href="#cb9-325"></a><span class="at">&gt; Challenges in rendering</span></span>
 <span id="cb9-326"><a href="#cb9-326"></a></span>
-<span id="cb9-327"><a href="#cb9-327"></a>(b) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/20</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/20)</span></span>
+<span id="cb9-327"><a href="#cb9-327"></a><span class="al">![](./supervoxel_rendering_issue.png)</span></span>
 <span id="cb9-328"><a href="#cb9-328"></a></span>
-<span id="cb9-329"><a href="#cb9-329"></a>(c) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/16</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/16)</span></span>
+<span id="cb9-329"><a href="#cb9-329"></a>At last, an appealing result hit our sight.</span>
 <span id="cb9-330"><a href="#cb9-330"></a></span>
-<span id="cb9-331"><a href="#cb9-331"></a>(d) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/14</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/14)</span></span>
+<span id="cb9-331"><a href="#cb9-331"></a><span class="at">&gt; Final result</span></span>
 <span id="cb9-332"><a href="#cb9-332"></a></span>
-<span id="cb9-333"><a href="#cb9-333"></a>(e) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/13</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/13)</span></span>
+<span id="cb9-333"><a href="#cb9-333"></a><span class="al">![](./supervoxel_rendering_fixed.png)</span></span>
 <span id="cb9-334"><a href="#cb9-334"></a></span>
-<span id="cb9-335"><a href="#cb9-335"></a>(f) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)</span></span>
-<span id="cb9-336"><a href="#cb9-336"></a></span>
-<span id="cb9-337"><a href="#cb9-337"></a><span class="fu"># Contributions Beyond Coding</span></span>
-<span id="cb9-338"><a href="#cb9-338"></a></span>
-<span id="cb9-339"><a href="#cb9-339"></a><span class="fu">## 1. Mentoring and Guidance</span></span>
-<span id="cb9-340"><a href="#cb9-340"></a></span>
-<span id="cb9-341"><a href="#cb9-341"></a>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues within the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</span>
-<span id="cb9-342"><a href="#cb9-342"></a></span>
-<span id="cb9-343"><a href="#cb9-343"></a><span class="fu">## 2. Package Documentation and Community Contribution</span></span>
-<span id="cb9-344"><a href="#cb9-344"></a></span>
-<span id="cb9-345"><a href="#cb9-345"></a>I contributed to other medical imaging sub-ecosystem packages in JuliaHealth, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/Juliahealth/MedImages.jl)</span> and <span class="co">[</span><span class="ot">MedEval3D.jl</span><span class="co">](https://github.com/Juliahealth/MedEval3D.jl)</span>. Specifically, I set up documentation for these packages using DocuementerVitepress.jl. This not only enhanced the functionality of these packages but also helped maintain a coherent and organized package ecosystem.</span>
-<span id="cb9-346"><a href="#cb9-346"></a></span>
-<span id="cb9-347"><a href="#cb9-347"></a><span class="fu">## 3. Multirepo Management and Collaboration</span></span>
-<span id="cb9-348"><a href="#cb9-348"></a></span>
-<span id="cb9-349"><a href="#cb9-349"></a>In addition to my work on the MedEye3d visualizer, I made significant contributions to other JuliaHealth repositories, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/JuliaHealth/MedImages.jl)</span> and worked over an <span class="co">[</span><span class="ot">Insight Toolkit</span><span class="co">](https://github.com/InsightSoftwareConsortium/ITK)</span> wrapper library <span class="co">[</span><span class="ot">ITKIOWrapper.jl</span><span class="co">](https://github.com/JuliaHealth/ITKIOWrapper.jl)</span> for support in image I/O down the road in MedImages.jl. I also maintained relevant documentation and ensured continuous collaboration and synchronization across these packages.</span>
-<span id="cb9-350"><a href="#cb9-350"></a></span>
-<span id="cb9-351"><a href="#cb9-351"></a><span class="fu"># Conclusions and Future Development</span></span>
-<span id="cb9-352"><a href="#cb9-352"></a></span>
-<span id="cb9-353"><a href="#cb9-353"></a>Within the scope of this 350-hour project, a comprehensive range of objectives were successfully addressed. Noteworthy achievements include:</span>
-<span id="cb9-354"><a href="#cb9-354"></a></span>
-<span id="cb9-355"><a href="#cb9-355"></a><span class="ss">1. </span>Fixed screen tear and flicker within the visualizer. Integration of threadsafe Julia channels.</span>
-<span id="cb9-356"><a href="#cb9-356"></a></span>
-<span id="cb9-357"><a href="#cb9-357"></a><span class="ss">2. </span>Achieved multi-image display over CT and PET modalities with crosshair rendering (Although, only one modality can be visualize at a time, i.e either CT | CT or PET | PET).</span>
-<span id="cb9-358"><a href="#cb9-358"></a></span>
-<span id="cb9-359"><a href="#cb9-359"></a><span class="ss">3. </span>Achived supervoxel display in single image display mode.</span>
-<span id="cb9-360"><a href="#cb9-360"></a></span>
-<span id="cb9-361"><a href="#cb9-361"></a><span class="ss">4. </span>Achieved automatic windowing of MRI and PET most common modalities.</span>
-<span id="cb9-362"><a href="#cb9-362"></a></span>
-<span id="cb9-363"><a href="#cb9-363"></a>Future work would include:</span>
-<span id="cb9-364"><a href="#cb9-364"></a></span>
-<span id="cb9-365"><a href="#cb9-365"></a><span class="ss">- </span>Support for the users on Darwin (Apple based platforms).</span>
-<span id="cb9-366"><a href="#cb9-366"></a></span>
-<span id="cb9-367"><a href="#cb9-367"></a><span class="ss">- </span>Apart from that, we would need to add a function that dynamically allocates the texture number to the manual modification mask, regardless of the number of images passed for display, which is currently defaulted to 2.</span>
-<span id="cb9-368"><a href="#cb9-368"></a></span>
-<span id="cb9-369"><a href="#cb9-369"></a><span class="ss">- </span>Also, in the future, we would explore the stretch goals a bit more rigorously, particularly the implementation of <span class="co">[</span><span class="ot">MedVoxelHD</span><span class="co">](https://doi.org/10.1016/j.softx.2024.101744)</span> within MedEye3d.</span>
-<span id="cb9-370"><a href="#cb9-370"></a></span>
-<span id="cb9-371"><a href="#cb9-371"></a><span class="fu"># Acknowledgements 🙇‍♂️</span></span>
-<span id="cb9-372"><a href="#cb9-372"></a></span>
-<span id="cb9-373"><a href="#cb9-373"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">Jakub Mitura</span><span class="co">](https://orcid.org/0000-0003-1823-6823)</span>: aka, <span class="co">[</span><span class="ot">Dr. Jakub Mitura</span><span class="co">](https://github.com/jakubMitura14)</span></span>
-<span id="cb9-374"><a href="#cb9-374"></a></span>
-<span id="cb9-375"><a href="#cb9-375"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">Carlos Castillo Passi</span><span class="co">](https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en)</span>: aka, <span class="co">[</span><span class="ot">cncastillo</span><span class="co">](https://github.com/cncastillo)</span></span>
-<span id="cb9-376"><a href="#cb9-376"></a></span>
-<span id="cb9-377"><a href="#cb9-377"></a>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for weaving Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</span>
-<span id="cb9-378"><a href="#cb9-378"></a></span>
-<span id="cb9-379"><a href="#cb9-379"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb9-335"><a href="#cb9-335"></a></span>
+<span id="cb9-336"><a href="#cb9-336"></a><span class="at">&gt; *Note:* However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</span></span>
+<span id="cb9-337"><a href="#cb9-337"></a></span>
+<span id="cb9-338"><a href="#cb9-338"></a>(a) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/21</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/21)</span></span>
+<span id="cb9-339"><a href="#cb9-339"></a></span>
+<span id="cb9-340"><a href="#cb9-340"></a>(b) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/20</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/20)</span></span>
+<span id="cb9-341"><a href="#cb9-341"></a></span>
+<span id="cb9-342"><a href="#cb9-342"></a>(c) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/16</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/16)</span></span>
+<span id="cb9-343"><a href="#cb9-343"></a></span>
+<span id="cb9-344"><a href="#cb9-344"></a>(d) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/14</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/14)</span></span>
+<span id="cb9-345"><a href="#cb9-345"></a></span>
+<span id="cb9-346"><a href="#cb9-346"></a>(e) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/13</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/13)</span></span>
+<span id="cb9-347"><a href="#cb9-347"></a></span>
+<span id="cb9-348"><a href="#cb9-348"></a>(f) <span class="co">[</span><span class="ot">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</span><span class="co">](https://github.com/JuliaHealth/MedEye3d.jl/pull/12)</span></span>
+<span id="cb9-349"><a href="#cb9-349"></a></span>
+<span id="cb9-350"><a href="#cb9-350"></a><span class="fu"># Contributions Beyond Coding</span></span>
+<span id="cb9-351"><a href="#cb9-351"></a></span>
+<span id="cb9-352"><a href="#cb9-352"></a><span class="fu">## 1. Mentoring and Guidance</span></span>
+<span id="cb9-353"><a href="#cb9-353"></a></span>
+<span id="cb9-354"><a href="#cb9-354"></a>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues within the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</span>
+<span id="cb9-355"><a href="#cb9-355"></a></span>
+<span id="cb9-356"><a href="#cb9-356"></a><span class="fu">## 2. Package Documentation and Community Contribution</span></span>
+<span id="cb9-357"><a href="#cb9-357"></a></span>
+<span id="cb9-358"><a href="#cb9-358"></a>I contributed to other medical imaging sub-ecosystem packages in JuliaHealth, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/Juliahealth/MedImages.jl)</span> and <span class="co">[</span><span class="ot">MedEval3D.jl</span><span class="co">](https://github.com/Juliahealth/MedEval3D.jl)</span>. Specifically, I set up documentation for these packages using DocuementerVitepress.jl. This not only enhanced the functionality of these packages but also helped maintain a coherent and organized package ecosystem.</span>
+<span id="cb9-359"><a href="#cb9-359"></a></span>
+<span id="cb9-360"><a href="#cb9-360"></a><span class="fu">## 3. Multirepo Management and Collaboration</span></span>
+<span id="cb9-361"><a href="#cb9-361"></a></span>
+<span id="cb9-362"><a href="#cb9-362"></a>In addition to my work on the MedEye3d visualizer, I made significant contributions to other JuliaHealth repositories, including <span class="co">[</span><span class="ot">MedImages.jl</span><span class="co">](https://github.com/JuliaHealth/MedImages.jl)</span> and worked over an <span class="co">[</span><span class="ot">Insight Toolkit</span><span class="co">](https://github.com/InsightSoftwareConsortium/ITK)</span> wrapper library <span class="co">[</span><span class="ot">ITKIOWrapper.jl</span><span class="co">](https://github.com/JuliaHealth/ITKIOWrapper.jl)</span> for support in image I/O down the road in MedImages.jl. I also maintained relevant documentation and ensured continuous collaboration and synchronization across these packages.</span>
+<span id="cb9-363"><a href="#cb9-363"></a></span>
+<span id="cb9-364"><a href="#cb9-364"></a><span class="fu"># Conclusions and Future Development</span></span>
+<span id="cb9-365"><a href="#cb9-365"></a></span>
+<span id="cb9-366"><a href="#cb9-366"></a>Within the scope of this 350-hour project, a comprehensive range of objectives were successfully addressed. Noteworthy achievements include:</span>
+<span id="cb9-367"><a href="#cb9-367"></a></span>
+<span id="cb9-368"><a href="#cb9-368"></a><span class="ss">1. </span>Fixed screen tear and flicker within the visualizer. Integration of threadsafe Julia channels.</span>
+<span id="cb9-369"><a href="#cb9-369"></a></span>
+<span id="cb9-370"><a href="#cb9-370"></a><span class="ss">2. </span>Achieved multi-image display over CT and PET modalities with crosshair rendering (Although, only one modality can be visualize at a time, i.e either CT | CT or PET | PET).</span>
+<span id="cb9-371"><a href="#cb9-371"></a></span>
+<span id="cb9-372"><a href="#cb9-372"></a><span class="ss">3. </span>Achived supervoxel display in single image display mode.</span>
+<span id="cb9-373"><a href="#cb9-373"></a></span>
+<span id="cb9-374"><a href="#cb9-374"></a><span class="ss">4. </span>Achieved automatic windowing of MRI and PET most common modalities.</span>
+<span id="cb9-375"><a href="#cb9-375"></a></span>
+<span id="cb9-376"><a href="#cb9-376"></a>Future work would include:</span>
+<span id="cb9-377"><a href="#cb9-377"></a></span>
+<span id="cb9-378"><a href="#cb9-378"></a><span class="ss">- </span>Support for the users on Darwin (Apple based platforms).</span>
+<span id="cb9-379"><a href="#cb9-379"></a></span>
+<span id="cb9-380"><a href="#cb9-380"></a><span class="ss">- </span>Apart from that, we would need to add a function that dynamically allocates the texture number to the manual modification mask, regardless of the number of images passed for display, which is currently defaulted to 2.</span>
+<span id="cb9-381"><a href="#cb9-381"></a></span>
+<span id="cb9-382"><a href="#cb9-382"></a><span class="ss">- </span>Also, in the future, we would explore the stretch goals a bit more rigorously, particularly the implementation of <span class="co">[</span><span class="ot">MedVoxelHD</span><span class="co">](https://doi.org/10.1016/j.softx.2024.101744)</span> within MedEye3d.</span>
+<span id="cb9-383"><a href="#cb9-383"></a></span>
+<span id="cb9-384"><a href="#cb9-384"></a><span class="fu"># Acknowledgements 🙇‍♂️</span></span>
+<span id="cb9-385"><a href="#cb9-385"></a></span>
+<span id="cb9-386"><a href="#cb9-386"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">Jakub Mitura</span><span class="co">](https://orcid.org/0000-0003-1823-6823)</span>: aka, <span class="co">[</span><span class="ot">Dr. Jakub Mitura</span><span class="co">](https://github.com/jakubMitura14)</span></span>
+<span id="cb9-387"><a href="#cb9-387"></a></span>
+<span id="cb9-388"><a href="#cb9-388"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">Carlos Castillo Passi</span><span class="co">](https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en)</span>: aka, <span class="co">[</span><span class="ot">cncastillo</span><span class="co">](https://github.com/cncastillo)</span></span>
+<span id="cb9-389"><a href="#cb9-389"></a></span>
+<span id="cb9-390"><a href="#cb9-390"></a>I would like to thank my mentor Dr.Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
