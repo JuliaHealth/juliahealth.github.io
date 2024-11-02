@@ -10,7 +10,931 @@
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.47</generator>
-<lastBuildDate>Thu, 12 Sep 2024 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 01 Nov 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
+  <dc:creator>Divyansh Goyal</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="hello-everyone" class="level1">
+<h1>Hello Everyone! 👋</h1>
+<p>I am Divyansh, an undergraduate student from Guru Gobind Singh Indraprastha university, majoring in Artificial Intelligence and Machine Learning. Stumbling upon projects under the Juliahealth sub-ecosystem of medical imaging packages, the intricacies of imaging modalities and file formats, reflected in their relevant project counterparts, captured my interest. Working with standards such as NIfTI (Neuroimaging Informatics Technology Initiative) and DICOM (Digital Imaging and Communications in Medicine) with MedImages.jl, I became interested in the visualization routines of such imaging datasets and their integration within the segmentation pipelines for modern medical-imaging analysis.</p>
+<p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, contributing to MedEye3d.jl medical imaging visualizer under GSOC-2024!</p>
+<blockquote class="blockquote">
+<p>If you want to learn more about me, you can connect with me on <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/divital-coder"><strong>GitHub</strong></a></p>
+</blockquote>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="what-is-medeye3d.jl" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-medeye3d.jl">What is MedEye3d.jl?</h2>
+<p><a href="https::/github.com/Juliahealth/MedEye3d.jl">MedEye3D.jl</a> is a package under the Julia language ecosystem designed to facilitate the visualization and annotation of medical images. Tailored specifically for medical applications, it offers a range of functionalities to enhance the interpretation and analysis of medical images. MedEye3D aims to provide an essential tool for 3D medical imaging workflow within Julia. The underlying combination of <a href="https://github.com/ReactiveBayes/Rocket.jl">Rocket.jl</a> and <a href="https://github.com/JuliaGL/ModernGL.jl">ModernGL.jl</a> ensures the high-performance robust visualizations that the package has to offer.</p>
+<p>MedEye3d.jl is open-source and comes with an intuitive user interface (To learn more about MedEye3d, you can read the paper introducing it <a href="https://doi.org/10.26348/znwwsi.25.57">here</a> <span class="citation" data-cites="Mitura2021">[1]</span>).</p>
+</section>
+<section id="what-features-does-this-project-encompass" class="level2">
+<h2 class="anchored" data-anchor-id="what-features-does-this-project-encompass">What features does this project encompass?</h2>
+<p>This project covers implementation of several tasks that will enable the establishment of additional important functionalities within the MedEye3D package, facilitating enhancements within the visualization’s windowing for MRI and PET data, support for super voxels (sv), improved load times, high-level functionality implementation and robust viewing for multiple images.</p>
+</section>
+</section>
+<section id="project-goals" class="level1">
+<h1>Project Goals</h1>
+<p>The goals outlined by Dr.&nbsp;Jakub Mitura (my project mentor) and I, beginning of this summer were:</p>
+<ol type="1">
+<li><p>Migration of package reliance from <a href="https://github.com/reactivebayes/Rocket.jl">Rocket.jl</a> to base Julia channel and macros: The first decision that was made was to fix the issue of screen tearing and flicker, resulting from the Rocket.jl’s actor-subscription mechanism present at the core of MedEye3d.jl’s event-driven programming. Here, Julia’s threadsafe and asynchronous <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">channels</a> provided a way to introduce reactive programming and state management within MedEye3d without the tradeoffs resulting from external packages such as Rocket</p></li>
+<li><p>Implementation of high level functions with simplified basic usage: Prior to this, MedEye3d involved initialization of data, texture specifications and text display for a final visualization. To reduce complexity, methods to abstract such chores were devised and implemented which resulted in the exposure of functions for loading images, accessing display data and modification of display data. This also encompassed the loading of images via <a href="https://github.com/juliahealth/MedImages.jl">MedImages.jl</a> which required prior work for the integration of C++ <a href="https://github.com/InsightSoftwareConsortium/ITK">ITK</a> backend for image I/O.</p></li>
+<li><p>Improved precompilation with decreased outputs to reduce start time</p></li>
+<li><p>Automatic windowing for most common MRI and PET modalities: This task is a step in the direction of maintaining consistent visualizations across MRI and PET’s most common modalities, to mimic images similar to what is displayed within <a href="https://www.slicer.org/">3dSlicer</a> for the same.</p></li>
+<li><p>Adding support for multi-image viewing with crosshair marker for image registration</p></li>
+<li><p>Adding support for the display of <a href="https://doi.org/10.1016/j.cagd.2022.102080">SuperVoxels</a> sv with borders within the image slices to better understand anatomical regions within slices: Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics.</p></li>
+</ol>
+<p>Additionally, we had a few stretch goals which are going to be a work in progress:</p>
+<ol type="1">
+<li><p>Visualization of structures by 3D rendering using OpenGL,</p></li>
+<li><p>Support for MedVoxelHD visualization by voxel-based Hausdorff distance computation.</p></li>
+<li><p>Support for OSX users</p></li>
+</ol>
+</section>
+<section id="tasks" class="level1">
+<h1>Tasks</h1>
+<section id="migration-of-package-from-rocket-to-julias-base.channel" class="level2">
+<h2 class="anchored" data-anchor-id="migration-of-package-from-rocket-to-julias-base.channel">1. Migration of package from Rocket to Julia’s Base.Channel</h2>
+<p>Initially, there was significant screen-tearing evident from the pixelated display of the rendered text and main image which, furthermore exhibited flickering upon scrolling through the slices in the relevant displayed image’s planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket’s actor-subscription mechanism and decided to integrate Julia’s Base.Channel within <a href="https://github.com/Juliahealth/MedEye3d.jl">MedEye3d.jl</a> for handling the event and state management routine. Julia has asynchronous, threadsafe <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels">channels</a> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">consumer</span>(channel<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Base.Channel</span>)</span>
+<span id="cb1-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">while</span>(<span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">true</span>)</span>
+<span id="cb1-3">    channelData<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">String </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">take!</span>(channel)</span>
+<span id="cb1-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Channel got "</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> channelData)</span>
+<span id="cb1-5">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb1-6"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb1-7"></span>
+<span id="cb1-8">newChannel <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Base</span>.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Channel</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span>)</span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@async</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">consumer</span>(newChannel)</span>
+<span id="cb1-11"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">put!</span>(newChannel, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"apples"</span>)</span></code></pre></div>
+<p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitated fixing the issue of screen tearing. Below is how the <code>on_next!</code> function, invokes different reactive components based on the types of arguments it is dealing with.</p>
+<blockquote class="blockquote">
+<p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke <code>on_next!(state, channelData)</code> -&gt; invoke relevant functionality based on the type of arguments passed</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multiple_dispatch_code.png" class="img-fluid"></p>
+<p>The end result was a visualizer with a seamless display of a CT image without any pixelating artifacts.</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/fixed_screen_tear.png" class="img-fluid"></p>
+</section>
+<section id="implementation-of-high-level-functions-with-simplified-basic-usage" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-of-high-level-functions-with-simplified-basic-usage">2. Implementation of high level functions with simplified basic usage</h2>
+<p>Implementing a bare-bones image visualization required a lot of function calls and definitions, in order to execute the following phases:</p>
+<ol type="1">
+<li><p>Rendering an image-plane with OpenGL</p></li>
+<li><p>Loading data slices from the image</p></li>
+<li><p>Creating texture specifications for modalities</p></li>
+<li><p>Producing the final segmentation display</p></li>
+</ol>
+<p>In order to simplify basic usage, high-level abstractions were put in place with the help of <a href="https://github.com/MedImages.jl">MedImages.jl</a> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accommodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1">MedEye3d.SegmentationDisplay.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">displayImage</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1">MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getDisplayedData</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1">MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setDisplayedData</span>()</span></code></pre></div>
+<p>Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">MedEye3d</span></span>
+<span id="cb5-2">ctNiftiImage <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
+<span id="cb5-3">medEyeStruct <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MedEye3d.SegmentationDisplay.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">displayImage</span>(ctNiftiImage)</span>
+<span id="cb5-4">displayData <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getDisplayedData</span>(medEyeStruct, [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Int32</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Int32</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)]) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#passing the active texture number</span></span>
+<span id="cb5-5"></span>
+<span id="cb5-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># We need to check if the return type of the displayData is a single Array{Float32,3} or a vector{Array{Float32,3}}</span></span>
+<span id="cb5-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Now in this case we are setting Gaussian noise over the manualModif Texture voxel layer, and the manualModif texture defaults to 2 for active number</span></span>
+<span id="cb5-8"></span>
+<span id="cb5-9">displayData[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>][<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">randn</span>(<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Float32</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(displayData[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]))</span>
+<span id="cb5-10">MedEye3d.DisplayDataManag.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setDisplayedData</span>(medEyeStruct, displayData)</span></code></pre></div>
+<p>The result of this <a href="https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html">Gaussian noise</a> within the annotation layer, made for an outcome like the following:</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gaussian_noise_annotation.png" class="img-fluid"></p>
+</section>
+<section id="improved-precompilation-with-decreased-outputs-to-reduce-start-time" class="level2">
+<h2 class="anchored" data-anchor-id="improved-precompilation-with-decreased-outputs-to-reduce-start-time">3. Improved precompilation with decreased outputs to reduce start time</h2>
+<p>Previously, the package’s precompilation was failing in Julia v1.9 and v1.10 due to pattern matching errors arising after the usage of match macros from the <a href="https://github.com/JuliaServices/Match.jl">Match.jl</a> pkg in MedEye3d’s keymapping workflow between GLFW callbacks from mouse and keyboard. The relevant equivalent native conditional (if-else) statements, resolved the issue and facilitated in successful precompilation of the package. Further, only following minimal outputs were produced during precompilation:</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/precompilation_outputs.png" class="img-fluid"></p>
+<p>Changes highlighted within the following pull-request:</p>
+<p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/12">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</a></p>
+</section>
+<section id="automatic-windowing-for-most-common-mri-and-pet-modalities" class="level2">
+<h2 class="anchored" data-anchor-id="automatic-windowing-for-most-common-mri-and-pet-modalities">4. Automatic <a href="https://youtu.be/HaL-G43kwKA">windowing</a> for most common MRI and PET modalities</h2>
+<p>Windowing is a crucial aspect of medical imaging, particularly in MRI (Magnetic Resonance Imaging) and PET (Positron Emission Tomography) modalities. It enables radiologists to enhance the contrast of images, highlighting specific features and improving the overall diagnostic accuracy. Windowing involves controlling the display range of pixel values to optimize the contrast between different tissues or structures. The display range is defined by two values: the minimum (min) and maximum (max) values that contribute to the final range of pixels that are displayed. By adjusting these values, radiologists can enhance or suppress specific features in the image, facilitating a more accurate diagnosis.</p>
+<p>The <code>setTextureWindow</code> function utilizes a set of predefined keymap controls to simplify the windowing process. The F1-F7 keys are designated for controlling windowing in MRI and PET modalities. The keymap controls are as follows:</p>
+<ul>
+<li><p>F1: Display wide window for bone (CT) or increase minimum value for PET</p></li>
+<li><p>F2: Display window for soft tissues (CT) or increase minimum value for PET</p></li>
+<li><p>F3: Display wide window for lung viewing (CT) or increase minimum value for PET</p></li>
+<li><p>F4: Decrease minimum value for display</p></li>
+<li><p>F5: Increase minimum value for display</p></li>
+<li><p>F6: Decrease maximum value for display</p></li>
+<li><p>F7: Increase maximum value for display</p></li>
+</ul>
+<p>Implementation of <code>setTextureWindow</code> Function</p>
+<p>The <code>setTextureWindow</code> function is designed to update the texture window settings based on the input keymap control. The function takes three arguments:</p>
+<ul>
+<li><code>activeTextur</code>: The current texture specification</li>
+<li><code>stateObject</code>: The state data fields</li>
+<li><code>windowControlStruct</code>: The window control structure containing the letter code for the keymap control</li>
+</ul>
+<p>The function performs the following steps:</p>
+<ol type="1">
+<li>Checks the letter code of the keymap control and updates the minimum and maximum values of the texture specification accordingly.</li>
+<li>Updates the uniforms for the texture specification using the <code>controlMinMaxUniformVals</code> function.</li>
+</ol>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setTextureWindow</span>(activeTextur<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">TextureSpec</span>, stateObject<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">StateDataFields</span>, windowControlStruct<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">WindowControlStruct</span>)</span>
+<span id="cb6-2">    activeTexturName <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> activeTextur.name</span>
+<span id="cb6-3">    displayRange <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb6-4">    activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> activeTextur.studyType</span>
+<span id="cb6-5">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F1"</span></span>
+<span id="cb6-6">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CT"</span></span>
+<span id="cb6-7">            <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#Bone windowing in CT</span></span>
+<span id="cb6-8">            activeTextur.minAndMaxValue <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Float32</span>.([<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">400</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>])</span>
+<span id="cb6-9">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PET"</span></span>
+<span id="cb6-10">            activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.10</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#windowing for pet, in the case of PET simply increase the minimum by 20% , doing the same in f1,f2 and f3</span></span>
+<span id="cb6-11">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb6-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F2"</span></span>
+<span id="cb6-13">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CT"</span></span>
+<span id="cb6-14">            activeTextur.minAndMaxValue <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Float32</span>.([<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">40</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">350</span>])</span>
+<span id="cb6-15">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PET"</span></span>
+<span id="cb6-16">            activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.10</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange</span>
+<span id="cb6-17">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb6-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F3"</span></span>
+<span id="cb6-19">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CT"</span></span>
+<span id="cb6-20">            activeTextur.minAndMaxValue <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Float32</span>.([<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">426</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>])</span>
+<span id="cb6-21">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> activeTexturStudyType <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"PET"</span></span>
+<span id="cb6-22">            activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.10</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange</span>
+<span id="cb6-23">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb6-24">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F4"</span></span>
+<span id="cb6-25">        activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.20</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange</span>
+<span id="cb6-26">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F5"</span></span>
+<span id="cb6-27">        activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.20</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange</span>
+<span id="cb6-28">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F6"</span></span>
+<span id="cb6-29">        activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.20</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange</span>
+<span id="cb6-30">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F7"</span></span>
+<span id="cb6-31">        activeTextur.minAndMaxValue[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.20</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> displayRange</span>
+<span id="cb6-32">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F8"</span></span>
+<span id="cb6-33">        activeTextur.uniforms.maskContribution <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.10</span></span>
+<span id="cb6-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> windowControlStruct.letterCode <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"F9"</span></span>
+<span id="cb6-35">        activeTextur.uniforms.maskContribution <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.10</span></span>
+<span id="cb6-36">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb6-37"></span>
+<span id="cb6-38">    stateObject.mainForDisplayObjects.listOfTextSpecifications <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">map</span>(texture <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> texture.name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> activeTexturName ? activeTextur <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> texture, stateObject.mainForDisplayObjects.listOfTextSpecifications)</span>
+<span id="cb6-39">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coontrolMinMaxUniformVals</span>(activeTextur)</span>
+<span id="cb6-40"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+<blockquote class="blockquote">
+<p>Bone windowing in CT</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/ct_windowing.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Bone windowing in PET</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/pet_windowing.png" class="img-fluid"></p>
+</section>
+<section id="adding-support-for-multi-image-viewing-with-crosshair-marker-for-image-registration" class="level2">
+<h2 class="anchored" data-anchor-id="adding-support-for-multi-image-viewing-with-crosshair-marker-for-image-registration">5. Adding support for multi-image viewing with crosshair marker for image registration</h2>
+<p>Following the mid-term evaluation, MedEye3d.jl underwent a significant enhancement, whereby a multi-image display capability was implemented through a series of refinements. Specifically, a novel approach was adopted, whereby separate OpenGL <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">fragment shaders</a> were introduced to concurrently render images on either side of the visualizer, namely the left and right views. Prior to integrating voxel data into the fragment shaders, an initial series of tests involved evaluating individual colors to validate the integrity of the double image display. A screenshot from one of these critical testing phases is presented below: <img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multi_fragment_shader.png" class="img-fluid"></p>
+<p>The shaders were further manipulated to automatically initialize for each of the images separately. Further, the reactive aspect of the visualizer in multi-image display mode was iterated upon and now, instead of a single state management struct, a vector of states was being passed around, facilitating the user to scroll each of the images separately just by simply hovering their mouse over either of the image, activating its relevant associated state struct.</p>
+<p>Down below, is the struct for state that handles all of the things currently related with an image:</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@with_kw</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">mutable struct</span> StateDataFields</span>
+<span id="cb7-2">  currentDisplayedSlice<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># stores information what slice number we are currently displaying</span></span>
+<span id="cb7-3">  mainForDisplayObjects<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">forDisplayObjects </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">forDisplayObjects</span>() <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># stores objects needed to  display using OpenGL and GLFW</span></span>
+<span id="cb7-4">  onScrollData<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">FullScrollableDat </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">FullScrollableDat</span>()</span>
+<span id="cb7-5">  textureToModifyVec<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Vector{TextureSpec} </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># texture that we want currently to modify - if list is empty it means that we do not intend to modify any texture</span></span>
+<span id="cb7-6">  isSliceChanged<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Bool </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">false</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># set to true when slice is changed set to false when we start interacting with this slice - thanks to this we know that when we start drawing on one slice and change the slice the line would star a new on new slice</span></span>
+<span id="cb7-7">  textDispObj<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">ForWordsDispStruct </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ForWordsDispStruct</span>()<span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># set of objects and constants needed for text diplay</span></span>
+<span id="cb7-8">  currentlyDispDat<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">SingleSliceDat </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">SingleSliceDat</span>() <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># holds the data displayed or in case of scrollable data view for accessing it</span></span>
+<span id="cb7-9">  calcDimsStruct<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">CalcDimsStruct </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CalcDimsStruct</span>()   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#data for calculations of necessary constants needed to calculate window size , mouse position ...</span></span>
+<span id="cb7-10">  valueForMasToSet<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">valueForMasToSetStruct </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">valueForMasToSetStruct</span>() <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># value that will be used to set  pixels where we would interact with mouse</span></span>
+<span id="cb7-11">  lastRecordedMousePosition<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">CartesianIndex{3} </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CartesianIndex</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># last position of the mouse  related to right click - usefull to know onto which slice to change when dimensions of scroll change</span></span>
+<span id="cb7-12">  forUndoVector<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">AbstractArray </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [] <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># holds lambda functions that when invoked will  undo last operations</span></span>
+<span id="cb7-13">  maxLengthOfForUndoVector<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int64 </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># number controls how many step at maximum we can get back</span></span>
+<span id="cb7-14">  fieldKeyboardStruct<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">KeyboardStruct </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">KeyboardStruct</span>()</span>
+<span id="cb7-15">  displayMode<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">DisplayMode </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> SingleImage</span>
+<span id="cb7-16">  imagePosition<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int64 </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb7-17">  switchIndex<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb7-18">  mainRectFields<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields</span>()</span>
+<span id="cb7-19">  crosshairFields<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields</span>()</span>
+<span id="cb7-20">  textFields<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields</span>()</span>
+<span id="cb7-21">  spacingsValue<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>)]</span>
+<span id="cb7-22">  originValue<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>)]</span>
+<span id="cb7-23">  supervoxelFields<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields </span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">GlShaderAndBufferFields</span>()</span>
+<span id="cb7-24"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+<p>After the integrity of the fragment shaders was verified in multi-image, voxel data for the images was integrated and further modifications to the high-level functions were made and eventually the following script produced a rather appealing result.</p>
+<p>Script for loading the same NIFTI image twice in the visualizer for side-by-side display:</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">MedEye3d</span></span>
+<span id="cb8-2">ctNiftiImage <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
+<span id="cb8-3">MedEye3d.SegmentationDisplay.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span></code></pre></div>
+<blockquote class="blockquote">
+<p>Results in :</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multi_image_ct.png" class="img-fluid"></p>
+<p>Crosshair marker for image registration are displayed in the relevant passive image to hightlight the same anatomical regions based on the spatial meta-data of the images i.e spacing, origin and direction. In order to achive the crosshair rendering in the passive image, the following action items were devised:</p>
+<ol type="a">
+<li><p>Retrieval of GLFW Mouse Callbacks for x and y position of the cursor in window coordinates (0 to window-width) from the active image</p></li>
+<li><p>Conversion of these x and y window coordinates into their relevant active image x and y texture coordinates</p></li>
+<li><p>Conversion of these texture coordinates into real space point with the help of spatial metadata</p></li>
+<li><p>Conversion of the real space point into the texture coordinates of the passive image</p></li>
+<li><p>Conversion of the passive image texture coordinates into their relevant OpenGL coordinate system values (-1 to 1)</p></li>
+<li><p>Rendering of crosshair on OpenGL coordinate in passive image</p></li>
+</ol>
+<p>Conversion between different coordinate systems and accounting for the image’s spatial metadata during calculating proved to be challenging at first, but with multiple revisions, a final solution was achieved with seemingly no noticeable amount of lag or delay. One such frame of [CT] images with crosshair display in multi-image is depicted below:</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/multi_image_ct_crosshair.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Another frame from the openGL rendering cycle, highlighting PET images with crosshair display in multi-image mode:</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/pet_multi_image.png" class="img-fluid"></p>
+</section>
+<section id="adding-support-for-the-display-of-supervoxels-sv-with-borders-within-the-image-slices-to-better-understand-anatomical-regions-within-slices" class="level2">
+<h2 class="anchored" data-anchor-id="adding-support-for-the-display-of-supervoxels-sv-with-borders-within-the-image-slices-to-better-understand-anatomical-regions-within-slices">6. Adding support for the display of <a href="https://doi.org/10.1016/j.cagd.2022.102080">SuperVoxels</a> sv with borders within the image slices to better understand anatomical regions within slices</h2>
+<p>In enhancing MedEye3d’s functionality, supporting super voxels (sv) with boundaries becomes paramount. The sv rendering, effectively capturing gradients, serves as the cornerstone for detecting these boundaries within both MRI and PET volumes. Supervoxels, described either through indicator masks or meshes, encapsulate regions of interest with distinct image characteristics. By integrating boundary detection for super-voxels, MedEye3d can offer enhanced segmentation capabilities, enabling more precise delineation and analysis of anatomical structures and pathological regions within medical imaging data.</p>
+<p><a href="https://www.sciencedirect.com/topics/computer-science/superpixel">Supervoxels</a> are basically a collection of voxels that share similar image properties. For example: in MRI scans of the brain cortex, super voxels could represent clusters of voxels corresponding to specific anatomical regions or functional areas. The main objective of this task was to add support for the display of super voxel-based segmentation of images, followed by some janitorial tasks:</p>
+<ol type="1">
+<li><p>Display of the borders of super-voxels (sv), extracted using the machine learning algorithms.</p></li>
+<li><p>Checking image gradient agreement with super-voxel borders.</p></li>
+</ol>
+<p>This initial workflow involved, the initialization of relevant buffers in OpenGL for dynamic rendering of lines over the image display, namely vertex array buffers (vao), vertex buffers (vbo) and edge buffers (ebo). Further, these buffers are updated on a scroll event, where the information from the currently displayed slice is passed to the event handler, which invokes a function that updates the vertex buffer (vbo) with new vertices pertaining to the relevant slice number and planar view, precalculated from an <a href="https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5">HDF5</a> file during initialization of the visualizer. For instance, if the user is scrolling in the 3rd axis (transversal plane) and is currently on slice 40, the supervoxel display will pertain to edges specifically calculated for that specific slice in that plane.</p>
+<p>Eventually, with ever so increasing number of attempts and a few hurdles along the way, one of which particularly stood out since it marked our first step towards a good direction:</p>
+<blockquote class="blockquote">
+<p>Challenges in rendering</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/supervoxel_rendering_issue.png" class="img-fluid"></p>
+<p>At last, an appealing result hit our sight.</p>
+<blockquote class="blockquote">
+<p>Final result</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><em>Note:</em> The image borders are intentional to emphasize the size of the visualizer which is currently defaulted to a certain width and height.</p>
+</blockquote>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/supervoxel_rendering_fixed.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p><em>Note:</em> However, There are a few things left to cover here, most of which revolve around MedImages.jl and documentation for the same. List of PRs that facilitated the completion of the tasks highlighted above:</p>
+</blockquote>
+<ol type="a">
+<li><p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/21">https://github.com/JuliaHealth/MedEye3d.jl/pull/21</a></p></li>
+<li><p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/20">https://github.com/JuliaHealth/MedEye3d.jl/pull/20</a></p></li>
+<li><p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/16">https://github.com/JuliaHealth/MedEye3d.jl/pull/16</a></p></li>
+<li><p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/14">https://github.com/JuliaHealth/MedEye3d.jl/pull/14</a></p></li>
+<li><p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/13">https://github.com/JuliaHealth/MedEye3d.jl/pull/13</a></p></li>
+<li><p><a href="https://github.com/JuliaHealth/MedEye3d.jl/pull/12">https://github.com/JuliaHealth/MedEye3d.jl/pull/12</a></p></li>
+</ol>
+</section>
+</section>
+<section id="contributions-beyond-coding" class="level1">
+<h1>Contributions Beyond Coding</h1>
+<section id="mentoring-and-guidance" class="level2">
+<h2 class="anchored" data-anchor-id="mentoring-and-guidance">1. Mentoring and Guidance</h2>
+<p>I regularly organized meetings with my mentor to seek guidance on project direction and troubleshooting issues in the visualizer. This ensured that I stayed on track, received timely feedback, and addressed any challenges that arose.</p>
+</section>
+<section id="package-documentation-and-community-contribution" class="level2">
+<h2 class="anchored" data-anchor-id="package-documentation-and-community-contribution">2. Package Documentation and Community Contribution</h2>
+<p>I contributed to other medical imaging sub-ecosystem packages in JuliaHealth, including <a href="https://github.com/Juliahealth/MedImages.jl">MedImages.jl</a> and <a href="https://github.com/Juliahealth/MedEval3D.jl">MedEval3D.jl</a>. Specifically, I set up documentation for these packages using DocuementerVitepress.jl. This not only enhanced the functionality of these packages but also helped maintain a coherent and organized package ecosystem.</p>
+</section>
+<section id="multirepo-management-and-collaboration" class="level2">
+<h2 class="anchored" data-anchor-id="multirepo-management-and-collaboration">3. Multirepo Management and Collaboration</h2>
+<p>In addition to my work on the MedEye3d visualizer, I made significant contributions to other JuliaHealth repositories, including <a href="https://github.com/JuliaHealth/MedImages.jl">MedImages.jl</a> and worked over an <a href="https://github.com/InsightSoftwareConsortium/ITK">Insight Toolkit</a> wrapper library <a href="https://github.com/JuliaHealth/ITKIOWrapper.jl">ITKIOWrapper.jl</a> for support in image I/O down the road in MedImages.jl. I also maintained relevant documentation and ensured continuous collaboration and synchronization across these packages.</p>
+</section>
+</section>
+<section id="conclusions-and-future-development" class="level1">
+<h1>Conclusions and Future Development</h1>
+<p>Within the scope of this 350-hour project, a comprehensive range of objectives were successfully addressed. Noteworthy achievements include:</p>
+<ol type="1">
+<li><p>Fixed screen tear and flicker within the visualizer. Integration of threadsafe Julia channels.</p></li>
+<li><p>Achieved multi-image display over CT and PET modalities with crosshair rendering (Although, only one modality can be visualize at a time, i.e either CT | CT or PET | PET).</p></li>
+<li><p>Achieved supervoxel display in single image display mode.</p></li>
+<li><p>Achieved automatic windowing of MRI and PET most common modalities.</p></li>
+</ol>
+<p>Future work would include:</p>
+<ul>
+<li><p>Support for the users on Darwin (Apple-based platforms).</p></li>
+<li><p>Apart from that, we would need to add a function that dynamically allocates the texture number to the manual modification mask, regardless of the number of images passed for display, which is currently defaulted to 2.</p></li>
+<li><p>Also, in the future, we would explore the stretch goals a bit more rigorously, particularly the implementation of <a href="https://doi.org/10.1016/j.softx.2024.101744">MedVoxelHD</a> within MedEye3d.</p></li>
+</ul>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements 🙇‍♂️</h1>
+<ol type="1">
+<li><p><a href="https://orcid.org/0000-0003-1823-6823">Jakub Mitura</a>: aka, <a href="https://github.com/jakubMitura14">Dr.&nbsp;Jakub Mitura</a></p></li>
+<li><p><a href="https://scholar.google.com/citations?user=WzleS8YAAAAJ&amp;hl=en">Carlos Castillo Passi</a>: aka, <a href="https://github.com/cncastillo">cncastillo</a></p></li>
+</ol>
+<p>I would like to thank my mentor Dr.&nbsp;Jakub Mitura, for his help through out every phase of this project. The troubleshooting routines around problems would have rendered the project unsuccessful, if not for the support and guidance of my mentor throughout each part of this project. I would also like to thank Jacob Zelko, for leading the Juliahealth community with such vast expertise and leading efforts for engagement amongst the members through monthly meetings. My sincere gratitude towards your support, help and guidance through out the fellowship.</p>
+
+
+<!-- -->
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0">
+<div id="ref-Mitura2021" class="csl-entry">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">J. Mitura and B. E. Chrapko, <span>“3D medical segmentation visualization in julia with MedEye3d,”</span> <em>Zeszyty Naukowe Warszawskiej Wyższej Szkoły Informatyki</em>, vol. nr 25, pp. 57–67, 2021, doi: <a href="https://doi.org/10.26348/znwwsi.25.57">10.26348/znwwsi.25.57</a></div>
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{goyal2024,
+  author = {Goyal, Divyansh},
+  title = {GSoC ’24: {Adding} Functionalities to Medical Imaging
+    Visualizations},
+  date = {2024-11-01},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-goyal2024" class="csl-entry quarto-appendix-citeas">
+<div class="">D.
+Goyal, <span>“GSoC ’24: Adding functionalities to medical imaging
+visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html">https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</a></div>
+</div></div></section></div> ]]></description>
+  <category>gsoc</category>
+  <category>openGl</category>
+  <category>imaging</category>
+  <category>neuro</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
+  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
   <dc:creator>Mounika Thakkallapally</dc:creator>
