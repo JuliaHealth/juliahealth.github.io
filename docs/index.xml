@@ -9,8 +9,8 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.6.32</generator>
-<lastBuildDate>Sat, 02 Nov 2024 23:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.47</generator>
+<lastBuildDate>Sun, 03 Nov 2024 04:00:00 GMT</lastBuildDate>
 <item>
   <title>GSoC ’24: Adding dataset-wide functions and integrations of augmentations</title>
   <dc:creator>Jan Zubik</dc:creator>
@@ -29,66 +29,66 @@ Description of the emojis used in the title
 </summary>
 <ul>
 <li>
-📝 <strong>Action Plan</strong>: A clear, structured plan that guides the setup and configuration of the MedPipe3D pipeline.
+📝 <strong>Action Plan</strong>: A clear, structured plan that guides each step of the MedPipe3D pipeline.
 </li>
 <li>
-🩻 <strong>3D Medical Images</strong>: Medical imaging data, such as MRI scans, to be processed and analyzed by the AI model.
+🩻 <strong>3D Medical Images</strong>: Medical imaging data, such as MRI scans in Nifti format.
 </li>
 <li>
-📎 <strong>AI Model</strong>: The initial AI model or architecture that will be trained and refined within the pipeline.
+📎 <strong>AI Model</strong>: The initial AI model that will be trained and refined within the pipeline.
 </li>
 <li>
 📉 <strong>Loss Function</strong>: A function that measures the model’s performance during training, guiding the optimization process.
 </li>
 <li>
-🗃️ <strong>Data Loading</strong>: Loading raw data into the pipeline for further processing.
+🗃️ <strong>Data Loading</strong>: Preparation and loading of data and metadata into HDF5 format.
 </li>
 <li>
-📚 <strong>Data Splitting</strong>: Dividing data into training, validation, and test sets to prepare for model training and evaluation.
+📚 <strong>Data Splitting</strong>: Dividing data into training, validation, and test sets.
 </li>
 <li>
-♻️ <strong>Data Augmentation</strong>: Increasing data variability through augmentation, enhancing the model’s generalization capabilities.
+♻️ <strong>Data Augmentation</strong>: Increasing data variability through augmentation.
 </li>
 <li>
-🧑‍🏫 <strong>AI Training</strong>: Using the processed data to train the AI model, improving its accuracy and performance.
+🧑‍🏫 <strong>AI Training</strong>: Using Lux.jl framework to train the AI model.
 </li>
 <li>
-🤖 <strong>Model</strong>: The trained AI model that can perform tasks such as segmentation on medical images.
+🤖 <strong>Model</strong>: The trained AI model that can perform tasks like segmentation on medical images.
 </li>
 <li>
-👁️ <strong>Data for Visualization</strong>: Output data, such as masks and segmentations, which can be interpreted directly on medical scans.
+👁️ <strong>Data for Visualization</strong>: Output data, such as masks and segmentations.
 </li>
 <li>
-📈 <strong>Performance Logs</strong>: Logs and metrics documenting the AI’s performance, ready for further analysis in tools like MedEval3D and MedEye3D.
+📈 <strong>Performance Logs</strong>: Logs and metrics documenting the AI’s performance.
 </li>
 <li>
-❤️‍🩹 <strong>Purpose of MedPipe3D</strong>: The goal is to create AI tools that assist healthcare professionals in making faster, more accurate decisions, ultimately helping save lives.
+❤️‍🩹 <strong>Purpose of MedPipe3D</strong>
 </li>
 </ul>
 </details>
 <hr>
-<p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, rebuilding MedPipe3D medical imaging pipeline. I will not start typically, but so that anyone even a novice can visualize what this project has achieved, while the latter part is intended for more experienced readers. It will be easiest to divide it into 4 steps separated by ➡️ in the title above. Each emoji stands for a different piece of pipeliner and will be described below.</p>
+<p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, rebuilding the MedPipe3D medical imaging pipeline. I will not start typically, but so that anyone even a novice can visualize what this project has achieved, while the latter part is intended for more experienced readers. It will be easiest to divide it into 4 steps separated by ➡️ in the title above. Each emoji stands for a different piece of pipeliner and will be described below.</p>
 <p>📝🩻📎📉 <strong>What we need from the user</strong></p>
-<p>MedPipe3D requires four essential inputs from user to get started: a clear action plan 📝, 3D medical images like MRI scans 🩻, an AI model 📎, and a loss function 📉.</p>
+<p>MedPipe3D requires four essential inputs from the user to get started: a clear action plan 📝, 3D medical images like MRI scans 🩻, an AI model 📎, and a loss function 📉.</p>
 <p>🗃️📚♻️🧑‍🏫 <strong>The Pipeline essential AI manufacturing line</strong></p>
-<p>Following the plan 📝, MedPipe3D loads data, pre-processes and organizes it 🗃️. Allowing data to be easily split 📚, efficiently augmented ♻️ in many ways for learning AI 🧑‍🏫 model effectively. In the end performing testing and post processing for better determination of AI skills.<br>
+<p>Following the plan 📝, MedPipe3D loads data, pre-processes, and organizes it 🗃️. Allowing data to be easily split 📚, and efficiently augmented ♻️ in many ways for learning AI 🧑‍🏫 model effectively. In the end, performing testing and post-processing for better determination of AI skills.<br>
 It’s designed to transform raw medical data into a format that your AI can learn from, segmenting meaningful patterns and structures.</p>
 <p>🤖👁️📈 <strong>Results and Insights</strong></p>
-<p>MedPipe3D is a tool for researchers and for that it cannot do without analysis, testing and evaluation. The result of the pipeline is a model 🤖 as well as data 👁️ and logs 📈 needed in MedEval3D that are ready for visualization and further analysis with MedEye3D. In a nutshell, it makes visualizing results easy-showing, tumor locations or other medical features directly as masks on the scans.</p>
+<p>MedPipe3D is a tool for researchers and for that, it cannot do without analysis, testing, and evaluation. The result of the pipeline is a model 🤖 as well as data 👁️ and logs 📈 needed in MedEval3D that are ready for visualization and further analysis with MedEye3D. In a nutshell, it makes visualizing results easy, tumor locations or other medical features directly as masks on the scans.</p>
 <p>❤️‍🩹 <strong>Purpose-Driven Technology</strong></p>
 <p>MedPipe3D’s mission goes beyond technology. It’s about providing the tools to create AIs that support healthcare professionals in making faster, more accurate decisions, with the ultimate goal of saving lives.</p>
-<p>This four-part journey captures the heart of MedPipe3D toolkit for advancing medical AI, from raw data to life-saving insight.</p>
+<p>This four-part journey captures the heart of the MedPipe3D toolkit for advancing medical AI, from raw data to life-saving insight.</p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p><strong>MedPipe3D</strong> is a framework created from hundreds of hours over summer vacation, thousands of lines of code, hundreds mistakes and most importantly the guidance of my mentor and author of all of these libraries Dr.&nbsp;<a href="https://www.linkedin.com/in/jakub-mitura-7b2013151/">Jakub Mitura</a>. At its core, MedPipe3D combines sophisticated data handling from <strong>MedImage</strong> thanks to the hard work of <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/">Divyansh Goyal</a>. Newly developed pipeline for model training, validation and testing with existing <strong>MedEval3D</strong>, and result visualization with <strong>MedEye3D</strong>. Unfortunately, not all the project’s goals have been fully achieved, and thereby there is one section ➡️ too many. Hopefully not for long. My name is <a href="https://www.linkedin.com/in/janzubik/">Jan Zubik</a>, and I wrote this entire library from scratch, which is currently my most complex project.</p>
-<p>If you are a data scientist, programmer, code enthusiast, I invite you to read the next section where I go into detail and present <strong>version 1</strong> of this tool in detail.</p>
-<p>I’m a 3rd-year student of BSc in Data Science and Machine Learning, I know that many things can be done better, expanded, debugged and optimized. Now it just works, <strong>but don’t hesitate to write to me personally</strong> on <a href="https://www.linkedin.com/in/janzubik/">LinkedIn</a>, <a href="https://julialang.slack.com/team/U06L685B6TD">Julia’s Slack</a> or <a href="https://github.com/JanZubik">GitHub</a>! With your comments, direct critique <strong>you will help me</strong> to be a better programmer and one day MedPipe3D will contribute in a tiny way to save someone’s life!</p>
+<p><strong>MedPipe3D</strong> is a framework created from hundreds of hours over summer vacation, thousands of lines of code, hundreds of mistakes, and most importantly the guidance of my mentor and author of all of these libraries Dr.&nbsp;<a href="https://www.linkedin.com/in/jakub-mitura-7b2013151/">Jakub Mitura</a>. At its core, MedPipe3D combines sophisticated data handling from <strong>MedImage</strong> thanks to the hard work of <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/">Divyansh Goyal</a>. Newly developed pipeline for model training, validation, and testing with existing <strong>MedEval3D</strong>, and result visualization with <strong>MedEye3D</strong>. Unfortunately, not all of the project’s goals have been fully achieved, and thereby there is one section ➡️ too many. Hopefully not for long. My name is <a href="https://www.linkedin.com/in/janzubik/">Jan Zubik</a>, and I wrote this entire library from scratch, which is currently my most complex project.</p>
+<p>If you are a data scientist, programmer, or code enthusiast, I invite you to read the next section where I go into detail and present <strong>version 1</strong> of this tool in detail.</p>
+<p>I’m a 3rd-year student of BSc in Data Science and Machine Learning, I know that many things can be done better, expanded, debugged, and optimized. Now it just works, <strong>but don’t hesitate to write to me personally</strong> on <a href="https://www.linkedin.com/in/janzubik/">LinkedIn</a>, <a href="https://julialang.slack.com/team/U06L685B6TD">Julia’s Slack</a> or <a href="https://github.com/JanZubik">GitHub</a>! With your comments, and direct critique <strong>you will help me</strong> to be a better programmer and one day MedPipe3D will contribute in a tiny way to save someone’s life!</p>
 <p>Exact work from the Google Summer of Code project you will find in <a href="https://github.com/JuliaHealth/MedPipe3D.jl/tree/GSoC-'24-MedPipe3D">GitHub the repository.</a></p>
 </section>
 </section>
 <section id="project-goals" class="level1">
 <h1>Project Goals</h1>
-<p>Primary goal was to develop MedPipe3D and enhance MedImage, a Julia packages designed to streamline the process of GPU-accelerated medical image segmentation. The project aimed to merge existing libraries—MedEye3D, MedEval3D, and MedImage—into a cohesive pipeline that facilitates advanced data handling, preprocessing, augmentation, model training, validation, testing with post-procesing and visualization for medical imaging applications.</p>
+<p>The primary goal was to develop MedPipe3D and enhance MedImage, a Julia package designed to streamline the process of GPU-accelerated medical image segmentation. The project aimed to merge existing libraries—MedEye3D, MedEval3D, and MedImage—into a cohesive pipeline that facilitates advanced data handling, preprocessing, augmentation, model training, validation, testing with post-processing and visualization for medical imaging applications.</p>
 </section>
 <section id="tasks" class="level1">
 <h1>Tasks</h1>
@@ -98,7 +98,7 @@ It’s designed to transform raw medical data into a format that your AI can lea
 <li>⚠️ - Partially uncompleted</li>
 <li>❌ - Unreached</li>
 </ul>
-Full list of all major parts and minor tasks (all tasks set up in original GSOC plan were complete in at least minimum level, many additional improvments above minimum were implemented)
+Full list of all major parts and minor tasks (all tasks set up in the original GSOC plan were completed at least minimum level, and many additional improvements above minimum were implemented)
 <details>
 <ol type="1">
 <li><strong>Helpful functions to support the MedImage format ✅</strong></li>
@@ -139,9 +139,9 @@ Full list of all major parts and minor tasks (all tasks set up in original GSOC 
 <li>Cropping and padding to specific or average dimensions ✅</li>
 <li>Standardization and normalization ✅</li>
 </ul></li>
-<li>Managing indexes groups (channels) for batche requirements in HDF5 ✅
+<li>Managing index groups (channels) for batch requirements in HDF5 ✅
 <ul>
-<li>Divide in to train, validation, test specified as % ✅</li>
+<li>Divide into train, validation, test specified as % ✅</li>
 <li>Divide with a specific division specified in JSON ✅</li>
 <li>Equal distribution when there are multiple classes ✅</li>
 </ul></li>
@@ -152,16 +152,16 @@ Full list of all major parts and minor tasks (all tasks set up in original GSOC 
 </ul></li>
 <li>Obtaining the necessary elements for learning ✅
 <ul>
-<li>Get optimizer, loss function, performance metrics ✅</li>
+<li>Get optimizer, loss function, and performance metrics ✅</li>
 </ul></li>
 <li>Apply augmentations ✅</li>
 <li>Train ✅
 <ul>
 <li>Initializing model ✅</li>
 <li>The learning epoch ✅</li>
-<li>Epoch with early stopping funcionality ✅</li>
+<li>Epoch with early stopping functionality ✅</li>
 </ul></li>
-<li>Infering ✅</li>
+<li>Inferring ✅</li>
 <li>Validation ✅
 <ul>
 <li>Evaluate metric ✅</li>
@@ -177,7 +177,7 @@ Full list of all major parts and minor tasks (all tasks set up in original GSOC 
 <li>Logging ⚠️
 <ul>
 <li>Returning the necessary results ⚠️</li>
-<li>Logging connection to tensorboard ❌</li>
+<li>Logging connection to TensorBoard ❌</li>
 <li>Logging errors and warnings ❌</li>
 </ul></li>
 <li>Visualization ⚠️
@@ -223,12 +223,12 @@ Full list of all major parts and minor tasks (all tasks set up in original GSOC 
 <p>Which have been fully integrated. Each of these methods helps the model generalize better by simulating diverse imaging scenarios.</p>
 <p><img src="https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/Augmentations.png" class="img-fluid"></p>
 <p>Comments:</p>
-<p>Augmentations such as scaling, low-resolution simulation use interpolation that is not yet GPU-accelerated.</p>
-<p>Elastic deformation with simulation of different tissue elasticities is are potential development opportunities that would further improve the model’s adaptability by mimicking more complex variations found in medical imaging.</p>
+<p>Augmentations such as scaling, and low-resolution simulation use interpolation that is not yet GPU-accelerated.</p>
+<p>Elastic deformation with simulation of different tissue elasticities is a potential development opportunity that would further improve the model’s adaptability by mimicking more complex variations found in medical imaging.</p>
 </section>
 <section id="invertible-augmentations-and-support-test-time-augmentations" class="level2">
 <h2 class="anchored" data-anchor-id="invertible-augmentations-and-support-test-time-augmentations">Invertible augmentations and support test time augmentations 🆙</h2>
-<p>This section focuses on the ability to apply reversible augmentations to test data, allowing the model to be evaluated with different transformations. Only rotation is available at this time. The function <code>evaluate_patches</code> performs this evaluation by applying specified augmentations, dividing the test data into patches, and reconstructing the full image from the patches. During testing one can choose to use of largest connected component post processing. Metrics are calculated and results are saved for analysis.</p>
+<p>This section focuses on the ability to apply reversible augmentations to test data, allowing the model to be evaluated with different transformations. Only rotation is available at this time. The function <code>evaluate_patches</code> performs this evaluation by applying specified augmentations, dividing the test data into patches, and reconstructing the full image from the patches. During testing, one can choose to use of largest connected component post-processing. Metrics are calculated and results are saved for analysis.</p>
 <details>
 <summary>
 evaluate_test:
@@ -1471,10 +1471,10 @@ font-style: inherit;">end</span></span></code></pre></div>
 </section>
 <section id="calculate-median-and-mean-spacing-with-resampling" class="level2">
 <h2 class="anchored" data-anchor-id="calculate-median-and-mean-spacing-with-resampling">Calculate Median and Mean Spacing with resampling 🆙</h2>
-<p>This part ensures that all images in the dataset have consistent real coordinates, spacing, shape. It’s a critical factor in medical imaging for accurate analysis. By calculating and applying set values, median or mean across images ensures uniformity.</p>
+<p>This part ensures that all images in the dataset have consistent real coordinates, spacing, and shape. It’s a critical factor in medical imaging for accurate analysis. Calculating and applying set values, median or mean across images ensures uniformity.</p>
 <section id="resample-images-to-target-image" class="level4">
 <h4 class="anchored" data-anchor-id="resample-images-to-target-image">Resample images to target image 🆙</h4>
-<p>This step aligns each image to the reference coordinates main image, ensuring that all images share a common spatial alignment. The <code>resample_to_image</code> function from MedImage.jl is used here, applying interpolation to adjust each image.</p>
+<p>This step aligns each image to the reference coordinates of the main image, ensuring that all images share a common spatial alignment. The <code>resample_to_image</code> function from MedImage.jl is used here, applying interpolation to adjust each image.</p>
 <details>
 <summary>
 resample_images_to_target:
@@ -1522,7 +1522,7 @@ background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span></span></code></pre></div>
 </details>
-<p>Comment:<br> <code>Resample_to_image</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slow down the data preparation phase significantly.</p>
+<p>Comment:<br> <code>Resample_to_image</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
 </section>
 <section id="ensure-uniform-spacing-across-the-entire-dataset" class="level4">
 <h4 class="anchored" data-anchor-id="ensure-uniform-spacing-across-the-entire-dataset">Ensure uniform spacing across the entire dataset 🆙</h4>
@@ -1727,10 +1727,10 @@ background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span></span></code></pre></div>
 </details>
-<p>Comment:<br> <code>Resample_to_spacing</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slow down the data preparation phase significantly.</p>
+<p>Comment:<br> <code>Resample_to_spacing</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
 </section>
-<section id="resizing-all-channels-files-to-average-or-target-size" class="level4">
-<h4 class="anchored" data-anchor-id="resizing-all-channels-files-to-average-or-target-size">Resizing all channels files to average or target size ✅</h4>
+<section id="resizing-all-channel-files-to-average-or-target-size" class="level4">
+<h4 class="anchored" data-anchor-id="resizing-all-channel-files-to-average-or-target-size">Resizing all channel files to average or target size ✅</h4>
 <p>To create a cohesive 5D tensor, all images in each channel are resized to a uniform shape, either the average size of all images or a specific target size. This resizing process uses <code>crop_or_pad</code>, ensuring that all images match the specified dimensions, making them suitable for model input.</p>
 <details>
 <summary>
@@ -1851,7 +1851,7 @@ font-style: inherit;">end</span></span></code></pre></div>
 </section>
 <section id="basic-post-processing-operations" class="level2">
 <h2 class="anchored" data-anchor-id="basic-post-processing-operations">Basic Post-processing operations</h2>
-<p>Post-processing operations involve algorithm <code>largest_connected_components</code>. It is achieved by label initialization and propagation in the segmented mask. <code>Initialize_labels_kernel</code> function assigns unique labels to different regions.</p>
+<p>Post-processing operations involve the algorithm <code>largest_connected_components</code>. It is achieved by label initialization and propagation in the segmented mask. The <code>initialize_labels_kernel</code> function assigns unique labels to different regions.</p>
 <details>
 <summary>
 initialize_labels_kernel:
@@ -2210,7 +2210,7 @@ background-color: null;
 font-weight: bold;
 font-style: inherit;">end</span></span></code></pre></div>
 </details>
-<p>This process facilitates the identification of the largest connected components in 3D space, helping to isolate relevant medical structures, such as tumors, in the segmented mask. Giving the opportunity to determine how many such areas are to be returned.</p>
+<p>This process facilitates the identification of the largest connected components in 3D space, helping to isolate relevant medical structures, such as tumors, in the segmented mask. Allowing determining how many such areas are to be returned.</p>
 <details>
 <summary>
 largest_connected_components:
@@ -2882,12 +2882,12 @@ font-style: inherit;">}</span></span>
 background-color: null;
 font-style: inherit;">}</span></span></code></pre></div>
 </details>
-<p>Comments:<br> The current configuration is loaded as a dictionary, which simplifies access and modification. This setup presents a strong foundation for integrating automated search algorithms for hyperparameter tuning, enabling more efficient model optimization.<br> The configuration structure could be re-organized and re-named to improve readability, making it easier for users to locate and adjust specific parameters.</p>
+<p>Comments:<br> The current configuration is loaded as a dictionary, which simplifies access and modification. This setup presents a strong foundation for integrating automated search algorithms for hyperparameter tuning, enabling more efficient model optimization.<br> The configuration structure could be reorganized and re-named to improve readability, making it easier for users to locate and adjust specific parameters.</p>
 </section>
 <section id="visualization-of-algorithm-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="visualization-of-algorithm-outputs">Visualization of algorithm outputs ⚠️</h2>
 <p>This module provides basic visualization functionality by saving output masks and images first to MedImage format and then to Nifti format. The <code>create_nii_from_medimage</code> function from MedImage.jl generates Nifti files, which can be loaded into MedEye3D for 3D visualization.</p>
-<p>Comments:<br> Integrating this visualization module more fully with the pipeline could eliminate unnecessary steps. By automatically loading output masks and images in as raw data into MedEye3D for 3D visualization and supporting a more efficient end-to-end workflow.</p>
+<p>Comments:<br> Integrating this visualization module more fully with the pipeline could eliminate unnecessary steps. By automatically loading output masks and images as raw data into MedEye3D for 3D visualization and supporting a more efficient end-to-end workflow.</p>
 </section>
 <section id="k-fold-cross-validation-functionality" class="level2">
 <h2 class="anchored" data-anchor-id="k-fold-cross-validation-functionality">K-fold cross-validation functionality ✅</h2>
@@ -3081,31 +3081,25 @@ font-style: inherit;">end</span></span></code></pre></div>
 </section>
 <section id="conclusions-and-future-development" class="level1">
 <h1>Conclusions and Future Development</h1>
-<p>I have successfully established a foundation for a medical imaging pipeline, addressing significant challenges in data handling, model training, and augmentation integration. The integration of dataset-wide functions has significantly enhanced the reproducibility and handling batched data with GPU supporrt enables scalability of experiments, making it easier for researchers and practitioners to produce better results.</p>
+<p>I have successfully established a foundation for a medical imaging pipeline, addressing significant challenges in data handling, model training, and augmentation integration. The integration of dataset-wide functions has significantly enhanced the reproducibility and handling of batched data with GPU support enabling scalability of experiments, making it easier for researchers and practitioners to produce better results.</p>
 </section>
 <section id="future-development" class="level1">
 <h1>Future Development</h1>
 <p>As we look to the future, there are several areas where MedPipe3D can be expanded and improved to better serve the medical AI community. These include:</p>
 <section id="necessary-enhancements" class="level2">
 <h2 class="anchored" data-anchor-id="necessary-enhancements">Necessary Enhancements</h2>
-<p>Comprehensive Logging: Develop detailed logging mechanisms that capture a wide range of events, including system statuses, model performance metrics, and user activities, to facilitate debugging and system optimization. This is currently executed as a simple println function.</p>
-<!--
-   - TODO: Could you link to TensorBoard?
-   -->
-<p>TensorBoard Integration: Implement an interface for TensorBoard to allow users to visualize training dynamics in real-time, providing insights into model behavior and performance trends.</p>
+<p>Comprehensive Logging: Develop detailed logging mechanisms that capture a wide range of events, including system statuses, model performance metrics, and user activities, to facilitate debugging and system optimization. This is currently executed as a simple <code>println</code> function.</p>
+<p>TensorBoard Integration: Implement an interface for TensorBoard to allow users to visualize training dynamics in real time, providing insights into model behavior and performance trends.</p>
 <p>Error and Warning Logs: Introduce advanced error and warning logging capabilities to alert users of potential issues before they affect the pipeline’s performance, ensuring smoother operations and maintenance.</p>
-<p>Automated Visualization: Integrate MedEye3D directly into MedPipe3D to enable automated visualization of outputs, such as segmentation masks or other relevant medical imaging features. This feature would provide users with real time visual feedback on model performance and data quality. Code-Level Documentation: Due to needed changes in the fundamental structure of pipeline in the final phase of the project, it is necessary to reevaluate all documentation.</p>
-<!--
-   - TODO: Could you add a link here to the website?
-   -->
+<p>Automated Visualization: Integrate MedEye3D directly into MedPipe3D to enable automated visualization of outputs, such as segmentation masks or other relevant medical imaging features. This feature would provide users with real-time visual feedback on model performance and data quality. Code-Level Documentation: Due to needed changes in the fundamental structure of the pipeline in the final phase of the project, it is necessary to reevaluate all documentation.</p>
 <p>Official JuliaHealth Documentation: Extend the documentation efforts to include official entries on juliahealth.org, providing a centralized and authoritative resource for users seeking to learn more about MedPipe3D and its capabilities with examples shown</p>
 </section>
 <section id="potential-enhancements" class="level2">
 <h2 class="anchored" data-anchor-id="potential-enhancements">Potential Enhancements</h2>
-<p>GPU support for interpolation will allow to significantly accelerate such functions as: Scale transform, Simulate, Low-resolution transform, Elastic deformation transform, Resampling spacing</p>
-<p>Add more reversible augmentations to test time</p>
-<p>Calculating the average of the edges of the picture: hecking the type of photo and calculating more correctly on this basis</p>
-<p>Elastic deformation transform with simulation of different tissue elasticities</p>
+<p>GPU support for interpolation will allow for significant acceleration of such functions as Scale transform, Simulate, Low-resolution transform, Elastic deformation transform, and Resampling spacing.</p>
+<p>Add more reversible augmentations to test time.</p>
+<p>Calculating the average of the edges of the picture: checking the type of photo and calculating more correctly on this basis</p>
+<p>Elastic deformation transforms with the simulation of different tissue elasticities.</p>
 </section>
 </section>
 <section id="acknowledgments" class="level1">
@@ -3135,7 +3129,7 @@ Integrations of Augmentations.”</span> November 3, 2024. <a href="https://juli
   <category>gpu</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</guid>
-  <pubDate>Sat, 02 Nov 2024 23:00:00 GMT</pubDate>
+  <pubDate>Sun, 03 Nov 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
@@ -4059,7 +4053,7 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
   <category>imaging</category>
   <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Thu, 31 Oct 2024 23:00:00 GMT</pubDate>
+  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -4148,7 +4142,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Wed, 11 Sep 2024 22:00:00 GMT</pubDate>
+  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -4802,7 +4796,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 06 Sep 2024 22:00:00 GMT</pubDate>
+  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -5404,7 +5398,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Thu, 29 Aug 2024 22:00:00 GMT</pubDate>
+  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -5610,7 +5604,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Sun, 25 Aug 2024 22:00:00 GMT</pubDate>
+  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -5682,7 +5676,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Fri, 21 Jun 2024 22:00:00 GMT</pubDate>
+  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
