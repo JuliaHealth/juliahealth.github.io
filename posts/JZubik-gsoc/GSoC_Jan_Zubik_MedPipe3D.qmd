@@ -16,21 +16,38 @@ categories:
 # 📝🩻📎📉 ➡️ 🗃️📚♻️🧑‍🏫 ➡️ 🤖👁️📈 ➡️ ❤️‍🩹  
 *These emoticons may resemble **hieroglyphics**, but very soon you will realize that they **mean more than 1000s** of lines of code.*
 
+<!--
+   - TODO: I love the emojis but would strongly suggest explaining what they mean
+   -->
+
 <hr>
 In this post, I'd like to summarize what I did this summer and everything I learned along the way, rebuilding MedPipe3D medical imaging pipeline. I will not start typically, but so that anyone even a novice can visualize what this project has achieved, while the latter part is intended for more experienced readers. It will be easiest to divide it into 4 steps separated by ➡️ in the title above.
+
+<!--
+   - TODO: The markdown header looks strange here:
+   -->
 
 ###### 📝🩻📎📉 what we need from the user
 MedPipe3D requires four essential inputs from user to get started: a clear action plan 📝, 3D medical images like MRI scans 🩻, an AI model 📎, and a loss function 📉.
 
+<!--
+   - TODO: The markdown header looks strange here:
+   -->
 ###### 🗃️📚♻️🧑‍🏫 The Pipeline essential AI manufacturing line
 
 Following the plan 📝, MedPipe3D loads data, pre-processes and organizes it 🗃️. Allowing data to be easily split 📚, efficiently augmented ♻️ in many ways for learning AI 🧑‍🏫 model effectively. In the end performing testing and post processing for better determination of AI skills.  
 It's designed to transform raw medical data into a format that your AI can learn from, segmenting meaningful patterns and structures.
 
+<!--
+   - TODO: The markdown header looks strange here:
+   -->
 ###### 🤖👁️📈 Results and Insights
 MedPipe3D is a tool for researchers and for that it cannot do without analysis, testing and evaluation. The result of the pipeline is a model 🤖 as well as data 👁️ and logs 📈 needed in MedEval3D that are ready for visualization and further analysis with MedEye3D. In a nutshell, it makes visualizing results easy-showing, tumor locations or other medical features directly as masks on the scans.
 
 
+<!--
+   - TODO: The markdown header looks strange here:
+   -->
 ###### ❤️‍🩹 Purpose-Driven Technology
 
 MedPipe3D's mission goes beyond technology. It's about providing the tools to create AIs that support healthcare professionals in making faster, more accurate decisions, with the ultimate goal of saving lives.
@@ -39,7 +56,7 @@ This four-part journey captures the heart of MedPipe3D toolkit for advancing med
 
 ## Introduction
 
-**MedPipe3D** is a framework created from hundreds of hours over summer vacation, thousands of lines of code, hundreds mistakes and most importantly the guidance of my mentora and author of all of these libraries Dr. [Jakub Mitura](https://www.linkedin.com/in/jakub-mitura-7b2013151/).
+**MedPipe3D** is a framework created from hundreds of hours over summer vacation, thousands of lines of code, hundreds mistakes and most importantly the guidance of my mentor and author of all of these libraries Dr. [Jakub Mitura](https://www.linkedin.com/in/jakub-mitura-7b2013151/).
 At its core, MedPipe3D combines sophisticated data handling from **MedImage** thanks to the hard work of [Divyansh Goyal](https://www.linkedin.com/in/divyansh-goyal-34654b200/). Newly developed pipeline for model training, validation and testing with existing **MedEval3D**, and result visualization with **MedEye3D**.
 Unfortunately, not all the project's goals have been fully achieved, and thereby there is one section ➡️ too many. Hopefully not for long. My name is [Jan Zubik](https://www.linkedin.com/in/janzubik/), and I wrote this entire library from scratch, which is currently my most complex project.
 
@@ -58,6 +75,10 @@ Primary goal was to develop MedPipe3D and enhance MedImage, a Julia packages des
 
 
 # Tasks
+
+<!--
+   - TODO: This is great! Can you change it into a bulleted list?
+   -->
 
 ###### 🆙 - Fully finished, with great potential for further development
 ###### ✅ - Fully completed
@@ -164,14 +185,18 @@ Augmentations such as scaling, low-resolution simulation use interpolation that 
 
 Elastic deformation with simulation of different tissue elasticities is are potential development opportunities that would further improve the model's adaptability by mimicking more complex variations found in medical imaging.
 
+<!--
+   - TODO: Please wrap functions like this when you mention them in text: `evaluate_patches`
+   -->
+
 ## Invertible augmentations and support test time augmentations 🆙
 This section focuses on the ability to apply reversible augmentations to test data, allowing the model to be evaluated with different transformations. Only rotation is available at this time. The function evaluate_patches performs this evaluation by applying specified augmentations, dividing the test data into patches, and reconstructing the full image from the patches. During testing one can choose to use of largest connected component  post processing. Metrics are calculated and results are saved for analysis.
 
 CODE SNIPPET:
 <details>
 
-```Julia
-...
+```julia
+# ...
 for test_group in test_groups
     test_data, test_label, attributes = fetch_and_preprocess_data([test_group], h5, config)
     results, test_metrics = evaluate_patches(test_data, test_label,  tstate, model, config)
@@ -179,10 +204,10 @@ for test_group in test_groups
     save_results_test(y_pred, attributes, config)
     push!(all_test_metrics, metr)
 end
-...
+# ...
 ```
 
-```Julia
+```julia
 function evaluate_patches(test_data, test_label, tstate, model, config, axis, angle)
     println("Evaluating patches...")
     results = []
@@ -215,7 +240,7 @@ function evaluate_patches(test_data, test_label, tstate, model, config, axis, an
 end
 ```
 
-```Julia
+```julia
 function divide_into_patches(image::AbstractArray{T, 5}, patch_size::Tuple{Int, Int, Int}) where T
     println("Dividing image into patches...")
     println("Size of the image: ", size(image)) 
@@ -300,7 +325,7 @@ Helper functions like get_random_patch and get_centered_patch determine the star
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 function extract_patch(image, label, patch_size, config)
     # Fetch the oversampling probability from the config
     println("Extracting patch.")
@@ -402,7 +427,7 @@ This step aligns each image to the reference coordinates main image, ensuring th
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 if resample_images_to_target && !isempty(Med_images)
     println("Resampling $channel_type files in channel '$channel_folder' to the first $channel_type in the channel.")
     reference_image = Med_images[1]
@@ -421,7 +446,7 @@ This step brings all images to a consistent voxel spacing across the dataset usi
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 if resample_images_spacing == "set"
     println("Resampling all $channel_type files to target spacing: $target_spacing")
     target_spacing = Tuple(Float32(s) for s in target_spacing)
@@ -454,7 +479,7 @@ To create a cohesive 5D tensor, all images in each channel are resized to a unif
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 if resample_size == "avg"
     sizes = [size(img.voxel_data) for img in channels_data for img in img]  # Get sizes from all images
     avg_dim = map(mean, zip(sizes...))
@@ -475,7 +500,7 @@ Initialize_labels_kernel function assigns unique labels to different regions.
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 @kernel function initialize_labels_kernel(mask, labels, width, height, depth)
     idx = @index(Global, Cartesian)
     i = idx[1]
@@ -496,7 +521,7 @@ Propagate_labels_kernel iteratively updates the labels to maintain connected reg
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 @kernel function propagate_labels_kernel(mask, labels, width, height, depth)
     idx= @index(Global, Cartesian)
     i = idx[1]
@@ -532,7 +557,7 @@ This process facilitates the identification of the largest connected components 
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 function largest_connected_components(mask::Array{Int32, 3}, n_lcc::Int)
     width, height, depth = size(mask)
     mask_gpu = CuArray(mask)
@@ -658,7 +683,7 @@ K-fold cross-validation is implemented to evaluate model performance more robust
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 ...
   tstate = initialize_train_state(rng, model, optimizer)
   if config["learning"]["n_cross_val"]
@@ -686,7 +711,7 @@ The k_fold_split function organizes the indices for each fold, ensuring comprehe
 CODE SNIPPET:
 <details>
 
-```Julia
+```julia
 function k_fold_split(data, n_folds, current_fold)
     fold_size = length(data) ÷ n_folds
     validation_start = (current_fold - 1) * fold_size + 1
@@ -708,20 +733,37 @@ As we look to the future, there are several areas where MedPipe3D can be expande
 
 Comprehensive Logging: Develop detailed logging mechanisms that capture a wide range of events, including system statuses, model performance metrics, and user activities, to facilitate debugging and system optimization. This is currently executed as a simple println function.
 
+<!--
+   - TODO: Could you link to TensorBoard?
+   -->
+
 TensorBoard Integration: Implement an interface for TensorBoard to allow users to visualize training dynamics in real-time, providing insights into model behavior and performance trends.
 
 Error and Warning Logs: Introduce advanced error and warning logging capabilities to alert users of potential issues before they affect the pipeline's performance, ensuring smoother operations and maintenance.
 
 Automated Visualization: Integrate MedEye3D directly into MedPipe3D to enable automated visualization of outputs, such as segmentation masks or other relevant medical imaging features. This feature would provide users with real time visual feedback on model performance and data quality.
 Code-Level Documentation: Due to needed changes in the fundamental structure of pipeline in the final phase of the project, it is necessary to reevaluate all documentation.
+
+<!--
+   - TODO: Could you add a link here to the website?
+   -->
+
 Official JuliaHealth Documentation: Extend the documentation efforts to include official entries on juliahealth.org, providing a centralized and authoritative resource for users seeking to learn more about MedPipe3D and its capabilities with examples shown
 
 ## Potential Enhancements
 GPU support for interpolation will allow to significantly accelerate such functions as:
-  - Scale transform
-  - Simulate low-resolution transform 
-  - Elastic deformation transform
-  - resampling spacing
+
+- Scale transform
+
+- Simulate low-resolution transform 
+
+- Elastic deformation transform
+
+- Resampling spacing
+
+<!--
+   - TODO: Should these be list items?
+   -->
 
 Add more reversible augmentations to test time 
 
