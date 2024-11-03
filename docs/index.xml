@@ -10,7 +10,3127 @@
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.47</generator>
-<lastBuildDate>Fri, 01 Nov 2024 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 03 Nov 2024 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>GSoC ’24: Adding dataset-wide functions and integrations of augmentations</title>
+  <dc:creator>Jan Zubik</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="section" class="level1">
+<h1>📝🩻📎📉 ➡️ 🗃️📚♻️🧑‍🏫 ➡️ 🤖👁️📈 ➡️ ❤️‍🩹</h1>
+<p><em>These emoticons may resemble <strong>hieroglyphics</strong>, but very soon you will realize that they <strong>mean more than 1000s</strong> of lines of code.</em></p>
+<details>
+<summary>
+Description of the emojis used in the title
+</summary>
+<ul>
+<li>
+📝 <strong>Action Plan</strong>: A clear, structured plan that guides each step of the MedPipe3D pipeline.
+</li>
+<li>
+🩻 <strong>3D Medical Images</strong>: Medical imaging data, such as MRI scans in Nifti format.
+</li>
+<li>
+📎 <strong>AI Model</strong>: The initial AI model that will be trained and refined within the pipeline.
+</li>
+<li>
+📉 <strong>Loss Function</strong>: A function that measures the model’s performance during training, guiding the optimization process.
+</li>
+<li>
+🗃️ <strong>Data Loading</strong>: Preparation and loading of data and metadata into HDF5 format.
+</li>
+<li>
+📚 <strong>Data Splitting</strong>: Dividing data into training, validation, and test sets.
+</li>
+<li>
+♻️ <strong>Data Augmentation</strong>: Increasing data variability through augmentation.
+</li>
+<li>
+🧑‍🏫 <strong>AI Training</strong>: Using Lux.jl framework to train the AI model.
+</li>
+<li>
+🤖 <strong>Model</strong>: The trained AI model that can perform tasks like segmentation on medical images.
+</li>
+<li>
+👁️ <strong>Data for Visualization</strong>: Output data, such as masks and segmentations.
+</li>
+<li>
+📈 <strong>Performance Logs</strong>: Logs and metrics documenting the AI’s performance.
+</li>
+<li>
+❤️‍🩹 <strong>Purpose of MedPipe3D</strong>
+</li>
+</ul>
+</details>
+<hr>
+<p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, rebuilding the MedPipe3D medical imaging pipeline. I will not start typically, but so that anyone even a novice can visualize what this project has achieved, while the latter part is intended for more experienced readers. It will be easiest to divide it into 4 steps separated by ➡️ in the title above. Each emoji stands for a different piece of pipeliner and will be described below.</p>
+<p>📝🩻📎📉 <strong>What we need from the user</strong></p>
+<p>MedPipe3D requires four essential inputs from the user to get started: a clear action plan 📝, 3D medical images like MRI scans 🩻, an AI model 📎, and a loss function 📉.</p>
+<p>🗃️📚♻️🧑‍🏫 <strong>The Pipeline essential AI manufacturing line</strong></p>
+<p>Following the plan 📝, MedPipe3D loads data, pre-processes, and organizes it 🗃️. Allowing data to be easily split 📚, and efficiently augmented ♻️ in many ways for learning AI 🧑‍🏫 model effectively. In the end, performing testing and post-processing for better determination of AI skills.<br>
+It’s designed to transform raw medical data into a format that your AI can learn from, segmenting meaningful patterns and structures.</p>
+<p>🤖👁️📈 <strong>Results and Insights</strong></p>
+<p>MedPipe3D is a tool for researchers and for that, it cannot do without analysis, testing, and evaluation. The result of the pipeline is a model 🤖 as well as data 👁️ and logs 📈 needed in MedEval3D that are ready for visualization and further analysis with MedEye3D. In a nutshell, it makes visualizing results easy, tumor locations or other medical features directly as masks on the scans.</p>
+<p>❤️‍🩹 <strong>Purpose-Driven Technology</strong></p>
+<p>MedPipe3D’s mission goes beyond technology. It’s about providing the tools to create AIs that support healthcare professionals in making faster, more accurate decisions, with the ultimate goal of saving lives.</p>
+<p>This four-part journey captures the heart of the MedPipe3D toolkit for advancing medical AI, from raw data to life-saving insight.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p><strong>MedPipe3D</strong> is a framework created from hundreds of hours over summer vacation, thousands of lines of code, hundreds of mistakes, and most importantly the guidance of my mentor and author of all of these libraries Dr.&nbsp;<a href="https://www.linkedin.com/in/jakub-mitura-7b2013151/">Jakub Mitura</a>. At its core, MedPipe3D combines sophisticated data handling from <strong>MedImage</strong> thanks to the hard work of <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/">Divyansh Goyal</a>. Newly developed pipeline for model training, validation, and testing with existing <strong>MedEval3D</strong>, and result visualization with <strong>MedEye3D</strong>. Unfortunately, not all of the project’s goals have been fully achieved, and thereby there is one section ➡️ too many. Hopefully not for long. My name is <a href="https://www.linkedin.com/in/janzubik/">Jan Zubik</a>, and I wrote this entire library from scratch, which is currently my most complex project.</p>
+<p>If you are a data scientist, programmer, or code enthusiast, I invite you to read the next section where I go into detail and present <strong>version 1</strong> of this tool in detail.</p>
+<p>I’m a 3rd-year student of BSc in Data Science and Machine Learning, I know that many things can be done better, expanded, debugged, and optimized. Now it just works, <strong>but don’t hesitate to write to me personally</strong> on <a href="https://www.linkedin.com/in/janzubik/">LinkedIn</a>, <a href="https://julialang.slack.com/team/U06L685B6TD">Julia’s Slack</a> or <a href="https://github.com/JanZubik">GitHub</a>! With your comments, and direct critique <strong>you will help me</strong> to be a better programmer and one day MedPipe3D will contribute in a tiny way to save someone’s life!</p>
+<p>Exact work from the Google Summer of Code project you will find in <a href="https://github.com/JuliaHealth/MedPipe3D.jl/tree/GSoC-'24-MedPipe3D">GitHub the repository.</a></p>
+</section>
+</section>
+<section id="project-goals" class="level1">
+<h1>Project Goals</h1>
+<p>The primary goal was to develop MedPipe3D and enhance MedImage, a Julia package designed to streamline the process of GPU-accelerated medical image segmentation. The project aimed to merge existing libraries—MedEye3D, MedEval3D, and MedImage—into a cohesive pipeline that facilitates advanced data handling, preprocessing, augmentation, model training, validation, testing with post-processing and visualization for medical imaging applications.</p>
+</section>
+<section id="tasks" class="level1">
+<h1>Tasks</h1>
+<ul>
+<li>🆙 - Fully finished, with great potential for further development</li>
+<li>✅ - Fully completed</li>
+<li>⚠️ - Partially uncompleted</li>
+<li>❌ - Unreached</li>
+</ul>
+Full list of all major parts and minor tasks (all tasks set up in the original GSOC plan were completed at least minimum level, and many additional improvements above minimum were implemented)
+<details>
+<ol type="1">
+<li><strong>Helpful functions to support the MedImage format ✅</strong></li>
+</ol>
+<ul>
+<li>Debugging rotations ✅</li>
+<li>Crop MedImage or 3D array ✅</li>
+<li>Pad MedImage or 3D array ✅</li>
+<li>Pad with edge values ✅</li>
+<li>Calculating the average of the edges of the picture 🆙</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Integrate Augmentations for Medical Data ✅</strong></li>
+</ol>
+<ul>
+<li>Brightness transform ✅</li>
+<li>Contrast augmentation transform ✅</li>
+<li>Gamma Transform ✅</li>
+<li>Gaussian noise transform ✅</li>
+<li>Rician noise transform ✅</li>
+<li>Mirror transform ✅</li>
+<li>Scale transform 🆙</li>
+<li>Gaussian blur transform ✅</li>
+<li>Simulate low-resolution transform 🆙</li>
+<li>Elastic deformation transform 🆙</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Develop a Pipeline ⚠️</strong></li>
+</ol>
+<ul>
+<li>Structured configuration of all hyperparameters 🆙</li>
+<li>Interactive creation of configuration ✅</li>
+<li>Creating a structured configuration of hyperparameters in JSON 🆙</li>
+<li>Loading data into HDF5 ✅
+<ul>
+<li>Cropping and padding to real coordinates of the main picture ✅</li>
+<li>Calculate Median and Mean Spacing with resampling 🆙</li>
+<li>Cropping and padding to specific or average dimensions ✅</li>
+<li>Standardization and normalization ✅</li>
+</ul></li>
+<li>Managing index groups (channels) for batch requirements in HDF5 ✅
+<ul>
+<li>Divide into train, validation, test specified as % ✅</li>
+<li>Divide with a specific division specified in JSON ✅</li>
+<li>Equal distribution when there are multiple classes ✅</li>
+</ul></li>
+<li>Extracting data and creating 5-dimensional tensors for batched learning ✅
+<ul>
+<li>Hole images data loading ✅</li>
+<li>Patch-based data loading with probabilistic oversampling ✅</li>
+</ul></li>
+<li>Obtaining the necessary elements for learning ✅
+<ul>
+<li>Get optimizer, loss function, and performance metrics ✅</li>
+</ul></li>
+<li>Apply augmentations ✅</li>
+<li>Train ✅
+<ul>
+<li>Initializing model ✅</li>
+<li>The learning epoch ✅</li>
+<li>Epoch with early stopping functionality ✅</li>
+</ul></li>
+<li>Inferring ✅</li>
+<li>Validation ✅
+<ul>
+<li>Evaluate metric ✅</li>
+<li>Evaluate validation loss ✅</li>
+<li>Validation with largest connected component✅</li>
+</ul></li>
+<li>Testing ✅
+<ul>
+<li>Evaluate test set ✅</li>
+<li>Invertible augmentations evaluation ✅</li>
+<li>Patch-based invertible augmentations evaluation ✅</li>
+</ul></li>
+<li>Logging ⚠️
+<ul>
+<li>Returning the necessary results ⚠️</li>
+<li>Logging connection to TensorBoard ❌</li>
+<li>Logging errors and warnings ❌</li>
+</ul></li>
+<li>Visualization ⚠️
+<ul>
+<li>Returning data in Nifti format ✅</li>
+<li>Automated visualization in MedEye3D ❌</li>
+</ul></li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Optimize Performance with GPU Acceleration</strong>
+<ul>
+<li>Augmentations ✅</li>
+<li>Learning, Validation, Testing ✅</li>
+<li>Largest connected component ✅</li>
+</ul></li>
+<li><strong>Documentation ⚠️</strong>
+<ul>
+<li>Comments in important places in the code ⚠️</li>
+<li>Documentation of the function ⚠️</li>
+<li>Read me ⚠️</li>
+<li>Documentation on juliahealth.org ❌</li>
+</ul></li>
+</ol>
+</details>
+<section id="integrate-augmentations-for-medical-data" class="level2">
+<h2 class="anchored" data-anchor-id="integrate-augmentations-for-medical-data">Integrate augmentations for medical data 🆙</h2>
+<p>Augmenting medical data is a crucial step for enhancing model robustness, especially given the variations in imaging conditions and patient anatomy.</p>
+<ul>
+<li>This pipeline currently supports multiple augmentation techniques:
+<ul>
+<li>Brightness transform ✅</li>
+<li>Contrast augmentation transform ✅</li>
+<li>Gamma Transform ✅</li>
+<li>Gaussian noise transform ✅</li>
+<li>Rician noise transform ✅</li>
+<li>Mirror transform ✅</li>
+<li>Scale transform 🆙</li>
+<li>Gaussian blur transform ✅</li>
+<li>Simulate low-resolution transform 🆙</li>
+<li>Elastic deformation transform 🆙</li>
+</ul></li>
+</ul>
+<p>Which have been fully integrated. Each of these methods helps the model generalize better by simulating diverse imaging scenarios.</p>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/Augmentations.png" class="img-fluid"></p>
+<p>Comments:</p>
+<p>Augmentations such as scaling, and low-resolution simulation use interpolation that is not yet GPU-accelerated.</p>
+<p>Elastic deformation with simulation of different tissue elasticities is a potential development opportunity that would further improve the model’s adaptability by mimicking more complex variations found in medical imaging.</p>
+</section>
+<section id="invertible-augmentations-and-support-test-time-augmentations" class="level2">
+<h2 class="anchored" data-anchor-id="invertible-augmentations-and-support-test-time-augmentations">Invertible augmentations and support test time augmentations 🆙</h2>
+<p>This section focuses on the ability to apply reversible augmentations to test data, allowing the model to be evaluated with different transformations. Only rotation is available at this time. The function <code>evaluate_patches</code> performs this evaluation by applying specified augmentations, dividing the test data into patches, and reconstructing the full image from the patches. During testing, one can choose to use of largest connected component post-processing. Metrics are calculated and results are saved for analysis.</p>
+<details>
+<summary>
+evaluate_test:
+</summary>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ...</span></span>
+<span id="cb1-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> test_group <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> test_groups</span>
+<span id="cb1-3">    test_data, test_label, attributes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fetch_and_preprocess_data</span>([test_group], h5, config)</span>
+<span id="cb1-4">    results, test_metrics <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">evaluate_patches</span>(test_data, test_label,  tstate, model, config)</span>
+<span id="cb1-5">    y_pred, metr <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">process_results</span>(results, test_metrics, config)</span>
+<span id="cb1-6">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">save_results</span>(y_pred, attributes, config)</span>
+<span id="cb1-7">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(all_test_metrics, metr)</span>
+<span id="cb1-8"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb1-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">evaluate_patches</span>(test_data, test_label, tstate, model, config, axis, angle)</span>
+<span id="cb2-2">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Evaluating patches..."</span>)</span>
+<span id="cb2-3">    results <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb2-4">    test_metrics <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb2-5">    tstates <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [tstate]</span>
+<span id="cb2-6">    test_time_augs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb2-7"></span>
+<span id="cb2-8">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_invertible"</span>]</span>
+<span id="cb2-9">        data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rotate_mi</span>(test_data, axis, angle)</span>
+<span id="cb2-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> tstate_curr <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> tstates</span>
+<span id="cb2-11">            patch_results <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb2-12">            patch_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"patch_size"</span>])</span>
+<span id="cb2-13">            idx_and_patches, paded_data_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">divide_into_patches</span>(test_data, patch_size)</span>
+<span id="cb2-14">            coordinates <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [patch[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] for patch <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> idx_and_patches]</span>
+<span id="cb2-15">            patch_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [patch[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] for patch <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> idx_and_patches]</span>
+<span id="cb2-16">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> patch <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> patch_data</span>
+<span id="cb2-17">                y_pred_patch, _ <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">infer_model</span>(tstate_curr, model, patch)</span>
+<span id="cb2-18">                <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(patch_results, y_pred_patch)</span>
+<span id="cb2-19">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb2-20">            idx_and_y_pred_patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">zip</span>(coordinates, patch_results)</span>
+<span id="cb2-21">            y_pred <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">recreate_image_from_patches</span>(idx_and_y_pred_patch, paded_data_size, patch_size, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(test_data))</span>
+<span id="cb2-22">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"largest_connected_component"</span>]</span>
+<span id="cb2-23">                y_pred <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">largest_connected_component</span>(y_pred, config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_lcc"</span>])</span>
+<span id="cb2-24">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb2-25">            metr <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">evaluate_metric</span>(y_pred, test_label, config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"metric"</span>])</span>
+<span id="cb2-26">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(test_metrics, metr)</span>
+<span id="cb2-27">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb2-28">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb2-29">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> results, test_metrics</span>
+<span id="cb2-30"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">divide_into_patches</span>(image<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">AbstractArray{T, 5}</span>, patch_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Tuple{Int, Int, Int}</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">where</span> T</span>
+<span id="cb3-2">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Dividing image into patches..."</span>)</span>
+<span id="cb3-3">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Size of the image: "</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image)) </span>
+<span id="cb3-4"></span>
+<span id="cb3-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Calculate the required padding for each dimension (W, H, D)</span></span>
+<span id="cb3-6">    pad_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb3-7">        (<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> ? patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,</span>
+<span id="cb3-8">        (<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> ? patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,</span>
+<span id="cb3-9">        (<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> ? patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb3-10">    )</span>
+<span id="cb3-11"></span>
+<span id="cb3-12">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Pad the image if necessary</span></span>
+<span id="cb3-13">    padded_image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> image</span>
+<span id="cb3-14">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">any</span>(pad_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.&gt;</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb3-15">        padded_image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">crop_or_pad</span>(image, (<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> pad_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> pad_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> pad_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]))</span>
+<span id="cb3-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb3-17"></span>
+<span id="cb3-18">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Extract patches</span></span>
+<span id="cb3-19">    patches <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb3-20">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> x <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb3-21">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> y <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb3-22">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> z <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb3-23">                patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">view</span>(</span>
+<span id="cb3-24">                    padded_image,</span>
+<span id="cb3-25">                    x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">min</span>(x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)),</span>
+<span id="cb3-26">                    y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">min</span>(y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)),</span>
+<span id="cb3-27">                    z<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">min</span>(z<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)),</span>
+<span id="cb3-28">                    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>,</span>
+<span id="cb3-29">                    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb3-30">                )</span>
+<span id="cb3-31">                <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(patches, [(x, y, z), patch])</span>
+<span id="cb3-32">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb3-33">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb3-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb3-35">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Size of padded image: "</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image))</span>
+<span id="cb3-36">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> patches, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(padded_image)</span>
+<span id="cb3-37"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb3-38"></span>
+<span id="cb3-39"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">recreate_image_from_patches</span>(</span>
+<span id="cb3-40">    coords_with_patches,</span>
+<span id="cb3-41">    padded_size,</span>
+<span id="cb3-42">    patch_size,</span>
+<span id="cb3-43">    original_size</span>
+<span id="cb3-44">)</span>
+<span id="cb3-45">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Recreating image from patches..."</span>)</span>
+<span id="cb3-46">    reconstructed_image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">zeros</span>(<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Float32</span>, padded_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">...</span>)</span>
+<span id="cb3-47">    </span>
+<span id="cb3-48">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Place patches back into their original positions</span></span>
+<span id="cb3-49">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> (coords, patch) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> coords_with_patches</span>
+<span id="cb3-50">        x, y, z <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> coords</span>
+<span id="cb3-51">        reconstructed_image[</span>
+<span id="cb3-52">            x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb3-53">            y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>y<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb3-54">            z<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>z<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb3-55">            <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>,</span>
+<span id="cb3-56">            <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb3-57">        ] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> patch</span>
+<span id="cb3-58">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb3-59"></span>
+<span id="cb3-60">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Crop the reconstructed image to remove any padding</span></span>
+<span id="cb3-61">    final_image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> reconstructed_image[</span>
+<span id="cb3-62">        <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>original_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>],</span>
+<span id="cb3-63">        <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>original_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>],</span>
+<span id="cb3-64">        <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>original_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>],</span>
+<span id="cb3-65">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>,</span>
+<span id="cb3-66">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb3-67">    ]</span>
+<span id="cb3-68">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Size of the final image: "</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(final_image))</span>
+<span id="cb3-69">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> final_image</span>
+<span id="cb3-70"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+<p>Comment:<br> In this section, there is significant potential to incorporate additional types of invertible augmentations.</p>
+</section>
+<section id="patch-based-data-loading-with-probabilistic-oversampling" class="level2">
+<h2 class="anchored" data-anchor-id="patch-based-data-loading-with-probabilistic-oversampling">Patch-based data loading with probabilistic oversampling ✅</h2>
+<p>In this section, patches are extracted using <code>extract_patch</code> from the medical images for model training, with a probability-based method to decide between a random patch or a patch with non-zero labels. Helper functions like <code>get_random_patch</code> and <code>get_centered_patch</code> determine the starting indices and dimensions for the patches based on given configurations, while padding methods ensure consistency even if the patch exceeds the original image dimensions. Probabilistic oversampling, as configured, allows for more balanced and informative data sampling, which improves the model’s ability to detect specific medical features.</p>
+<details>
+<summary>
+extract_patch:
+</summary>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">extract_patch</span>(image, label, patch_size, config)</span>
+<span id="cb4-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Fetch the oversampling probability from the config</span></span>
+<span id="cb4-3">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Extracting patch."</span>)</span>
+<span id="cb4-4">    oversampling_probability <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"oversampling_probability"</span>]</span>
+<span id="cb4-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Generate a random number to decide which patch extraction method to use</span></span>
+<span id="cb4-6">    random_choice <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rand</span>()</span>
+<span id="cb4-7"></span>
+<span id="cb4-8">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> random_choice <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> oversampling_probability</span>
+<span id="cb4-9">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">extract_nonzero_patch</span>(image, label, patch_size)</span>
+<span id="cb4-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span></span>
+<span id="cb4-11"></span>
+<span id="cb4-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_random_patch</span>(image, label, patch_size)</span>
+<span id="cb4-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb4-14"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#Helper function, in case the mask is emptyClick to apply</span></span>
+<span id="cb4-16"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">extract_nonzero_patch</span>(image, label, patch_size)</span>
+<span id="cb4-17">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Extracting a patch centered around a non-zero label value."</span>)</span>
+<span id="cb4-18">    indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">findall</span>(x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, label)</span>
+<span id="cb4-19">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">isempty</span>(indices)</span>
+<span id="cb4-20">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Fallback to random patch if no non-zero points are found</span></span>
+<span id="cb4-21">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_random_patch</span>(image, label, patch_size)</span>
+<span id="cb4-22">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span></span>
+<span id="cb4-23">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Choose a random non-zero index to center the patch around</span></span>
+<span id="cb4-24">        center <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> indices[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rand</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">length</span>(indices))]</span>
+<span id="cb4-25">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_centered_patch</span>(image, label, center, patch_size)</span>
+<span id="cb4-26">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb4-27"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb4-28"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Function to get a patch centered around a specific index</span></span>
+<span id="cb4-29"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_centered_patch</span>(image, label, center, patch_size)</span>
+<span id="cb4-30">    center_coords <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(center)</span>
+<span id="cb4-31">    half_patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> patch_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.÷</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb4-32">    start_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> center_coords <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.-</span> half_patch</span>
+<span id="cb4-33">    end_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> start_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.+</span> patch_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb4-34"></span>
+<span id="cb4-35">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Calculate padding needed</span></span>
+<span id="cb4-36">    pad_beg <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb4-37">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="cb4-38">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="cb4-39">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>], <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb4-40">    )</span>
+<span id="cb4-41">    pad_end <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb4-42">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>), <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="cb4-43">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>), <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="cb4-44">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">max</span>(end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb4-45">    )</span>
+<span id="cb4-46"></span>
+<span id="cb4-47">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Adjust start_indices and end_indices after padding</span></span>
+<span id="cb4-48">    start_indices_adj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> start_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.+</span> pad_beg</span>
+<span id="cb4-49">    end_indices_adj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> end_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.+</span> pad_beg</span>
+<span id="cb4-50"></span>
+<span id="cb4-51">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Convert padding values to integers</span></span>
+<span id="cb4-52">    pad_beg <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">round</span>.(<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int</span>, pad_beg))</span>
+<span id="cb4-53">    pad_end <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">round</span>.(<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int</span>, pad_end))</span>
+<span id="cb4-54"></span>
+<span id="cb4-55">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Pad the image and label using pad_mi</span></span>
+<span id="cb4-56">    image_padded <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pad_mi</span>(image, pad_beg, pad_end, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb4-57">    label_padded <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">pad_mi</span>(label, pad_beg, pad_end, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb4-58"></span>
+<span id="cb4-59">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Extract the patch</span></span>
+<span id="cb4-60">    image_patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> image_padded[</span>
+<span id="cb4-61">        start_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>],</span>
+<span id="cb4-62">        start_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>],</span>
+<span id="cb4-63">        start_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="cb4-64">    ]</span>
+<span id="cb4-65">    label_patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> label_padded[</span>
+<span id="cb4-66">        start_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>],</span>
+<span id="cb4-67">        start_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>],</span>
+<span id="cb4-68">        start_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices_adj[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="cb4-69">    ]</span>
+<span id="cb4-70"></span>
+<span id="cb4-71">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> image_patch, label_patch</span>
+<span id="cb4-72"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb4-73"></span>
+<span id="cb4-74"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_random_patch</span>(image, label, patch_size)</span>
+<span id="cb4-75">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Extracting a random patch."</span>)</span>
+<span id="cb4-76">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Check if the patch size is greater than the image dimensions</span></span>
+<span id="cb4-77">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">any</span>(patch_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image))</span>
+<span id="cb4-78">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Calculate the needed size to fit the patch</span></span>
+<span id="cb4-79">        needed_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">map</span>(max, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image), patch_size)</span>
+<span id="cb4-80">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Use crop_or_pad to ensure the image and label are at least as large as needed_size</span></span>
+<span id="cb4-81">        image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">crop_or_pad</span>(image, needed_size)</span>
+<span id="cb4-82">        label <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">crop_or_pad</span>(label, needed_size)</span>
+<span id="cb4-83">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb4-84"></span>
+<span id="cb4-85">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Calculate random start indices within the new allowable range</span></span>
+<span id="cb4-86">    start_x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rand</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb4-87">    start_y <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rand</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb4-88">    start_z <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rand</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(image, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> patch_size[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb4-89">    start_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [start_x, start_y, start_z]</span>
+<span id="cb4-90">    end_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> start_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.+</span> patch_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb4-91"></span>
+<span id="cb4-92">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Extract the patch directly when within bounds</span></span>
+<span id="cb4-93">    image_patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> image[start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]]</span>
+<span id="cb4-94">    label_patch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> label[start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], start_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>end_indices[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]]</span>
+<span id="cb4-95"></span>
+<span id="cb4-96">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> image_patch, label_patch</span>
+<span id="cb4-97"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</section>
+<section id="calculate-median-and-mean-spacing-with-resampling" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-median-and-mean-spacing-with-resampling">Calculate Median and Mean Spacing with resampling 🆙</h2>
+<p>This part ensures that all images in the dataset have consistent real coordinates, spacing, and shape. It’s a critical factor in medical imaging for accurate analysis. Calculating and applying set values, median or mean across images ensures uniformity.</p>
+<section id="resample-images-to-target-image" class="level4">
+<h4 class="anchored" data-anchor-id="resample-images-to-target-image">Resample images to target image 🆙</h4>
+<p>This step aligns each image to the reference coordinates of the main image, ensuring that all images share a common spatial alignment. The <code>resample_to_image</code> function from MedImage.jl is used here, applying interpolation to adjust each image.</p>
+<details>
+<summary>
+resample_images_to_target:
+</summary>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> resample_images_to_target <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> !<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">isempty</span>(Med_images)</span>
+<span id="cb5-2">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Resampling </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files in channel '</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_folder<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">' to the first </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> in the channel."</span>)</span>
+<span id="cb5-3">    reference_image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Med_images[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb5-4">    Med_images <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">resample_to_image</span>(reference_image, img, interpolator) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> Med_images]</span>
+<span id="cb5-5"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+<p>Comment:<br> <code>Resample_to_image</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
+</section>
+<section id="ensure-uniform-spacing-across-the-entire-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="ensure-uniform-spacing-across-the-entire-dataset">Ensure uniform spacing across the entire dataset 🆙</h4>
+<p>This step brings all images to a consistent voxel spacing across the dataset using <code>resample_to_spacing</code> from MedImage.jl. This uniform spacing is crucial for creating a standardized dataset where each image voxel represents the same physical volume.</p>
+<details>
+<summary>
+esample_to_spacing:
+</summary>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> resample_images_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"set"</span></span>
+<span id="cb6-2">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Resampling all </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files to target spacing: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>target_spacing<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb6-3">    target_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Float32</span>(s) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> target_spacing)</span>
+<span id="cb6-4">    channels_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">resample_to_spacing</span>(img, target_spacing, interpolator) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel] for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data]</span>
+<span id="cb6-5"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> resample_images_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"avg"</span></span>
+<span id="cb6-6">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Calculating average spacing across all </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files and resampling."</span>)</span>
+<span id="cb6-7">    all_spacings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [img.spacing for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel]</span>
+<span id="cb6-8">    avg_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Float32</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mean</span>(s)) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">zip</span>(all_spacings<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">...</span>))</span>
+<span id="cb6-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Average spacing calculated: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>avg_spacing<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb6-10">    channels_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">resample_to_spacing</span>(img, avg_spacing, interpolator) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel] for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data]</span>
+<span id="cb6-11"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> resample_images_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"median"</span></span>
+<span id="cb6-12">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Calculating median spacing across all </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files and resampling."</span>)</span>
+<span id="cb6-13">    all_spacings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [img.spacing for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel]</span>
+<span id="cb6-14">    median_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Float32</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">median</span>(s)) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> all_spacings)</span>
+<span id="cb6-15">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Median spacing calculated: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>median_spacing<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb6-16">    channels_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">resample_to_spacing</span>(img, median_spacing, interpolator) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel] for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data]</span>
+<span id="cb6-17"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> resample_images_spacing <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">false</span></span>
+<span id="cb6-18">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Skipping resampling of </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files."</span>)</span>
+<span id="cb6-19">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># No resampling will be applied, channels_data remains unchanged.</span></span>
+<span id="cb6-20"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+<p>Comment:<br> <code>Resample_to_spacing</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
+</section>
+<section id="resizing-all-channel-files-to-average-or-target-size" class="level4">
+<h4 class="anchored" data-anchor-id="resizing-all-channel-files-to-average-or-target-size">Resizing all channel files to average or target size ✅</h4>
+<p>To create a cohesive 5D tensor, all images in each channel are resized to a uniform shape, either the average size of all images or a specific target size. This resizing process uses <code>crop_or_pad</code>, ensuring that all images match the specified dimensions, making them suitable for model input.</p>
+<details>
+<summary>
+crop_or_pad:
+</summary>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> resample_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"avg"</span></span>
+<span id="cb7-2">    sizes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(img.voxel_data) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> img]  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Get sizes from all images</span></span>
+<span id="cb7-3">    avg_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">map</span>(mean, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">zip</span>(sizes<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">...</span>))</span>
+<span id="cb7-4">    avg_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Int</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">round</span>(d)) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> d <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> avg_dim)</span>
+<span id="cb7-5">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Resizing all </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files to average dimension: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>avg_dim<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb7-6">    channels_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">crop_or_pad</span>(img, avg_dim) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel] for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data]</span>
+<span id="cb7-7"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elseif</span> resample_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"avg"</span></span>
+<span id="cb7-8">    target_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Tuple</span>(resample_size)</span>
+<span id="cb7-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Resizing all </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>channel_type<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> files to target dimension: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>target_dim<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb7-10">    channels_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">crop_or_pad</span>(img, target_dim) for img <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channel] for channel <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> channels_data]</span>
+<span id="cb7-11"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</section>
+</section>
+<section id="basic-post-processing-operations" class="level2">
+<h2 class="anchored" data-anchor-id="basic-post-processing-operations">Basic Post-processing operations</h2>
+<p>Post-processing operations involve the algorithm <code>largest_connected_components</code>. It is achieved by label initialization and propagation in the segmented mask. The <code>initialize_labels_kernel</code> function assigns unique labels to different regions.</p>
+<details>
+<summary>
+initialize_labels_kernel:
+</summary>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@kernel</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">initialize_labels_kernel</span>(mask, labels, width, height, depth)</span>
+<span id="cb8-2">    idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@index</span>(Global, Cartesian)</span>
+<span id="cb8-3">    i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> idx[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb8-4">    j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> idx[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]</span>
+<span id="cb8-5">    k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> idx[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="cb8-6">    </span>
+<span id="cb8-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> width <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> height <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> depth</span>
+<span id="cb8-8">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> mask[i, j, k] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb8-9">            labels[i, j, k] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> (j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> width <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> (k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> width <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> height</span>
+<span id="cb8-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span></span>
+<span id="cb8-11">            labels[i, j, k] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb8-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb8-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb8-14"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+Propagate_labels_kernel iteratively updates the labels to maintain connected regions. propagate_labels_kernel:
+<details>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@kernel</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">propagate_labels_kernel</span>(mask, labels, width, height, depth)</span>
+<span id="cb9-2">    idx<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">@index</span>(Global, Cartesian)</span>
+<span id="cb9-3">    i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> idx[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="cb9-4">    j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> idx[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>]</span>
+<span id="cb9-5">    k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> idx[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>]</span>
+<span id="cb9-6"></span>
+<span id="cb9-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> width <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> height <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> depth</span>
+<span id="cb9-8">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> mask[i, j, k] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb9-9">            current_label <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> labels[i, j, k]</span>
+<span id="cb9-10">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> di <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb9-11">                <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> dj <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb9-12">                    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> dk <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb9-13">                        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> di <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> dj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> dk <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb9-14">                            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">continue</span></span>
+<span id="cb9-15">                        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-16">                        ni <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> di</span>
+<span id="cb9-17">                        nj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> j <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> dj</span>
+<span id="cb9-18">                        nk <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> dk</span>
+<span id="cb9-19">                        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> ni <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> ni <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> width <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> nj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> nj <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> height <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> nk <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> nk <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> depth</span>
+<span id="cb9-20">                            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> mask[ni, nj, nk] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&amp;&amp;</span> labels[ni, nj, nk] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> current_label</span>
+<span id="cb9-21">                                labels[i, j, k] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> labels[ni, nj, nk]</span>
+<span id="cb9-22">                            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-23">                        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-24">                    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-25">                <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-26">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-27">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-28">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb9-29"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+<p>This process facilitates the identification of the largest connected components in 3D space, helping to isolate relevant medical structures, such as tumors, in the segmented mask. Allowing determining how many such areas are to be returned.</p>
+<details>
+<summary>
+largest_connected_components:
+</summary>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">largest_connected_components</span>(mask<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Array{Int32, 3}</span>, n_lcc<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Int</span>)</span>
+<span id="cb10-2">    width, height, depth <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(mask)</span>
+<span id="cb10-3">    mask_gpu <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">CuArray</span>(mask)</span>
+<span id="cb10-4">    labels_gpu <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> CUDA.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fill</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">size</span>(mask))</span>
+<span id="cb10-5">    dev <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_backend</span>(labels_gpu)</span>
+<span id="cb10-6">    ndrange <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (width, height, depth)</span>
+<span id="cb10-7">    workgroupsize <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb10-8"></span>
+<span id="cb10-9">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Initialize labels</span></span>
+<span id="cb10-10">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">initialize_labels_kernel</span>(dev)(mask_gpu, labels_gpu, width, height, depth, ndrange <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ndrange)</span>
+<span id="cb10-11">    CUDA.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">synchronize</span>()</span>
+<span id="cb10-12"></span>
+<span id="cb10-13">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Propagate labels iteratively</span></span>
+<span id="cb10-14">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> _ <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span> </span>
+<span id="cb10-15">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">propagate_labels_kernel</span>(dev, workgroupsize)(mask_gpu, labels_gpu, width, height, depth, ndrange <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ndrange)</span>
+<span id="cb10-16">        CUDA.<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">synchronize</span>()</span>
+<span id="cb10-17">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb10-18"></span>
+<span id="cb10-19">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Download labels back to CPU</span></span>
+<span id="cb10-20">    labels_cpu <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Array</span>(labels_gpu)</span>
+<span id="cb10-21">    </span>
+<span id="cb10-22">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Find all unique labels and their sizes</span></span>
+<span id="cb10-23">    unique_labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unique</span>(labels_cpu)</span>
+<span id="cb10-24">    label_sizes <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [(label, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">count</span>(labels_cpu <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.==</span> label)) for label <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> unique_labels if label <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="cb10-25"></span>
+<span id="cb10-26">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Sort labels by size and get the top n_lcc</span></span>
+<span id="cb10-27">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sort!</span>(label_sizes, by <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> x[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>], rev <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">true</span>)</span>
+<span id="cb10-28">    top_labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> label_sizes[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">min</span>(n_lcc, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">length</span>(label_sizes))]</span>
+<span id="cb10-29"></span>
+<span id="cb10-30">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a mask for each of the top n_lcc components</span></span>
+<span id="cb10-31">    components <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [labels_cpu <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.==</span> label[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] for label <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> top_labels]</span>
+<span id="cb10-32">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> components</span>
+<span id="cb10-33"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</section>
+<section id="structured-configuration-of-all-hyperparameters" class="level2">
+<h2 class="anchored" data-anchor-id="structured-configuration-of-all-hyperparameters">Structured configuration of all hyperparameters 🆙</h2>
+<p>Hyperparameters for the entire pipeline are stored in a JSON configuration file, enabling straightforward adjustments for experimentation (just swap values, save and resume the study). This structured setup allows easy modification of key parameters, such as data set preparation, training settings, data augmentation, and resampling options.</p>
+<details>
+<summary>
+Example configuration:
+</summary>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode numberSource json number-lines code-with-copy"><code class="sourceCode json"><span id="cb11-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-2">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"model"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-3">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"patience"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-4">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"early_stopping_metric"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"val_loss"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-5">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"optimizer_name"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Adam"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-6">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"loss_function_name"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"l1"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-7">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"early_stopping"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-8">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"early_stopping_min_delta"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.01</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-9">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"optimizer_args"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lr=0.001"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-10">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"num_epochs"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span></span>
+<span id="cb11-11">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">},</span></span>
+<span id="cb11-12">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"data"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-13">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"batch_complete"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-14">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"resample_size"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">101</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">49</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-15">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"resample_to_target"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-16">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"resample_to_spacing"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-17">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"batch_size"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-18">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"standardization"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-19">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"target_spacing"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">null</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-20">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"channel_size"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-21">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"normalization"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-22">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"has_mask"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span></span>
+<span id="cb11-23">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">},</span></span>
+<span id="cb11-24">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"augmentation"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-25">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"augmentations"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-26">            <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"Brightness transform"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-27">                <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"mode"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"additive"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-28">                <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"value"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb11-29">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb11-30">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">},</span></span>
+<span id="cb11-31">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"p_rand"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-32">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"processing_unit"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GPU"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-33">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"order"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span></span>
+<span id="cb11-34">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Brightness transform"</span></span>
+<span id="cb11-35">        <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb11-36">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">},</span></span>
+<span id="cb11-37">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"learning"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">{</span></span>
+<span id="cb11-38">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"Train_Val_Test_JSON"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-39">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"largest_connected_component"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-40">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"n_lcc"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-41">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"n_folds"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-42">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"invertible_augmentations"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-43">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"n_invertible"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">true</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-44">        </span>
+<span id="cb11-45">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"class_JSON_path"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-46">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"additional_JSON_path"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-47">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"patch_size"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-48">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"metric"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dice"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-49">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"n_cross_val"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-50">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"patch_probabilistic_oversampling"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-51">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"oversampling_probability"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-52">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"test_train_validation"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">[</span></span>
+<span id="cb11-53">            <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-54">            <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-55">            <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span></span>
+<span id="cb11-56">        <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-57">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"shuffle"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">false</span></span>
+<span id="cb11-58">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb11-59"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">}</span></span></code></pre></div>
+</details>
+<p>Comments:<br> The current configuration is loaded as a dictionary, which simplifies access and modification. This setup presents a strong foundation for integrating automated search algorithms for hyperparameter tuning, enabling more efficient model optimization.<br> The configuration structure could be reorganized and re-named to improve readability, making it easier for users to locate and adjust specific parameters.</p>
+</section>
+<section id="visualization-of-algorithm-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-of-algorithm-outputs">Visualization of algorithm outputs ⚠️</h2>
+<p>This module provides basic visualization functionality by saving output masks and images first to MedImage format and then to Nifti format. The <code>create_nii_from_medimage</code> function from MedImage.jl generates Nifti files, which can be loaded into MedEye3D for 3D visualization.</p>
+<p>Comments:<br> Integrating this visualization module more fully with the pipeline could eliminate unnecessary steps. By automatically loading output masks and images as raw data into MedEye3D for 3D visualization and supporting a more efficient end-to-end workflow.</p>
+</section>
+<section id="k-fold-cross-validation-functionality" class="level2">
+<h2 class="anchored" data-anchor-id="k-fold-cross-validation-functionality">K-fold cross-validation functionality ✅</h2>
+<p>K-fold cross-validation is implemented to evaluate model performance more robustly. The data is split into multiple folds, with each fold serving as a validation set once, while the others form the training set. This functionality provides a better assessment of model performance across different subsets of the data.</p>
+<details>
+<summary>
+K-fold cross-validation functionality:
+</summary>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">...</span></span>
+<span id="cb12-2">  tstate <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">initialize_train_state</span>(rng, model, optimizer)</span>
+<span id="cb12-3">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_cross_val"</span>]</span>
+<span id="cb12-4">      n_folds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> config[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"learning"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n_folds"</span>]</span>
+<span id="cb12-5">      all_tstate <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb12-6">      combined_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [indices_dict[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"train"</span>]; indices_dict[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"validation"</span>]]</span>
+<span id="cb12-7">      shuffled_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">shuffle</span>(rng, combined_indices)</span>
+<span id="cb12-8">      <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> fold <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>n_folds</span>
+<span id="cb12-9">          <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">println</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Starting fold </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fold<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>n_folds<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb12-10">          train_groups, validation_groups <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">k_fold_split</span>(combined_indices, n_folds, fold, rng)</span>
+<span id="cb12-11">          </span>
+<span id="cb12-12">          tstate <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">initialize_train_state</span>(rng, model, optimizer)</span>
+<span id="cb12-13">          final_tstate <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">epoch_loop</span>(num_epochs, train_groups, validation_groups, h5, model, tstate, config, loss_function, num_classes)</span>
+<span id="cb12-14">          </span>
+<span id="cb12-15">          <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">push!</span>(all_tstate, final_tstate)</span>
+<span id="cb12-16">      <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb12-17">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span></span>
+<span id="cb12-18">      final_tstate <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">epoch_loop</span>(num_epochs, train_groups, validation_groups, h5, model, tstate, config, loss_function, num_classes)</span>
+<span id="cb12-19">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb12-20">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> final_tstate</span>
+<span id="cb12-21"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">...</span>  </span></code></pre></div>
+</details>
+<p>The <code>k_fold_split</code> function organizes the indices for each fold, ensuring comprehensive coverage of the dataset during training.</p>
+<details>
+<summary>
+k_fold_split
+</summary>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">k_fold_split</span>(data, n_folds, current_fold)</span>
+<span id="cb13-2">    fold_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">length</span>(data) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">÷</span> n_folds</span>
+<span id="cb13-3">    validation_start <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (current_fold <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> fold_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb13-4">    validation_end <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> validation_start <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> fold_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb13-5">    validation_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> data[validation_start<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>validation_end]</span>
+<span id="cb13-6">    train_indices <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [data[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span>validation_start<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]; data[validation_end<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span>]]</span>
+<span id="cb13-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> train_indices, validation_indices</span>
+<span id="cb13-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span></code></pre></div>
+</details>
+</section>
+</section>
+<section id="conclusions-and-future-development" class="level1">
+<h1>Conclusions and Future Development</h1>
+<p>I have successfully established a foundation for a medical imaging pipeline, addressing significant challenges in data handling, model training, and augmentation integration. The integration of dataset-wide functions has significantly enhanced the reproducibility and handling of batched data with GPU support enabling scalability of experiments, making it easier for researchers and practitioners to produce better results.</p>
+</section>
+<section id="future-development" class="level1">
+<h1>Future Development</h1>
+<p>As we look to the future, there are several areas where MedPipe3D can be expanded and improved to better serve the medical AI community. These include:</p>
+<section id="necessary-enhancements" class="level2">
+<h2 class="anchored" data-anchor-id="necessary-enhancements">Necessary Enhancements</h2>
+<p>Comprehensive Logging: Develop detailed logging mechanisms that capture a wide range of events, including system statuses, model performance metrics, and user activities, to facilitate debugging and system optimization. This is currently executed as a simple <code>println</code> function.</p>
+<p>TensorBoard Integration: Implement an interface for TensorBoard to allow users to visualize training dynamics in real time, providing insights into model behavior and performance trends.</p>
+<p>Error and Warning Logs: Introduce advanced error and warning logging capabilities to alert users of potential issues before they affect the pipeline’s performance, ensuring smoother operations and maintenance.</p>
+<p>Automated Visualization: Integrate MedEye3D directly into MedPipe3D to enable automated visualization of outputs, such as segmentation masks or other relevant medical imaging features. This feature would provide users with real-time visual feedback on model performance and data quality. Code-Level Documentation: Due to needed changes in the fundamental structure of the pipeline in the final phase of the project, it is necessary to reevaluate all documentation.</p>
+<p>Official JuliaHealth Documentation: Extend the documentation efforts to include official entries on juliahealth.org, providing a centralized and authoritative resource for users seeking to learn more about MedPipe3D and its capabilities with examples shown</p>
+</section>
+<section id="potential-enhancements" class="level2">
+<h2 class="anchored" data-anchor-id="potential-enhancements">Potential Enhancements</h2>
+<p>GPU support for interpolation will allow for significant acceleration of such functions as Scale transform, Simulate, Low-resolution transform, Elastic deformation transform, and Resampling spacing.</p>
+<p>Add more reversible augmentations to test time.</p>
+<p>Calculating the average of the edges of the picture: checking the type of photo and calculating more correctly on this basis</p>
+<p>Elastic deformation transforms with the simulation of different tissue elasticities.</p>
+</section>
+</section>
+<section id="acknowledgments" class="level1">
+<h1>Acknowledgments 🙇‍♂️</h1>
+<p>I would like to express my deepest gratitude to my mentor Dr.&nbsp;<a href="https://www.linkedin.com/in/jakub-mitura-7b2013151/">Jakub Mitura</a> for his invaluable guidance and support throughout this project. His expertise and encouragement were instrumental in overcoming challenges and achieving project milestones.</p>
+
+
+<!-- -->
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{zubik2024,
+  author = {Zubik, Jan},
+  title = {GSoC ’24: {Adding} Dataset-Wide Functions and Integrations of
+    Augmentations},
+  date = {2024-11-03},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zubik2024" class="csl-entry quarto-appendix-citeas">
+Zubik, Jan. 2024. <span>“GSoC ’24: Adding Dataset-Wide Functions and
+Integrations of Augmentations.”</span> November 3, 2024. <a href="https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html">https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</a>.
+</div></div></section></div> ]]></description>
+  <category>gsoc</category>
+  <category>AI/ML</category>
+  <category>imaging</category>
+  <category>gpu</category>
+  <category>analysis</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</guid>
+  <pubDate>Sun, 03 Nov 2024 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
   <dc:creator>Divyansh Goyal</dc:creator>
