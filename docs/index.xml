@@ -4156,9 +4156,11 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
 <section id="hi-everyone" class="level1">
 <h1>Hi Everyone! 👋</h1>
 <p>I am Jay Sanjay, and I am pursuing a Bachelor’s degree in Computational Sciences and Engineering at the Indian Institute of Technology (IIT) in Hyderabad, India. Coming from a mathematics and data analysis background, I was initially introduced to Julia at my university lectures. Later, I delved more into the language and the JuliaHealth community - an intersection of Julia, Health Research, Data Sciences, and Informatics. Here, I met some of the great folks in JuliaHealth and I decided to take it on as a full-fledged summer project. In this blog, I will briefly describe what my project is and what I did as a part of it.</p>
-<blockquote class="blockquote">
-<p>If you want to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/jay-landge-589439260/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/Jay-sanjay"><strong>GitHub</strong></a></p>
-</blockquote>
+<ol type="1">
+<li><p>You can find my <a href="https://summerofcode.withgoogle.com/archive/2024/projects/ZXVIYAXG"><strong>GSoC project archive link</strong></a></p></li>
+<li><p>You can also find the related publication of my work on <a href="https://zenodo.org/records/14674051"><strong>Zenodo</strong></a></p></li>
+<li><p>If you want to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/jay-landge-589439260/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/Jay-sanjay"><strong>GitHub</strong></a></p></li>
+</ol>
 </section>
 <section id="background" class="level1">
 <h1>Background</h1>
