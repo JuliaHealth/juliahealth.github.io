@@ -22,6 +22,9 @@ I am Jay Sanjay, and I am pursuing a Bachelor's degree in Computational Sciences
 In this blog, I will briefly describe what my project is and what I did as a part of it.
 
 > If you want to know more about me, you can connect with me on [**LinkedIn**](https://www.linkedin.com/in/jay-landge-589439260/) and follow me on [**GitHub**](https://github.com/Jay-sanjay)
+> You can find my [**GSoC project archive link**](https://summerofcode.withgoogle.com/archive/2024/projects/ZXVIYAXG)
+> You can also find the related publication of my work on [**Zenodo**](https://zenodo.org/records/14674051)
+
 
 # Background
 
