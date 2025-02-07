@@ -9,8 +9,8 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.47</generator>
-<lastBuildDate>Sun, 03 Nov 2024 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.57</generator>
+<lastBuildDate>Sat, 02 Nov 2024 18:30:00 GMT</lastBuildDate>
 <item>
   <title>GSoC ’24: Adding dataset-wide functions and integrations of augmentations</title>
   <dc:creator>Jan Zubik</dc:creator>
@@ -3129,7 +3129,7 @@ Integrations of Augmentations.”</span> November 3, 2024. <a href="https://juli
   <category>gpu</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</guid>
-  <pubDate>Sun, 03 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sat, 02 Nov 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
@@ -4053,7 +4053,7 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
   <category>imaging</category>
   <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -4142,7 +4142,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -4156,9 +4156,11 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
 <section id="hi-everyone" class="level1">
 <h1>Hi Everyone! 👋</h1>
 <p>I am Jay Sanjay, and I am pursuing a Bachelor’s degree in Computational Sciences and Engineering at the Indian Institute of Technology (IIT) in Hyderabad, India. Coming from a mathematics and data analysis background, I was initially introduced to Julia at my university lectures. Later, I delved more into the language and the JuliaHealth community - an intersection of Julia, Health Research, Data Sciences, and Informatics. Here, I met some of the great folks in JuliaHealth and I decided to take it on as a full-fledged summer project. In this blog, I will briefly describe what my project is and what I did as a part of it.</p>
-<blockquote class="blockquote">
-<p>If you want to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/jay-landge-589439260/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/Jay-sanjay"><strong>GitHub</strong></a></p>
-</blockquote>
+<ol type="1">
+<li><p>You can find my <a href="https://summerofcode.withgoogle.com/archive/2024/projects/ZXVIYAXG"><strong>GSoC project archive link</strong></a></p></li>
+<li><p>You can also find the related publication of my work on <a href="https://zenodo.org/records/14674051"><strong>Zenodo</strong></a></p></li>
+<li><p>If you want to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/jay-landge-589439260/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/Jay-sanjay"><strong>GitHub</strong></a></p></li>
+</ol>
 </section>
 <section id="background" class="level1">
 <h1>Background</h1>
@@ -4796,7 +4798,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -5398,7 +5400,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -5604,7 +5606,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -5676,7 +5678,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
