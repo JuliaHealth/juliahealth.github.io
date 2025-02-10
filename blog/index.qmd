@@ -1,0 +1,16 @@
+---
+listing:
+  contents: posts
+  sort: "date desc"
+  fields: [image, date, title, author, reading-time, description]
+  type: default
+  categories: true
+  sort-ui: true
+  filter-ui: false
+  image-height: "0"
+page-layout: full
+toc: false
+title-block-banner: true
+---
+
+# Welcome to the JuliaHealthBlog! 👋

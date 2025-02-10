@@ -1,0 +1,6 @@
+website: 
+  sidebar:
+    - title: "Blogs"
+      style: "docked"
+      background: light
+

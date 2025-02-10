@@ -1,17 +1,206 @@
----
-listing:
-  contents: posts
-  sort: "date desc"
-  fields: [image, date, title, author, reading-time, description]
-  type: default
-  categories: true
-  sort-ui: true
-  filter-ui: false
-  feed: true
-  image-height: "0"
-page-layout: full
-toc: false
-title-block-banner: true
----
+```{=html}
+<div class="column-page mb-0 text-center">
+    <img src="./assets/logo.png" class="img-fluid" alt="JuliaHealth Logo" />
+    <p class="h1">
+        Transforming Health Research!
+    </p>
+    <p class="h3 fs-2 mt-0">
+        Improving medicine, health and bio-medical research using the power of Julia.
+    </p>
+</div>
+```
 
-# Welcome to the JuliaHealthBlog! 👋
+```{=html}
+<div class="column-page p-3">
+    <h3 class="mb-2 fs-2 text-center"><i class="bi bi-boxes me-2"></i>Explore Packages...</h3>
+    <p class="mb-4 fs-3 text-center">Below are some of the powerful packages developed by the community.</p>
+    <div class="grid">
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <p class="card-text">
+                    <a href="/pages/packages.html">
+                        And many more...
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+```{=html}
+<div class="column-page p-3">
+    <h3 class="mb-2 fs-2 text-center"><i class="bi bi-people-fill me-2"></i>Similar Organizations</h3>
+    <p class="mb-4 fs-3 text-center">We are not the only one, there are other communities researching on various similar aspects.</p>
+    <div class="grid">
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body">
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+        </div>
+        <div class="card g-col-3 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <p class="card-text">
+                    <a href="/pages/packages.html">
+                        And many more...
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+```{=html}
+<div class="column-page p-3">
+    <h3 class="mb-2 fs-2 text-center"><i class="bi bi-question-circle-fill me-2"></i>FAQs</h3>
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+        <span class="accordion-header">
+            <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseOne"
+            >
+                Accordion Item #1
+            </button>
+        </span>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <span class="accordion-header">
+            <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseTwo"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseTwo"
+            >
+                Accordion Item #2
+            </button>
+        </span>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <span class="accordion-header">
+            <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseThree"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseThree"
+            >
+                Accordion Item #3
+            </button>
+        </span>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+</div>
+```
