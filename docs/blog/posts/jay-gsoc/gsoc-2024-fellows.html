@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jay Sanjay Landge">
+<meta name="dcterms.date" content="2024-09-07">
+<meta name="description" content="A summary of my project for Google Summer of Code - 2024">
+
+<title>GSoC ’24: Developing Tooling for Observational Health Research in Julia – JuliaHealth</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-70767ed608e582049e34fe630c78cd40.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog/index.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/connect_with_us.html"> <i class="bi bi-chat-heart" role="img">
+</i> 
+<span class="menu-text">Connect With Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/meeting_notes.html">
+ <span class="dropdown-text">Meetings Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/related_organizations.html">
+ <span class="dropdown-text">Related Organizations</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#hi-everyone" id="toc-hi-everyone" class="nav-link active" data-scroll-target="#hi-everyone">Hi Everyone! 👋</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
+  <ul class="collapse">
+  <li><a href="#what-is-observational-health-research" id="toc-what-is-observational-health-research" class="nav-link" data-scroll-target="#what-is-observational-health-research">What Is Observational Health Research?</a></li>
+  <li><a href="#what-are-patient-pathways" id="toc-what-are-patient-pathways" class="nav-link" data-scroll-target="#what-are-patient-pathways">What Are Patient Pathways?</a></li>
+  </ul></li>
+  <li><a href="#project-description" id="toc-project-description" class="nav-link" data-scroll-target="#project-description">Project Description</a></li>
+  <li><a href="#project-goals" id="toc-project-goals" class="nav-link" data-scroll-target="#project-goals">Project Goals</a></li>
+  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">Tasks</a>
+  <ul class="collapse">
+  <li><a href="#setting-up-the-package-in-juliahealth-channel" id="toc-setting-up-the-package-in-juliahealth-channel" class="nav-link" data-scroll-target="#setting-up-the-package-in-juliahealth-channel">1. Setting Up the Package in JuliaHealth Channel</a></li>
+  <li><a href="#loading-the-postgresql-database" id="toc-loading-the-postgresql-database" class="nav-link" data-scroll-target="#loading-the-postgresql-database">2. Loading the PostgreSQL Database</a></li>
+  <li><a href="#testing-and-development-setup-on-my-local-computer" id="toc-testing-and-development-setup-on-my-local-computer" class="nav-link" data-scroll-target="#testing-and-development-setup-on-my-local-computer">3. Testing and Development setup on my local computer</a></li>
+  <li><a href="#selecting-treatments-of-interest" id="toc-selecting-treatments-of-interest" class="nav-link" data-scroll-target="#selecting-treatments-of-interest">4. Selecting Treatments of Interest</a></li>
+  <li><a href="#filters-applied" id="toc-filters-applied" class="nav-link" data-scroll-target="#filters-applied">5. Filters Applied</a></li>
+  <li><a href="#treatment-history-of-the-patients" id="toc-treatment-history-of-the-patients" class="nav-link" data-scroll-target="#treatment-history-of-the-patients">6. Treatment History of the Patients</a></li>
+  <li><a href="#combinationwindow-functionality-to-combine-overlapping-treatments" id="toc-combinationwindow-functionality-to-combine-overlapping-treatments" class="nav-link" data-scroll-target="#combinationwindow-functionality-to-combine-overlapping-treatments">7. CombinationWindow Functionality To Combine Overlapping Treatments</a>
+  <ul class="collapse">
+  <li><a href="#switch-case" id="toc-switch-case" class="nav-link" data-scroll-target="#switch-case">Switch Case:</a></li>
+  <li><a href="#frfs-first-row-first-shortened" id="toc-frfs-first-row-first-shortened" class="nav-link" data-scroll-target="#frfs-first-row-first-shortened">FRFS (First Row, First Shortened):</a></li>
+  <li><a href="#lrfs-last-row-first-shortened" id="toc-lrfs-last-row-first-shortened" class="nav-link" data-scroll-target="#lrfs-last-row-first-shortened">LRFS (Last Row, First Shortened):</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#contributions-beyond-coding" id="toc-contributions-beyond-coding" class="nav-link" data-scroll-target="#contributions-beyond-coding">Contributions Beyond Coding</a>
+  <ul class="collapse">
+  <li><a href="#organizing-meetings-and-communication" id="toc-organizing-meetings-and-communication" class="nav-link" data-scroll-target="#organizing-meetings-and-communication">1. Organizing Meetings and Communication</a></li>
+  <li><a href="#personal-documentation" id="toc-personal-documentation" class="nav-link" data-scroll-target="#personal-documentation">2. Personal Documentation</a></li>
+  <li><a href="#contributions-to-the-rest-of-the-juliahealth-repositories" id="toc-contributions-to-the-rest-of-the-juliahealth-repositories" class="nav-link" data-scroll-target="#contributions-to-the-rest-of-the-juliahealth-repositories">3. Contributions To the Rest of the JuliaHealth Repositories</a></li>
+  </ul></li>
+  <li><a href="#conclusions-and-future-development" id="toc-conclusions-and-future-development" class="nav-link" data-scroll-target="#conclusions-and-future-development">Conclusions and Future Development</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements 🙇‍♂️</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GSoC ’24: Developing Tooling for Observational Health Research in Julia</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">gsoc</div>
+    <div class="quarto-category">sql</div>
+    <div class="quarto-category">observational health</div>
+    <div class="quarto-category">analysis</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A summary of my project for Google Summer of Code - 2024
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jay Sanjay Landge </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 7, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="hi-everyone" class="level1">
+<h1>Hi Everyone! 👋</h1>
+<p>I am Jay Sanjay, and I am pursuing a Bachelor’s degree in Computational Sciences and Engineering at the Indian Institute of Technology (IIT) in Hyderabad, India. Coming from a mathematics and data analysis background, I was initially introduced to Julia at my university lectures. Later, I delved more into the language and the JuliaHealth community - an intersection of Julia, Health Research, Data Sciences, and Informatics. Here, I met some of the great folks in JuliaHealth and I decided to take it on as a full-fledged summer project. In this blog, I will briefly describe what my project is and what I did as a part of it.</p>
+<ol type="1">
+<li><p>You can find my <a href="https://summerofcode.withgoogle.com/archive/2024/projects/ZXVIYAXG"><strong>GSoC project archive link</strong></a></p></li>
+<li><p>You can also find the related publication of my work on <a href="https://zenodo.org/records/14674051"><strong>Zenodo</strong></a></p></li>
+<li><p>If you want to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/jay-landge-589439260/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/Jay-sanjay"><strong>GitHub</strong></a></p></li>
+</ol>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="what-is-observational-health-research" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-observational-health-research">What Is Observational Health Research?</h2>
+<p>Observational Health Research refers to studies that analyze real-world data (such as patient medical claims, electronic health records, etc.) to understand patient health. These studies often encompass a vast amount of data concerning patient care. An outstanding challenge here is that these datasets can become very complex and grow large enough to require advanced computing methods to process this information.</p>
+</section>
+<section id="what-are-patient-pathways" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-patient-pathways">What Are Patient Pathways?</h2>
+<p>Patient pathways refer to the journey that patients with specific medical conditions undergo in terms of their treatment. This concept goes beyond simple drug uptake statistics and looks at the sequence of treatments patients receive over time, including first-line treatments and subsequent therapies. Understanding patient pathways is essential for analyzing treatment patterns, adherence to clinical guidelines, and the disbursement of drugs. To analyze patient pathways, one would typically use real-world data from sources such as electronic health records, claims data, and registries. However, barriers such as data interoperability and resource requirements have hindered the full utilization of real-world data for this purpose.</p>
+<p>So to address these challenges we (the JuliaHealth organization and I) want to develop a set of tools to extract and analyze these patient pathways. These sets of tools are based on the Observational Medical Outcomes Partnership (OMOP) Common Data Model, which standardizes healthcare data to promote interoperability.</p>
+</section>
+</section>
+<section id="project-description" class="level1">
+<h1>Project Description</h1>
+<p>As part of this project with JuliaHealth, I developed a new package called <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl"><strong>OMOPCDMPathways.jl</strong></a>. This package is designed for deployment in research projects, particularly those related to health and medical data analysis. This project takes much inspiration from the paper <a href="https://www.sciencedirect.com/science/article/pii/S016926072200462X?via%3Dihub"><em>TreatmentPatterns: An r package to facilitate the standardized development and analysis of treatment patterns across disease domains</em></a> <span class="citation" data-cites="markus2022treatmentpatterns"><a href="#ref-markus2022treatmentpatterns" role="doc-biblioref">[1]</a></span> and explores the implementation of some of those ideas to develop new tools within the JuliaHealth Observational Health Subecosystem for exploring patient pathways. Additional new features and approaches were added and explored within this project. Additionally, I have authored a developer guide for the package, providing instructions on its use and contribution. This project provided me with hands-on experience in developing production-level code and exposed me to open-source software development practices. I had the opportunity to work in a team, under my mentors, and ensured the integration of the package with the rest of JuliaHealth, facilitating its adoption and usability within the community.</p>
+</section>
+<section id="project-goals" class="level1">
+<h1>Project Goals</h1>
+<p>As a part of the development, I was majorly engaged in crafting the following functionalities:</p>
+<ol type="1">
+<li><p>Selecting treatments of interest: The first decision that was made was to decide the time from which the desired treatments of interest should be included in the treatment pathway study. Here the <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/1">periodPriorToIndex</a> specifies the period (i.e.&nbsp;number of days) before the index date from which treatments should be included.</p></li>
+<li><p>Find Treatment History of Patients: Create the <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/4">treatment history</a> of a patient based on target, event, and exit cohorts. Then filter patient events based on the start and end dates of the target cohort. Third, Calculate the duration of treatment eras and the gap between treatments.</p></li>
+<li><p>Filters: Filter the treatment history based on the <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/5">minEraDuration</a> parameter and <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/2">EraCollapse</a> parameter.</p></li>
+<li><p>Create a Continuous Integration and Continuous Development pipeline for the package.</p></li>
+<li><p>Implement the combinationWindow function, which combines treatments with various overlapping strategies.</p></li>
+</ol>
+<p>Additionally, we had a few stretch goals which were:</p>
+<ol type="1">
+<li><p>Composing with JuliaStats Ecosystem</p></li>
+<li><p>Novel Visualizations for Pathways</p></li>
+</ol>
+</section>
+<section id="tasks" class="level1">
+<h1>Tasks</h1>
+<section id="setting-up-the-package-in-juliahealth-channel" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-the-package-in-juliahealth-channel">1. Setting Up the Package in JuliaHealth Channel</h2>
+<p>Initially, there was no package as such for generating pathways, so I had to build it from scratch. First, I created the repository with the name <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl">OMOPCDMPathways.jl</a>. Once the repository was created, we needed to have a skeleton for a standard Julia repository. For this, we used the <a href="https://juliaci.github.io/PkgTemplates.jl/stable/user/">PkgTemplates.jl</a> this provided a basic skeleton for the repository that included - folders for test suites, documentation, src code files, GitHub files, README and LICENSE file, TOML and citation files. All this we can further edit and modify as per our work. By default, PkgTemplate.jl uses <a href="https://documenter.juliadocs.org/stable/">Documenter.jl</a> for the documentation part but as suggested and discussed with my mentor we decided to shift to <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/">DocumenterVitepress.jl</a> for the documentation part. However, we still faced some deployment issues in the new documentation due to a few mistakes in the <code>make.jl</code> file, thanks to <a href="https://github.com/asinghvi17">Anshul Singhvi</a> for helping fix the <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/15">Deployment issues with DocumenterVitepress</a>. With this, we were ready with the documentation set up and fully functional. After we had shifted to DocumenterVitepress the main task now was to host the documentation, this was done using Github-Actions, detailed steps for hosting are provided at <a href="https://documenter.juliadocs.org/stable/man/hosting/#Hosting-Documentation">this</a> page. Then we added the CodeCov to our package by triggering it via a dummy function and a corresponding test case for it. Also, the CI for the package was set up with it. And, now finally the repository was ready with test coverage, CI, and documentation fully functional repository ready. Here’s some snapshots of the documentation set-up:</p>
+<p><img src="./image.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Initial documentation with Documenter.jl</p>
+</blockquote>
+<p><img src="./img2.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>New documentation using DocumenterVitepress.jl</p>
+</blockquote>
+<p>So, as a part of it, I created this <a href="https://luxdl.github.io/DocumenterVitepress.jl/dev/documenter_to_vitepress_docs_example">documentation</a> which provides detailed steps for converting docs from Documenter to DocumenterVitepress.</p>
+</section>
+<section id="loading-the-postgresql-database" class="level2">
+<h2 class="anchored" data-anchor-id="loading-the-postgresql-database">2. Loading the PostgreSQL Database</h2>
+<p>The main database we worked on/built analysis was the freely available OMOPCDM Database. The Database was formatted within a PostgreSQL database with <a href="https://www.devart.com/dbforge/postgresql/how-to-install-postgresql-on-linux/">installation instructions here</a> are some instructions on how to set up Postgres in a Linux machine. However, I was provided with some more extra synthetic data from my mentor for further testing of the functionalities. Being a very large database we had to strategically download it further, my mentor helped me in setting up the Postgres on my local machine. Once, the database was set up proper testing was performed on it to check if things were as expected. With this, we were done with the database setup as well and could finally dive into the actual code logic for the Pathways synthesis.</p>
+</section>
+<section id="testing-and-development-setup-on-my-local-computer" class="level2">
+<h2 class="anchored" data-anchor-id="testing-and-development-setup-on-my-local-computer">3. Testing and Development setup on my local computer</h2>
+<p>To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using <a href="https://timholy.github.io/Revise.jl/stable/">Revise.jl</a>, which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also <a href="https://github.com/GunnarFarneback/PackageCompatUI.jl">PackageCompatUI</a> that provides a terminal text interface to the [compat] section of a Julia Project.toml file, and finally made a Julia script by the name “startup.jl” out of it. This script was then added to <code>/home/jay-sanjay/.julia/config/</code> path in my local computer.</p>
+<p>Here is the sample for the startup.jl file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PackageCompatUI</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PkgTemplates</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Revise</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">###################################</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># HELPER FUNCTIONS</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">###################################</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">template</span>()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">Template</span>(;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        user<span class="op">=</span><span class="st">"jay-sanjay"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        dir<span class="op">=</span><span class="st">"~/FOSS"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        authors<span class="op">=</span><span class="st">"jaysanjay &lt;jaysanjay@gmail.com&gt; and contributors"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        julia<span class="op">=</span><span class="st">v"1.6"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        plugins<span class="op">=</span>[</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ProjectFile</span>(; version<span class="op">=</span><span class="st">v"0.0.1"</span>),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Git</span>(),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Readme</span>(),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">License</span>(; name<span class="op">=</span><span class="st">"MIT"</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            <span class="fu">GitHubActions</span>(; extra_versions<span class="op">=</span>[<span class="st">"1.6"</span>, <span class="st">"1"</span>, <span class="st">"nightly"</span>]),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="fu">TagBot</span>(),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Codecov</span>(),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Documenter</span><span class="dt">{GitHubActions}</span>(),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Citation</span>(; readme <span class="op">=</span> <span class="cn">true</span>),</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">RegisterAction</span>(),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="fu">BlueStyleBadge</span>(),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Formatter</span>(;style <span class="op">=</span> <span class="st">"blue"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="selecting-treatments-of-interest" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-treatments-of-interest">4. Selecting Treatments of Interest</h2>
+<p>So, as a part of this, we used the previously mentioned research paper and discussion with the mentors we came up with logic for it. The first thing to do was to determine the moment in time from which selected treatments of interest should be included in the treatment pathway. The default is all treatments starting after the index date of the target cohort. For example, for a target cohort consisting of newly diagnosed patients, treatments after the moment of first diagnosis are included. However, it would also be desirable to include (some) treatments before the index date, for instance in case a specific disease diagnosis is only confirmed after initiating treatment. Therefore, periodPriorToIndex specifies the period (i.e.&nbsp;number of days) before the index date from which treatments should be included. We have created two dispatches for this function. After that proper testing and documentation are also added.</p>
+<p>A basic implementation for it is:</p>
+<ol type="1">
+<li><p>Construct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.</p></li>
+<li><p>The SQL query construction and execution was done using the <a href="https://mechanicalrabbit.github.io/FunSQL.jl/stable/">FunSQL.jl</a> library, in the below-shown manner:</p></li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sql <span class="op">=</span> <span class="fu">From</span>(tab) <span class="op">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Where</span>(Fun.<span class="fu">in</span>(Get.cohort_definition_id, cohort_id<span class="op">...</span>)) <span class="op">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Select</span>(Get.cohort_definition_id, Get.subject_id, Get.cohort_start_date) <span class="op">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            q <span class="op">-&gt;</span> <span class="fu">render</span>(q, dialect<span class="op">=</span>dialect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li><p>Executes the constructed SQL query using a database connection, fetching the results into a data frame.</p></li>
+<li><p>If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.</p></li>
+</ol>
+<p>This was then be called this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">period_prior_to_index</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        cohort_id <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>], </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        conn; </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        date_prior <span class="op">=</span> <span class="fu">Day</span>(<span class="fl">100</span>), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        tab<span class="op">=</span>cohort</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="filters-applied" class="level2">
+<h2 class="anchored" data-anchor-id="filters-applied">5. Filters Applied</h2>
+<p>After this, we where needed to get the patient’s database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. All these implementations were more of Dataframe manipulation where I used <a href="https://dataframes.juliadata.org/stable/">DataFrames.jl</a> package.</p>
+<p>After that proper testing and documentation are also added.</p>
+<p>A basic implementation for the minEraDuration is: It filters the treatment history <code>DataFrame</code> to retain only those rows where the duration between <code>drug_exposure_end</code> and <code>drug_exposure_start</code> is at least <code>minEraDuration</code>. This function can be used as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_era_duration</span>(test_df, <span class="fl">920000</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fl">4</span><span class="op">×</span><span class="fl">3</span> DataFrame</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a> Row │ person_id  drug_exposure_start  drug_exposure_end </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>     │ <span class="dt">Int64</span>      <span class="dt">Float64</span>              <span class="dt">Int64</span>             </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>─────┼───────────────────────────────────────────────────</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>   <span class="fl">1</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">3.7273e8</span>          <span class="op">-</span><span class="fl">364953600</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2</span> │         <span class="fl">1</span>            <span class="fl">2.90304e7</span>           <span class="fl">31449600</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>   <span class="fl">3</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">8.18208e7</span>          <span class="op">-</span><span class="fl">80006400</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4</span> │         <span class="fl">1</span>            <span class="fl">1.32918e9</span>         <span class="fl">1330387200</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Another filter we worked on is the EraCollapse. So, let’s suppose a case where an individual receives the same treatment for a long period of time (e.g.&nbsp;need for chronic treatment). Then it’s highly likely that the person would require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode, and the eraCollapseSize deals with the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e.&nbsp;seen as a continuous treatment instead of a stop and re-initiation of the same treatment). After that proper testing and documentation are also added.</p>
+<p>A basic implementation for the eraCollapseSize is: (a) Sorts the data frame by event_start_date and event_end_date. (b) Calculates the gap between each era and the previous era. (c) Filters out rows with gap_same &gt; eraCollapseSize.</p>
+<p>These functions can be used as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">EraCollapse</span>(treatment_history <span class="op">=</span> test_df, eraCollapseSize <span class="op">=</span> <span class="fl">400000000</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fl">4</span><span class="op">×</span><span class="fl">4</span> DataFrame</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a> Row │ person_id  drug_exposure_start  drug_exposure_end  gap_same   </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>     │ <span class="dt">Int64</span>      <span class="dt">Float64</span>              <span class="dt">Int64</span>              <span class="dt">Float64</span>    </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>─────┼───────────────────────────────────────────────────────────────</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>   <span class="fl">1</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">5.33347e8</span>         <span class="op">-</span><span class="fl">532483200</span>  <span class="op">-</span><span class="fl">1.86373e9</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">3.7273e8</span>          <span class="op">-</span><span class="fl">364953600</span>   <span class="fl">1.59754e8</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>   <span class="fl">3</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">8.18208e7</span>          <span class="op">-</span><span class="fl">80006400</span>   <span class="fl">2.83133e8</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4</span> │         <span class="fl">1</span>            <span class="fl">2.90304e7</span>           <span class="fl">31449600</span>   <span class="fl">1.09037e8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="treatment-history-of-the-patients" class="level2">
+<h2 class="anchored" data-anchor-id="treatment-history-of-the-patients">6. Treatment History of the Patients</h2>
+<p>The <code>create_treatment_history</code> function constructs a detailed treatment history for patients in a target cohort by processing and filtering event cohort data from a given DataFrame. It begins by isolating the target cohort based on its <code>cohort_id</code>, adding a new column for the <code>index_year</code> derived from the cohort’s start date. Then, it selects relevant event cohorts based on a provided list of cohort IDs and merges them with the target cohort on the <code>subject_id</code> to associate events with individuals in the target group. The function applies different filtering criteria depending on whether the user is interested in treatments starting or ending within a specified period before the target cohort’s start date (defined by <code>periodPriorToIndex</code>). It keeps only the event cohorts that match the filtering condition, ensuring that only relevant treatments are considered. After filtering, the function calculates time gaps between consecutive cohort events for each patient, adding these gaps to the DataFrame. The final DataFrame provides a history of treatments, including the dates of events and the time intervals between them, offering a clear timeline of treatment for each patient. After that proper testing and documentation are also added.</p>
+</section>
+<section id="combinationwindow-functionality-to-combine-overlapping-treatments" class="level2">
+<h2 class="anchored" data-anchor-id="combinationwindow-functionality-to-combine-overlapping-treatments">7. CombinationWindow Functionality To Combine Overlapping Treatments</h2>
+<p>Now once we have the filtering of the treatments done, we need to combine the overlapping treatments based on some set of rules. The combinationWindow specifies the time that two event eras need to overlap to be considered a combination treatment. If there are more than two overlapping event eras, we sequentially combine treatments, starting from the ﬁrst two overlapping event eras.</p>
+<p>The <code>combination_Window</code> function processes a patient’s treatment history by identifying overlapping treatment events and combining them into continuous treatment periods based on certain rules. It first converts <code>event_cohort_id</code> into strings and sorts the treatment data by <code>person_id</code>, <code>event_start_date</code>, and <code>event_end_date</code>. The helper function <code>selectRowsCombinationWindow</code> calculates gaps between consecutive treatments, marking rows where treatments overlap or occur too closely. In the main loop, the function checks these overlaps and gaps against a specified <code>combinationWindow</code>. If treatments overlap (or nearly overlap), the function adjusts the treatment periods by either merging adjacent rows or splitting rows to create continuous treatment periods. The process continues until all overlapping treatments are combined into one, creating an updated and accurate treatment history. The function ensures the final output reflects realistic treatment windows by handling special cases where gaps between treatments are smaller than the treatment durations themselves.</p>
+<p>It mainly covers the three cases mentioned in the R-research paper:</p>
+<section id="switch-case" class="level3">
+<h3 class="anchored" data-anchor-id="switch-case">Switch Case:</h3>
+<p><em>Condition</em>: If the gap between the two treatment events is smaller than the combinationWindow, but the gap is not equal to the duration of either event. <em>Action</em>: The event_end_date of the previous treatment is set to the event_start_date of the current treatment. This effectively “shifts” the previous treatment’s end date to eliminate the gap, merging the treatments into one continuous period. <em>Purpose</em>: This ensures that treatment gaps that are too small (less than combinationWindow) are treated as part of the same treatment window.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">-</span>gap_previous <span class="op">&lt;</span> combinationWindow <span class="op">&amp;&amp;</span> !(<span class="op">-</span>gap_previous <span class="kw">in</span> [duration_era, prev_duration_era])</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date] <span class="op">=</span> treatment_history[i, <span class="op">:</span>event_start_date]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here is the pictorial representation for the same: <img src="./case1.png" class="img-fluid"></p>
+</section>
+<section id="frfs-first-row-first-shortened" class="level3">
+<h3 class="anchored" data-anchor-id="frfs-first-row-first-shortened">FRFS (First Row, First Shortened):</h3>
+<p><em>Condition</em>: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the two treatments, and the first treatment ends before or on the same date as the second treatment. <em>Action</em>: A new row is created where the second treatment’s event_end_date is set to the end date of the first treatment. This preserves the overlap but ensures that the earlier treatment period stays intact. <em>Purpose</em>: This prevents unnecessary truncation of the first treatment if it spans the entire overlap window.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>elseif <span class="op">-</span>gap_previous <span class="op">&gt;=</span> combinationWindow <span class="op">||</span> <span class="op">-</span>gap_previous <span class="kw">in</span> [duration_era, prev_duration_era]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date] <span class="op">&lt;=</span> treatment_history[i, <span class="op">:</span>event_end_date]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        new_row <span class="op">=</span> <span class="fu">deepcopy</span>(treatment_history[i, <span class="op">:</span>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        new_row.event_end_date <span class="op">=</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append!</span>(treatment_history, <span class="fu">DataFrame</span>(new_row<span class="op">'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here is the pictorial representation for the same: <img src="./case2.png" class="img-fluid"></p>
+</section>
+<section id="lrfs-last-row-first-shortened" class="level3">
+<h3 class="anchored" data-anchor-id="lrfs-last-row-first-shortened">LRFS (Last Row, First Shortened):</h3>
+<p><em>Condition</em>: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the treatments, and the first treatment ends after the second treatment. <em>Action</em>: The current treatment’s event_end_date is adjusted to match the event_end_date of the previous treatment. <em>Purpose</em>: This handles cases where the second treatment’s window should be shortened to prevent overlap with the previous treatment, merging them into a single continuous window.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>else</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    treatment_history[i, <span class="op">:</span>event_end_date] <span class="op">=</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here is the pictorial representation for the same: <img src="./case3.png" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p><em>Note:</em> However, There are a few things left to cover here, most of which are the documentation and writing the test suite for the same.</p>
+</blockquote>
+</section>
+</section>
+</section>
+<section id="contributions-beyond-coding" class="level1">
+<h1>Contributions Beyond Coding</h1>
+<section id="organizing-meetings-and-communication" class="level2">
+<h2 class="anchored" data-anchor-id="organizing-meetings-and-communication">1. Organizing Meetings and Communication</h2>
+<p>Throughout the project, I regularly met with my mentor, [Jacob Zelko], and co-mentor, [Mounika], via weekly Zoom calls to discuss progress and seek guidance. During these meetings, we reviewed my work, identified areas where I needed help, and set clear goals for the upcoming weeks. We used Trello to organize and track these goals, ensuring that nothing was overlooked. My mentors provided detailed insights into specific technical aspects and guided me through the logic behind various functions. Outside of our scheduled meetings, they were always available for quick queries via Slack, ensuring constant support.</p>
+</section>
+<section id="personal-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="personal-documentation">2. Personal Documentation</h2>
+<p>In addition to the notes from our meetings, I maintained personal documentation where I recorded every step I took, including the challenges I faced and the mistakes I made. This helped me reflect on my progress and stay organized throughout the fellowship. Following my selection for GSoC 2024, I also published a blog post on <a href="https://medium.com/@landgejay124/gsoc-24-the-julia-language-62b809bbec49">Medium</a> to share my journey and experiences with the Julia Language community.</p>
+</section>
+<section id="contributions-to-the-rest-of-the-juliahealth-repositories" class="level2">
+<h2 class="anchored" data-anchor-id="contributions-to-the-rest-of-the-juliahealth-repositories">3. Contributions To the Rest of the JuliaHealth Repositories</h2>
+<p>Earlier I have contributed a lot to the <a href="https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl">OMOPCDMCohortCreator.jl</a> including adding new functionalities writing test suites, adding blogs including - <a href="https://github.com/JuliaHealth/juliahealth.github.io/pull/124">Patient Pathways within JuliaHealth</a>. Apart from that I also initiated 3 new releases of this package.</p>
+</section>
+</section>
+<section id="conclusions-and-future-development" class="level1">
+<h1>Conclusions and Future Development</h1>
+<p>This project was a 350-hour large project since there were many goals to accomplish. Here is what we accomplished:</p>
+<ol type="1">
+<li><p>Built a new repository in JuliaHealth land dedicated especially to treatment pathways synthesis.</p></li>
+<li><p>CI/CD for the Package and Documentation hosting.</p></li>
+<li><p>All required basic functionalities required to build the pathways.</p></li>
+<li><p>Documentation and test suites added for each.</p></li>
+</ol>
+<p>Future work would include:</p>
+<ul>
+<li><p>Finish this <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/pull/63">PR</a> test-suites and documentation are remaining for this PR.</p></li>
+<li><p>Apart from that, we would need to add a <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/9">function</a> that sews up all the functionalities of the package so that the user can run the complete pathways analysis by running just one function instead of running each of the functions manually.</p></li>
+<li><p>Also, in the future, we would explore what statistical functionalities we would need to further explore pathways.</p></li>
+<li><p>Then, we could explore how to compose JuliaHealth with packages from ecosystems like <a href="https://juliastats.org/">JuliaStats</a> and <a href="https://docs.juliadsp.org/stable/contents/">JuliaDSP</a> (for time series analysis) that are mentioned in this <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues/8">PR</a>.</p></li>
+<li><p>And finally work on creating novel visualizations for the Pathways. Commonly used visualizations for treatment pathways (such as sunburst or icicle plots) showing which patients fall under what treatment pathways could be developed as plotting recipes to visualize various aspects of a patient’s care pathway rapidly.</p></li>
+</ul>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements 🙇‍♂️</h1>
+<ol type="1">
+<li><p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p></li>
+<li><p><a href="https://www.linkedin.com/in/mounika-thakkallapally/">Mounika Thakkallapally</a></p></li>
+</ol>
+<p>Thank you for your continuous help and support throughout the fellowship. <em>Note: This blog post was also written with the assistance of LLM technologies to help with grammar, flow, and spelling!</em></p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-markus2022treatmentpatterns" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">A. F. Markus, K. M. Verhamme, J. A. Kors, and P. R. Rijnbeek, <span>“TreatmentPatterns: An r package to facilitate the standardized development and analysis of treatment patterns across disease domains,”</span> <em>Computer Methods and Programs in Biomedicine</em>, vol. 225, p. 107081, 2022.</div>
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{sanjay_landge2024,
+  author = {Sanjay Landge, Jay},
+  title = {GSoC ’24: {Developing} {Tooling} for {Observational} {Health}
+    {Research} in {Julia}},
+  date = {2024-09-07},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-sanjay_landge2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+<div class="">J.
+Sanjay Landge, <span>“GSoC ’24: Developing Tooling for Observational
+Health Research in Julia,”</span> Sep. 07, 2024.</div>
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

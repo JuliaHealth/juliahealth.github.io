@@ -34,7 +34,5 @@ format:
       light: 
         - cosmo
         - brand
-      dark: 
-        - darkly
     css: styles.css
     toc: true

@@ -2,6 +2,12 @@
   {
     "listing": "/blog/index.html",
     "items": [
+      "/blog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html",
+      "/blog/posts/divyansh-gsoc/gsoc-2024-fellows.html",
+      "/blog/posts/mounika-gsoc-mentor/index.html",
+      "/blog/posts/jay-gsoc/gsoc-2024-fellows.html",
+      "/blog/posts/ryan-gsoc/Ryan_GSOC.html",
+      "/blog/posts/michela-gsoc/Michela_JSoC.html",
       "/blog/posts/dummy/index.html"
     ]
   }

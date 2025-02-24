@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jan Zubik">
+<meta name="dcterms.date" content="2024-11-03">
+<meta name="description" content="MedPipe3D - Medical segmentation pipeline with dataset-wide functions and augmentations.">
+
+<title>GSoC ’24: Adding dataset-wide functions and integrations of augmentations – JuliaHealth</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-70767ed608e582049e34fe630c78cd40.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../blog/index.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/connect_with_us.html"> <i class="bi bi-chat-heart" role="img">
+</i> 
+<span class="menu-text">Connect With Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/meeting_notes.html">
+ <span class="dropdown-text">Meetings Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/related_organizations.html">
+ <span class="dropdown-text">Related Organizations</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section">📝🩻📎📉 ➡️ 🗃️📚♻️🧑‍🏫 ➡️ 🤖👁️📈 ➡️ ❤️‍🩹</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  </ul></li>
+  <li><a href="#project-goals" id="toc-project-goals" class="nav-link" data-scroll-target="#project-goals">Project Goals</a></li>
+  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">Tasks</a>
+  <ul class="collapse">
+  <li><a href="#integrate-augmentations-for-medical-data" id="toc-integrate-augmentations-for-medical-data" class="nav-link" data-scroll-target="#integrate-augmentations-for-medical-data">Integrate augmentations for medical data 🆙</a></li>
+  <li><a href="#invertible-augmentations-and-support-test-time-augmentations" id="toc-invertible-augmentations-and-support-test-time-augmentations" class="nav-link" data-scroll-target="#invertible-augmentations-and-support-test-time-augmentations">Invertible augmentations and support test time augmentations 🆙</a></li>
+  <li><a href="#patch-based-data-loading-with-probabilistic-oversampling" id="toc-patch-based-data-loading-with-probabilistic-oversampling" class="nav-link" data-scroll-target="#patch-based-data-loading-with-probabilistic-oversampling">Patch-based data loading with probabilistic oversampling ✅</a></li>
+  <li><a href="#calculate-median-and-mean-spacing-with-resampling" id="toc-calculate-median-and-mean-spacing-with-resampling" class="nav-link" data-scroll-target="#calculate-median-and-mean-spacing-with-resampling">Calculate Median and Mean Spacing with resampling 🆙</a></li>
+  <li><a href="#basic-post-processing-operations" id="toc-basic-post-processing-operations" class="nav-link" data-scroll-target="#basic-post-processing-operations">Basic Post-processing operations</a></li>
+  <li><a href="#structured-configuration-of-all-hyperparameters" id="toc-structured-configuration-of-all-hyperparameters" class="nav-link" data-scroll-target="#structured-configuration-of-all-hyperparameters">Structured configuration of all hyperparameters 🆙</a></li>
+  <li><a href="#visualization-of-algorithm-outputs" id="toc-visualization-of-algorithm-outputs" class="nav-link" data-scroll-target="#visualization-of-algorithm-outputs">Visualization of algorithm outputs ⚠️</a></li>
+  <li><a href="#k-fold-cross-validation-functionality" id="toc-k-fold-cross-validation-functionality" class="nav-link" data-scroll-target="#k-fold-cross-validation-functionality">K-fold cross-validation functionality ✅</a></li>
+  </ul></li>
+  <li><a href="#conclusions-and-future-development" id="toc-conclusions-and-future-development" class="nav-link" data-scroll-target="#conclusions-and-future-development">Conclusions and Future Development</a></li>
+  <li><a href="#future-development" id="toc-future-development" class="nav-link" data-scroll-target="#future-development">Future Development</a>
+  <ul class="collapse">
+  <li><a href="#necessary-enhancements" id="toc-necessary-enhancements" class="nav-link" data-scroll-target="#necessary-enhancements">Necessary Enhancements</a></li>
+  <li><a href="#potential-enhancements" id="toc-potential-enhancements" class="nav-link" data-scroll-target="#potential-enhancements">Potential Enhancements</a></li>
+  </ul></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments 🙇‍♂️</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GSoC ’24: Adding dataset-wide functions and integrations of augmentations</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">gsoc</div>
+    <div class="quarto-category">AI/ML</div>
+    <div class="quarto-category">imaging</div>
+    <div class="quarto-category">gpu</div>
+    <div class="quarto-category">analysis</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    MedPipe3D - Medical segmentation pipeline with dataset-wide functions and augmentations.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jan Zubik </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 3, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="section" class="level1">
+<h1>📝🩻📎📉 ➡️ 🗃️📚♻️🧑‍🏫 ➡️ 🤖👁️📈 ➡️ ❤️‍🩹</h1>
+<p><em>These emoticons may resemble <strong>hieroglyphics</strong>, but very soon you will realize that they <strong>mean more than 1000s</strong> of lines of code.</em></p>
+<details>
+<summary>
+Description of the emojis used in the title
+</summary>
+<ul>
+<li>
+📝 <strong>Action Plan</strong>: A clear, structured plan that guides each step of the MedPipe3D pipeline.
+</li>
+<li>
+🩻 <strong>3D Medical Images</strong>: Medical imaging data, such as MRI scans in Nifti format.
+</li>
+<li>
+📎 <strong>AI Model</strong>: The initial AI model that will be trained and refined within the pipeline.
+</li>
+<li>
+📉 <strong>Loss Function</strong>: A function that measures the model’s performance during training, guiding the optimization process.
+</li>
+<li>
+🗃️ <strong>Data Loading</strong>: Preparation and loading of data and metadata into HDF5 format.
+</li>
+<li>
+📚 <strong>Data Splitting</strong>: Dividing data into training, validation, and test sets.
+</li>
+<li>
+♻️ <strong>Data Augmentation</strong>: Increasing data variability through augmentation.
+</li>
+<li>
+🧑‍🏫 <strong>AI Training</strong>: Using Lux.jl framework to train the AI model.
+</li>
+<li>
+🤖 <strong>Model</strong>: The trained AI model that can perform tasks like segmentation on medical images.
+</li>
+<li>
+👁️ <strong>Data for Visualization</strong>: Output data, such as masks and segmentations.
+</li>
+<li>
+📈 <strong>Performance Logs</strong>: Logs and metrics documenting the AI’s performance.
+</li>
+<li>
+❤️‍🩹 <strong>Purpose of MedPipe3D</strong>
+</li>
+</ul>
+</details>
+<hr>
+<p>In this post, I’d like to summarize what I did this summer and everything I learned along the way, rebuilding the MedPipe3D medical imaging pipeline. I will not start typically, but so that anyone even a novice can visualize what this project has achieved, while the latter part is intended for more experienced readers. It will be easiest to divide it into 4 steps separated by ➡️ in the title above. Each emoji stands for a different piece of pipeliner and will be described below.</p>
+<p>📝🩻📎📉 <strong>What we need from the user</strong></p>
+<p>MedPipe3D requires four essential inputs from the user to get started: a clear action plan 📝, 3D medical images like MRI scans 🩻, an AI model 📎, and a loss function 📉.</p>
+<p>🗃️📚♻️🧑‍🏫 <strong>The Pipeline essential AI manufacturing line</strong></p>
+<p>Following the plan 📝, MedPipe3D loads data, pre-processes, and organizes it 🗃️. Allowing data to be easily split 📚, and efficiently augmented ♻️ in many ways for learning AI 🧑‍🏫 model effectively. In the end, performing testing and post-processing for better determination of AI skills.<br>
+It’s designed to transform raw medical data into a format that your AI can learn from, segmenting meaningful patterns and structures.</p>
+<p>🤖👁️📈 <strong>Results and Insights</strong></p>
+<p>MedPipe3D is a tool for researchers and for that, it cannot do without analysis, testing, and evaluation. The result of the pipeline is a model 🤖 as well as data 👁️ and logs 📈 needed in MedEval3D that are ready for visualization and further analysis with MedEye3D. In a nutshell, it makes visualizing results easy, tumor locations or other medical features directly as masks on the scans.</p>
+<p>❤️‍🩹 <strong>Purpose-Driven Technology</strong></p>
+<p>MedPipe3D’s mission goes beyond technology. It’s about providing the tools to create AIs that support healthcare professionals in making faster, more accurate decisions, with the ultimate goal of saving lives.</p>
+<p>This four-part journey captures the heart of the MedPipe3D toolkit for advancing medical AI, from raw data to life-saving insight.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p><strong>MedPipe3D</strong> is a framework created from hundreds of hours over summer vacation, thousands of lines of code, hundreds of mistakes, and most importantly the guidance of my mentor and author of all of these libraries Dr.&nbsp;<a href="https://www.linkedin.com/in/jakub-mitura-7b2013151/">Jakub Mitura</a>. At its core, MedPipe3D combines sophisticated data handling from <strong>MedImage</strong> thanks to the hard work of <a href="https://www.linkedin.com/in/divyansh-goyal-34654b200/">Divyansh Goyal</a>. Newly developed pipeline for model training, validation, and testing with existing <strong>MedEval3D</strong>, and result visualization with <strong>MedEye3D</strong>. Unfortunately, not all of the project’s goals have been fully achieved, and thereby there is one section ➡️ too many. Hopefully not for long. My name is <a href="https://www.linkedin.com/in/janzubik/">Jan Zubik</a>, and I wrote this entire library from scratch, which is currently my most complex project.</p>
+<p>If you are a data scientist, programmer, or code enthusiast, I invite you to read the next section where I go into detail and present <strong>version 1</strong> of this tool in detail.</p>
+<p>I’m a 3rd-year student of BSc in Data Science and Machine Learning, I know that many things can be done better, expanded, debugged, and optimized. Now it just works, <strong>but don’t hesitate to write to me personally</strong> on <a href="https://www.linkedin.com/in/janzubik/">LinkedIn</a>, <a href="https://julialang.slack.com/team/U06L685B6TD">Julia’s Slack</a> or <a href="https://github.com/JanZubik">GitHub</a>! With your comments, and direct critique <strong>you will help me</strong> to be a better programmer and one day MedPipe3D will contribute in a tiny way to save someone’s life!</p>
+<p>Exact work from the Google Summer of Code project you will find in <a href="https://github.com/JuliaHealth/MedPipe3D.jl/tree/GSoC-'24-MedPipe3D">GitHub the repository.</a></p>
+</section>
+</section>
+<section id="project-goals" class="level1">
+<h1>Project Goals</h1>
+<p>The primary goal was to develop MedPipe3D and enhance MedImage, a Julia package designed to streamline the process of GPU-accelerated medical image segmentation. The project aimed to merge existing libraries—MedEye3D, MedEval3D, and MedImage—into a cohesive pipeline that facilitates advanced data handling, preprocessing, augmentation, model training, validation, testing with post-processing and visualization for medical imaging applications.</p>
+</section>
+<section id="tasks" class="level1">
+<h1>Tasks</h1>
+<ul>
+<li>🆙 - Fully finished, with great potential for further development</li>
+<li>✅ - Fully completed</li>
+<li>⚠️ - Partially uncompleted</li>
+<li>❌ - Unreached</li>
+</ul>
+Full list of all major parts and minor tasks (all tasks set up in the original GSOC plan were completed at least minimum level, and many additional improvements above minimum were implemented)
+<details>
+<ol type="1">
+<li><strong>Helpful functions to support the MedImage format ✅</strong></li>
+</ol>
+<ul>
+<li>Debugging rotations ✅</li>
+<li>Crop MedImage or 3D array ✅</li>
+<li>Pad MedImage or 3D array ✅</li>
+<li>Pad with edge values ✅</li>
+<li>Calculating the average of the edges of the picture 🆙</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Integrate Augmentations for Medical Data ✅</strong></li>
+</ol>
+<ul>
+<li>Brightness transform ✅</li>
+<li>Contrast augmentation transform ✅</li>
+<li>Gamma Transform ✅</li>
+<li>Gaussian noise transform ✅</li>
+<li>Rician noise transform ✅</li>
+<li>Mirror transform ✅</li>
+<li>Scale transform 🆙</li>
+<li>Gaussian blur transform ✅</li>
+<li>Simulate low-resolution transform 🆙</li>
+<li>Elastic deformation transform 🆙</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Develop a Pipeline ⚠️</strong></li>
+</ol>
+<ul>
+<li>Structured configuration of all hyperparameters 🆙</li>
+<li>Interactive creation of configuration ✅</li>
+<li>Creating a structured configuration of hyperparameters in JSON 🆙</li>
+<li>Loading data into HDF5 ✅
+<ul>
+<li>Cropping and padding to real coordinates of the main picture ✅</li>
+<li>Calculate Median and Mean Spacing with resampling 🆙</li>
+<li>Cropping and padding to specific or average dimensions ✅</li>
+<li>Standardization and normalization ✅</li>
+</ul></li>
+<li>Managing index groups (channels) for batch requirements in HDF5 ✅
+<ul>
+<li>Divide into train, validation, test specified as % ✅</li>
+<li>Divide with a specific division specified in JSON ✅</li>
+<li>Equal distribution when there are multiple classes ✅</li>
+</ul></li>
+<li>Extracting data and creating 5-dimensional tensors for batched learning ✅
+<ul>
+<li>Hole images data loading ✅</li>
+<li>Patch-based data loading with probabilistic oversampling ✅</li>
+</ul></li>
+<li>Obtaining the necessary elements for learning ✅
+<ul>
+<li>Get optimizer, loss function, and performance metrics ✅</li>
+</ul></li>
+<li>Apply augmentations ✅</li>
+<li>Train ✅
+<ul>
+<li>Initializing model ✅</li>
+<li>The learning epoch ✅</li>
+<li>Epoch with early stopping functionality ✅</li>
+</ul></li>
+<li>Inferring ✅</li>
+<li>Validation ✅
+<ul>
+<li>Evaluate metric ✅</li>
+<li>Evaluate validation loss ✅</li>
+<li>Validation with largest connected component✅</li>
+</ul></li>
+<li>Testing ✅
+<ul>
+<li>Evaluate test set ✅</li>
+<li>Invertible augmentations evaluation ✅</li>
+<li>Patch-based invertible augmentations evaluation ✅</li>
+</ul></li>
+<li>Logging ⚠️
+<ul>
+<li>Returning the necessary results ⚠️</li>
+<li>Logging connection to TensorBoard ❌</li>
+<li>Logging errors and warnings ❌</li>
+</ul></li>
+<li>Visualization ⚠️
+<ul>
+<li>Returning data in Nifti format ✅</li>
+<li>Automated visualization in MedEye3D ❌</li>
+</ul></li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Optimize Performance with GPU Acceleration</strong>
+<ul>
+<li>Augmentations ✅</li>
+<li>Learning, Validation, Testing ✅</li>
+<li>Largest connected component ✅</li>
+</ul></li>
+<li><strong>Documentation ⚠️</strong>
+<ul>
+<li>Comments in important places in the code ⚠️</li>
+<li>Documentation of the function ⚠️</li>
+<li>Read me ⚠️</li>
+<li>Documentation on juliahealth.org ❌</li>
+</ul></li>
+</ol>
+</details>
+<section id="integrate-augmentations-for-medical-data" class="level2">
+<h2 class="anchored" data-anchor-id="integrate-augmentations-for-medical-data">Integrate augmentations for medical data 🆙</h2>
+<p>Augmenting medical data is a crucial step for enhancing model robustness, especially given the variations in imaging conditions and patient anatomy.</p>
+<ul>
+<li>This pipeline currently supports multiple augmentation techniques:
+<ul>
+<li>Brightness transform ✅</li>
+<li>Contrast augmentation transform ✅</li>
+<li>Gamma Transform ✅</li>
+<li>Gaussian noise transform ✅</li>
+<li>Rician noise transform ✅</li>
+<li>Mirror transform ✅</li>
+<li>Scale transform 🆙</li>
+<li>Gaussian blur transform ✅</li>
+<li>Simulate low-resolution transform 🆙</li>
+<li>Elastic deformation transform 🆙</li>
+</ul></li>
+</ul>
+<p>Which have been fully integrated. Each of these methods helps the model generalize better by simulating diverse imaging scenarios.</p>
+<p><img src="./Augmentations.png" class="img-fluid"></p>
+<p>Comments:</p>
+<p>Augmentations such as scaling, and low-resolution simulation use interpolation that is not yet GPU-accelerated.</p>
+<p>Elastic deformation with simulation of different tissue elasticities is a potential development opportunity that would further improve the model’s adaptability by mimicking more complex variations found in medical imaging.</p>
+</section>
+<section id="invertible-augmentations-and-support-test-time-augmentations" class="level2">
+<h2 class="anchored" data-anchor-id="invertible-augmentations-and-support-test-time-augmentations">Invertible augmentations and support test time augmentations 🆙</h2>
+<p>This section focuses on the ability to apply reversible augmentations to test data, allowing the model to be evaluated with different transformations. Only rotation is available at this time. The function <code>evaluate_patches</code> performs this evaluation by applying specified augmentations, dividing the test data into patches, and reconstructing the full image from the patches. During testing, one can choose to use of largest connected component post-processing. Metrics are calculated and results are saved for analysis.</p>
+<details>
+<summary>
+evaluate_test:
+</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> test_group <span class="kw">in</span> test_groups</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    test_data, test_label, attributes <span class="op">=</span> <span class="fu">fetch_and_preprocess_data</span>([test_group], h5, config)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    results, test_metrics <span class="op">=</span> <span class="fu">evaluate_patches</span>(test_data, test_label,  tstate, model, config)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    y_pred, metr <span class="op">=</span> <span class="fu">process_results</span>(results, test_metrics, config)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">save_results</span>(y_pred, attributes, config)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push!</span>(all_test_metrics, metr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">evaluate_patches</span>(test_data, test_label, tstate, model, config, axis, angle)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Evaluating patches..."</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    test_metrics <span class="op">=</span> []</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    tstates <span class="op">=</span> [tstate]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    test_time_augs <span class="op">=</span> []</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> config[<span class="st">"learning"</span>][<span class="st">"n_invertible"</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> <span class="fu">rotate_mi</span>(test_data, axis, angle)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> tstate_curr <span class="kw">in</span> tstates</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            patch_results <span class="op">=</span> []</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            patch_size <span class="op">=</span> <span class="fu">Tuple</span>(config[<span class="st">"learning"</span>][<span class="st">"patch_size"</span>])</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            idx_and_patches, paded_data_size <span class="op">=</span> <span class="fu">divide_into_patches</span>(test_data, patch_size)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            coordinates <span class="op">=</span> [patch[<span class="fl">1</span>] for patch <span class="kw">in</span> idx_and_patches]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            patch_data <span class="op">=</span> [patch[<span class="fl">2</span>] for patch <span class="kw">in</span> idx_and_patches]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> patch <span class="kw">in</span> patch_data</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                y_pred_patch, _ <span class="op">=</span> <span class="fu">infer_model</span>(tstate_curr, model, patch)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                <span class="fu">push!</span>(patch_results, y_pred_patch)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            idx_and_y_pred_patch <span class="op">=</span> <span class="fu">zip</span>(coordinates, patch_results)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            y_pred <span class="op">=</span> <span class="fu">recreate_image_from_patches</span>(idx_and_y_pred_patch, paded_data_size, patch_size, <span class="fu">size</span>(test_data))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> config[<span class="st">"learning"</span>][<span class="st">"largest_connected_component"</span>]</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                y_pred <span class="op">=</span> <span class="fu">largest_connected_component</span>(y_pred, config[<span class="st">"learning"</span>][<span class="st">"n_lcc"</span>])</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            metr <span class="op">=</span> <span class="fu">evaluate_metric</span>(y_pred, test_label, config[<span class="st">"learning"</span>][<span class="st">"metric"</span>])</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">push!</span>(test_metrics, metr)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results, test_metrics</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">divide_into_patches</span>(image<span class="op">::</span><span class="dt">AbstractArray{T, 5}</span>, patch_size<span class="op">::</span><span class="dt">Tuple{Int, Int, Int}</span>) <span class="kw">where</span> T</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Dividing image into patches..."</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Size of the image: "</span>, <span class="fu">size</span>(image)) </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the required padding for each dimension (W, H, D)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    pad_size <span class="op">=</span> (</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">size</span>(image, <span class="fl">1</span>) <span class="op">%</span> patch_size[<span class="fl">1</span>]) <span class="op">!=</span> <span class="fl">0</span> ? patch_size[<span class="fl">1</span>] <span class="op">-</span> <span class="fu">size</span>(image, <span class="fl">1</span>) <span class="op">%</span> patch_size[<span class="fl">1</span>] <span class="op">:</span> <span class="fl">0</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">size</span>(image, <span class="fl">2</span>) <span class="op">%</span> patch_size[<span class="fl">2</span>]) <span class="op">!=</span> <span class="fl">0</span> ? patch_size[<span class="fl">2</span>] <span class="op">-</span> <span class="fu">size</span>(image, <span class="fl">2</span>) <span class="op">%</span> patch_size[<span class="fl">2</span>] <span class="op">:</span> <span class="fl">0</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        (<span class="fu">size</span>(image, <span class="fl">3</span>) <span class="op">%</span> patch_size[<span class="fl">3</span>]) <span class="op">!=</span> <span class="fl">0</span> ? patch_size[<span class="fl">3</span>] <span class="op">-</span> <span class="fu">size</span>(image, <span class="fl">3</span>) <span class="op">%</span> patch_size[<span class="fl">3</span>] <span class="op">:</span> <span class="fl">0</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pad the image if necessary</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    padded_image <span class="op">=</span> image</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">any</span>(pad_size <span class="op">.&gt;</span> <span class="fl">0</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        padded_image <span class="op">=</span> <span class="fu">crop_or_pad</span>(image, (<span class="fu">size</span>(image, <span class="fl">1</span>) <span class="op">+</span> pad_size[<span class="fl">1</span>], <span class="fu">size</span>(image, <span class="fl">2</span>) <span class="op">+</span> pad_size[<span class="fl">2</span>], <span class="fu">size</span>(image, <span class="fl">3</span>) <span class="op">+</span> pad_size[<span class="fl">3</span>]))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract patches</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    patches <span class="op">=</span> []</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>patch_size[<span class="fl">1</span>]<span class="op">:</span><span class="fu">size</span>(padded_image, <span class="fl">1</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> y <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>patch_size[<span class="fl">2</span>]<span class="op">:</span><span class="fu">size</span>(padded_image, <span class="fl">2</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> z <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>patch_size[<span class="fl">3</span>]<span class="op">:</span><span class="fu">size</span>(padded_image, <span class="fl">3</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                patch <span class="op">=</span> <span class="fu">view</span>(</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                    padded_image,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                    x<span class="op">:</span><span class="fu">min</span>(x<span class="op">+</span>patch_size[<span class="fl">1</span>]<span class="op">-</span><span class="fl">1</span>, <span class="fu">size</span>(padded_image, <span class="fl">1</span>)),</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                    y<span class="op">:</span><span class="fu">min</span>(y<span class="op">+</span>patch_size[<span class="fl">2</span>]<span class="op">-</span><span class="fl">1</span>, <span class="fu">size</span>(padded_image, <span class="fl">2</span>)),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                    z<span class="op">:</span><span class="fu">min</span>(z<span class="op">+</span>patch_size[<span class="fl">3</span>]<span class="op">-</span><span class="fl">1</span>, <span class="fu">size</span>(padded_image, <span class="fl">3</span>)),</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                    <span class="op">:</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>                    <span class="op">:</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>                <span class="fu">push!</span>(patches, [(x, y, z), patch])</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Size of padded image: "</span>, <span class="fu">size</span>(padded_image))</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> patches, <span class="fu">size</span>(padded_image)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">recreate_image_from_patches</span>(</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    coords_with_patches,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    padded_size,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    patch_size,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    original_size</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Recreating image from patches..."</span>)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    reconstructed_image <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Float32</span>, padded_size<span class="op">...</span>)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Place patches back into their original positions</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (coords, patch) <span class="kw">in</span> coords_with_patches</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        x, y, z <span class="op">=</span> coords</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>        reconstructed_image[</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>            x<span class="op">:</span>x<span class="op">+</span>patch_size[<span class="fl">1</span>]<span class="op">-</span><span class="fl">1</span>,</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>            y<span class="op">:</span>y<span class="op">+</span>patch_size[<span class="fl">2</span>]<span class="op">-</span><span class="fl">1</span>,</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>            z<span class="op">:</span>z<span class="op">+</span>patch_size[<span class="fl">3</span>]<span class="op">-</span><span class="fl">1</span>,</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>            <span class="op">:</span>,</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>            <span class="op">:</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>        ] <span class="op">=</span> patch</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crop the reconstructed image to remove any padding</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    final_image <span class="op">=</span> reconstructed_image[</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        <span class="fl">1</span><span class="op">:</span>original_size[<span class="fl">1</span>],</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>        <span class="fl">1</span><span class="op">:</span>original_size[<span class="fl">2</span>],</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>        <span class="fl">1</span><span class="op">:</span>original_size[<span class="fl">3</span>],</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>        <span class="op">:</span>,</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>        <span class="op">:</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Size of the final image: "</span>, <span class="fu">size</span>(final_image))</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> final_image</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Comment:<br> In this section, there is significant potential to incorporate additional types of invertible augmentations.</p>
+</section>
+<section id="patch-based-data-loading-with-probabilistic-oversampling" class="level2">
+<h2 class="anchored" data-anchor-id="patch-based-data-loading-with-probabilistic-oversampling">Patch-based data loading with probabilistic oversampling ✅</h2>
+<p>In this section, patches are extracted using <code>extract_patch</code> from the medical images for model training, with a probability-based method to decide between a random patch or a patch with non-zero labels. Helper functions like <code>get_random_patch</code> and <code>get_centered_patch</code> determine the starting indices and dimensions for the patches based on given configurations, while padding methods ensure consistency even if the patch exceeds the original image dimensions. Probabilistic oversampling, as configured, allows for more balanced and informative data sampling, which improves the model’s ability to detect specific medical features.</p>
+<details>
+<summary>
+extract_patch:
+</summary>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">extract_patch</span>(image, label, patch_size, config)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fetch the oversampling probability from the config</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Extracting patch."</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    oversampling_probability <span class="op">=</span> config[<span class="st">"learning"</span>][<span class="st">"oversampling_probability"</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate a random number to decide which patch extraction method to use</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    random_choice <span class="op">=</span> <span class="fu">rand</span>()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> random_choice <span class="op">&lt;=</span> oversampling_probability</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">extract_nonzero_patch</span>(image, label, patch_size)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">get_random_patch</span>(image, label, patch_size)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Helper function, in case the mask is emptyClick to apply</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">extract_nonzero_patch</span>(image, label, patch_size)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Extracting a patch centered around a non-zero label value."</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    indices <span class="op">=</span> <span class="fu">findall</span>(x <span class="op">-&gt;</span> x <span class="op">!=</span> <span class="fl">0</span>, label)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">isempty</span>(indices)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fallback to random patch if no non-zero points are found</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">get_random_patch</span>(image, label, patch_size)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Choose a random non-zero index to center the patch around</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        center <span class="op">=</span> indices[<span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(indices))]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fu">get_centered_patch</span>(image, label, center, patch_size)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get a patch centered around a specific index</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">get_centered_patch</span>(image, label, center, patch_size)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    center_coords <span class="op">=</span> <span class="fu">Tuple</span>(center)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    half_patch <span class="op">=</span> patch_size <span class="op">.÷</span> <span class="fl">2</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    start_indices <span class="op">=</span> center_coords <span class="op">.-</span> half_patch</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    end_indices <span class="op">=</span> start_indices <span class="op">.+</span> patch_size <span class="op">.-</span> <span class="fl">1</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate padding needed</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    pad_beg <span class="op">=</span> (</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="fu">max</span>(<span class="fl">1</span> <span class="op">-</span> start_indices[<span class="fl">1</span>], <span class="fl">0</span>),</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="fu">max</span>(<span class="fl">1</span> <span class="op">-</span> start_indices[<span class="fl">2</span>], <span class="fl">0</span>),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="fu">max</span>(<span class="fl">1</span> <span class="op">-</span> start_indices[<span class="fl">3</span>], <span class="fl">0</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    pad_end <span class="op">=</span> (</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">max</span>(end_indices[<span class="fl">1</span>] <span class="op">-</span> <span class="fu">size</span>(image, <span class="fl">1</span>), <span class="fl">0</span>),</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="fu">max</span>(end_indices[<span class="fl">2</span>] <span class="op">-</span> <span class="fu">size</span>(image, <span class="fl">2</span>), <span class="fl">0</span>),</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="fu">max</span>(end_indices[<span class="fl">3</span>] <span class="op">-</span> <span class="fu">size</span>(image, <span class="fl">3</span>), <span class="fl">0</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust start_indices and end_indices after padding</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    start_indices_adj <span class="op">=</span> start_indices <span class="op">.+</span> pad_beg</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    end_indices_adj <span class="op">=</span> end_indices <span class="op">.+</span> pad_beg</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert padding values to integers</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    pad_beg <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">round</span>.(<span class="dt">Int</span>, pad_beg))</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    pad_end <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">round</span>.(<span class="dt">Int</span>, pad_end))</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pad the image and label using pad_mi</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    image_padded <span class="op">=</span> <span class="fu">pad_mi</span>(image, pad_beg, pad_end, <span class="fl">0</span>)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    label_padded <span class="op">=</span> <span class="fu">pad_mi</span>(label, pad_beg, pad_end, <span class="fl">0</span>)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract the patch</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    image_patch <span class="op">=</span> image_padded[</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>        start_indices_adj[<span class="fl">1</span>]<span class="op">:</span>end_indices_adj[<span class="fl">1</span>],</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        start_indices_adj[<span class="fl">2</span>]<span class="op">:</span>end_indices_adj[<span class="fl">2</span>],</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>        start_indices_adj[<span class="fl">3</span>]<span class="op">:</span>end_indices_adj[<span class="fl">3</span>]</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    label_patch <span class="op">=</span> label_padded[</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>        start_indices_adj[<span class="fl">1</span>]<span class="op">:</span>end_indices_adj[<span class="fl">1</span>],</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        start_indices_adj[<span class="fl">2</span>]<span class="op">:</span>end_indices_adj[<span class="fl">2</span>],</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        start_indices_adj[<span class="fl">3</span>]<span class="op">:</span>end_indices_adj[<span class="fl">3</span>]</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image_patch, label_patch</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">get_random_patch</span>(image, label, patch_size)</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Extracting a random patch."</span>)</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if the patch size is greater than the image dimensions</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">any</span>(patch_size <span class="op">.&gt;</span> <span class="fu">size</span>(image))</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the needed size to fit the patch</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>        needed_size <span class="op">=</span> <span class="fu">map</span>(max, <span class="fu">size</span>(image), patch_size)</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Use crop_or_pad to ensure the image and label are at least as large as needed_size</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>        image <span class="op">=</span> <span class="fu">crop_or_pad</span>(image, needed_size)</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="fu">crop_or_pad</span>(label, needed_size)</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate random start indices within the new allowable range</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>    start_x <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">size</span>(image, <span class="fl">1</span>) <span class="op">-</span> patch_size[<span class="fl">1</span>] <span class="op">+</span> <span class="fl">1</span>)</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>    start_y <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">size</span>(image, <span class="fl">2</span>) <span class="op">-</span> patch_size[<span class="fl">2</span>] <span class="op">+</span> <span class="fl">1</span>)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>    start_z <span class="op">=</span> <span class="fu">rand</span>(<span class="fl">1</span><span class="op">:</span><span class="fu">size</span>(image, <span class="fl">3</span>) <span class="op">-</span> patch_size[<span class="fl">3</span>] <span class="op">+</span> <span class="fl">1</span>)</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>    start_indices <span class="op">=</span> [start_x, start_y, start_z]</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>    end_indices <span class="op">=</span> start_indices <span class="op">.+</span> patch_size <span class="op">.-</span> <span class="fl">1</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract the patch directly when within bounds</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>    image_patch <span class="op">=</span> image[start_indices[<span class="fl">1</span>]<span class="op">:</span>end_indices[<span class="fl">1</span>], start_indices[<span class="fl">2</span>]<span class="op">:</span>end_indices[<span class="fl">2</span>], start_indices[<span class="fl">3</span>]<span class="op">:</span>end_indices[<span class="fl">3</span>]]</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>    label_patch <span class="op">=</span> label[start_indices[<span class="fl">1</span>]<span class="op">:</span>end_indices[<span class="fl">1</span>], start_indices[<span class="fl">2</span>]<span class="op">:</span>end_indices[<span class="fl">2</span>], start_indices[<span class="fl">3</span>]<span class="op">:</span>end_indices[<span class="fl">3</span>]]</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image_patch, label_patch</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</section>
+<section id="calculate-median-and-mean-spacing-with-resampling" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-median-and-mean-spacing-with-resampling">Calculate Median and Mean Spacing with resampling 🆙</h2>
+<p>This part ensures that all images in the dataset have consistent real coordinates, spacing, and shape. It’s a critical factor in medical imaging for accurate analysis. Calculating and applying set values, median or mean across images ensures uniformity.</p>
+<section id="resample-images-to-target-image" class="level4">
+<h4 class="anchored" data-anchor-id="resample-images-to-target-image">Resample images to target image 🆙</h4>
+<p>This step aligns each image to the reference coordinates of the main image, ensuring that all images share a common spatial alignment. The <code>resample_to_image</code> function from MedImage.jl is used here, applying interpolation to adjust each image.</p>
+<details>
+<summary>
+resample_images_to_target:
+</summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_images_to_target <span class="op">&amp;&amp;</span> !<span class="fu">isempty</span>(Med_images)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resampling </span><span class="sc">$</span>channel_type<span class="st"> files in channel '</span><span class="sc">$</span>channel_folder<span class="st">' to the first </span><span class="sc">$</span>channel_type<span class="st"> in the channel."</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    reference_image <span class="op">=</span> Med_images[<span class="fl">1</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    Med_images <span class="op">=</span> [<span class="fu">resample_to_image</span>(reference_image, img, interpolator) for img <span class="kw">in</span> Med_images]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Comment:<br> <code>Resample_to_image</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
+</section>
+<section id="ensure-uniform-spacing-across-the-entire-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="ensure-uniform-spacing-across-the-entire-dataset">Ensure uniform spacing across the entire dataset 🆙</h4>
+<p>This step brings all images to a consistent voxel spacing across the dataset using <code>resample_to_spacing</code> from MedImage.jl. This uniform spacing is crucial for creating a standardized dataset where each image voxel represents the same physical volume.</p>
+<details>
+<summary>
+esample_to_spacing:
+</summary>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_images_spacing <span class="op">==</span> <span class="st">"set"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resampling all </span><span class="sc">$</span>channel_type<span class="st"> files to target spacing: </span><span class="sc">$</span>target_spacing<span class="st">"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    target_spacing <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">Float32</span>(s) <span class="cf">for</span> s <span class="kw">in</span> target_spacing)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">resample_to_spacing</span>(img, target_spacing, interpolator) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">elseif</span> resample_images_spacing <span class="op">==</span> <span class="st">"avg"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Calculating average spacing across all </span><span class="sc">$</span>channel_type<span class="st"> files and resampling."</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    all_spacings <span class="op">=</span> [img.spacing for channel <span class="kw">in</span> channels_data for img <span class="kw">in</span> channel]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    avg_spacing <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">Float32</span>(<span class="fu">mean</span>(s)) <span class="cf">for</span> s <span class="kw">in</span> <span class="fu">zip</span>(all_spacings<span class="op">...</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Average spacing calculated: </span><span class="sc">$</span>avg_spacing<span class="st">"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">resample_to_spacing</span>(img, avg_spacing, interpolator) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">elseif</span> resample_images_spacing <span class="op">==</span> <span class="st">"median"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Calculating median spacing across all </span><span class="sc">$</span>channel_type<span class="st"> files and resampling."</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    all_spacings <span class="op">=</span> [img.spacing for channel <span class="kw">in</span> channels_data for img <span class="kw">in</span> channel]</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    median_spacing <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">Float32</span>(<span class="fu">median</span>(s)) <span class="cf">for</span> s <span class="kw">in</span> all_spacings)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Median spacing calculated: </span><span class="sc">$</span>median_spacing<span class="st">"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">resample_to_spacing</span>(img, median_spacing, interpolator) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="cf">elseif</span> resample_images_spacing <span class="op">==</span> <span class="cn">false</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Skipping resampling of </span><span class="sc">$</span>channel_type<span class="st"> files."</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No resampling will be applied, channels_data remains unchanged.</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Comment:<br> <code>Resample_to_spacing</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
+</section>
+<section id="resizing-all-channel-files-to-average-or-target-size" class="level4">
+<h4 class="anchored" data-anchor-id="resizing-all-channel-files-to-average-or-target-size">Resizing all channel files to average or target size ✅</h4>
+<p>To create a cohesive 5D tensor, all images in each channel are resized to a uniform shape, either the average size of all images or a specific target size. This resizing process uses <code>crop_or_pad</code>, ensuring that all images match the specified dimensions, making them suitable for model input.</p>
+<details>
+<summary>
+crop_or_pad:
+</summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_size <span class="op">==</span> <span class="st">"avg"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    sizes <span class="op">=</span> [<span class="fu">size</span>(img.voxel_data) for img <span class="kw">in</span> channels_data for img <span class="kw">in</span> img]  <span class="co"># Get sizes from all images</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    avg_dim <span class="op">=</span> <span class="fu">map</span>(mean, <span class="fu">zip</span>(sizes<span class="op">...</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    avg_dim <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">Int</span>(<span class="fu">round</span>(d)) <span class="cf">for</span> d <span class="kw">in</span> avg_dim)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resizing all </span><span class="sc">$</span>channel_type<span class="st"> files to average dimension: </span><span class="sc">$</span>avg_dim<span class="st">"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">crop_or_pad</span>(img, avg_dim) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">elseif</span> resample_size <span class="op">!=</span> <span class="st">"avg"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    target_dim <span class="op">=</span> <span class="fu">Tuple</span>(resample_size)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resizing all </span><span class="sc">$</span>channel_type<span class="st"> files to target dimension: </span><span class="sc">$</span>target_dim<span class="st">"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">crop_or_pad</span>(img, target_dim) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</section>
+</section>
+<section id="basic-post-processing-operations" class="level2">
+<h2 class="anchored" data-anchor-id="basic-post-processing-operations">Basic Post-processing operations</h2>
+<p>Post-processing operations involve the algorithm <code>largest_connected_components</code>. It is achieved by label initialization and propagation in the segmented mask. The <code>initialize_labels_kernel</code> function assigns unique labels to different regions.</p>
+<details>
+<summary>
+initialize_labels_kernel:
+</summary>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kernel</span> <span class="kw">function</span> <span class="fu">initialize_labels_kernel</span>(mask, labels, width, height, depth)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> <span class="pp">@index</span>(Global, Cartesian)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> idx[<span class="fl">1</span>]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> idx[<span class="fl">2</span>]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> idx[<span class="fl">3</span>]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> i <span class="op">&lt;=</span> width <span class="op">&amp;&amp;</span> j <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> j <span class="op">&lt;=</span> height <span class="op">&amp;&amp;</span> k <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> k <span class="op">&lt;=</span> depth</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> mask[i, j, k] <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            labels[i, j, k] <span class="op">=</span> i <span class="op">+</span> (j <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> width <span class="op">+</span> (k <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> width <span class="op">*</span> height</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            labels[i, j, k] <span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+Propagate_labels_kernel iteratively updates the labels to maintain connected regions. propagate_labels_kernel:
+<details>
+<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kernel</span> <span class="kw">function</span> <span class="fu">propagate_labels_kernel</span>(mask, labels, width, height, depth)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    idx<span class="op">=</span> <span class="pp">@index</span>(Global, Cartesian)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> idx[<span class="fl">1</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> idx[<span class="fl">2</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> idx[<span class="fl">3</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> i <span class="op">&lt;=</span> width <span class="op">&amp;&amp;</span> j <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> j <span class="op">&lt;=</span> height <span class="op">&amp;&amp;</span> k <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> k <span class="op">&lt;=</span> depth</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> mask[i, j, k] <span class="op">==</span> <span class="fl">1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>            current_label <span class="op">=</span> labels[i, j, k]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> di <span class="kw">in</span> <span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> dj <span class="kw">in</span> <span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> dk <span class="kw">in</span> <span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="fl">1</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> di <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;&amp;</span> dj <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;&amp;</span> dk <span class="op">==</span> <span class="fl">0</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">continue</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">end</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                        ni <span class="op">=</span> i <span class="op">+</span> di</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                        nj <span class="op">=</span> j <span class="op">+</span> dj</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                        nk <span class="op">=</span> k <span class="op">+</span> dk</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> ni <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> ni <span class="op">&lt;=</span> width <span class="op">&amp;&amp;</span> nj <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> nj <span class="op">&lt;=</span> height <span class="op">&amp;&amp;</span> nk <span class="op">&gt;=</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> nk <span class="op">&lt;=</span> depth</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">if</span> mask[ni, nj, nk] <span class="op">==</span> <span class="fl">1</span> <span class="op">&amp;&amp;</span> labels[ni, nj, nk] <span class="op">&lt;</span> current_label</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                                labels[i, j, k] <span class="op">=</span> labels[ni, nj, nk]</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">end</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">end</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">end</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">end</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>This process facilitates the identification of the largest connected components in 3D space, helping to isolate relevant medical structures, such as tumors, in the segmented mask. Allowing determining how many such areas are to be returned.</p>
+<details>
+<summary>
+largest_connected_components:
+</summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">largest_connected_components</span>(mask<span class="op">::</span><span class="dt">Array{Int32, 3}</span>, n_lcc<span class="op">::</span><span class="dt">Int</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    width, height, depth <span class="op">=</span> <span class="fu">size</span>(mask)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    mask_gpu <span class="op">=</span> <span class="fu">CuArray</span>(mask)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    labels_gpu <span class="op">=</span> CUDA.<span class="fu">fill</span>(<span class="fl">0</span>, <span class="fu">size</span>(mask))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    dev <span class="op">=</span> <span class="fu">get_backend</span>(labels_gpu)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    ndrange <span class="op">=</span> (width, height, depth)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    workgroupsize <span class="op">=</span> (<span class="fl">3</span>, <span class="fl">3</span>, <span class="fl">3</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize labels</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">initialize_labels_kernel</span>(dev)(mask_gpu, labels_gpu, width, height, depth, ndrange <span class="op">=</span> ndrange)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    CUDA.<span class="fu">synchronize</span>()</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Propagate labels iteratively</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span> </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">propagate_labels_kernel</span>(dev, workgroupsize)(mask_gpu, labels_gpu, width, height, depth, ndrange <span class="op">=</span> ndrange)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        CUDA.<span class="fu">synchronize</span>()</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download labels back to CPU</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    labels_cpu <span class="op">=</span> <span class="fu">Array</span>(labels_gpu)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find all unique labels and their sizes</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    unique_labels <span class="op">=</span> <span class="fu">unique</span>(labels_cpu)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    label_sizes <span class="op">=</span> [(label, <span class="fu">count</span>(labels_cpu <span class="op">.==</span> label)) for label <span class="kw">in</span> unique_labels if label <span class="op">!=</span> <span class="fl">0</span>]</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort labels by size and get the top n_lcc</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sort!</span>(label_sizes, by <span class="op">=</span> x <span class="op">-&gt;</span> x[<span class="fl">2</span>], rev <span class="op">=</span> <span class="cn">true</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    top_labels <span class="op">=</span> label_sizes[<span class="fl">1</span><span class="op">:</span><span class="fu">min</span>(n_lcc, <span class="fu">length</span>(label_sizes))]</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a mask for each of the top n_lcc components</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    components <span class="op">=</span> [labels_cpu <span class="op">.==</span> label[<span class="fl">1</span>] for label <span class="kw">in</span> top_labels]</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> components</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</section>
+<section id="structured-configuration-of-all-hyperparameters" class="level2">
+<h2 class="anchored" data-anchor-id="structured-configuration-of-all-hyperparameters">Structured configuration of all hyperparameters 🆙</h2>
+<p>Hyperparameters for the entire pipeline are stored in a JSON configuration file, enabling straightforward adjustments for experimentation (just swap values, save and resume the study). This structured setup allows easy modification of key parameters, such as data set preparation, training settings, data augmentation, and resampling options.</p>
+<details>
+<summary>
+Example configuration:
+</summary>
+<div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"model"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"patience"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"early_stopping_metric"</span><span class="fu">:</span> <span class="st">"val_loss"</span><span class="fu">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"optimizer_name"</span><span class="fu">:</span> <span class="st">"Adam"</span><span class="fu">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"loss_function_name"</span><span class="fu">:</span> <span class="st">"l1"</span><span class="fu">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"early_stopping"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"early_stopping_min_delta"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.01</span><span class="fu">,</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"optimizer_args"</span><span class="fu">:</span> <span class="st">"lr=0.001"</span><span class="fu">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"num_epochs"</span><span class="fu">:</span> <span class="dv">10</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"data"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"batch_complete"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"resample_size"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">200</span><span class="ot">,</span><span class="dv">101</span><span class="ot">,</span><span class="dv">49</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"resample_to_target"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"resample_to_spacing"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"batch_size"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"standardization"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"target_spacing"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"channel_size"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"normalization"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"has_mask"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"augmentation"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"augmentations"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"Brightness transform"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"mode"</span><span class="fu">:</span> <span class="st">"additive"</span><span class="fu">,</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"value"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">2</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"p_rand"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"processing_unit"</span><span class="fu">:</span> <span class="st">"GPU"</span><span class="fu">,</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"order"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Brightness transform"</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"learning"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"Train_Val_Test_JSON"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"largest_connected_component"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"n_lcc"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"n_folds"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"invertible_augmentations"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"n_invertible"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"class_JSON_path"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"additional_JSON_path"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"patch_size"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">50</span><span class="ot">,</span><span class="dv">50</span><span class="ot">,</span><span class="dv">50</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"metric"</span><span class="fu">:</span> <span class="st">"dice"</span><span class="fu">,</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"n_cross_val"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"patch_probabilistic_oversampling"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"oversampling_probability"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">,</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"test_train_validation"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span><span class="er">.</span><span class="dv">6</span><span class="ot">,</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span><span class="er">.</span><span class="dv">2</span><span class="ot">,</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>            <span class="dv">0</span><span class="er">.</span><span class="dv">2</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"shuffle"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Comments:<br> The current configuration is loaded as a dictionary, which simplifies access and modification. This setup presents a strong foundation for integrating automated search algorithms for hyperparameter tuning, enabling more efficient model optimization.<br> The configuration structure could be reorganized and re-named to improve readability, making it easier for users to locate and adjust specific parameters.</p>
+</section>
+<section id="visualization-of-algorithm-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="visualization-of-algorithm-outputs">Visualization of algorithm outputs ⚠️</h2>
+<p>This module provides basic visualization functionality by saving output masks and images first to MedImage format and then to Nifti format. The <code>create_nii_from_medimage</code> function from MedImage.jl generates Nifti files, which can be loaded into MedEye3D for 3D visualization.</p>
+<p>Comments:<br> Integrating this visualization module more fully with the pipeline could eliminate unnecessary steps. By automatically loading output masks and images as raw data into MedEye3D for 3D visualization and supporting a more efficient end-to-end workflow.</p>
+</section>
+<section id="k-fold-cross-validation-functionality" class="level2">
+<h2 class="anchored" data-anchor-id="k-fold-cross-validation-functionality">K-fold cross-validation functionality ✅</h2>
+<p>K-fold cross-validation is implemented to evaluate model performance more robustly. The data is split into multiple folds, with each fold serving as a validation set once, while the others form the training set. This functionality provides a better assessment of model performance across different subsets of the data.</p>
+<details>
+<summary>
+K-fold cross-validation functionality:
+</summary>
+<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  tstate <span class="op">=</span> <span class="fu">initialize_train_state</span>(rng, model, optimizer)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> config[<span class="st">"learning"</span>][<span class="st">"n_cross_val"</span>]</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      n_folds <span class="op">=</span> config[<span class="st">"learning"</span>][<span class="st">"n_folds"</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      all_tstate <span class="op">=</span> []</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      combined_indices <span class="op">=</span> [indices_dict[<span class="st">"train"</span>]; indices_dict[<span class="st">"validation"</span>]]</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      shuffled_indices <span class="op">=</span> <span class="fu">shuffle</span>(rng, combined_indices)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> fold <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>n_folds</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">println</span>(<span class="st">"Starting fold </span><span class="sc">$</span>fold<span class="st">/</span><span class="sc">$</span>n_folds<span class="st">"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>          train_groups, validation_groups <span class="op">=</span> <span class="fu">k_fold_split</span>(combined_indices, n_folds, fold, rng)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>          tstate <span class="op">=</span> <span class="fu">initialize_train_state</span>(rng, model, optimizer)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>          final_tstate <span class="op">=</span> <span class="fu">epoch_loop</span>(num_epochs, train_groups, validation_groups, h5, model, tstate, config, loss_function, num_classes)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>          <span class="fu">push!</span>(all_tstate, final_tstate)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">end</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      final_tstate <span class="op">=</span> <span class="fu">epoch_loop</span>(num_epochs, train_groups, validation_groups, h5, model, tstate, config, loss_function, num_classes)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> final_tstate</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="op">...</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>The <code>k_fold_split</code> function organizes the indices for each fold, ensuring comprehensive coverage of the dataset during training.</p>
+<details>
+<summary>
+k_fold_split
+</summary>
+<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">k_fold_split</span>(data, n_folds, current_fold)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    fold_size <span class="op">=</span> <span class="fu">length</span>(data) <span class="op">÷</span> n_folds</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    validation_start <span class="op">=</span> (current_fold <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> fold_size <span class="op">+</span> <span class="fl">1</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    validation_end <span class="op">=</span> validation_start <span class="op">+</span> fold_size <span class="op">-</span> <span class="fl">1</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    validation_indices <span class="op">=</span> data[validation_start<span class="op">:</span>validation_end]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    train_indices <span class="op">=</span> [data[<span class="fl">1</span><span class="op">:</span>validation_start<span class="op">-</span><span class="fl">1</span>]; data[validation_end<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>]]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_indices, validation_indices</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</section>
+</section>
+<section id="conclusions-and-future-development" class="level1">
+<h1>Conclusions and Future Development</h1>
+<p>I have successfully established a foundation for a medical imaging pipeline, addressing significant challenges in data handling, model training, and augmentation integration. The integration of dataset-wide functions has significantly enhanced the reproducibility and handling of batched data with GPU support enabling scalability of experiments, making it easier for researchers and practitioners to produce better results.</p>
+</section>
+<section id="future-development" class="level1">
+<h1>Future Development</h1>
+<p>As we look to the future, there are several areas where MedPipe3D can be expanded and improved to better serve the medical AI community. These include:</p>
+<section id="necessary-enhancements" class="level2">
+<h2 class="anchored" data-anchor-id="necessary-enhancements">Necessary Enhancements</h2>
+<p>Comprehensive Logging: Develop detailed logging mechanisms that capture a wide range of events, including system statuses, model performance metrics, and user activities, to facilitate debugging and system optimization. This is currently executed as a simple <code>println</code> function.</p>
+<p>TensorBoard Integration: Implement an interface for TensorBoard to allow users to visualize training dynamics in real time, providing insights into model behavior and performance trends.</p>
+<p>Error and Warning Logs: Introduce advanced error and warning logging capabilities to alert users of potential issues before they affect the pipeline’s performance, ensuring smoother operations and maintenance.</p>
+<p>Automated Visualization: Integrate MedEye3D directly into MedPipe3D to enable automated visualization of outputs, such as segmentation masks or other relevant medical imaging features. This feature would provide users with real-time visual feedback on model performance and data quality. Code-Level Documentation: Due to needed changes in the fundamental structure of the pipeline in the final phase of the project, it is necessary to reevaluate all documentation.</p>
+<p>Official JuliaHealth Documentation: Extend the documentation efforts to include official entries on juliahealth.org, providing a centralized and authoritative resource for users seeking to learn more about MedPipe3D and its capabilities with examples shown</p>
+</section>
+<section id="potential-enhancements" class="level2">
+<h2 class="anchored" data-anchor-id="potential-enhancements">Potential Enhancements</h2>
+<p>GPU support for interpolation will allow for significant acceleration of such functions as Scale transform, Simulate, Low-resolution transform, Elastic deformation transform, and Resampling spacing.</p>
+<p>Add more reversible augmentations to test time.</p>
+<p>Calculating the average of the edges of the picture: checking the type of photo and calculating more correctly on this basis</p>
+<p>Elastic deformation transforms with the simulation of different tissue elasticities.</p>
+</section>
+</section>
+<section id="acknowledgments" class="level1">
+<h1>Acknowledgments 🙇‍♂️</h1>
+<p>I would like to express my deepest gratitude to my mentor Dr.&nbsp;<a href="https://www.linkedin.com/in/jakub-mitura-7b2013151/">Jakub Mitura</a> for his invaluable guidance and support throughout this project. His expertise and encouragement were instrumental in overcoming challenges and achieving project milestones.</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{zubik2024,
+  author = {Zubik, Jan},
+  title = {GSoC ’24: {Adding} Dataset-Wide Functions and Integrations of
+    Augmentations},
+  date = {2024-11-03},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-zubik2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+Zubik, Jan. 2024. <span>“GSoC ’24: Adding Dataset-Wide Functions and
+Integrations of Augmentations.”</span> November 3, 2024.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
