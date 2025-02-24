@@ -23,40 +23,10 @@
                     This is a wider card with supporting text below as a natural lead-in to additional
                     content. This content is a little bit longer.
                 </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
-                <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
                 </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
-                <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
-                </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
-                <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
-                </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
@@ -68,8 +38,50 @@
                     content. This content is a little bit longer.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/test" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/test" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center">
+                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center">
+                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center">
+                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
+                <span class="card-title">Card title</span>
+                <p class="card-text">
+                    This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
                 </p>
             </div>
         </div>
@@ -99,7 +111,10 @@
                     This is a wider card with supporting text below as a natural lead-in to additional
                     content. This content is a little bit longer.
                 </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
@@ -110,7 +125,10 @@
                     This is a wider card with supporting text below as a natural lead-in to additional
                     content. This content is a little bit longer.
                 </p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
+                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
