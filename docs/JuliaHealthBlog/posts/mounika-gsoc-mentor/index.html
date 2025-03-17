@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Mounika Thakkallapally">
+<meta name="dcterms.date" content="2024-09-12">
+<meta name="description" content="My experience as a GSoC co-mentor within JuliaHealth">
 
-<title>Connect With Us – JuliaHealth</title>
+<title>GSoC Co-Mentoring Experience – JuliaHealth</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +23,46 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../assets/favicon.ico" rel="icon">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b91f5432c59177e88330fbc179e69942.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-70767ed608e582049e34fe630c78cd40.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,7 +92,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -79,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
   </div>
@@ -90,11 +113,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../JuliaHealthBlog/index.html"> 
+    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
 </ul>
@@ -108,22 +131,61 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#mentor-mentee-relationship" id="toc-mentor-mentee-relationship" class="nav-link" data-scroll-target="#mentor-mentee-relationship">Mentor-Mentee Relationship</a></li>
+  <li><a href="#technical-discussion" id="toc-technical-discussion" class="nav-link" data-scroll-target="#technical-discussion">Technical Discussion</a></li>
+  <li><a href="#learnings-and-observations" id="toc-learnings-and-observations" class="nav-link" data-scroll-target="#learnings-and-observations">Learnings and Observations</a>
+  <ul class="collapse">
+  <li><a href="#tips-for-mentees" id="toc-tips-for-mentees" class="nav-link" data-scroll-target="#tips-for-mentees">Tips for Mentees</a></li>
+  <li><a href="#tips-for-mentors" id="toc-tips-for-mentors" class="nav-link" data-scroll-target="#tips-for-mentors">Tips for Mentors</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#lets-keep-in-touch" id="toc-lets-keep-in-touch" class="nav-link" data-scroll-target="#lets-keep-in-touch">Let’s Keep in Touch!</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Connect With Us</h1>
-</div>
+<h1 class="title">GSoC Co-Mentoring Experience</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">gsoc</div>
+    <div class="quarto-category">mentor</div>
+    <div class="quarto-category">experience</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    My experience as a GSoC co-mentor within JuliaHealth
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Mounika Thakkallapally </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 12, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -133,14 +195,77 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Visit us on GitHub: <a href="https://github.com/JuliaHealth">https://github.com/JuliaHealth</a></p>
-<p>Post in the <a href="https://discourse.julialang.org/c/domain/bio/15">Biology, Health, and Medicine category</a> on Discourse.</p>
-<p>Join us in the <code>#biology-health-and-medicine</code> stream on <a href="https://julialang.zulipchat.com">Zulip</a>.</p>
-<p>Chat with us in the <code>#health-and-medicine</code> channel on <a href="https://julialang.slack.com">Slack</a>. (Get a Slack invite <a href="https://julialang.org/slack/">here</a>.)</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Hello 👋, I am Mounika. I am a Data Engineer at <a href="https://bcbi.brown.edu/">Brown Center for Biomedical Informatics</a>. This summer, I had the privilege of co-mentoring a talented student, <a href="https://www.linkedin.com/in/jay-landge-589439260/">Jay Sanjay</a> alongside <a href="https://jacobzelko.com">Jacob Zelko (@TheCedarPrince)</a> on a <a href="https://summerofcode.withgoogle.com/programs/2024/projects/ZXVIYAXG">project</a> for Google Summer of Code (aka <a href="https://summerofcode.withgoogle.com/">GSoC</a>). Here, I would like to share my experience as a co-mentor, offering insights for future mentors and students alike.</p>
+<p>Before diving into my experience, let me provide some background on how it all started. At JuliaCon 2023, I had the chance to meet Jacob Zelko and have been following his work at <a href="https://juliahealth.org/">JuliaHealth</a> ever since. One day, I received a message from Jacob asking if I’d be interested in co-mentoring Jay for his GSoC project. Fortunately, I was already working on several projects at BCBI involving Julia programming, <a href="https://ohdsi.github.io/CommonDataModel/cdm54.html">OMOP CDM databases</a> and <a href="https://ohdsi.org/">OHDSI</a> tools, all of which were closely aligned with Jay’s project.</p>
+<blockquote class="blockquote">
+<p>Feel free to visit Jay’s work on <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl">OMOPCDMPathways.jl</a> or read about his <a href="https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html">fellowship experience from this post</a>.</p>
+</blockquote>
+</section>
+<section id="mentor-mentee-relationship" class="level1">
+<h1>Mentor-Mentee Relationship</h1>
+<p>Jay, being a proactive student with a strong involvement in JuliaHealth, worked closely with Jacob to build a <a href="https://summerofcode.withgoogle.com/organizations/the-julia-language/projects/details/ZXVIYAXG">proposal for the project</a> several months before GSoC began this year. His early involvement and familiarity with the community set a solid foundation for the project. Jacob, with his extensive experience mentoring GSoC students over the years, brought invaluable insights not only for Jay but also for me, as I was just beginning my journey as a mentor.</p>
+<p>Jacob established regular weekly Zoom meetings for the three of us to discuss Jay’s progress, review his accomplishments, and plan the next steps. During these meetings, I focused on taking detailed notes to ensure we stayed organized and up to date with all the tasks. We used <a href="https://trello.com/">Trello</a>, a project management tool, to track progress and manage project tasks efficiently. Additionally, we stayed connected thoughout the week via a dedicated slack channel for any ongoing discussions or questions (on the <a href="https://julialang.org/slack/#the_julia_language_slack">Julia Slack</a>).</p>
+</section>
+<section id="technical-discussion" class="level1">
+<h1>Technical Discussion</h1>
+<p>Jay’s project “Developing Tooling for Observational Health Research in Julia” was inspired by the <a href="https://www.sciencedirect.com/science/article/pii/S016926072200462X?via%3Dihub">TreatmentPatterns R package</a> <span class="citation" data-cites="markus2022treatmentpatterns"><a href="#ref-markus2022treatmentpatterns" role="doc-biblioref">[1]</a></span>. The main goal of the project was to enhance observational research capabilities within the JuliaHealth ecosystem. To help Jay get started, <a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl/issues?q=">Jacob created 10 to 15 GitHub issues</a>, each linked to a specific function that Jay planned to work on.</p>
+<p>During our weekly meeting, we discussed the challenges Jay encountered, any roadblacks in his progress, and reviewed the pull requests he submitted on GitHub. These sessions allowed us to provide timely feedback and guide Jay through complex technical issues, ensuring steady progress throughout the project.</p>
+</section>
+<section id="learnings-and-observations" class="level1">
+<h1>Learnings and Observations</h1>
+<p>Jay’s proactive approach, steady progress, thoughtful questions, and clear focus on completing the project are qualities from which every student can benefit. His dedication to learning and problem-solving made a significant impact on the success of the project.</p>
+<section id="tips-for-mentees" class="level2">
+<h2 class="anchored" data-anchor-id="tips-for-mentees">Tips for Mentees</h2>
+<p>From a mentee’s perspective having the following qualities would be helpful</p>
+<ol type="1">
+<li><p><strong>Stick to the proposal:</strong> While it’s natural to feel the urge explore new ideas beyond the original proposal, it’s essential to remain focused on the original proposal due to time constrains.</p></li>
+<li><p><strong>Adaptability and open-mindedness:</strong> Be open to feedback and willing to adjust the tasks as you face challenges.</p></li>
+<li><p><strong>Time Management:</strong> Many students juggle internships, interviews and other commitments during the summer. So it’s to manage time effectively and discuss with the mentor about the progress during those times.</p></li>
+<li><p><strong>Effective communication:</strong> Stay up to date with any updates from GSoC or from the mentor. Keeping your mentor updated about your progress or any challenges helps build a collaborative and supportive mentor relationship.</p></li>
+</ol>
+</section>
+<section id="tips-for-mentors" class="level2">
+<h2 class="anchored" data-anchor-id="tips-for-mentors">Tips for Mentors</h2>
+<p>On the other hand, Jacob demonstrated what it means to be an effective mentor. He showed me how to foster a supportive, collaborative relationship with the student. These are the lessons that I will carry forward in future mentorship roles:</p>
+<p>From a mentor’s perspective having the following qualities would be helpful</p>
+<ol type="1">
+<li><p><strong>Clear communication:</strong> Communicating well in advance about the availability to meet or to review the work, having frequent meetings with the mentee would be helpful.</p></li>
+<li><p><strong>Encouragement:</strong> While offering support, it’s important to encourage the mentee to take ownership of the project.</p></li>
+<li><p><strong>Commitment and time:</strong> Mentoring GSoC is a voluntary role, often taken on in addition to regular professional work. Balancing GSoC with other work commitments requires effective time management and commitment.</p></li>
+<li><p><strong>Structured Guidance:</strong> Providing a well-organized plan, such as using task management tools like Trello and GitHub issues, ensures that the mentee can follow a clear path towards success completion of the project.</p></li>
+</ol>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>Google Summer of Code offers an incredible opportunity for students to hone their programming skills while contributing to impactful open-source projects. It was a rewarding experience to be part of this journey as a co-mentor, and I am grateful to Jacob for giving me the chance to be involved in such a meaning project with the JuliaHealth community.</p>
+<p>Through this experience, I not only gained insights into effective mentorship but also deepened my understanding of open-source collaboration and its potential to drive innovation in healthcare. I’m excited to explore further ways I can contribute to the JuliaHealth ecosystem and continue supporting the community.</p>
+<section id="lets-keep-in-touch" class="level2">
+<h2 class="anchored" data-anchor-id="lets-keep-in-touch">Let’s Keep in Touch!</h2>
+<p>If you would like to know more about me, you can connect with me on <a href="https://www.linkedin.com/in/mounika-thakkallapally/">Linkedin</a>.</p>
 
 
 
-</main> <!-- /main -->
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-markus2022treatmentpatterns" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">A. F. Markus, K. M. Verhamme, J. A. Kors, and P. R. Rijnbeek, <span>“TreatmentPatterns: An r package to facilitate the standardized development and analysis of treatment patterns across disease domains,”</span> <em>Computer Methods and Programs in Biomedicine</em>, vol. 225, p. 107081, 2022.</div>
+</div>
+</div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{thakkallapally2024,
+  author = {Thakkallapally, Mounika},
+  title = {GSoC {Co-Mentoring} {Experience}},
+  date = {2024-09-12},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-thakkallapally2024" class="csl-entry quarto-appendix-citeas" role="listitem">
+<div class="">M.
+Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
+2024.</div>
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -557,6 +682,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">

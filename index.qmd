@@ -16,79 +16,94 @@
     <p class="mb-4 fs-3 text-center">Below are some of the powerful packages developed by the community.</p>
     <div class="grid text-center">
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/komamri.svg" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">KomaMRI.jl</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    KomaMRI.jl is a Julia package for highly efficient ⚡ MRI simulations. KomaMRI was built from the ground up to be: easy to use, extensible, cross-platform, and powered by open-source community standards.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/JuliaHealth/KomaMRI.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://juliahealth.org/KomaMRI.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/neuroanalyzer.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">NeuroAnalyzer.jl</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    NeuroAnalyzer is a Julia toolbox for analyzing neurophysiological data. Currently it covers importing, editing, processing, visualizing, and analyzing EEG, MEP and EDA data. Preliminary functionality is also available for MEG, NIRS, ECoG, SEEG and iEEG recordings.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/JuliaHealth/NeuroAnalyzer.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://neuroanalyzer.org/" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/dicomtree.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">DICOMTree.jl</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    A little Julia package for visualizing DICOM file metadata in the form of a tree. The package have been tested with CT Scanner, RTDose and RTStruct files.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/icdgems.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">ICD_GEMs.jl</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    ICD_GEMs.jl is a Julia package that allows to translate ICD-9 codes in ICD-10 and viceversa via the General Equivalence Mappings (GEMs) of the International Classification of Diseases (ICD).
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/JuliaHealth/ICD_GEMs.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://juliahealth.org/ICD_GEMs.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">MedEye3d.jl</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    Julia library for visualization and annotation medical images, specialized particularly for rapid development segmentation of 3 dimensional images like CT or PET/CT scans. Has full support of nuclear medicine Data.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex align-items-center justify-content-center">
                 <p class="card-text">
-                    <a href="/pages/packages.html">
+                    <a href="#">
                         And many more...
                     </a>
                 </p>
@@ -104,37 +119,43 @@
     <p class="mb-4 fs-3 text-center">We are not the only one, there are other communities researching on various similar aspects.</p>
     <div class="grid text-center">
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/orgs/biojulia.svg" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">BioJulia</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    Fast, open, extensible software for bioinformatics and computational biology.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/BioJulia" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://biojulia.dev" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
-            <div class="card-body d-flex flex-column align-items-center">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em;" />
-                <span class="card-title">Card title</span>
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/orgs/ecojulia.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">EcoJulia</span>
                 <p class="card-text">
-                    This is a wider card with supporting text below as a natural lead-in to additional
-                    content. This content is a little bit longer.
+                    Ecological research in the Julia language.
                 </p>
                 <p class="card-text d-flex align-items-center gap-2">
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-github me-1"></i>Github</a>
-                    <a href="/pages/packages.html" class="text-body-secondary text-decoration-none"><i class="bi bi-globe me-1"></i>Website</a>
+                    <a href="https://github.com/EcoJulia" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://ecojulia.org" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
                 </p>
             </div>
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex align-items-center justify-content-center">
                 <p class="card-text">
-                    <a href="/pages/packages.html">
+                    <a href="#">
                         And many more...
                     </a>
                 </p>
@@ -144,7 +165,7 @@
 </div>
 ```
 
-```{=html}
+<!-- ```{=html}
 <div class="column-page p-3">
     <h3 class="mb-2 fs-2 text-center"><i class="bi bi-question-circle-fill me-2"></i>FAQs</h3>
     <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -221,4 +242,4 @@
         </div>
     </div>
 </div>
-```
+``` -->

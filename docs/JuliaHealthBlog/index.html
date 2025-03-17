@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Connect With Us – JuliaHealth</title>
+<title>index – JuliaHealth</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../assets/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-listing/list.min.js"></script>
+<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -39,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b91f5432c59177e88330fbc179e69942.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-70767ed608e582049e34fe630c78cd40.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -67,7 +69,65 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-date','listing-title','listing-author','listing-reading-time','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -75,7 +135,7 @@ ul.task-list li input[type="checkbox"] {
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -94,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../JuliaHealthBlog/index.html"> 
+    <a class="nav-link active" href="../JuliaHealthBlog/index.html" aria-current="page"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
 </ul>
@@ -105,42 +165,275 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block"></header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="QUklMkZNTA==">AI/ML <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YW5hbHlzaXM=">analysis <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y2Vuc3Vz">census <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kZQ==">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXhwZXJpZW5jZQ==">experience <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Z2Vvc3BhdGlhbA==">geospatial <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Z3B1">gpu <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Z3NvYw==">gsoc <span class="quarto-category-count">(6)</span></div><div class="category" data-category="aHBj">hpc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="aW1hZ2luZw==">imaging <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWVudG9y">mentor <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bXJp">mri <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV1cm8=">neuro <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV3cw==">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b2JzZXJ2YXRpb25hbCUyMGhlYWx0aA==">observational health <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3Blbkds">openGl <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2ltdWxhdGlvbg==">simulation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c3Fs">sql <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Connect With Us</h1>
-</div>
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
+<section id="welcome-to-the-juliahealthblog" class="level1">
+<h1>Welcome to the JuliaHealthBlog! 👋</h1>
+
+
+
+</section>
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
   </div>
-  
-
-
-</header>
-
-
-<p>Visit us on GitHub: <a href="https://github.com/JuliaHealth">https://github.com/JuliaHealth</a></p>
-<p>Post in the <a href="https://discourse.julialang.org/c/domain/bio/15">Biology, Health, and Medicine category</a> on Discourse.</p>
-<p>Join us in the <code>#biology-health-and-medicine</code> stream on <a href="https://julialang.zulipchat.com">Zulip</a>.</p>
-<p>Chat with us in the <code>#health-and-medicine</code> channel on <a href="https://julialang.slack.com">Slack</a>. (Get a Slack invite <a href="https://julialang.org/slack/">here</a>.)</p>
-
-
-
-</main> <!-- /main -->
+</div>
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Z3NvYyUyQ0FJJTJGTUwlMkNpbWFnaW5nJTJDZ3B1JTJDYW5hbHlzaXM=" data-listing-date-sort="1730572200000" data-listing-file-modified-sort="1741722018542" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="32" data-listing-word-count-sort="6347">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">
+<p class="card-img-top"><img src="posts/JZubik-gsoc/Augmentations.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
+</a><p><a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">GSoC ’24: Adding dataset-wide functions and integrations of augmentations</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">MedPipe3D - Medical segmentation pipeline with dataset-wide functions and augmentations.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">
+<div class="listing-date">
+Nov 3, 2024
+</div>
+<div class="listing-author">
+Jan Zubik
+</div>
+<div class="listing-reading-time">
+32 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="Z3NvYyUyQ29wZW5HbCUyQ2ltYWdpbmclMkNuZXVybw==" data-listing-date-sort="1730399400000" data-listing-file-modified-sort="1741722018545" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3376">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">
+<p class="card-img-top"><img src="posts/divyansh-gsoc/multiple_dispatch_code.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
+</a><p><a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">GSoC ’24: Adding functionalities to medical imaging visualizations</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">A summary of my project for Google Summer of Code - 2024</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">
+<div class="listing-date">
+Nov 1, 2024
+</div>
+<div class="listing-author">
+Divyansh Goyal
+</div>
+<div class="listing-reading-time">
+17 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="Z3NvYyUyQ21lbnRvciUyQ2V4cGVyaWVuY2U=" data-listing-date-sort="1726079400000" data-listing-file-modified-sort="1741722018553" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="885">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" style="height: 0;">&nbsp;</div>
+</a><p><a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external">GSoC Co-Mentoring Experience</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external">My experience as a GSoC co-mentor within JuliaHealth</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html" class="no-external">
+<div class="listing-date">
+Sep 12, 2024
+</div>
+<div class="listing-author">
+Mounika Thakkallapally
+</div>
+<div class="listing-reading-time">
+5 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="Z3NvYyUyQ3NxbCUyQ29ic2VydmF0aW9uYWwlMjBoZWFsdGglMkNhbmFseXNpcw==" data-listing-date-sort="1725647400000" data-listing-file-modified-sort="1741722018550" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3728">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">
+<p class="card-img-top"><img src="posts/jay-gsoc/image.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
+</a><p><a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">GSoC ’24: Developing Tooling for Observational Health Research in Julia</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">A summary of my project for Google Summer of Code - 2024</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">
+<div class="listing-date">
+Sep 7, 2024
+</div>
+<div class="listing-author">
+Jay Sanjay Landge
+</div>
+<div class="listing-reading-time">
+19 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="Z3NvYyUyQ21yaSUyQ2dwdSUyQ2hwYyUyQ3NpbXVsYXRpb24=" data-listing-date-sort="1724956200000" data-listing-file-modified-sort="1741722018559" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2805">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">
+<p class="card-img-top"><img src="posts/ryan-gsoc/Benchmark_Page.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
+</a><p><a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">GSoC ’24: Enhancements to KomaMRI.jl GPU Support</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">A summary of my project for Google Summer of Code</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">
+<div class="listing-date">
+Aug 30, 2024
+</div>
+<div class="listing-author">
+Ryan Kierulf
+</div>
+<div class="listing-reading-time">
+15 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="Z3NvYyUyQ2dlb3NwYXRpYWwlMkNjZW5zdXM=" data-listing-date-sort="1724610600000" data-listing-file-modified-sort="1741722018552" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1421">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external">
+<p class="card-img-top"><img src="posts/michela-gsoc/IPUMS_grid_logo.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
+</a><p><a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external">GSoC ’24: IPUMS.jl Small Project</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external">A summary of my project for Google Summer of Code</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html" class="no-external">
+<div class="listing-date">
+Aug 26, 2024
+</div>
+<div class="listing-author">
+Michela Rocchetti
+</div>
+<div class="listing-reading-time">
+8 min
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="6" data-categories="bmV3cyUyQ2NvZGUlMkNhbmFseXNpcw==" data-listing-date-sort="1718994600000" data-listing-file-modified-sort="1742148978582" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="16">
+<div class="thumbnail">
+<p><a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external"></a></p><a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" style="height: 0;">&nbsp;</div>
+</a><p><a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external">Dummy Post</a>
+</h3>
+<div class="listing-subtitle">
+<a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external">Post description</a>
+</div>
+</div>
+<div class="metadata">
+<a href="../JuliaHealthBlog/posts/dummy/index.html" class="no-external">
+<div class="listing-date">
+Jun 22, 2024
+</div>
+<div class="listing-author">
+Foobar
+</div>
+<div class="listing-reading-time">
+1 min
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{untitled,
+  author = {},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-untitled" class="csl-entry quarto-appendix-citeas" role="listitem">
+n.d.
+</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -557,6 +850,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">
