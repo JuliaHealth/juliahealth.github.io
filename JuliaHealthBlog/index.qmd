@@ -1,5 +1,5 @@
 ---
-title: The JuliaHealth Blog
+pagetitle: The JuliaHealth Blog
 listing:
   contents: posts
   sort: "date desc"
