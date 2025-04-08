@@ -1,0 +1,105 @@
+---
+title: "Patient-Level Prediction Pipeline in Julia with OMOP CDM"
+description: "A summary of my project - Patient-Level Prediction"
+author: "Kosuri Lakshmi Indu"
+date: "4/8/2025"
+bibliography: ./references.bib
+toc: true
+engine: julia
+image: false
+categories:
+  - patient-level prediction
+  - observational health
+  - analysis
+---
+
+
+# Hi Everyone! 👋
+
+I’m Kosuri Lakshmi Indu, a third-year undergraduate student in Computer Science and an aspiring Google Summer of Code (GSoC) 2025 applicant. I first came across Julia while exploring tools for healthcare data science, which led me to the JuliaHealth community. In March 2025, under the mentorship of Jacob S. Zelko, I began working on a project called PLP-Pipeline, focused on building tools for patient-level prediction (PLP) using OMOP CDM and the Julia ecosystem. In this blog, I’ll walk through what I have built, some common challenges in PLP pipelines, and how Julia is already helping solve them.
+
+1. You can find my [**PLP-Pipeline project github link**](https://github.com/kosuri-indu/PLP-Pipeline)
+
+2. If you want to know more about me, you can connect with me on [**LinkedIn**](https://www.linkedin.com/in/kosuri-indu/) and follow me on [**GitHub**](https://github.com/kosuri-indu/)
+
+
+# Background
+
+## What is Patient-Level Prediction (PLP)?
+
+Patient-Level Prediction refers to the process of using individual-level clinical data to estimate the likelihood of future health-related events. These predictions are typically made using statistical or machine learning models trained on real-world healthcare datasets.
+
+For example, given a set of patients with a history of hypertension, we might want to predict who is at risk of developing diabetes in the next year. These models are particularly valuable in preventive healthcare, clinical decision-making, and risk stratification.
+
+PLP differs from population-level studies because it focuses on making predictions for *each individual* based on their personal clinical history, demographics, comorbidities, and treatment patterns. This kind of modeling requires rich longitudinal data and a workflow that can go from cohort definition to covariate extraction to model evaluation seamlessly.
+
+## Why PLP in Julia?
+
+Patient-Level Prediction is a critical area in observational health research. It involves taking individual-level clinical data and applying statistical and machine learning models to predict future outcomes, such as disease onset. These models help healthcare professionals intervene earlier and allocate resources better.
+
+Despite its importance, the tooling for PLP has often been clunky, non-composable, or tied to specific platforms. Julia, with its scientific computing strengths and a growing health ecosystem, offers a fresh approach. My goal was to explore how far we could go with native Julia tools to support this research pipeline.
+
+# Project
+
+## What the PLP-Pipeline Project Is About
+
+This project was a practical attempt to walk through an end-to-end Patient-Level Prediction (PLP) pipeline entirely within Julia. Using a large 20GB synthetic dataset containing over one million patients in OMOP CDM format, we set out to:
+
+- Define the target cohort: patients diagnosed with hypertension.
+
+- Define the outcome cohort: patients from the target group who go on to develop diabetes.
+
+- Extract patient features and medical history directly from the OMOP CDM using SQL queries.
+
+- Train predictive models — including L1 Logistic Regression, Random Forest, and XGBoost — using these features to forecast diabetes onset.
+
+- Evaluate the models using standard performance metrics and visualize their results.
+
+The core focus wasn’t just to produce a final model, but to demonstrate how reproducible, modular pipelines can be built in Julia using domain-specific tools. Along the way, we also aimed to identify and document where current tooling falls short, offering insight into what improvements could make PLP workflows easier and more robust in the JuliaHealth ecosystem.
+
+## Challenges Faced During the Project
+While working on this project, I encountered several real-world challenges that are common across Patient-Level Prediction (PLP) pipelines, especially in the context of working with OMOP CDM data:
+
+- Data Handling at Scale: Managing and querying over 20GB of synthetic patient data required efficient SQL practices and tight coordination with DuckDB. Even simple queries could become resource-intensive if not optimized properly.
+
+- Preprocessing Clinical Data: Extracting usable covariates from raw OMOP CDM tables wasn’t straightforward — patient histories had to be filtered, merged, and transformed while maintaining temporal correctness.
+
+- Cohort and Feature Engineering: Defining meaningful target and outcome cohorts required clinical reasoning, while engineering relevant features demanded clean abstractions and flexible filtering strategies.
+
+- Interoperability Between Tools: Connecting SQL-based feature extraction to modeling frameworks like MLJ.jl required custom glue code and care to maintain consistent data formats.
+
+These challenges underscored the need for robust, composable tools in the JuliaHealth ecosystem and helped inform some of the directions I propose for future work.
+
+## How Julia Makes It Easier
+
+Julia's rich package ecosystem made each step of my PLP pipeline smoother and more composable:
+
+- DrWatson.jl – Managed project structure and reproducibility with minimal friction.
+
+- DataFrames.jl – Enabled intuitive and performant tabular data manipulation.
+
+- DuckDB.jl – Queried OMOP CDM data efficiently without needing a separate server.
+
+- DBInterface.jl – Provided a standardized interface for database interactions.
+
+- CSV.jl – Handled fast reading/writing of large CSV files for data export and logs.
+
+- MLJ.jl – Offered a clean and modular machine learning interface for model training and evaluation.
+
+- OHDSICohortExpressions.jl – Allowed definition of target and outcome cohorts using OHDSI-standard expressions.
+
+These tools came together to form a flexible and reproducible workflow for patient-level prediction in Julia.
+
+## Conclusion and Future Work
+
+This summer work is just the beginning. There are many future directions that could be taken. I look forward to continuing this journey with the **JuliaHealth** community and contributing further to making health data science more **open**, **reproducible**, and **scalable**.
+
+## Acknowledgements
+
+Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.
+
+[Jacob S. Zelko](https://jacobzelko.com): aka, [TheCedarPrince](https://github.com/TheCedarPrince)
+
+_Note: This blog post was also written with the assistance of LLM technologies to help with grammar, flow, and spelling!_
+
+
