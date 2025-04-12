@@ -9,8 +9,313 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.47</generator>
-<lastBuildDate>Sun, 03 Nov 2024 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.6.43</generator>
+<lastBuildDate>Fri, 11 Apr 2025 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>PLP-Pipeline Series Part 1: From Research Question to Cohort Construction</title>
+  <dc:creator>Kosuri Lakshmi Indu</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction 👋</h1>
+<p>Hi everyone! I’m <strong>Kosuri Lakshmi Indu</strong>, a third-year undergraduate student in Computer Science and an aspiring GSoC 2025 contributor. My interest in using data science for public health led me to the <strong>JuliaHealth</strong> community and, under the mentorship of <strong>Jacob S. Zelko</strong>, I began working on a project titled <strong>PLP-Pipeline</strong>. This project focuses on building modular, efficient tooling for <strong>Patient-Level Prediction (PLP)</strong> entirely in <strong>Julia</strong>, using the <strong>OMOP Common Data Model (CDM)</strong>.</p>
+<p>In this post, I’ll walk through the first part of a three-part blog series documenting my work on building a Patient-Level Prediction (PLP) pipeline in Julia. Each post focuses on a different stage of the pipeline:</p>
+<ol type="1">
+<li><p><strong>From Research Question to Cohort Construction (this post)</strong></p></li>
+<li><p>From Raw Clinical Data to Predictive Models</p></li>
+<li><p>Lessons Learned, Key Challenges, and What Comes Next</p></li>
+</ol>
+<p>In Part 1, we’ll start at the very beginning-formulating the research question, exploring the OMOP Common Data Model (CDM), setting up the local database, and defining target and outcome cohorts using Julia tools. Whether you’re a health researcher, a GSoC aspirant, or a Julia enthusiast, I hope this gives you a clear and accessible introduction to how observational health research can be made more composable, reproducible, and efficient using Julia.</p>
+<p>You can find my <a href="https://github.com/kosuri-indu/PLP-Pipeline"><strong>PLP-Pipeline Project Link Here</strong></a></p>
+<p><a href="https://www.linkedin.com/in/kosuri-indu/"><strong>LinkedIn</strong></a> | <a href="https://github.com/kosuri-indu/"><strong>GitHub</strong></a></p>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="what-is-observational-health" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-observational-health">What is Observational Health?</h2>
+<p>Observational health research involves studying patient data collected in real-world settings, typically through electronic health records (EHRs), claims databases, or registries. Unlike clinical trials, which are controlled and experimental, observational studies allow researchers to analyze the effects of treatments, interventions, and disease progressions in a more naturalistic setting. The advantage of observational health research is that it provides a vast, diverse dataset that reflects how treatments and conditions unfold in everyday clinical practice.</p>
+<p>However, analyzing observational health data can be challenging due to its complexity, unstructured nature, and biases inherent in real-world data. This is where standardized data models like OMOP CDM come into play.</p>
+</section>
+<section id="what-is-omop-cdm" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-omop-cdm">What is OMOP CDM?</h2>
+<p>The <strong>Observational Medical Outcomes Partnership Common Data Model (OMOP CDM)</strong> is a standardized framework for organizing and analyzing observational healthcare data. The OMOP CDM converts diverse sources of health data into a common format that supports large-scale, systematic analysis.</p>
+<p>OMOP CDM organizes data into a consistent set of relational tables like <code>condition_occurrence</code>, <code>drug_exposure</code>, <code>person</code>, <code>visit_occurrence</code> etc, using standardized vocabularies. These tables are interconnected, allowing for relational analysis across a patient’s medical history.</p>
+<p>By transforming diverse healthcare datasets into a common format, OMOP CDM enables reproducibility, interoperability, and large-scale studies across institutions and populations.</p>
+<br>
+<center>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/omopcdm.png" class="img-fluid"></p>
+OMOP Common Data Model
+</center>
+</section>
+<section id="what-is-patient-level-prediction-plp" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-patient-level-prediction-plp">What is Patient-Level Prediction (PLP)?</h2>
+<p><strong>Patient-Level Prediction (PLP)</strong> refers to the use of machine learning or statistical models to estimate the likelihood of a specific clinical outcome for an individual patient, based on their personal medical history and characteristics.</p>
+<p>The key goal of PLP is to answer personalized clinical questions like:</p>
+<blockquote class="blockquote">
+<p><em>“For a patient who recently had a hospital visit for chest pain, what is their risk of experiencing a heart attack?”</em></p>
+</blockquote>
+<p>PLP leverages patient data such as diagnoses, medications, procedures, and lifestyle factors and applies machine learning models to estimate the risk of future health events. Unlike traditional studies that provide population-level insights, PLP aims to provide targeted predictions that can help inform individual clinical decisions.</p>
+</section>
+<section id="why-plp-in-julia" class="level2">
+<h2 class="anchored" data-anchor-id="why-plp-in-julia">Why PLP in Julia?</h2>
+<p>Traditional PLP workflows often involve switching between several tools and languages: using SQL for data extraction, R for cohort definition, and Python for machine learning. This fragmented approach leads to inefficiencies and challenges in reproducibility, scalability, and maintainability.</p>
+<p><strong>Julia</strong> offers a compelling alternative by enabling end-to-end PLP pipelines within a single, high-performance language. It brings together:</p>
+<ul>
+<li><p>Composability: Julia makes it easy to develop modular, reusable components, enabling clear and extendable PLP pipelines.</p></li>
+<li><p>Speed: Julia’s performance is comparable to C, making it ideal for handling large healthcare datasets, which are often complex and voluminous.</p></li>
+<li><p>Unified Ecosystem: Julia integrates packages such as OHDSICohortExpressions.jl for cohort definitions, MLJ.jl for machine learning, and DataFrames.jl for structured data handling, enabling a seamless end-to-end PLP pipeline within one language.</p></li>
+</ul>
+<p>With Julia, it becomes possible to define, build, and evaluate PLP pipelines in a clean, cohesive, and reproducible manner-making it an ideal language for modern health informatics research.</p>
+<br>
+<center>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/julia.webp" class="img-fluid"></p>
+Julia Equivalents
+</center>
+</section>
+</section>
+<section id="research-question" class="level1">
+<h1>Research Question</h1>
+<p>The core research question we aim to address in this PLP pipeline is:</p>
+<blockquote class="blockquote">
+<p><strong>Among patients diagnosed with hypertension, who will go on to develop diabetes?</strong></p>
+</blockquote>
+<p>This question is of paramount importance in clinical decision-making, as it helps identify high-risk individuals who may benefit from early intervention to prevent or manage diabetes. The challenge in answering this question lies in accurately identifying the patients with hypertension who are at risk of progressing to diabetes, based on their medical history and risk factors.</p>
+<section id="cohort-construction" class="level2">
+<h2 class="anchored" data-anchor-id="cohort-construction">Cohort Construction</h2>
+<p>Cohorts are groups of patients defined by specific criteria that are relevant to the research question. For this task, two main cohorts need to be defined:</p>
+<ul>
+<li><p><strong>Target Cohort</strong>: This refers to the group of patients we want to make predictions for. In our case, it includes patients who have been diagnosed with hypertension. These patients serve as the starting point for our prediction timeline.</p></li>
+<li><p><strong>Outcome Cohort</strong>: This refers to the clinical event we aim to predict. In our case, it includes patients from the target cohort who are subsequently diagnosed with diabetes within a specified time window. This event marks the outcome that our model will learn to forecast.</p></li>
+</ul>
+<p>These cohort definitions are central to structuring the data pipeline, as they form the foundation for downstream tasks like feature extraction, model training, and evaluation.</p>
+</section>
+</section>
+<section id="defining-cohorts-using-ohdsicohortexpressions.jl" class="level1">
+<h1>Defining Cohorts using OHDSICohortExpressions.jl</h1>
+<p>In the context of this research, I received a <strong>20GB synthetic dataset</strong> that contains <strong>1,115,000 fake patients</strong> (1,000,000 alive and 115,000 deceased), each with <strong>3 years of medical history</strong>. This dataset was loaded into a DuckDB database, a lightweight, high-performance analytical database that allows fast querying of large datasets directly from local files without the need for a server.</p>
+<p>For cohort creation, I used OHDSI cohort definitions provided directly by my mentor in the form of two JSON files: <strong>Hypertension.json</strong> (for the target cohort) and <strong>Diabetes.json</strong> (for the outcome cohort). To execute them, I used the OHDSICohortExpressions.jl package to convert the JSON definitions into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.</p>
+<p>Here’s the breakdown of the process:</p>
+<ul>
+<li><p>Reading the cohort definitions from JSON files.</p></li>
+<li><p>Connecting to DuckDB, which stores the synthetic patient data.</p></li>
+<li><p>Translating the cohort definitions into SQL using OHDSICohortExpressions.jl.</p></li>
+<li><p>Executing the SQL queries to create the target and outcome cohorts in the database.</p></li>
+</ul>
+<section id="cohort-definition-code" class="level3">
+<h3 class="anchored" data-anchor-id="cohort-definition-code">Cohort Definition Code</h3>
+<p>Here’s how we set up the database connection and load the Parquet files into DuckDB for querying:</p>
+<p><strong>File:</strong> <code>cohort_definition.jl</code></p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource julia number-lines code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">DBInterface</span>: connect, execute</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">FunSQL</span>: reflect, render</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">OHDSICohortExpressions</span>: translate</span>
+<span id="cb1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">using</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">DuckDB</span>, <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">DataFrames</span></span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Read the cohort definitions from JSON files (Hypertension and Diabetes definitions)</span></span>
+<span id="cb1-7">target_json <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">datadir</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"exp_raw"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"definitions"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Hypertension.json"</span>), <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">String</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Target cohort (Hypertension)</span></span>
+<span id="cb1-8">outcome_json <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">read</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">datadir</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"exp_raw"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"definitions"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Diabetes.json"</span>), <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">String</span>)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Outcome cohort (Diabetes)</span></span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Establish a connection to the DuckDB database</span></span>
+<span id="cb1-11">connection <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">connect</span>(DuckDB.DB, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">datadir</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"exp_raw"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"synthea_1M_3YR.duckdb"</span>))</span>
+<span id="cb1-12"></span>
+<span id="cb1-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Function to process a cohort definition (translate the JSON to SQL and execute)</span></span>
+<span id="cb1-14"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">process_cohort</span>(def_json, def_id, conn)</span>
+<span id="cb1-15">  catalog <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reflect</span>(conn; schema<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dbt_synthea_dev"</span>, dialect<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=:</span>duckdb)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reflect the database schema</span></span>
+<span id="cb1-16">  fun_sql <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">translate</span>(def_json; cohort_definition_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>def_id)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Translate the JSON to SQL query</span></span>
+<span id="cb1-17">  sql <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">render</span>(catalog, fun_sql)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Render the SQL query</span></span>
+<span id="cb1-18"></span>
+<span id="cb1-19">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Execute the SQL query to insert cohort data into the database</span></span>
+<span id="cb1-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">execute</span>(conn, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb1-21"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">  INSERT INTO dbt_synthea_dev.cohort</span></span>
+<span id="cb1-22"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">  SELECT * FROM (</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>sql<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">) AS foo;</span></span>
+<span id="cb1-23"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">  """</span>)</span>
+<span id="cb1-24"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">end</span></span>
+<span id="cb1-25"></span>
+<span id="cb1-26"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Process the target and outcome cohorts</span></span>
+<span id="cb1-27"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">process_cohort</span>(target_json, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, connection)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Define the target cohort (Hypertension)</span></span>
+<span id="cb1-28"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">process_cohort</span>(outcome_json, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, connection)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Define the outcome cohort (Diabetes)</span></span>
+<span id="cb1-29"></span>
+<span id="cb1-30"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">close!</span>(connection)</span></code></pre></div>
+<p>This code uses FunSQL.jl and OHDSICohortExpressions.jl to translate and render OHDSI ATLAS cohort definitions into executable SQL for DuckDB. The translate() function from OHDSICohortExpressions.jl converts the JSON cohort definitions (Hypertension and Diabetes) into a FunSQL query representation. Then, reflect() is used to introspect the DuckDB schema, and render() from FunSQL.jl turns the abstract query into concrete SQL. The process_cohort() function executes this SQL using DBInterface.execute() to insert the resulting cohort data into the cohort table. This pipeline allows OHDSI cohort logic to be ported directly into a local DuckDB environment without relying on external OHDSI tools.</p>
+</section>
+</section>
+<section id="wrapping-up" class="level1">
+<h1>Wrapping Up</h1>
+<p>This post covered the foundations of the PLP pipeline:</p>
+<ul>
+<li><p>Explored observational health research, OMOP CDM, PLP, and Julia for large-scale clinical data analysis.</p></li>
+<li><p>Formulated the research question: predicting diabetes progression in hypertension patients.</p></li>
+<li><p>Explained OMOP CDM’s role in standardizing clinical data.</p></li>
+<li><p>Defined target and outcome cohorts for the study.</p></li>
+<li><p>Used Julia to convert cohort definitions into executable SQL for DuckDB querying.</p></li>
+</ul>
+<p>In the next post, I’ll walk through how we go from raw clinical data to predictive modeling, with Julia code examples that highlight feature extraction, data processing, and model training-bringing the full PLP pipeline to life.</p>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.</p>
+<p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p>
+<p><em>Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure.</em></p>
+
+
+<!-- -->
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lakshmi_indu2025,
+  author = {Lakshmi Indu, Kosuri},
+  title = {PLP-Pipeline {Series} {Part} 1: {From} {Research} {Question}
+    to {Cohort} {Construction}},
+  date = {2025-04-12},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lakshmi_indu2025" class="csl-entry quarto-appendix-citeas">
+<div class="">K.
+Lakshmi Indu, <span>“PLP-Pipeline Series Part 1: From Research Question
+to Cohort Construction,”</span> Apr. 12, 2025. Available: <a href="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html">https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html</a></div>
+</div></div></section></div> ]]></description>
+  <category>patient-level prediction</category>
+  <category>omop cdm</category>
+  <category>observational health</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html</guid>
+  <pubDate>Fri, 11 Apr 2025 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>GSoC ’24: Adding dataset-wide functions and integrations of augmentations</title>
   <dc:creator>Jan Zubik</dc:creator>
@@ -3129,7 +3434,7 @@ Integrations of Augmentations.”</span> November 3, 2024. <a href="https://juli
   <category>gpu</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</guid>
-  <pubDate>Sun, 03 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sat, 02 Nov 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
@@ -4053,7 +4358,7 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
   <category>imaging</category>
   <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -4142,7 +4447,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -4798,7 +5103,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -5400,7 +5705,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -5606,7 +5911,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -5678,7 +5983,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
