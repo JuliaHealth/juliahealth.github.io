@@ -9,8 +9,165 @@
 <link>https://juliahealth.org/JuliaHealthBlog/</link>
 <atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.5.47</generator>
-<lastBuildDate>Sun, 03 Nov 2024 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.6.43</generator>
+<lastBuildDate>Sun, 20 Apr 2025 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>PLP-Pipeline Series Part 3: Lessons Learned, Key Challenges, and What Comes Next</title>
+  <dc:creator>Kosuri Lakshmi Indu</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level1">
+<h1>Introduction 👋</h1>
+<p>Welcome back to the final part of the blog series on building a Patient-Level Prediction (PLP) Pipeline in Julia using the OMOP Common Data Model (CDM).</p>
+<p>In this concluding post, we’ll reflect on the full journey - from cohort definition and feature extraction to preprocessing, modeling, and evaluation. We’ll dig into what worked well, what challenges emerged, and what lessons were learned while building this pipeline from scratch using Julia. This post aims to bring the series full circle, offering insights into the practical realities of working with real-world health data and setting the stage for future work and improvements.</p>
+<section id="recap-of-previous-parts" class="level2">
+<h2 class="anchored" data-anchor-id="recap-of-previous-parts">Recap of Previous Parts</h2>
+<p>In <strong>Part 1</strong>, we introduced the motivation and core question driving the pipeline:</p>
+<blockquote class="blockquote">
+<p>From those diagnosed with hypertension, who goes on to develop diabetes?</p>
+</blockquote>
+<p>We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature. To handle the data, we used the <strong>OMOP CDM</strong> format, which ensures that real-world patient data is structured in a consistent and analysis-friendly way.</p>
+<p>To extract patient cohorts, we used <code>OHDSICohortExpressions.jl</code>, which allowed us to define concept sets and logic for cohort inclusion and exclusion. For example, the hypertension target cohort included patients with a confirmed hypertension diagnosis, and the outcome cohort included those later diagnosed with diabetes.</p>
+<p>In <strong>Part 2</strong>, we built a modular pipeline using the Julia ecosystem:</p>
+<ul>
+<li><strong>Feature extraction</strong> involved pulling demographic, condition, drug, and visit data, encoding it as binary presence indicators.</li>
+<li><strong>Preprocessing</strong> included handling missing values, one-hot encoding, normalization, and creating train-test splits.</li>
+<li><strong>Model training</strong> used the <code>MLJ.jl</code> framework to train logistic regression, random forest, and XGBoost models.</li>
+<li><strong>Evaluation</strong> involved computing AUC and accuracy for binary classification.</li>
+</ul>
+</section>
+<section id="reflections-on-the-ohdsi-framework-vs-julia-approach" class="level2">
+<h2 class="anchored" data-anchor-id="reflections-on-the-ohdsi-framework-vs-julia-approach">Reflections on the OHDSI Framework vs Julia Approach</h2>
+<p>The OHDSI ecosystem, particularly its <strong>Patient Level Prediction</strong> package in R, offers an end-to-end solution that integrates tightly with ATLAS and standardized vocabularies. It handles cohort creation, covariate extraction, modeling, and visualization all in one environment.</p>
+<br>
+<center>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/ohdsi_plp.png" class="img-fluid"></p>
+OHDSI Patient Level Prediction Package in R
+</center>
+<p><br></p>
+<p>In contrast, building this pipeline in Julia provided greater flexibility and control. Each step, from cohort extraction to model evaluation, had to be explicitly implemented. While this required more effort, it allowed deeper insight into how features were generated, how cohorts were structured, and how model performance was affected by upstream choices.</p>
+</section>
+<section id="model-performance" class="level2">
+<h2 class="anchored" data-anchor-id="model-performance">Model performance</h2>
+<p>After preprocessing the features and labels, model performance was not as strong as expected. The AUC values for the classifiers were relatively low for the models:</p>
+<ul>
+<li>Logistic Regression (L1-regularized)</li>
+<li>Random Forest: AUC</li>
+<li>XGBoost: AUC</li>
+</ul>
+<p>These unexpectedly low model performances prompted a deeper investigation into the root causes. The primary issue was that the <strong>data available in the CDM was not well-suited</strong> to answer the research question: “From those diagnosed with hypertension, who goes on to develop diabetes?”</p>
+<p>Temporal context was also missing, as the features extracted were basic binary indicators that did not reflect the timing or frequency of clinical events. The one-year prediction window might have been too narrow for diabetes to develop meaningfully after a hypertension diagnosis.</p>
+<p>Additionally, many patients had very limited observational data before the index date, reducing the reliability of the features. Altogether, the problem lay not with the modeling itself but with the mismatch between the available data and the clinical nuances of the question being asked.</p>
+</section>
+<section id="lessons-learned" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-learned">Lessons Learned</h2>
+<p>This project highlighted that Julia is well-suited for observational health research workflows. Its strong data ecosystem (<code>DataFrames.jl</code>, <code>DuckDB.jl</code>, <code>CSV.jl</code>), rich machine learning interfaces (<code>MLJ.jl</code>), and increasing support from domain-specific packages like <code>OHDSICohortExpressions.jl</code> make it a compelling environment for building transparent, customizable pipelines. Unlike black-box tools, Julia allows full control over every stage-from data access to model tuning-encouraging deeper understanding and reproducibility.</p>
+<p>From this experience, several lessons became evident:</p>
+<ul>
+<li>Even with a standardized data model like OMOP CDM, <strong>cohort construction requires clinical reasoning and thorough validation</strong>. Poorly defined cohorts can introduce significant noise and reduce the quality of the learning task.</li>
+<li><strong>Simple features such as binary flags often fail</strong> to capture the complex temporal and contextual dynamics in longitudinal health data.</li>
+<li><strong>Model performance depends on the entire pipeline</strong>, not just the algorithm. Label noise, data completeness, and preprocessing choices all significantly impact the results.</li>
+<li><strong>Reproducibility is essential</strong>-having modular code and clearly defined steps ensures that results can be validated, shared, and extended by others in the community.</li>
+</ul>
+</section>
+<section id="key-challenges-faced" class="level2">
+<h2 class="anchored" data-anchor-id="key-challenges-faced">Key Challenges Faced</h2>
+<p>Throughout the process, we encountered several technical and conceptual challenges:</p>
+<p>The most critical issue lay in the <strong>quality and structure of the data itself</strong>. Many patients had sparse or short observation periods, which meant that only limited clinical history was available before the cohort entry date.</p>
+<p>This directly affected the utility of the extracted features. On the modeling side, integrating with <code>MLJ.jl</code> required careful setup, especially when handling missing values, categorical encodings, and class imbalance.</p>
+<br>
+<center>
+<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/mlj.png" class="img-fluid"></p>
+MLJ.jl
+</center>
+<p><br></p>
+<p>Feature engineering was another bottleneck, since most features were binary flags or simple counts that did not capture clinical nuance or temporal dynamics. Preprocessing steps like normalization and imputation also needed fine-tuning and often had to be manually adjusted per model.</p>
+</section>
+<section id="next-steps-for-the-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps-for-the-pipeline">Next Steps for the Pipeline</h2>
+<p>To address the above challenges and build on the current foundation, the next steps could include:</p>
+<ul>
+<li><strong>Refining cohort definitions</strong>:
+<ul>
+<li>Ensure outcome definitions require multiple confirmations or additional evidence (e.g., lab tests or prescriptions).</li>
+<li>Consider longer lookahead and lookback windows for a richer temporal view of patient history.</li>
+</ul></li>
+<li><strong>Improving feature extraction</strong>:
+<ul>
+<li>Add time-to-event features, visit counts, or recency indicators.</li>
+<li>Explore embedding-based representations of condition or drug sequences.</li>
+</ul></li>
+<li><strong>Extending evaluation</strong>:
+<ul>
+<li>Use calibration plots, ROC/PR curves, and stratified performance metrics.</li>
+<li>Evaluate model fairness across subgroups (age, sex, race if available).</li>
+</ul></li>
+<li><strong>Visualization and reporting</strong>:
+<ul>
+<li>Add support for plotting cohort sizes, timelines, and model performance.</li>
+<li>Use libraries like <code>Makie.jl</code> or <code>VegaLite.jl</code> to generate interactive plots.</li>
+</ul></li>
+<li><strong>Code modularization</strong>:
+<ul>
+<li>Refactor the current pipeline into reusable, well-documented modules.</li>
+<li>Provide clear examples, unit tests, and reproducible workflows.</li>
+</ul></li>
+</ul>
+</section>
+<section id="looking-ahead" class="level2">
+<h2 class="anchored" data-anchor-id="looking-ahead">Looking Ahead</h2>
+<p>This project was both a technical and conceptual deep dive into building patient-level prediction tools from scratch in Julia. Although the first iteration of the models underperformed, the experience revealed what is required to do such predictive modeling properly: validated cohorts, thoughtful feature engineering, strong modeling baselines, and interpretable results.</p>
+<p>The long-term goal is to turn this exploratory code into a robust, Julia-native package for PLP tasks - one that integrates with existing JuliaHealth tools, supports OMOP CDM datasets, and provides flexibility for building custom pipelines. By aligning more closely with OHDSI definitions and adding diagnostics, this could serve as both a research tool and an educational resource.</p>
+<p>To improve interpretability, we could also incorporate visualization into the pipeline using tools like <code>Makie.jl</code> or <code>VegaLite.jl</code>. Some of the visualizations that can enhance understanding include:</p>
+<ul>
+<li>Timeline plots showing cohort entry and outcome windows</li>
+<li>Feature density plots to understand sparsity</li>
+<li>ROC and PR curves to assess model quality</li>
+<li>Feature importance summaries from tree-based models</li>
+</ul>
+<p>These will not only support model tuning but also help communicate findings to clinicians and researchers.</p>
+<p>Eventually, this project could serve as a foundation for a Julia-native PLP toolkit, or at least a template for others interested in working with observational health data in Julia.</p>
+</section>
+</section>
+<section id="thank-you" class="level1">
+<h1>Thank You</h1>
+<p>If you’ve followed the blog series till now - thank you. Your time and interest in this work mean a lot. I hope this series helped you understand what it takes to build predictive models using real-world health data, and how Julia can support that process in a flexible and open way.</p>
+<p>Feel free to connect connect with me on <a href="https://www.linkedin.com/in/kosuri-indu/"><strong>LinkedIn</strong></a> and follow me on <a href="https://github.com/kosuri-indu"><strong>GitHub</strong></a></p>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.</p>
+<p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p>
+<p><em>Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure.</em></p>
+
+
+<!-- -->
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lakshmi_indu2025,
+  author = {Lakshmi Indu, Kosuri},
+  title = {PLP-Pipeline {Series} {Part} 3: {Lessons} {Learned,} {Key}
+    {Challenges,} and {What} {Comes} {Next}},
+  date = {2025-04-21},
+  url = {https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lakshmi_indu2025" class="csl-entry quarto-appendix-citeas">
+<div class="">K.
+Lakshmi Indu, <span>“PLP-Pipeline Series Part 3: Lessons Learned, Key
+Challenges, and What Comes Next,”</span> Apr. 21, 2025. Available: <a href="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html">https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html</a></div>
+</div></div></section></div> ]]></description>
+  <category>patient-level prediction</category>
+  <category>omop cdm</category>
+  <category>observational health</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html</guid>
+  <pubDate>Sun, 20 Apr 2025 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>GSoC ’24: Adding dataset-wide functions and integrations of augmentations</title>
   <dc:creator>Jan Zubik</dc:creator>
@@ -3129,7 +3286,7 @@ Integrations of Augmentations.”</span> November 3, 2024. <a href="https://juli
   <category>gpu</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</guid>
-  <pubDate>Sun, 03 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sat, 02 Nov 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Adding functionalities to medical imaging visualizations</title>
@@ -4053,7 +4210,7 @@ visualizations,”</span> Nov. 01, 2024. Available: <a href="https://juliahealth
   <category>imaging</category>
   <category>neuro</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Fri, 01 Nov 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC Co-Mentoring Experience</title>
@@ -4142,7 +4299,7 @@ Thakkallapally, <span>“GSoC Co-Mentoring Experience,”</span> Sep. 12,
   <category>mentor</category>
   <category>experience</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
-  <pubDate>Thu, 12 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Developing Tooling for Observational Health Research in Julia</title>
@@ -4798,7 +4955,7 @@ Health Research in Julia,”</span> Sep. 07, 2024. Available: <a href="https://j
   <category>observational health</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
-  <pubDate>Sat, 07 Sep 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: Enhancements to KomaMRI.jl GPU Support</title>
@@ -5400,7 +5557,7 @@ Support.”</span> August 30, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>hpc</category>
   <category>simulation</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
-  <pubDate>Fri, 30 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>GSoC ’24: IPUMS.jl Small Project</title>
@@ -5606,7 +5763,7 @@ Project.”</span> August 26, 2024. <a href="https://juliahealth.org/JuliaHealth
   <category>geospatial</category>
   <category>census</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
-  <pubDate>Mon, 26 Aug 2024 04:00:00 GMT</pubDate>
+  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Dummy Post</title>
@@ -5678,7 +5835,7 @@ Foobar. 2024. <span>“Dummy Post.”</span> June 22, 2024. <a href="https://jul
   <category>code</category>
   <category>analysis</category>
   <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
-  <pubDate>Sat, 22 Jun 2024 04:00:00 GMT</pubDate>
+  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
