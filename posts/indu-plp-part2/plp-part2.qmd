@@ -1,0 +1,283 @@
+---
+title: "PLP-Pipeline Series Part 2: From Raw Clinical Data to Predictive Models"
+description: "Part 2 of the PLP-Pipeline blog series – how we preprocess OMOP CDM data, extract features, and train ML models using Julia tools"
+author: "Kosuri Lakshmi Indu"
+date: "4/20/2025"
+bibliography: ./references.bib
+csl: ./../../ieee-with-url.csl
+toc: true
+engine: julia
+image: false
+categories:
+  - patient-level prediction
+  - omop cdm
+  - observational health
+  - feature engineering
+  - preprocessing
+  - machine learning
+---
+
+# Introduction 👋
+
+Welcome back to Part 2 of the PLP-Pipeline blog series!
+
+In [Part 1](../indu-plp-part1plp-part1.qmd), we formulated a research question, loaded synthetic patient data, and constructed our **target (hypertension)** and **outcome (diabetes)** cohorts using OHDSI definitions and Julia tools. If you haven’t read that yet, I recommend checking it out before diving in here.
+
+Now in Part 2, we move from **cohorts to models** - i.e., we’ll bridge the gap between structured clinical data and predictive modeling. Specifically, we’ll walk through:
+
+- Extracting patient-level features using cohort definitions
+- Performing preprocessing (imputation, encoding, normalization)
+- Splitting data into train/test sets
+- Training ML models using MLJ.jl
+
+# Reference: Foundation from the OHDSI PLP Framework
+
+As mentioned in Part 1, my work follows the methodology from:
+
+> Reps, J. M., Schuemie, M. J., Suchard, M. A., Ryan, P. B., Rijnbeek, P. R., & Madigan, D. (2018). Design and implementation of a standardized framework to generate and evaluate patient-level prediction models using observational healthcare data. *Journal of the American Medical Informatics Association, 25(8), 969–975*. [https://doi.org/10.1093/jamia/ocy032](https://doi.org/10.1093/jamia/ocy032)
+
+This paper outlines best practices for building patient-level prediction pipelines from observational health data. It emphasizes:
+
+- Extracting predictors from multiple OMOP CDM domains
+- Applying standardized time windows (e.g., 365 days prior to index)
+- Aggregating using counts, max values, or categorical indicators
+- Building reproducible pipelines
+
+I have translated these principles into Julia using DuckDB and MLJ.
+
+# Step 1: Feature Engineering from OMOP CDM
+
+We extract features from several structured OMOP CDM domains such as:
+
+- `condition_occurrence`
+- `drug_exposure`
+- `procedure_occurrence`
+- `observation`
+- `measurement`
+- `person`
+
+These features are computed for each patient in the **target cohort** using a **365-day window prior to the cohort start date**, aligning with the standardized methodology described in the OHDSI PLP framework by Reps et al. (JAMIA 2018).
+
+Each domain is queried independently, and the results are merged on `subject_id` to create a patient-level feature matrix for modeling.
+
+### Example: Drug Exposure Feature Extraction
+
+The query below summarizes drug history for each patient using several aggregations:
+
+- **`drug_count`**: number of distinct drug classes (using `concept_ancestor` for generalization)
+- **`total_days_supply`**: total days covered by prescriptions
+- **`total_quantity`**: total quantity of drugs supplied
+- **`max_common_route`**: most frequent route of administration
+
+**File:** `feature_extraction.jl`
+
+```julia
+# Drug exposure features: summarizing drug history in the past 365 days
+drugs_query = """
+SELECT 
+    c.subject_id, 
+
+    # Count of distinct parent-level drug concepts
+    COUNT(DISTINCT ca.ancestor_concept_id) AS drug_count,
+
+    # Sum of days supply to estimate treatment duration
+    SUM(de.days_supply) AS total_days_supply,
+
+    # Sum of quantity to capture volume of medication used
+    SUM(de.quantity) AS total_quantity,
+
+    # Most common route of administration
+    MAX(de.route_concept_id) AS max_common_route
+
+FROM dbt_synthea_dev.cohort c
+
+# Join drug exposures for each subject
+JOIN dbt_synthea_dev.drug_exposure de 
+    ON c.subject_id = de.person_id
+
+# Map each drug to a higher-level concept using the concept hierarchy
+JOIN dbt_synthea_dev.concept_ancestor ca 
+    ON de.drug_concept_id = ca.descendant_concept_id
+
+# Filter to target cohort (e.g., patients with hypertension)
+WHERE c.cohort_definition_id = 1
+
+# Limit events to the 365 days before the cohort start date
+AND de.drug_exposure_start_date BETWEEN c.cohort_start_date - INTERVAL 365 DAY AND c.cohort_start_date
+
+# Aggregate by subject
+GROUP BY c.subject_id
+"""
+```
+
+This approach is repeated across other domains (conditions, observations, etc.) using similar logic-adhering to the paper’s recommendation to generate temporal, interpretable, and structured patient features from OMOP CDM.
+
+
+# Step 2: Attaching Outcome Labels
+
+Now that we have extracted features for the target population (patients diagnosed with hypertension), the next step is to attach outcome labels that indicate whether a patient later developed diabetes.
+
+We use **Cohort 2**, which contains patients from the hypertension cohort who were subsequently diagnosed with diabetes, as defined using `OHDSICohortExpressions.jl`. This ensures that diabetes occurs *after* the hypertension event, maintaining proper temporal ordering between target and outcome.
+
+We query the `cohort` table for all subjects in Cohort 2 and assign them an outcome label of `1`.
+
+**File:** `outcome_attach.jl`
+
+```julia
+diabetes_query = """
+    SELECT subject_id, 1 AS outcome
+    FROM dbt_synthea_dev.cohort
+    WHERE cohort_definition_id = 2
+"""
+diabetes_df = execute(conn, diabetes_query) |> DataFrame
+```
+
+Next, we perform a **left join** with the previously created features_df, which contains covariates for all patients in the hypertension cohort. This ensures every patient has their features preserved, and only those present in the diabetes cohort will have a 1 under the outcome column.
+
+For patients not found in the outcome cohort, the join results in a missing value. We treat these as negative cases (0), meaning the patient did not develop diabetes during the follow-up period.
+
+```julia
+df = leftjoin(features_df, diabetes_df, on=:subject_id)
+df[!, :outcome] .= coalesce.(df[!, :outcome], 0)
+```
+This gives us a binary classification dataset with:
+
+- **1** → patient developed diabetes after hypertension
+- **0** → patient did not develop diabetes (or not within the observed period)
+
+This labeled dataset is now ready for preprocessing and model training in later steps.
+
+<br>
+<center>
+  ![](./binary_classification.png)
+
+  Binary Classification Model
+</center>
+
+# Step 3: Preprocessing for Modeling
+
+Once we have the raw feature matrix and outcome labels, the next crucial step is to preprocess the dataset to make it suitable for training machine learning models. This step is essential because raw healthcare data, even when structured via the OMOP CDM, often contains missing values, variable scales, and unencoded categorical information. These issues can affect model performance, stability, and interpretability.
+
+The preprocessing approach we use is directly inspired by best practices discussed in the JAMIA paper. The authors highlight the importance of handling missing values, standardizing predictors, and transforming categorical data into usable formats.
+
+We perform the following three tasks:
+
+- Handling missing values
+- Standardizing numeric features
+- Encoding categorical variables
+
+**File:** `preprocessing.jl`
+
+```julia
+# Impute missing values
+for col in names(df)
+    if eltype(df[!, col]) <: Union{Missing, Number}
+        df[!, col] = coalesce.(df[!, col], 0)
+    else
+        df[!, col] = coalesce.(df[!, col], "unknown")
+    end
+end
+
+# Standardize numerical columns
+for col in [:age, :condition_count, :drug_count]
+    μ, σ = mean(skipmissing(df[!, col])), std(skipmissing(df[!, col]))
+    df[!, col] .= (df[!, col] .- μ) ./ σ
+end
+
+# Encode categoricals
+df.gender_concept_id = categorical(df.gender_concept_id)
+df.race_concept_id = categorical(df.race_concept_id)
+```
+
+**Train-Test Splitting**
+
+Finally, we split the data into training and testing sets using an 80-20 split. This ensures we can evaluate how well the model generalizes to unseen data.
+
+```julia
+using MLJ
+train, test = partition(eachindex(df.outcome), 0.8, shuffle=true)
+```
+<br>
+<center>
+  ![](./train_test_splitting.png)
+
+  Train-Test splitting (80% - 20%)
+</center>
+
+# Step 4: Model Training with MLJ.jl
+
+We evaluated three machine learning models to identify the best-performing approach for predicting whether a patient develops diabetes. These models are consistent with those evaluated in the original JAMIA paper, which highlights the importance of testing multiple classifiers for each prediction problem. The paper specifically mentions using logistic regression (with L1 regularization) , random forest, and gradient boosting machines (like XGBoost) as part of their standardized framework.
+
+The three models we implemented in Julia are:
+
+- **L1-Regularized Logistic Regression**: This model applies L1 (lasso) regularization to perform both classification and feature selection. It is particularly useful when working with a large number of sparse features, as is common in observational healthcare data. The JAMIA paper used L1-regularized logistic regression as a primary model due to its strong baseline performance and interpretability.
+
+- **Random Forest**: A tree-based ensemble model that builds multiple decision trees and averages their predictions. It handles non-linear relationships and is robust to overfitting. The paper includes random forest to capture interactions and non-linearities in clinical data that logistic regression might miss.
+
+- **XGBoost (Extreme Gradient Boosting)**: A powerful boosting algorithm that builds trees sequentially to correct previous errors. It is known for high predictive accuracy and was also one of the models tested in the paper for comparative performance analysis.
+
+**File:** `train_model.jl`
+
+### Shared Evaluation Function
+
+```julia
+using MLJLinearModels, MLJDecisionTreeInterface, MLJXGBoostInterface, ROCAnalysis
+
+# Generic function to evaluate a classifier using AUC
+function evaluate_model(model, X_train, y_train, X_test, y_test)
+    m = machine(model, X_train, y_train)   # Bind model with data
+    fit!(m)                                # Train the model
+    preds = predict(m, X_test)             # Predict on test set
+    probs = [pdf(p, "1") for p in preds]   # Get probability of class "1"
+    auc_val = auc(roc(probs, y_test .== "1"))  # Compute AUC
+    return auc_val
+end
+```
+
+### Logistic Regression
+
+```julia
+# Logistic Regression with L1 regularization
+log_model = MLJLinearModels.LogisticClassifier(penalty=:l1, lambda=0.0428)
+auc_log = evaluate_model(log_model, X_train, y_train, X_test, y_test)
+```
+
+### Random Forest
+
+```julia
+# Random Forest with 100 trees
+rf_model = MLJDecisionTreeInterface.RandomForestClassifier(n_trees=100)
+auc_rf = evaluate_model(rf_model, X_train, y_train, X_test, y_test)
+```
+
+### XGBoost
+
+```julia
+# XGBoost with 100 boosting rounds and depth 5
+xgb_model = MLJXGBoostInterface.XGBoostClassifier(num_round=100, max_depth=5)
+auc_xgb = evaluate_model(xgb_model, X_train, y_train, X_test, y_test)
+```
+
+Each model is trained on the same training set and evaluated on the same test set using AUC (Area Under the ROC Curve), which the paper uses as the primary metric for discrimination. This approach ensures fair comparison between models and helps identify the most suitable one for the task.
+
+# Wrapping Up
+
+In this post, we:
+
+- Built patient-level features from OMOP CDM using DuckDB SQL
+- Labeled outcomes based on cohort definitions
+- Preprocessed the data for ML tasks
+- Trained and evaluated 3 ML models using MLJ
+
+In Part 3, I’ll wrap up with key lessons learned throughout the pipeline development - from working with real-world structured health data to implementing scalable PLP workflows in Julia. I’ll also reflect on what worked well, what could be improved, and propose directions for future enhancements. The final post will also share tips for those looking to build similar pipelines using OMOP CDM and Julia's rich ecosystem.
+
+Stay tuned!
+
+## Acknowledgements
+
+Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.
+
+[Jacob S. Zelko](https://jacobzelko.com): aka, [TheCedarPrince](https://github.com/TheCedarPrince)
+
+_Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure._
+
