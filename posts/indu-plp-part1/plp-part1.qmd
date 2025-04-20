@@ -86,6 +86,37 @@ With Julia, it becomes possible to define, build, and evaluate PLP pipelines in 
   Julia Equivalents
 </center>
 
+# Reference: Foundation from the OHDSI PLP Framework
+
+Throughout the development of this PLP pipeline, I referenced the methodology presented in the following paper:
+
+> Reps, J. M., Schuemie, M. J., Suchard, M. A., Ryan, P. B., Rijnbeek, P. R., & Madigan, D. (2018). Design and implementation of a standardized framework to generate and evaluate patient-level prediction models using observational healthcare data. *Journal of the American Medical Informatics Association, 25(8), 969–975*. [https://doi.org/10.1093/jamia/ocy032](https://doi.org/10.1093/jamia/ocy032)
+
+This paper laid the groundwork for my implementation and inspired several core components of the project — from data curation to model evaluation.
+
+## Methodologies from the Paper
+
+1. Standardized Framework for PLP
+Proposes a **standardized framework** for generating patient-level prediction models that ensures consistency across different datasets and settings.
+
+2. Defining the Prediction Problem
+Stresses the importance of **clearly defining the problem**, including the target cohort, outcome, and time-at-risk period for accurate prediction.
+
+3. Cohort Definition and Data Extraction
+Focuses on **well-defined cohorts** using standardized databases like OMOP CDM for consistent data extraction and reproducibility.
+
+4. Feature Construction
+Highlights **constructing features** from observational data (e.g., clinical conditions, demographics) for model input.
+
+5. Model Training and Evaluation
+Involves **training models** with machine learning algorithms and **evaluating** their performance using metrics like AUC and cross-validation.
+
+6. Statistical Methods for Model Evaluation
+Uses **statistical metrics** such as AUC, calibration, and decision curve analysis to assess model performance and clinical utility.
+
+7. Reproducibility and Transparency
+Ensures **reproducibility and transparency**, documenting all steps to facilitate consistent and reproducible model development across settings.
+
 # Research Question
 
 The core research question we aim to address in this PLP pipeline is:

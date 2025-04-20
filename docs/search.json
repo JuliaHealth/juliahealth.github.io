@@ -376,5 +376,12 @@
     "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
     "section": "Acknowledgements",
     "text": "Acknowledgements\nThanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.\nJacob S. Zelko: aka, TheCedarPrince\nNote: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure."
+  },
+  {
+    "objectID": "posts/indu-plp-part1/plp-part1.html#methodologies-from-the-paper",
+    "href": "posts/indu-plp-part1/plp-part1.html#methodologies-from-the-paper",
+    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
+    "section": "Methodologies from the Paper",
+    "text": "Methodologies from the Paper\n\nStandardized Framework for PLP Proposes a standardized framework for generating patient-level prediction models that ensures consistency across different datasets and settings.\nDefining the Prediction Problem Stresses the importance of clearly defining the problem, including the target cohort, outcome, and time-at-risk period for accurate prediction.\nCohort Definition and Data Extraction Focuses on well-defined cohorts using standardized databases like OMOP CDM for consistent data extraction and reproducibility.\nFeature Construction Highlights constructing features from observational data (e.g., clinical conditions, demographics) for model input.\nModel Training and Evaluation Involves training models with machine learning algorithms and evaluating their performance using metrics like AUC and cross-validation.\nStatistical Methods for Model Evaluation Uses statistical metrics such as AUC, calibration, and decision curve analysis to assess model performance and clinical utility.\nReproducibility and Transparency Ensures reproducibility and transparency, documenting all steps to facilitate consistent and reproducible model development across settings."
   }
 ]

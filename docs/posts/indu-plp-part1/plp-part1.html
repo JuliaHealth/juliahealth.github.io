@@ -216,6 +216,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#what-is-patient-level-prediction-plp" id="toc-what-is-patient-level-prediction-plp" class="nav-link" data-scroll-target="#what-is-patient-level-prediction-plp">What is Patient-Level Prediction (PLP)?</a></li>
   <li><a href="#why-plp-in-julia" id="toc-why-plp-in-julia" class="nav-link" data-scroll-target="#why-plp-in-julia">Why PLP in Julia?</a></li>
   </ul></li>
+  <li><a href="#reference-foundation-from-the-ohdsi-plp-framework" id="toc-reference-foundation-from-the-ohdsi-plp-framework" class="nav-link" data-scroll-target="#reference-foundation-from-the-ohdsi-plp-framework">Reference: Foundation from the OHDSI PLP Framework</a>
+  <ul class="collapse">
+  <li><a href="#methodologies-from-the-paper" id="toc-methodologies-from-the-paper" class="nav-link" data-scroll-target="#methodologies-from-the-paper">Methodologies from the Paper</a></li>
+  </ul></li>
   <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question">Research Question</a>
   <ul class="collapse">
   <li><a href="#cohort-construction" id="toc-cohort-construction" class="nav-link" data-scroll-target="#cohort-construction">Cohort Construction</a></li>
@@ -330,6 +334,26 @@ OMOP Common Data Model
 <p><img src="./julia.webp" class="img-fluid"></p>
 Julia Equivalents
 </center>
+</section>
+</section>
+<section id="reference-foundation-from-the-ohdsi-plp-framework" class="level1">
+<h1>Reference: Foundation from the OHDSI PLP Framework</h1>
+<p>Throughout the development of this PLP pipeline, I referenced the methodology presented in the following paper:</p>
+<blockquote class="blockquote">
+<p>Reps, J. M., Schuemie, M. J., Suchard, M. A., Ryan, P. B., Rijnbeek, P. R., &amp; Madigan, D. (2018). Design and implementation of a standardized framework to generate and evaluate patient-level prediction models using observational healthcare data. <em>Journal of the American Medical Informatics Association, 25(8), 969–975</em>. <a href="https://doi.org/10.1093/jamia/ocy032">https://doi.org/10.1093/jamia/ocy032</a></p>
+</blockquote>
+<p>This paper laid the groundwork for my implementation and inspired several core components of the project — from data curation to model evaluation.</p>
+<section id="methodologies-from-the-paper" class="level2">
+<h2 class="anchored" data-anchor-id="methodologies-from-the-paper">Methodologies from the Paper</h2>
+<ol type="1">
+<li><p>Standardized Framework for PLP Proposes a <strong>standardized framework</strong> for generating patient-level prediction models that ensures consistency across different datasets and settings.</p></li>
+<li><p>Defining the Prediction Problem Stresses the importance of <strong>clearly defining the problem</strong>, including the target cohort, outcome, and time-at-risk period for accurate prediction.</p></li>
+<li><p>Cohort Definition and Data Extraction Focuses on <strong>well-defined cohorts</strong> using standardized databases like OMOP CDM for consistent data extraction and reproducibility.</p></li>
+<li><p>Feature Construction Highlights <strong>constructing features</strong> from observational data (e.g., clinical conditions, demographics) for model input.</p></li>
+<li><p>Model Training and Evaluation Involves <strong>training models</strong> with machine learning algorithms and <strong>evaluating</strong> their performance using metrics like AUC and cross-validation.</p></li>
+<li><p>Statistical Methods for Model Evaluation Uses <strong>statistical metrics</strong> such as AUC, calibration, and decision curve analysis to assess model performance and clinical utility.</p></li>
+<li><p>Reproducibility and Transparency Ensures <strong>reproducibility and transparency</strong>, documenting all steps to facilitate consistent and reproducible model development across settings.</p></li>
+</ol>
 </section>
 </section>
 <section id="research-question" class="level1">
@@ -991,105 +1015,136 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb2-86"><a href="#cb2-86"></a>  Julia Equivalents</span>
 <span id="cb2-87"><a href="#cb2-87"></a>&lt;/center&gt;</span>
 <span id="cb2-88"><a href="#cb2-88"></a></span>
-<span id="cb2-89"><a href="#cb2-89"></a><span class="fu"># Research Question</span></span>
+<span id="cb2-89"><a href="#cb2-89"></a><span class="fu"># Reference: Foundation from the OHDSI PLP Framework</span></span>
 <span id="cb2-90"><a href="#cb2-90"></a></span>
-<span id="cb2-91"><a href="#cb2-91"></a>The core research question we aim to address in this PLP pipeline is:</span>
+<span id="cb2-91"><a href="#cb2-91"></a>Throughout the development of this PLP pipeline, I referenced the methodology presented in the following paper:</span>
 <span id="cb2-92"><a href="#cb2-92"></a></span>
-<span id="cb2-93"><a href="#cb2-93"></a><span class="at">&gt; **Among patients diagnosed with hypertension, who will go on to develop diabetes?**</span></span>
+<span id="cb2-93"><a href="#cb2-93"></a><span class="at">&gt; Reps, J. M., Schuemie, M. J., Suchard, M. A., Ryan, P. B., Rijnbeek, P. R., &amp; Madigan, D. (2018). Design and implementation of a standardized framework to generate and evaluate patient-level prediction models using observational healthcare data. *Journal of the American Medical Informatics Association, 25(8), 969–975*. </span><span class="co">[</span><span class="ot">https://doi.org/10.1093/jamia/ocy032</span><span class="co">](https://doi.org/10.1093/jamia/ocy032)</span></span>
 <span id="cb2-94"><a href="#cb2-94"></a></span>
-<span id="cb2-95"><a href="#cb2-95"></a>This question is of paramount importance in clinical decision-making, as it helps identify high-risk individuals who may benefit from early intervention to prevent or manage diabetes. The challenge in answering this question lies in accurately identifying the patients with hypertension who are at risk of progressing to diabetes, based on their medical history and risk factors.</span>
+<span id="cb2-95"><a href="#cb2-95"></a>This paper laid the groundwork for my implementation and inspired several core components of the project — from data curation to model evaluation.</span>
 <span id="cb2-96"><a href="#cb2-96"></a></span>
-<span id="cb2-97"><a href="#cb2-97"></a><span class="fu">## Cohort Construction</span></span>
+<span id="cb2-97"><a href="#cb2-97"></a><span class="fu">## Methodologies from the Paper</span></span>
 <span id="cb2-98"><a href="#cb2-98"></a></span>
-<span id="cb2-99"><a href="#cb2-99"></a>Cohorts are groups of patients defined by specific criteria that are relevant to the research question. For this task, two main cohorts need to be defined:</span>
-<span id="cb2-100"><a href="#cb2-100"></a></span>
-<span id="cb2-101"><a href="#cb2-101"></a><span class="ss">- </span>**Target Cohort**: This refers to the group of patients we want to make predictions for. In our case, it includes patients who have been diagnosed with hypertension. These patients serve as the starting point for our prediction timeline.</span>
-<span id="cb2-102"><a href="#cb2-102"></a></span>
-<span id="cb2-103"><a href="#cb2-103"></a><span class="ss">- </span>**Outcome Cohort**: This refers to the clinical event we aim to predict. In our case, it includes patients from the target cohort who are subsequently diagnosed with diabetes within a specified time window. This event marks the outcome that our model will learn to forecast.</span>
+<span id="cb2-99"><a href="#cb2-99"></a><span class="ss">1. </span>Standardized Framework for PLP</span>
+<span id="cb2-100"><a href="#cb2-100"></a>Proposes a **standardized framework** for generating patient-level prediction models that ensures consistency across different datasets and settings.</span>
+<span id="cb2-101"><a href="#cb2-101"></a></span>
+<span id="cb2-102"><a href="#cb2-102"></a><span class="ss">2. </span>Defining the Prediction Problem</span>
+<span id="cb2-103"><a href="#cb2-103"></a>Stresses the importance of **clearly defining the problem**, including the target cohort, outcome, and time-at-risk period for accurate prediction.</span>
 <span id="cb2-104"><a href="#cb2-104"></a></span>
-<span id="cb2-105"><a href="#cb2-105"></a>These cohort definitions are central to structuring the data pipeline, as they form the foundation for downstream tasks like feature extraction, model training, and evaluation.</span>
-<span id="cb2-106"><a href="#cb2-106"></a></span>
-<span id="cb2-107"><a href="#cb2-107"></a><span class="fu"># Defining Cohorts using OHDSICohortExpressions.jl</span></span>
-<span id="cb2-108"><a href="#cb2-108"></a></span>
-<span id="cb2-109"><a href="#cb2-109"></a>In the context of this research, I received a **20GB synthetic dataset** that contains **1,115,000 fake patients** (1,000,000 alive and 115,000 deceased), each with **3 years of medical history**. This dataset was loaded into a DuckDB database, a lightweight, high-performance analytical database that allows fast querying of large datasets directly from local files without the need for a server.</span>
+<span id="cb2-105"><a href="#cb2-105"></a><span class="ss">3. </span>Cohort Definition and Data Extraction</span>
+<span id="cb2-106"><a href="#cb2-106"></a>Focuses on **well-defined cohorts** using standardized databases like OMOP CDM for consistent data extraction and reproducibility.</span>
+<span id="cb2-107"><a href="#cb2-107"></a></span>
+<span id="cb2-108"><a href="#cb2-108"></a><span class="ss">4. </span>Feature Construction</span>
+<span id="cb2-109"><a href="#cb2-109"></a>Highlights **constructing features** from observational data (e.g., clinical conditions, demographics) for model input.</span>
 <span id="cb2-110"><a href="#cb2-110"></a></span>
-<span id="cb2-111"><a href="#cb2-111"></a>For cohort creation, I used OHDSI cohort definitions provided directly by my mentor in the form of two JSON files: **Hypertension.json** (for the target cohort) and **Diabetes.json** (for the outcome cohort). To execute them, I used the OHDSICohortExpressions.jl package to convert the JSON definitions into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.</span>
-<span id="cb2-112"><a href="#cb2-112"></a></span>
-<span id="cb2-113"><a href="#cb2-113"></a>Here’s the breakdown of the process:</span>
-<span id="cb2-114"><a href="#cb2-114"></a></span>
-<span id="cb2-115"><a href="#cb2-115"></a><span class="ss">- </span>Reading the cohort definitions from JSON files.</span>
+<span id="cb2-111"><a href="#cb2-111"></a><span class="ss">5. </span>Model Training and Evaluation</span>
+<span id="cb2-112"><a href="#cb2-112"></a>Involves **training models** with machine learning algorithms and **evaluating** their performance using metrics like AUC and cross-validation.</span>
+<span id="cb2-113"><a href="#cb2-113"></a></span>
+<span id="cb2-114"><a href="#cb2-114"></a><span class="ss">6. </span>Statistical Methods for Model Evaluation</span>
+<span id="cb2-115"><a href="#cb2-115"></a>Uses **statistical metrics** such as AUC, calibration, and decision curve analysis to assess model performance and clinical utility.</span>
 <span id="cb2-116"><a href="#cb2-116"></a></span>
-<span id="cb2-117"><a href="#cb2-117"></a><span class="ss">- </span>Connecting to DuckDB, which stores the synthetic patient data.</span>
-<span id="cb2-118"><a href="#cb2-118"></a></span>
-<span id="cb2-119"><a href="#cb2-119"></a><span class="ss">- </span>Translating the cohort definitions into SQL using OHDSICohortExpressions.jl.</span>
-<span id="cb2-120"><a href="#cb2-120"></a></span>
-<span id="cb2-121"><a href="#cb2-121"></a><span class="ss">- </span>Executing the SQL queries to create the target and outcome cohorts in the database.</span>
-<span id="cb2-122"><a href="#cb2-122"></a></span>
-<span id="cb2-123"><a href="#cb2-123"></a><span class="fu">### Cohort Definition Code</span></span>
-<span id="cb2-124"><a href="#cb2-124"></a></span>
-<span id="cb2-125"><a href="#cb2-125"></a>Here’s how we set up the database connection and load the Parquet files into DuckDB for querying:</span>
-<span id="cb2-126"><a href="#cb2-126"></a></span>
-<span id="cb2-127"><a href="#cb2-127"></a>**File:** <span class="in">`cohort_definition.jl`</span></span>
-<span id="cb2-128"><a href="#cb2-128"></a></span>
-<span id="cb2-129"><a href="#cb2-129"></a><span class="in">```julia</span></span>
-<span id="cb2-130"><a href="#cb2-130"></a><span class="in">import DBInterface: connect, execute</span></span>
-<span id="cb2-131"><a href="#cb2-131"></a><span class="in">import FunSQL: reflect, render</span></span>
-<span id="cb2-132"><a href="#cb2-132"></a><span class="in">import OHDSICohortExpressions: translate</span></span>
-<span id="cb2-133"><a href="#cb2-133"></a><span class="in">using DuckDB, DataFrames</span></span>
-<span id="cb2-134"><a href="#cb2-134"></a></span>
-<span id="cb2-135"><a href="#cb2-135"></a><span class="in"># Read the cohort definitions from JSON files (Hypertension and Diabetes definitions)</span></span>
-<span id="cb2-136"><a href="#cb2-136"></a><span class="in">target_json = read(datadir("exp_raw", "definitions", "Hypertension.json"), String)  # Target cohort (Hypertension)</span></span>
-<span id="cb2-137"><a href="#cb2-137"></a><span class="in">outcome_json = read(datadir("exp_raw", "definitions", "Diabetes.json"), String)  # Outcome cohort (Diabetes)</span></span>
-<span id="cb2-138"><a href="#cb2-138"></a></span>
-<span id="cb2-139"><a href="#cb2-139"></a><span class="in"># Establish a connection to the DuckDB database</span></span>
-<span id="cb2-140"><a href="#cb2-140"></a><span class="in">connection = connect(DuckDB.DB, datadir("exp_raw", "synthea_1M_3YR.duckdb"))</span></span>
+<span id="cb2-117"><a href="#cb2-117"></a><span class="ss">7. </span>Reproducibility and Transparency</span>
+<span id="cb2-118"><a href="#cb2-118"></a>Ensures **reproducibility and transparency**, documenting all steps to facilitate consistent and reproducible model development across settings.</span>
+<span id="cb2-119"><a href="#cb2-119"></a></span>
+<span id="cb2-120"><a href="#cb2-120"></a><span class="fu"># Research Question</span></span>
+<span id="cb2-121"><a href="#cb2-121"></a></span>
+<span id="cb2-122"><a href="#cb2-122"></a>The core research question we aim to address in this PLP pipeline is:</span>
+<span id="cb2-123"><a href="#cb2-123"></a></span>
+<span id="cb2-124"><a href="#cb2-124"></a><span class="at">&gt; **Among patients diagnosed with hypertension, who will go on to develop diabetes?**</span></span>
+<span id="cb2-125"><a href="#cb2-125"></a></span>
+<span id="cb2-126"><a href="#cb2-126"></a>This question is of paramount importance in clinical decision-making, as it helps identify high-risk individuals who may benefit from early intervention to prevent or manage diabetes. The challenge in answering this question lies in accurately identifying the patients with hypertension who are at risk of progressing to diabetes, based on their medical history and risk factors.</span>
+<span id="cb2-127"><a href="#cb2-127"></a></span>
+<span id="cb2-128"><a href="#cb2-128"></a><span class="fu">## Cohort Construction</span></span>
+<span id="cb2-129"><a href="#cb2-129"></a></span>
+<span id="cb2-130"><a href="#cb2-130"></a>Cohorts are groups of patients defined by specific criteria that are relevant to the research question. For this task, two main cohorts need to be defined:</span>
+<span id="cb2-131"><a href="#cb2-131"></a></span>
+<span id="cb2-132"><a href="#cb2-132"></a><span class="ss">- </span>**Target Cohort**: This refers to the group of patients we want to make predictions for. In our case, it includes patients who have been diagnosed with hypertension. These patients serve as the starting point for our prediction timeline.</span>
+<span id="cb2-133"><a href="#cb2-133"></a></span>
+<span id="cb2-134"><a href="#cb2-134"></a><span class="ss">- </span>**Outcome Cohort**: This refers to the clinical event we aim to predict. In our case, it includes patients from the target cohort who are subsequently diagnosed with diabetes within a specified time window. This event marks the outcome that our model will learn to forecast.</span>
+<span id="cb2-135"><a href="#cb2-135"></a></span>
+<span id="cb2-136"><a href="#cb2-136"></a>These cohort definitions are central to structuring the data pipeline, as they form the foundation for downstream tasks like feature extraction, model training, and evaluation.</span>
+<span id="cb2-137"><a href="#cb2-137"></a></span>
+<span id="cb2-138"><a href="#cb2-138"></a><span class="fu"># Defining Cohorts using OHDSICohortExpressions.jl</span></span>
+<span id="cb2-139"><a href="#cb2-139"></a></span>
+<span id="cb2-140"><a href="#cb2-140"></a>In the context of this research, I received a **20GB synthetic dataset** that contains **1,115,000 fake patients** (1,000,000 alive and 115,000 deceased), each with **3 years of medical history**. This dataset was loaded into a DuckDB database, a lightweight, high-performance analytical database that allows fast querying of large datasets directly from local files without the need for a server.</span>
 <span id="cb2-141"><a href="#cb2-141"></a></span>
-<span id="cb2-142"><a href="#cb2-142"></a><span class="in"># Function to process a cohort definition (translate the JSON to SQL and execute)</span></span>
-<span id="cb2-143"><a href="#cb2-143"></a><span class="in">function process_cohort(def_json, def_id, conn)</span></span>
-<span id="cb2-144"><a href="#cb2-144"></a><span class="in">  catalog = reflect(conn; schema="dbt_synthea_dev", dialect=:duckdb)  # Reflect the database schema</span></span>
-<span id="cb2-145"><a href="#cb2-145"></a><span class="in">  fun_sql = translate(def_json; cohort_definition_id=def_id)  # Translate the JSON to SQL query</span></span>
-<span id="cb2-146"><a href="#cb2-146"></a><span class="in">  sql = render(catalog, fun_sql)  # Render the SQL query</span></span>
+<span id="cb2-142"><a href="#cb2-142"></a>For cohort creation, I used OHDSI cohort definitions provided directly by my mentor in the form of two JSON files: **Hypertension.json** (for the target cohort) and **Diabetes.json** (for the outcome cohort). To execute them, I used the OHDSICohortExpressions.jl package to convert the JSON definitions into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.</span>
+<span id="cb2-143"><a href="#cb2-143"></a></span>
+<span id="cb2-144"><a href="#cb2-144"></a>Here’s the breakdown of the process:</span>
+<span id="cb2-145"><a href="#cb2-145"></a></span>
+<span id="cb2-146"><a href="#cb2-146"></a><span class="ss">- </span>Reading the cohort definitions from JSON files.</span>
 <span id="cb2-147"><a href="#cb2-147"></a></span>
-<span id="cb2-148"><a href="#cb2-148"></a><span class="in">  # Execute the SQL query to insert cohort data into the database</span></span>
-<span id="cb2-149"><a href="#cb2-149"></a><span class="in">  execute(conn, """</span></span>
-<span id="cb2-150"><a href="#cb2-150"></a><span class="in">  INSERT INTO dbt_synthea_dev.cohort</span></span>
-<span id="cb2-151"><a href="#cb2-151"></a><span class="in">  SELECT * FROM ($sql) AS foo;</span></span>
-<span id="cb2-152"><a href="#cb2-152"></a><span class="in">  """)</span></span>
-<span id="cb2-153"><a href="#cb2-153"></a><span class="in">end</span></span>
-<span id="cb2-154"><a href="#cb2-154"></a></span>
-<span id="cb2-155"><a href="#cb2-155"></a><span class="in"># Process the target and outcome cohorts</span></span>
-<span id="cb2-156"><a href="#cb2-156"></a><span class="in">process_cohort(target_json, 1, connection)  # Define the target cohort (Hypertension)</span></span>
-<span id="cb2-157"><a href="#cb2-157"></a><span class="in">process_cohort(outcome_json, 2, connection)  # Define the outcome cohort (Diabetes)</span></span>
-<span id="cb2-158"><a href="#cb2-158"></a></span>
-<span id="cb2-159"><a href="#cb2-159"></a><span class="in">close!(connection)</span></span>
-<span id="cb2-160"><a href="#cb2-160"></a><span class="in">```</span></span>
-<span id="cb2-161"><a href="#cb2-161"></a></span>
-<span id="cb2-162"><a href="#cb2-162"></a>This code uses FunSQL.jl and OHDSICohortExpressions.jl to translate and render OHDSI ATLAS cohort definitions into executable SQL for DuckDB. The translate() function from OHDSICohortExpressions.jl converts the JSON cohort definitions (Hypertension and Diabetes) into a FunSQL query representation. Then, reflect() is used to introspect the DuckDB schema, and render() from FunSQL.jl turns the abstract query into concrete SQL. The process_cohort() function executes this SQL using DBInterface.execute() to insert the resulting cohort data into the cohort table. This pipeline allows OHDSI cohort logic to be ported directly into a local DuckDB environment without relying on external OHDSI tools.</span>
-<span id="cb2-163"><a href="#cb2-163"></a></span>
-<span id="cb2-164"><a href="#cb2-164"></a></span>
-<span id="cb2-165"><a href="#cb2-165"></a><span class="fu"># Wrapping Up</span></span>
-<span id="cb2-166"><a href="#cb2-166"></a></span>
-<span id="cb2-167"><a href="#cb2-167"></a>This post covered the foundations of the PLP pipeline:</span>
-<span id="cb2-168"><a href="#cb2-168"></a></span>
-<span id="cb2-169"><a href="#cb2-169"></a><span class="ss">- </span>Explored observational health research, OMOP CDM, PLP, and Julia for large-scale clinical data analysis.</span>
-<span id="cb2-170"><a href="#cb2-170"></a></span>
-<span id="cb2-171"><a href="#cb2-171"></a><span class="ss">- </span>Formulated the research question: predicting diabetes progression in hypertension patients.</span>
+<span id="cb2-148"><a href="#cb2-148"></a><span class="ss">- </span>Connecting to DuckDB, which stores the synthetic patient data.</span>
+<span id="cb2-149"><a href="#cb2-149"></a></span>
+<span id="cb2-150"><a href="#cb2-150"></a><span class="ss">- </span>Translating the cohort definitions into SQL using OHDSICohortExpressions.jl.</span>
+<span id="cb2-151"><a href="#cb2-151"></a></span>
+<span id="cb2-152"><a href="#cb2-152"></a><span class="ss">- </span>Executing the SQL queries to create the target and outcome cohorts in the database.</span>
+<span id="cb2-153"><a href="#cb2-153"></a></span>
+<span id="cb2-154"><a href="#cb2-154"></a><span class="fu">### Cohort Definition Code</span></span>
+<span id="cb2-155"><a href="#cb2-155"></a></span>
+<span id="cb2-156"><a href="#cb2-156"></a>Here’s how we set up the database connection and load the Parquet files into DuckDB for querying:</span>
+<span id="cb2-157"><a href="#cb2-157"></a></span>
+<span id="cb2-158"><a href="#cb2-158"></a>**File:** <span class="in">`cohort_definition.jl`</span></span>
+<span id="cb2-159"><a href="#cb2-159"></a></span>
+<span id="cb2-160"><a href="#cb2-160"></a><span class="in">```julia</span></span>
+<span id="cb2-161"><a href="#cb2-161"></a><span class="in">import DBInterface: connect, execute</span></span>
+<span id="cb2-162"><a href="#cb2-162"></a><span class="in">import FunSQL: reflect, render</span></span>
+<span id="cb2-163"><a href="#cb2-163"></a><span class="in">import OHDSICohortExpressions: translate</span></span>
+<span id="cb2-164"><a href="#cb2-164"></a><span class="in">using DuckDB, DataFrames</span></span>
+<span id="cb2-165"><a href="#cb2-165"></a></span>
+<span id="cb2-166"><a href="#cb2-166"></a><span class="in"># Read the cohort definitions from JSON files (Hypertension and Diabetes definitions)</span></span>
+<span id="cb2-167"><a href="#cb2-167"></a><span class="in">target_json = read(datadir("exp_raw", "definitions", "Hypertension.json"), String)  # Target cohort (Hypertension)</span></span>
+<span id="cb2-168"><a href="#cb2-168"></a><span class="in">outcome_json = read(datadir("exp_raw", "definitions", "Diabetes.json"), String)  # Outcome cohort (Diabetes)</span></span>
+<span id="cb2-169"><a href="#cb2-169"></a></span>
+<span id="cb2-170"><a href="#cb2-170"></a><span class="in"># Establish a connection to the DuckDB database</span></span>
+<span id="cb2-171"><a href="#cb2-171"></a><span class="in">connection = connect(DuckDB.DB, datadir("exp_raw", "synthea_1M_3YR.duckdb"))</span></span>
 <span id="cb2-172"><a href="#cb2-172"></a></span>
-<span id="cb2-173"><a href="#cb2-173"></a><span class="ss">- </span>Explained OMOP CDM's role in standardizing clinical data.</span>
-<span id="cb2-174"><a href="#cb2-174"></a></span>
-<span id="cb2-175"><a href="#cb2-175"></a><span class="ss">- </span>Defined target and outcome cohorts for the study.</span>
-<span id="cb2-176"><a href="#cb2-176"></a></span>
-<span id="cb2-177"><a href="#cb2-177"></a><span class="ss">- </span>Used Julia to convert cohort definitions into executable SQL for DuckDB querying.</span>
+<span id="cb2-173"><a href="#cb2-173"></a><span class="in"># Function to process a cohort definition (translate the JSON to SQL and execute)</span></span>
+<span id="cb2-174"><a href="#cb2-174"></a><span class="in">function process_cohort(def_json, def_id, conn)</span></span>
+<span id="cb2-175"><a href="#cb2-175"></a><span class="in">  catalog = reflect(conn; schema="dbt_synthea_dev", dialect=:duckdb)  # Reflect the database schema</span></span>
+<span id="cb2-176"><a href="#cb2-176"></a><span class="in">  fun_sql = translate(def_json; cohort_definition_id=def_id)  # Translate the JSON to SQL query</span></span>
+<span id="cb2-177"><a href="#cb2-177"></a><span class="in">  sql = render(catalog, fun_sql)  # Render the SQL query</span></span>
 <span id="cb2-178"><a href="#cb2-178"></a></span>
-<span id="cb2-179"><a href="#cb2-179"></a>In the next post, I’ll walk through how we go from raw clinical data to predictive modeling, with Julia code examples that highlight feature extraction, data processing, and model training-bringing the full PLP pipeline to life.</span>
-<span id="cb2-180"><a href="#cb2-180"></a></span>
-<span id="cb2-181"><a href="#cb2-181"></a><span class="fu">## Acknowledgements</span></span>
-<span id="cb2-182"><a href="#cb2-182"></a></span>
-<span id="cb2-183"><a href="#cb2-183"></a>Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.</span>
-<span id="cb2-184"><a href="#cb2-184"></a></span>
-<span id="cb2-185"><a href="#cb2-185"></a><span class="co">[</span><span class="ot">Jacob S. Zelko</span><span class="co">](https://jacobzelko.com)</span>: aka, <span class="co">[</span><span class="ot">TheCedarPrince</span><span class="co">](https://github.com/TheCedarPrince)</span></span>
-<span id="cb2-186"><a href="#cb2-186"></a></span>
-<span id="cb2-187"><a href="#cb2-187"></a>_Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure._</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb2-179"><a href="#cb2-179"></a><span class="in">  # Execute the SQL query to insert cohort data into the database</span></span>
+<span id="cb2-180"><a href="#cb2-180"></a><span class="in">  execute(conn, """</span></span>
+<span id="cb2-181"><a href="#cb2-181"></a><span class="in">  INSERT INTO dbt_synthea_dev.cohort</span></span>
+<span id="cb2-182"><a href="#cb2-182"></a><span class="in">  SELECT * FROM ($sql) AS foo;</span></span>
+<span id="cb2-183"><a href="#cb2-183"></a><span class="in">  """)</span></span>
+<span id="cb2-184"><a href="#cb2-184"></a><span class="in">end</span></span>
+<span id="cb2-185"><a href="#cb2-185"></a></span>
+<span id="cb2-186"><a href="#cb2-186"></a><span class="in"># Process the target and outcome cohorts</span></span>
+<span id="cb2-187"><a href="#cb2-187"></a><span class="in">process_cohort(target_json, 1, connection)  # Define the target cohort (Hypertension)</span></span>
+<span id="cb2-188"><a href="#cb2-188"></a><span class="in">process_cohort(outcome_json, 2, connection)  # Define the outcome cohort (Diabetes)</span></span>
+<span id="cb2-189"><a href="#cb2-189"></a></span>
+<span id="cb2-190"><a href="#cb2-190"></a><span class="in">close!(connection)</span></span>
+<span id="cb2-191"><a href="#cb2-191"></a><span class="in">```</span></span>
+<span id="cb2-192"><a href="#cb2-192"></a></span>
+<span id="cb2-193"><a href="#cb2-193"></a>This code uses FunSQL.jl and OHDSICohortExpressions.jl to translate and render OHDSI ATLAS cohort definitions into executable SQL for DuckDB. The translate() function from OHDSICohortExpressions.jl converts the JSON cohort definitions (Hypertension and Diabetes) into a FunSQL query representation. Then, reflect() is used to introspect the DuckDB schema, and render() from FunSQL.jl turns the abstract query into concrete SQL. The process_cohort() function executes this SQL using DBInterface.execute() to insert the resulting cohort data into the cohort table. This pipeline allows OHDSI cohort logic to be ported directly into a local DuckDB environment without relying on external OHDSI tools.</span>
+<span id="cb2-194"><a href="#cb2-194"></a></span>
+<span id="cb2-195"><a href="#cb2-195"></a></span>
+<span id="cb2-196"><a href="#cb2-196"></a><span class="fu"># Wrapping Up</span></span>
+<span id="cb2-197"><a href="#cb2-197"></a></span>
+<span id="cb2-198"><a href="#cb2-198"></a>This post covered the foundations of the PLP pipeline:</span>
+<span id="cb2-199"><a href="#cb2-199"></a></span>
+<span id="cb2-200"><a href="#cb2-200"></a><span class="ss">- </span>Explored observational health research, OMOP CDM, PLP, and Julia for large-scale clinical data analysis.</span>
+<span id="cb2-201"><a href="#cb2-201"></a></span>
+<span id="cb2-202"><a href="#cb2-202"></a><span class="ss">- </span>Formulated the research question: predicting diabetes progression in hypertension patients.</span>
+<span id="cb2-203"><a href="#cb2-203"></a></span>
+<span id="cb2-204"><a href="#cb2-204"></a><span class="ss">- </span>Explained OMOP CDM's role in standardizing clinical data.</span>
+<span id="cb2-205"><a href="#cb2-205"></a></span>
+<span id="cb2-206"><a href="#cb2-206"></a><span class="ss">- </span>Defined target and outcome cohorts for the study.</span>
+<span id="cb2-207"><a href="#cb2-207"></a></span>
+<span id="cb2-208"><a href="#cb2-208"></a><span class="ss">- </span>Used Julia to convert cohort definitions into executable SQL for DuckDB querying.</span>
+<span id="cb2-209"><a href="#cb2-209"></a></span>
+<span id="cb2-210"><a href="#cb2-210"></a>In the next post, I’ll walk through how we go from raw clinical data to predictive modeling, with Julia code examples that highlight feature extraction, data processing, and model training-bringing the full PLP pipeline to life.</span>
+<span id="cb2-211"><a href="#cb2-211"></a></span>
+<span id="cb2-212"><a href="#cb2-212"></a><span class="fu">## Acknowledgements</span></span>
+<span id="cb2-213"><a href="#cb2-213"></a></span>
+<span id="cb2-214"><a href="#cb2-214"></a>Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.</span>
+<span id="cb2-215"><a href="#cb2-215"></a></span>
+<span id="cb2-216"><a href="#cb2-216"></a><span class="co">[</span><span class="ot">Jacob S. Zelko</span><span class="co">](https://jacobzelko.com)</span>: aka, <span class="co">[</span><span class="ot">TheCedarPrince</span><span class="co">](https://github.com/TheCedarPrince)</span></span>
+<span id="cb2-217"><a href="#cb2-217"></a></span>
+<span id="cb2-218"><a href="#cb2-218"></a>_Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure._</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
