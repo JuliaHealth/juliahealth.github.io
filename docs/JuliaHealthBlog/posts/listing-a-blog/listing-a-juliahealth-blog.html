@@ -249,8 +249,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Every contribution, from a quick tip to a detailed project summary, adds value. Contributions can range from Public Health, Medical-Imaging, Neurobiology, Seizure-detection, Virtual-cell modelling and Epigenetics.</p>
 <blockquote class="blockquote">
-<p>Juliahealth community has close-knit community of scientists and researchers actively in the medical-field. <img src="./juliahealth_vertical.png" class="img-fluid" alt="Juliahealth Ghibli vertical image"></p>
+<p>Juliahealth is a community of scientists, researchers and contributors who are actively in the medical-field.</p>
 </blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./juliahealth_vertical.png" style="height:6in" class="figure-img"></p>
+<figcaption>“Juliahealth Ghibli vertical image”</figcaption>
+</figure>
+</div>
 </section>
 <section id="the-blogging-workflow-a-gentle-walkthrough" class="level1">
 <h1>The Blogging Workflow: A Gentle Walkthrough</h1>
@@ -323,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># csl: ./../../ieee-with-url.csl # Path to the citation style file [confirm path]. This makes citations look consistent.</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OPTIONAL / ADVANCED ---</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># image: false # Path to an image to show in post listings/social media previews. Place the image in this folder.</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># image: false</span></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># engine: julia # Uncomment ONLY if you have Julia code blocks (```julia) you want Quarto to run when building the site.</span></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># draft: true # Keep as true while writing; REMOVE or set to 'false' when ready to publish.</span></span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -351,11 +357,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><em>Tip:</em> If you uncommented <code>engine: julia</code> in the YAML header, Quarto can actually run this Julia code and include the output directly in your post!</p></li>
 <li><p><strong>Lists:</strong></p>
 <ul>
-<li>Unordered (bullets): Use <code>-</code>, <code>*</code>, or <code>+</code> at the start of a line. <code>markdown     - First item     - Second item       * A nested item</code></li>
-<li>Ordered (numbers): Use <code>1.</code>, <code>2.</code>, etc. <code>markdown     1. Step one     2. Step two</code></li>
+<li>Unordered (bullets): Use <code>-</code>, <code>*</code>, or <code>+</code> at the start of a line. &gt; <img src="./unordered_list.png" class="img-fluid" alt="Unordered list image with a nested element"></li>
+<li>Ordered (numbers): Use <code>1.</code>, <code>2.</code>, etc. &gt; <img src="./ordered_list.png" class="img-fluid" alt="Ordered list image with numbers"></li>
 </ul></li>
-<li><p><strong>Links:</strong> Use <code>[Text to display](URL)</code>. <code>markdown     Visit the [JuliaHealth GitHub](https://github.com/JuliaHealth).</code></p></li>
-<li><p><strong>Images:</strong> Use <code>![Alternative text description for accessibility](./image_filename.png)</code>. Put the image file (e.g., <code>image_filename.png</code>) in the <em>same folder</em> as your <code>.qmd</code> file. The alt text is important! <code>markdown     ![Diagram showing the workflow](./workflow-diagram.png)     *Optional: Add a caption below the image using italics.*</code></p></li>
+<li><p><strong>Links:</strong> Use <code>[Text to display](URL)</code>. &gt; <img src="./markdown_url.png" class="img-fluid" alt="Format for embedding a URL in a markdown file"> &gt; <em>Format for embedding a URL in a markdown file</em></p></li>
+<li><p><strong>Images:</strong> Use <code>![Alternative text description for accessibility](./image_filename.png)</code>. Put the image file (e.g., <code>image_filename.png</code>) in the <em>same folder</em> as your <code>.qmd</code> file. The alt text is important! &gt; <img src="./markdown_image.png" class="img-fluid" alt="Format for embedding an image in a markdown file"> &gt; <em>Format for embedding an image in a markdown file</em></p></li>
 <li><p><strong>Citations:</strong> If you need to cite papers or other sources:</p>
 <ol type="1">
 <li>Create a file named <code>references.bib</code> in the same folder as your <code>.qmd</code> file.</li>
@@ -379,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Run Preview:</strong> Execute the <code>quarto preview</code> command, pointing it to your <em>specific post file</em>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the path is correct!</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview posts/2025-05-01-dicom-tools-intro/index.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>Alternatively, you might be able to preview the entire site, which will build all posts including yours:</em> ~<del>bash # Sometimes this works better, especially if posts link to each other # quarto preview</del>~</p>
+<p><em>Alternatively, you might be able to preview the entire site, which will build all posts including yours:</em></p>
 <p>Quarto will process your file (and potentially run code if you enabled the engine) and should automatically open a preview in your web browser.</p></li>
 <li><p><strong>Review Carefully:</strong> Check everything:</p>
 <ul>

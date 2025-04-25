@@ -52,8 +52,9 @@ You might be wondering, "Is my work worth a blog post?" Absolutely! Here’s why
 Every contribution, from a quick tip to a detailed project summary, adds value.
 Contributions can range from Public Health, Medical-Imaging, Neurobiology, Seizure-detection, Virtual-cell modelling and Epigenetics.
 
-> Juliahealth community has close-knit community of scientists and researchers actively in the medical-field.
-![Juliahealth Ghibli vertical image](./juliahealth_vertical.png)
+> Juliahealth is a community of scientists, researchers and contributors who are actively in the medical-field.
+
+!["Juliahealth Ghibli vertical image"](./juliahealth_vertical.png){height=6in}
 
 # The Blogging Workflow: A Gentle Walkthrough
 
@@ -187,14 +188,11 @@ Here are the basics:
     *   Ordered (numbers): Use `1.`, `2.`, etc.
         > ![Ordered list image with numbers](./ordered_list.png)
 *   **Links:** Use `[Text to display](URL)`.
-    ```markdown
-    Visit the [JuliaHealth GitHub](https://github.com/JuliaHealth).
-    ```
+    > ![Format for embedding a URL in a markdown file](./markdown_url.png)
+    > *Format for embedding a URL in a markdown file*
 *   **Images:** Use `![Alternative text description for accessibility](./image_filename.png)`. Put the image file (e.g., `image_filename.png`) in the *same folder* as your `.qmd` file. The alt text is important!
-    ```markdown
-    ![Diagram showing the workflow](./workflow-diagram.png)
-    *Optional: Add a caption below the image using italics.*
-    ```
+    > ![Format for embedding an image in a markdown file](./markdown_image.png)
+    > *Format for embedding an image in a markdown file*
 *   **Citations:** If you need to cite papers or other sources:
     1.  Create a file named `references.bib` in the same folder as your `.qmd` file.
     2.  Add entries in BibTeX format (you can often export these from reference managers like Zotero or sites like Google Scholar).
