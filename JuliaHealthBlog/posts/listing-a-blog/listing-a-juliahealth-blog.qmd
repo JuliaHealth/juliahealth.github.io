@@ -50,7 +50,7 @@ You might be wondering, "Is my work worth a blog post?" Absolutely! Here’s why
 *   **Give Back:** Contribute to the open-source spirit that makes communities like JuliaHealth thrive.
 
 Every contribution, from a quick tip to a detailed project summary, adds value.
-Contributions can range from Public Health, Medical-Imaging, Neurobiology, Seizure-detection, Virtual-cell modelling and Epigenetics.
+Contributions can range from Public Health, Medical-Imaging, Neurobiology, Seizure-detection, Virtual-cell modelling, Epigenetics and Simulation models.
 
 > Juliahealth is a community of scientists, researchers and contributors who are actively in the medical-field.
 
