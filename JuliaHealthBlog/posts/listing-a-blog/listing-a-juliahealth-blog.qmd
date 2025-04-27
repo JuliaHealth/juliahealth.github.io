@@ -4,7 +4,7 @@ description: "Feeling inspired by JuliaHealth projects? This guide walks you thr
 author: "JuliaHealth Community (Leader JacobZelko, Contributor DivyanshGoyal)" # You can credit yourself or keep it general
 date: "2025-04-28" # Use today's date or the intended publication date
 bibliography: ./references.bib # Standard path within a post directory
-csl: ./../../ieee-with-url.csl # Assumes this path relative to the post directory is correct [confirm path]
+csl: ./../../ieee-with-url.csl # Assumes this path relative to the post directory is correct
 toc: true # Adds a helpful table of contents
 # engine: julia # Only uncomment this if your tutorial *itself* needs executable Julia code
 image: false
@@ -144,7 +144,7 @@ categories: # Keywords to help people find your post
   - DICOM.jl # Specific package/tool mentioned
 toc: true # Set to 'true' to automatically create a Table of Contents (highly recommended for longer posts)
 bibliography: ./references.bib # Tells Quarto where to find your citation list (if you have one). Keep this file in the same folder.
-# csl: ./../../ieee-with-url.csl # Path to the citation style file [confirm path]. This makes citations look consistent.
+# csl: ./../../ieee-with-url.csl # Path to the citation style file. This makes citations look consistent.
 
 # --- OPTIONAL / ADVANCED ---
 # image: false
@@ -278,9 +278,9 @@ The final step! A Pull Request (PR) is how you formally propose your changes (yo
 
 1.  **Go to GitHub:** Open your web browser and navigate to *your fork* of the `JuliaHealthBlog` repository on GitHub (`https://github.com/YOUR_USERNAME/JuliaHealthBlog`).
 2.  **Start the PR:** You should see a yellow banner near the top saying your branch (`add-dicom-intro-post`) had recent pushes, with a green button "Compare & pull request". Click that button!
-    *   If you don't see the banner, go to the main `JuliaHealth/JuliaHealthBlog` repository **[confirm blog repo URL]**. Click the "Pull requests" tab, then the green "New pull request" button.
+    *   If you don't see the banner, go to the main `JuliaHealth/JuliaHealthBlog` repository. Click the "Pull requests" tab, then the green "New pull request" button.
     *   On the next screen, you need to ensure the settings are correct:
-        *   **Base repository:** `JuliaHealth/JuliaHealthBlog` Base branch: `main` (or `master`, **[confirm base branch name]**)
+        *   **Base repository:** `JuliaHealth/JuliaHealthBlog` Base branch: `main`
         *   **Head repository:** `YOUR_USERNAME/JuliaHealthBlog` Compare branch: `add-dicom-intro-post` (your branch name)
 3.  **Write a Description:** Give your PR a clear title (e.g., "Add Blog Post: Introduction to DICOM Tools"). In the description box, briefly explain what your post is about. You can link to relevant issues if applicable. Be polite!
     ~~~
@@ -311,9 +311,9 @@ Once you open the PR, one or more maintainers from the JuliaHealth community wil
 
 Feeling stuck at any point? That's perfectly okay! The JuliaHealth community is friendly and helpful. Don't hesitate to reach out on our communication channels:
 
-*   **Discourse Forum:** Post in the [Biology, Health, and Medicine category](https://discourse.julialang.org/c/domain/bio/15) **[confirm Discourse link]**.
+*   **Discourse Forum:** Post in the [Biology, Health, and Medicine category](https://discourse.julialang.org/c/domain/bio/15).
 *   **Zulip Chat:** Join the `#biology-health-and-medicine` stream.
-*   **Slack Channel:** Ask in the `#health-and-medicine` channel ([Get invite link here](https://julialang.org/slack/) **[confirm invite link]**).
+*   **Slack Channel:** Ask in the `#health-and-medicine` channel ([Get invite link here](https://julialang.org/slack/)).
 
 Explain where you're having trouble, and someone will likely guide you.
 
