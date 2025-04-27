@@ -1,7 +1,7 @@
 ---
 title: "Sharing Your Story: A Guide to Contributing Your First Blog Post to JuliaHealth"
 description: "Feeling inspired by JuliaHealth projects? This guide walks you through creating and sharing your own blog post on our website using Quarto. It's easier than you think!"
-author: "JuliaHealth Community (Leader @JacobZelko, Contributor @DivyanshGoyal)" # You can credit yourself or keep it general
+author: "JuliaHealth Community (Leader JacobZelko, Contributor DivyanshGoyal)" # You can credit yourself or keep it general
 date: "2025-04-28" # Use today's date or the intended publication date
 bibliography: ./references.bib # Standard path within a post directory
 csl: ./../../ieee-with-url.csl # Assumes this path relative to the post directory is correct [confirm path]
@@ -20,7 +20,7 @@ categories:
 # Welcome, Future JuliaHealth Blogger! 👋
 
 !["Juliahealth Ghibli Style Artifact"](./juliahealth_ghibli.png)
-> Hello! | ¡Hola! | Hallo! | !مرحبا – Welcome to the cedar ledge!  ~ Leader @JacobZelko
+> Hello! | ¡Hola! | Hallo! | !مرحبا – Welcome to the cedar ledge!  ~ Leader JacobZelko
 
 Hello there! We're thrilled you're interested in contributing to the JuliaHealth community blog. Whether you've just completed a fascinating analysis, developed a useful utility package, want to share insights from a research paper, or simply have a tutorial idea related to Julia in the health domain, your voice is valuable. The JuliaHealth organization is built on the collective efforts of people like you, using the power of Julia to make strides in medicine, healthcare, public health, and biomedical research.
 
@@ -184,14 +184,14 @@ Here are the basics:
 
 *   **Lists:**
     *   Unordered (bullets): Use `-`, `*`, or `+` at the start of a line.
-        > ![Unordered list image with a nested element](./unordered_list.png)
+        > !["Unordered list image with a nested element"](./unordered_list.png)
     *   Ordered (numbers): Use `1.`, `2.`, etc.
-        > ![Ordered list image with numbers](./ordered_list.png)
+        > !["Ordered list image with numbers"](./ordered_list.png)
 *   **Links:** Use `[Text to display](URL)`.
-    > ![Format for embedding a URL in a markdown file](./markdown_url.png)
+    > !["Format for embedding a URL in a markdown file"](./markdown_url.png)
     > *Format for embedding a URL in a markdown file*
 *   **Images:** Use `![Alternative text description for accessibility](./image_filename.png)`. Put the image file (e.g., `image_filename.png`) in the *same folder* as your `.qmd` file. The alt text is important!
-    > ![Format for embedding an image in a markdown file](./markdown_image.png)
+    > !["Format for embedding an image in a markdown file"](./markdown_image.png)
     > *Format for embedding an image in a markdown file*
 *   **Citations:** If you need to cite papers or other sources:
     1.  Create a file named `references.bib` in the same folder as your `.qmd` file.
@@ -322,3 +322,5 @@ Explain where you're having trouble, and someone will likely guide you.
 We genuinely hope this guide makes the process of contributing to the JuliaHealth blog feel approachable and exciting. Sharing your unique perspective, your technical solutions, or your research journey enriches our community immensely. Whether it's your first post or your fiftieth, your contribution matters.
 
 We can't wait to read what you have to share! Happy blogging!
+
+> !["School sometimes is distress image"](./buildspace_stream.jpg)
