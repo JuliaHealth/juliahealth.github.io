@@ -2,6 +2,7 @@
   {
     "listing": "/JuliaHealthBlog/index.html",
     "items": [
+      "/JuliaHealthBlog/posts/juliahealth-ecosystem/ecosystem.html",
       "/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html",
       "/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html",
       "/JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html",
