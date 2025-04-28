@@ -56,6 +56,7 @@ Based on the packages currently under the JuliaHealth organization and exciting 
 ::: {.callout title="1. Medical Imaging"}
 
 ![](./MedEye3D.jl.png){fig-align="center"}
+**Point of Contact:** **[Jakub Mitura](https://github.com/jakubMitura14)** | **[cncastillo](https://github.com/cncastillo)** | **[Divyansh Goyal](https://github.com/divital-coder)**
 
 This is already a strong area within JuliaHealth, focusing on the handling, processing, visualization, and analysis of medical images from various modalities.
 
@@ -69,6 +70,7 @@ This is already a strong area within JuliaHealth, focusing on the handling, proc
 ::: {.callout title="2. Observational Health Data Science & OMOP CDM"}
 
 ![](./omp_cdm.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Jay Sanjay](https://github.com/jay-sanjay)** 
 
 This area centers on leveraging real-world health data, often standardized using models like the OMOP Common Data Model, for research and analysis.
 
@@ -82,6 +84,7 @@ This area centers on leveraging real-world health data, often standardized using
 ::: {.callout title="3. Neuroscience & Neurophysiology"}
 
 ![](./neuroscience.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Adam Wysokiński](https://github.com/AdamWysokinski)** 
 
 Dedicated to tools for analyzing data from the brain and nervous system.
 
@@ -95,6 +98,7 @@ Dedicated to tools for analyzing data from the brain and nervous system.
 ::: {.callout title="4. Simulation & Computational Modeling"}
 
 ![](./simluation.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Yolhan Mannes](https://github.com/yolhan83)** | **[Divyansh Goyal](https://github.com/divital-coder)**
 
 Using computational power to simulate biological and physiological processes relevant to health.
 
@@ -108,6 +112,7 @@ Using computational power to simulate biological and physiological processes rel
 ::: {.callout title="5. Public Health & Epidemiology"}
 
 ![](./epidemiology.png){fig-align="center"}
+**Point of Contact:** **[Krishna Bhogaonker](https://github.com/00krishna)** 
 
 Applying computational tools to population health, disease surveillance, and epidemiological research.
 
@@ -121,6 +126,7 @@ Applying computational tools to population health, disease surveillance, and epi
 ::: {.callout title="6. Bioinformatics & Data Querying"}
 
 ![](./bioinformatics.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** 
 
 Tools focused on interacting with biomedical databases and literature.
 
@@ -132,6 +138,7 @@ Tools focused on interacting with biomedical databases and literature.
 ::: {.callout title="7. Interoperability, Standards & Foundational Tools"}
 
 ![](./interoperability.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** 
 
 Packages providing core functionalities, implementing health standards (FHIR, DICOM, OMOP), or offering essential utilities.
 
@@ -142,9 +149,9 @@ Packages providing core functionalities, implementing health standards (FHIR, DI
 ::: {.callout title="8. Health AI/ML & Text Analysis"}
 
 ![](./health_llm.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Param Thakkar](https://github.com/ParamThakkar123)** 
 
 Applying machine learning techniques, including NLP, to health data.
-
 *   **Focus:** Association rule learning, parsing clinical text (cTAKES), using specific ML models for health predictions (CloToP), foundational ML tools, interacting with health LLMs.
 *   **Relevant Packages:** `ARules.jl`, `CAOS.jl`, `CTakesParser.jl`, `MTIWrapper.jl`, `CloToP.jl`, `HealthMLBase.jl`, `JuliaHealthLLM`, `OMOPCDMPredictor`.
 :::
