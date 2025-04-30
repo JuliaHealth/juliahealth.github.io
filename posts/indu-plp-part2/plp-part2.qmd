@@ -12,8 +12,6 @@ categories:
   - patient-level prediction
   - omop cdm
   - observational health
-  - feature engineering
-  - preprocessing
   - machine learning
 ---
 
@@ -21,9 +19,9 @@ categories:
 
 Welcome back to Part 2 of the PLP-Pipeline blog series!
 
-In [Part 1](../indu-plp-part1plp-part1.qmd), we formulated a research question, loaded synthetic patient data, and constructed our **target (hypertension)** and **outcome (diabetes)** cohorts using OHDSI definitions and Julia tools. If you haven’t read that yet, I recommend checking it out before diving in here.
+In [Part 1](../indu-plp-part1plp-part1.qmd), we formulated a research question, loaded synthetic patient data, and constructed our target (hypertension) and outcome (diabetes) cohorts using OHDSI definitions and Julia tools. If you haven’t read that yet, I recommend checking it out before diving in here.
 
-Now in Part 2, we move from **cohorts to models** - i.e., we’ll bridge the gap between structured clinical data and predictive modeling. Specifically, we’ll walk through:
+Now in Part 2, we move from cohorts to models - i.e., we’ll bridge the gap between structured clinical data and predictive modeling. Specifically, we’ll walk through:
 
 - Extracting patient-level features using cohort definitions
 - Performing preprocessing (imputation, encoding, normalization)
@@ -47,7 +45,7 @@ I have translated these principles into Julia using DuckDB and MLJ.
 
 # Step 1: Feature Engineering from OMOP CDM
 
-We extract features from several structured OMOP CDM domains such as:
+We extract features from several structured OMOP CDM tables such as:
 
 - `condition_occurrence`
 - `drug_exposure`
@@ -132,9 +130,9 @@ diabetes_query = """
 diabetes_df = execute(conn, diabetes_query) |> DataFrame
 ```
 
-Next, we perform a **left join** with the previously created features_df, which contains covariates for all patients in the hypertension cohort. This ensures every patient has their features preserved, and only those present in the diabetes cohort will have a 1 under the outcome column.
+Next, we perform a **left join** with the previously created `features_df`, which contains covariates for all patients in the hypertension cohort. This ensures every patient has their features preserved, and only those present in the diabetes cohort will have a $1$ under the outcome column.
 
-For patients not found in the outcome cohort, the join results in a missing value. We treat these as negative cases (0), meaning the patient did not develop diabetes during the follow-up period.
+For patients not found in the outcome cohort, the join results in a missing value. We treat these as negative cases $0$, meaning the patient did not develop diabetes during the follow-up period.
 
 ```julia
 df = leftjoin(features_df, diabetes_df, on=:subject_id)
@@ -142,8 +140,8 @@ df[!, :outcome] .= coalesce.(df[!, :outcome], 0)
 ```
 This gives us a binary classification dataset with:
 
-- **1** → patient developed diabetes after hypertension
-- **0** → patient did not develop diabetes (or not within the observed period)
+- $1$: patient developed diabetes after hypertension
+- $0$: patient did not develop diabetes (or not within the observed period)
 
 This labeled dataset is now ready for preprocessing and model training in later steps.
 
