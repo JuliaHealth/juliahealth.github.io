@@ -36,9 +36,13 @@ You can find my [**PLP-Pipeline Project Link Here**](https://github.com/kosuri-i
 
 ## What is Observational Health?
 
-Observational health research involves studying patient data collected in real-world settings, typically through electronic health records (EHRs), claims databases, or registries. Unlike clinical trials, which are controlled and experimental, observational studies allow researchers to analyze the effects of treatments, interventions, and disease progressions in a more naturalistic setting. The advantage of observational health research is that it provides a vast, diverse dataset that reflects how treatments and conditions unfold in everyday clinical practice.
+Observational health research examines real-world patient data such as electronic health records (EHRs), claims, and registries to understand health and disease outside of controlled trial environments. This type of research plays a vital role in informing decisions by clinicians, policymakers, and researchers, especially when addressing population-level health questions and disparities.
 
-However, analyzing observational health data can be challenging due to its complexity, unstructured nature, and biases inherent in real-world data. This is where standardized data models like OMOP CDM come into play.
+A core aspect of observational health is the use of phenotype definitions, which describe a specific set of observable patient characteristics (e.g., diagnosis codes, symptoms, demographics, biomarkers) that define a population of interest. Creating accurate and reproducible phenotype definitions is essential for ensuring research validity. However, challenges such as missing data, demographic biases, and inconsistently recorded information can significantly impact the reliability of these definitions.
+
+To support reproducible research at scale, communities like OHDSI (Observational Health Data Sciences and Informatics) have developed standards such as the OMOP Common Data Model (CDM) and workflows for developing computable phenotype definitions. 
+
+In our work, we utilize observational health data already structured through the OMOP Common Data Model (CDM). We construct patient cohorts based on existing phenotype definitions. These cohorts then serve as the basis for building patient-level prediction models, enabling us to explore and generate insights that can support data-driven clinical decision-making.
 
 ## What Is the OMOP CDM?
 
@@ -57,27 +61,27 @@ By transforming diverse healthcare datasets into a common format, the OMOP CDM e
 
 ## What is Patient-Level Prediction (PLP)?
 
-**Patient-Level Prediction (PLP)** refers to the use of machine learning or statistical models to estimate the likelihood of a specific clinical outcome for an individual patient, based on their personal medical history and characteristics.
+**Patient-Level Prediction (PLP)** is a data-driven approach that uses machine learning or statistical models to estimate the risk of specific clinical outcomes for individual patients, based on their historical healthcare data.
 
 The key goal of PLP is to answer personalized clinical questions like:
 
-> *"For a patient who recently had a hospital visit for chest pain, what is their risk of experiencing a heart attack?"*
+> *"For patients who present with chest pain leading to a hospital visit, can we predict which of these patients will go on to experience a heart attack after their hospital visit?"*
 
-PLP leverages patient data such as diagnoses, medications, procedures, and lifestyle factors and applies machine learning models to estimate the risk of future health events. Unlike traditional studies that provide population-level insights, PLP aims to provide targeted predictions that can help inform individual clinical decisions.
+PLP focuses on using observational patient data such as diagnoses, medications, procedures, and demographics - to predict individual-level risks of future health events. While it may sound similar to precision medicine, there's a key distinction: precision medicine aims to tailor treatment plans based on a patient’s genetics, environment, and lifestyle, whereas PLP is specifically about forecasting outcomes for individual patients using data-driven models. These predictions can support timely and personalized clinical decisions.
 
 ## Why PLP in Julia?
 
-Traditional PLP workflows often involve switching between several tools and languages: using SQL for data extraction, R for cohort definition, and Python for machine learning. This fragmented approach leads to inefficiencies and challenges in reproducibility, scalability, and maintainability.
+While established PLP workflows are well-supported in R through OHDSI's suite of packages, our work explores an alternative approach using Julia - a high-performance language that enables building efficient and reproducible pipelines from end to end.
 
-Julia offers a compelling alternative by enabling end-to-end PLP pipelines within a single, high-performance language. It brings together:
+Julia offers several advantages that make it well-suited for observational health research:
 
-- **Composability:** Julia makes it easy to develop modular, reusable components, enabling clear and extendable PLP pipelines.
+- **Composability**: Julia’s modular design supports reusable components, making PLP pipelines easier to maintain and extend.
+  
+- **Speed**: With performance comparable to C, Julia efficiently handles large, complex healthcare datasets.
 
-- **Speed:** Julia's performance is comparable to C, making it ideal for handling large healthcare datasets, which are often complex and voluminous.
+- **Unified Ecosystem**: Tools like `OHDSICohortExpressions.jl`, `DataFrames.jl`, `MLJ.jl` etc.  integrate seamlessly, enabling cohort definition, data transformation, and modeling within one consistent environment.
 
-- **Unified Ecosystem:** Julia integrates packages such as OHDSICohortExpressions.jl for cohort definitions, MLJ.jl for machine learning, and DataFrames.jl for structured data handling, enabling a seamless end-to-end PLP pipeline within one language.
-
-With Julia, it becomes possible to define, build, and evaluate PLP pipelines in a clean, cohesive, and reproducible manner-making it an ideal language for modern health informatics research.
+Additionally, Julia features a rich and growing ecosystem with many tools for scientific computing and data science, making it a strong alternative for modern health informatics workflows.
 
 <br>
 <center>
@@ -96,34 +100,25 @@ This paper laid the groundwork for my implementation and inspired several core c
 
 ## Methodologies from the Paper
 
-1. Standardized Framework for PLP
-Proposes a **standardized framework** for generating patient-level prediction models that ensures consistency across different datasets and settings.
+1. Standardized Framework for PLP - Outlines a consistent process for building patient-level prediction models across datasets and settings.
 
-2. Defining the Prediction Problem
-Stresses the importance of **clearly defining the problem**, including the target cohort, outcome, and time-at-risk period for accurate prediction.
+2. Defining the Prediction Problem - Emphasizes clear definition of target, outcome, and time-at-risk for valid predictions.
 
-3. Cohort Definition and Data Extraction
-Focuses on **well-defined cohorts** using standardized databases like OMOP CDM for consistent data extraction and reproducibility.
+3. Cohort Definition and Data Extraction - Uses standardized OMOP CDM cohorts to ensure reproducibility and consistent data extraction.
 
-4. Feature Construction
-Highlights **constructing features** from observational data (e.g., clinical conditions, demographics) for model input.
+4. Feature Construction - Derives meaningful predictors from observational data like conditions and demographics.
 
-5. Model Training and Evaluation
-Involves **training models** with machine learning algorithms and **evaluating** their performance using metrics like AUC and cross-validation.
+5. Model Training and Evaluation - Trains ML models and evaluates them using metrics like AUC and cross-validation.
 
-6. Statistical Methods for Model Evaluation
-Uses **statistical metrics** such as AUC, calibration, and decision curve analysis to assess model performance and clinical utility.
-
-7. Reproducibility and Transparency
-Ensures **reproducibility and transparency**, documenting all steps to facilitate consistent and reproducible model development across settings.
+We are adapting this framework for our PLP pipeline to ensure a consistent approach.
 
 # Research Question
 
-The core research question we aim to address in this PLP pipeline is:
+As an example, here is one question we could potentially explore within this PLP pipeline:
 
 > **Among patients diagnosed with hypertension, who will go on to develop diabetes?**
 
-This question is of paramount importance in clinical decision-making, as it helps identify high-risk individuals who may benefit from early intervention to prevent or manage diabetes. The challenge in answering this question lies in accurately identifying the patients with hypertension who are at risk of progressing to diabetes, based on their medical history and risk factors.
+The focus is on identifying patients with hypertension who may progress to diabetes based on their medical history and risk factors.
 
 ## Cohort Construction
 
@@ -137,9 +132,14 @@ These cohort definitions are central to structuring the data pipeline, as they f
 
 # Defining Cohorts using OHDSICohortExpressions.jl
 
-In the context of this research, I received a 20GB synthetic dataset that contains 1,115,000 fake patients (1,000,000 alive and 115,000 deceased), each with 3 years of medical history. This dataset was provided as a DuckDB database, a lightweight, high-performance analytical database that allows fast querying of large datasets directly from local files without the need for a server.
+In the context of this research, I received a 20GB synthetic dataset that contains 1,115,000 fake patients (1,000,000 alive and 115,000 deceased), each with 3 years of medical history. This dataset was provided as a DuckDB database, a lightweight, high-performance analytical database that allows fast querying of large datasets directly from local files without the need for a server. For more details on how to use DuckDB with Julia, refer to the [DuckDB Julia Client Documentation](https://duckdb.org/docs/stable/clients/julia.html).
 
-For cohort creation, I used OHDSI cohort definitions provided directly by my mentor in the form of two JSON files: **Hypertension.json** (for the target cohort) and **Diabetes.json** (for the outcome cohort). To execute them, I used the OHDSICohortExpressions.jl package to convert the JSON definitions into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.
+For cohort creation, I used OHDSI cohort definitions provided directly by my mentor in the form of two JSON files:
+
+- **Target cohort**: `Hypertension.json`
+- **Outcome cohort**: `Diabetes.json`
+
+To execute them, I used the [OHDSICohortExpressions](https://github.com/JuliaHealth/OHDSICohortExpressions.jl) to convert the JSON definiti.jlons into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.
 
 Here’s the breakdown of the process:
 
@@ -153,7 +153,7 @@ Here’s the breakdown of the process:
 
 ### Cohort Definition Code
 
-Here’s how we set up the database connection and load the Parquet files into DuckDB for querying:
+Here’s how we set up the DuckDB connection and define cohorts using OHDSI JSON definitions:
 
 **File:** `cohort_definition.jl`
 
@@ -162,6 +162,9 @@ import DBInterface: connect, execute
 import FunSQL: reflect, render
 import OHDSICohortExpressions: translate
 using DuckDB, DataFrames
+
+# We use DrWatson.jl to manage project-relative paths using `datadir(...)`
+# This ensures portable and reproducible file access within the project
 
 # Read the cohort definitions from JSON files (Hypertension and Diabetes definitions)
 target_json = read(datadir("exp_raw", "definitions", "Hypertension.json"), String)  # Target cohort (Hypertension)
@@ -175,6 +178,16 @@ function process_cohort(def_json, def_id, conn)
   catalog = reflect(conn; schema="dbt_synthea_dev", dialect=:duckdb)  # Reflect the database schema
   fun_sql = translate(def_json; cohort_definition_id=def_id)  # Translate the JSON to SQL query
   sql = render(catalog, fun_sql)  # Render the SQL query
+
+  # Ensure the cohort table exists before inserting
+  execute(conn, """
+  CREATE TABLE IF NOT EXISTS dbt_synthea_dev.cohort (
+    cohort_definition_id INTEGER,
+    subject_id INTEGER,
+    cohort_start_date DATE,
+    cohort_end_date DATE
+  );
+  """)
 
   # Execute the SQL query to insert cohort data into the database
   execute(conn, """
