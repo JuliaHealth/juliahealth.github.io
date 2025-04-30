@@ -607,5 +607,61 @@
     "title": "Related Organizations",
     "section": "Companies",
     "text": "Companies\n\nBeacon Biosignals - Intelligent brain monitoring technologies (website)\nPumasAI - Pharmaceutical modeling and simulation (website)"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "Generated on: 2025-04-30 19:00:58\n\n\n\nTotal Repositories Analyzed: 53\nTotal Stars: 489\nTotal Forks: 142\nTotal Issues: 2032 (Open: 337, Closed: 1695)\nOverall Issue Resolution Rate: 83.4%\nTotal Open PRs: 72\nTotal Merged PRs: 1112\nLanguages: Jupyter Notebook, Julia, JavaScript, TeX, HTML, Java\n\n\n\n\n\nKomaMRI.jl: 136 stars\nDICOM.jl: 57 stars\nBloodFlowTrixi.jl: 38 stars\nPubChemCrawler.jl: 24 stars\nThunderbolt.jl: 20 stars\n\n\n\n\n\nJuliaHealthLLM: 11 commits\nThunderbolt.jl: 9 commits\nKomaMRI.jl: 7 commits\nMedEval3D.jl: 6 commits\nBloodFlowTrixi.jl: 3 commits\n\n\n\n\n\nCAOS.jl: 100.0% (22/22)\nHealthMLBase.jl: 100.0% (22/22)\nFHIRClientXML.jl: 100.0% (9/9)\nNeuroAnalyzer.jl: 100.0% (16/16)\nDiagnosisClassification.jl: 100.0% (14/14)\n\n\n\n\n\nAdamWysokinski: 2228 commits\ncncastillo: 1027 commits\njakubMitura14: 795 commits\npvillacorta: 673 commits\nDilumAluthge: 643 commits\n\n\n\n\n\nTop Repos by Stars\nTop Repos by Monthly Commits\nIssue Status\nOverall Commit Activity\nTop Contributors\nOverall Issue Distribution\nPull Request Summary\n\n\n\n\n\nRepository Metrics CSV\nContributor Summary CSV"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#organization-overview",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#organization-overview",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "Total Repositories Analyzed: 53\nTotal Stars: 489\nTotal Forks: 142\nTotal Issues: 2032 (Open: 337, Closed: 1695)\nOverall Issue Resolution Rate: 83.4%\nTotal Open PRs: 72\nTotal Merged PRs: 1112\nLanguages: Jupyter Notebook, Julia, JavaScript, TeX, HTML, Java"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-repositories-by-stars",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-repositories-by-stars",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "KomaMRI.jl: 136 stars\nDICOM.jl: 57 stars\nBloodFlowTrixi.jl: 38 stars\nPubChemCrawler.jl: 24 stars\nThunderbolt.jl: 20 stars"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-repositories-by-monthly-commits-last-30-days",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-repositories-by-monthly-commits-last-30-days",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "JuliaHealthLLM: 11 commits\nThunderbolt.jl: 9 commits\nKomaMRI.jl: 7 commits\nMedEval3D.jl: 6 commits\nBloodFlowTrixi.jl: 3 commits"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-repositories-by-issue-resolution-rate",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-repositories-by-issue-resolution-rate",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "CAOS.jl: 100.0% (22/22)\nHealthMLBase.jl: 100.0% (22/22)\nFHIRClientXML.jl: 100.0% (9/9)\nNeuroAnalyzer.jl: 100.0% (16/16)\nDiagnosisClassification.jl: 100.0% (14/14)"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-contributors-by-total-commits",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#top-5-contributors-by-total-commits",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "AdamWysokinski: 2228 commits\ncncastillo: 1027 commits\njakubMitura14: 795 commits\npvillacorta: 673 commits\nDilumAluthge: 643 commits"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#generated-visualizations",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#generated-visualizations",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "Top Repos by Stars\nTop Repos by Monthly Commits\nIssue Status\nOverall Commit Activity\nTop Contributors\nOverall Issue Distribution\nPull Request Summary"
+  },
+  {
+    "objectID": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#data-files",
+    "href": "JuliaHealthBlog/posts/juliahealth-analytics/summary_2025-04-30_190058.html#data-files",
+    "title": "JuliaHealth GitHub Analytics Summary",
+    "section": "",
+    "text": "Repository Metrics CSV\nContributor Summary CSV"
   }
 ]

@@ -1,0 +1,53 @@
+# JuliaHealth GitHub Analytics Summary
+_Generated on: 2025-04-30 19:00:58_
+
+## Organization Overview
+- **Total Repositories Analyzed:** 53
+- **Total Stars:** 489
+- **Total Forks:** 142
+- **Total Issues:** 2032 (Open: 337, Closed: 1695)
+- **Overall Issue Resolution Rate:** 83.4%
+- **Total Open PRs:** 72
+- **Total Merged PRs:** 1112
+- **Languages:** Jupyter Notebook, Julia, JavaScript, TeX, HTML, Java
+
+## Top 5 Repositories by Stars
+1. **KomaMRI.jl:** 136 stars
+2. **DICOM.jl:** 57 stars
+3. **BloodFlowTrixi.jl:** 38 stars
+4. **PubChemCrawler.jl:** 24 stars
+5. **Thunderbolt.jl:** 20 stars
+
+## Top 5 Repositories by Monthly Commits (Last 30 Days)
+1. **JuliaHealthLLM:** 11 commits
+2. **Thunderbolt.jl:** 9 commits
+3. **KomaMRI.jl:** 7 commits
+4. **MedEval3D.jl:** 6 commits
+5. **BloodFlowTrixi.jl:** 3 commits
+
+## Top 5 Repositories by Issue Resolution Rate
+1. **CAOS.jl:** 100.0% (22/22)
+2. **HealthMLBase.jl:** 100.0% (22/22)
+3. **FHIRClientXML.jl:** 100.0% (9/9)
+4. **NeuroAnalyzer.jl:** 100.0% (16/16)
+5. **DiagnosisClassification.jl:** 100.0% (14/14)
+
+## Top 5 Contributors by Total Commits
+1. **AdamWysokinski:** 2228 commits
+2. **cncastillo:** 1027 commits
+3. **jakubMitura14:** 795 commits
+4. **pvillacorta:** 673 commits
+5. **DilumAluthge:** 643 commits
+
+## Generated Visualizations
+- [Top Repos by Stars](top_repos_by_stars.png)
+- [Top Repos by Monthly Commits](top_repos_by_monthly_commits.png)
+- [Issue Status](issue_status_top_repos.png)
+- [Overall Commit Activity](overall_commit_activity.png)
+- [Top Contributors](top_contributors.png)
+- [Overall Issue Distribution](overall_issue_distribution_pie.png)
+- [Pull Request Summary](pull_request_summary.png)
+
+## Data Files
+- [Repository Metrics CSV](repository_metrics_2025-04-30_190058.csv)
+- [Contributor Summary CSV](contributor_summary_2025-04-30_190058.csv)

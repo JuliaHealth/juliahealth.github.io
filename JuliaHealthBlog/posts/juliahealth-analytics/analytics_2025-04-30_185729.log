@@ -130,6 +130,13 @@
 └ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:612
 ┌ Info: Exporting metrics to CSV
 └ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:619
-┌ Error: Analysis failed with a critical error.
-│   exception = (ErrorException("A `nothing` value was found in column 15 and it is not a printable value.\nThere are several ways to handle this situation:\n1) fix the data, perhaps replace `nothing` with `missing`,\n2) use `transform` option with a function to replace `nothing` with whatever value (including `missing`), like `CSV.write(...; transform=(col, val) -> something(val, missing))` or\n3) use `TableOperations.transform` option to transform specific columns\n"), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x000000011c49099d, Ptr{Nothing} @0x0000000144b863fa, Ptr{Nothing} @0x0000000144b8648a, Ptr{Nothing} @0x0000000144b864c8, Ptr{Nothing} @0x0000000144b841a4, Ptr{Nothing} @0x0000000144b847ea, Ptr{Nothing} @0x0000000144b84a80, Ptr{Nothing} @0x0000000144b828bc, Ptr{Nothing} @0x0000000144b82e5e, Ptr{Nothing} @0x0000000144b82eba, Ptr{Nothing} @0x0000000107e4506e, Ptr{Nothing} @0x0000000107e4999e, Ptr{Nothing} @0x0000000107e4af6b, Ptr{Nothing} @0x0000000107e4b446, Ptr{Nothing} @0x0000000107e4b7d4, Ptr{Nothing} @0x0000000107e4b911, Ptr{Nothing} @0x0000000105596c5d, Ptr{Nothing} @0x000000010559640d, Ptr{Nothing} @0x00000001055950f5, Ptr{Nothing} @0x0000000105595798, Base.InterpreterIP in top-level CodeInfo for Main at statement 6, Ptr{Nothing} @0x00000001055b13d6, Ptr{Nothing} @0x00000001055b113e, Ptr{Nothing} @0x00000001055b1ff5, Ptr{Nothing} @0x000000011be00696, Ptr{Nothing} @0x000000011b757b1d, Ptr{Nothing} @0x000000011ae1b0bb, Ptr{Nothing} @0x000000011c224f55, Ptr{Nothing} @0x000000011ac2acf6, Ptr{Nothing} @0x000000011b9eb462, Ptr{Nothing} @0x000000011ac6388a, Ptr{Nothing} @0x00000001055e6632, Ptr{Nothing} @0x00000001055e6546])
-└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:804
+┌ Info: Repository metrics saved to juliahealth_analytics_2025-04-30/repository_metrics_2025-04-30_190055.csv
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:655
+┌ Info: Contributor summary saved to juliahealth_analytics_2025-04-30/contributor_summary_2025-04-30_190055.csv
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:670
+┌ Info: Generating Markdown summary
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:682
+┌ Info: Markdown summary saved to juliahealth_analytics_2025-04-30/summary_2025-04-30_190058.md
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:771
+┌ Info: Analysis completed successfully for 53 repositories.
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:790
