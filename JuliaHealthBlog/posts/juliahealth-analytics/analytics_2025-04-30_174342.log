@@ -1,0 +1,135 @@
+┌ Info: Starting metrics collection for JuliaHealth
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:286
+┌ Info: Found 53 repositories to process
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:293
+┌ Info: Processing repository 1/53: ARules.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 2/53: BioMedQuery.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 3/53: BlindingIndex.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 4/53: BloodFlowTrixi.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 5/53: CAOS.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 6/53: CloToP.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 7/53: CTakesParser.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 8/53: DateShifting.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 9/53: DiagnosisClassification.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 10/53: DICOM.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 11/53: DICOMClient.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 12/53: DICOMTree.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 13/53: EHRAuthentication.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 14/53: EpiJ
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 15/53: FHIRClient.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 16/53: FHIRClientJSON.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 17/53: FHIRClientXML.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 18/53: HealthBase.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 19/53: HealthMLBase.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 20/53: HealthSampleData.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 21/53: ICD_GEMs.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 22/53: IPUMS.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 23/53: ITKIOWrapp.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 24/53: ITKIOWrapper.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 25/53: juliahealth.github.io
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 26/53: juliahealth.github.io-previews
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 27/53: JuliaHealthBlog
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 28/53: JuliaHealthLLM
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 29/53: KomaMRI.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 30/53: MedEval3D.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 31/53: MedEye3d.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 32/53: MedImages.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 33/53: MedPipe3D.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 34/53: MedPipe3DTutorial
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 35/53: MTIWrapper.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 36/53: NCEI.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 37/53: NeuroAnalyzer.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 38/53: ObservationalHealthSubecosystemPaper
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 39/53: OHDSIAPI.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 40/53: OMOPCDMCohortCreator.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 41/53: OMOPCDMDatabaseConnector.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 42/53: OMOPCDMMetrics
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 43/53: OMOPCDMPathways.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 44/53: OMOPCDMPredictor
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 45/53: OMOPCommonDataModel.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 46/53: OMOPVocabMapper.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 47/53: PharmaceuticalClassification.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 48/53: PubChemCrawler.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 49/53: PubMedMiner.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 50/53: SMARTAppLaunch.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 51/53: SMARTBackendServices.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 52/53: Thunderbolt.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Processing repository 53/53: WrapperITKIO.jl
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:296
+┌ Info: Finished collecting metrics for 53 repositories.
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:321
+┌ Info: Generating visualizations...
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:600
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/top_repos_by_stars.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/top_repos_by_monthly_commits.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/issue_status_top_repos.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/overall_commit_activity.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/top_contributors.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/overall_issue_distribution_pie.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Plot saved: juliahealth_analytics_2025-04-30/pull_request_summary.png
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:349
+┌ Info: Visualizations generated in juliahealth_analytics_2025-04-30
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:612
+┌ Info: Exporting metrics to CSV
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:619
+┌ Error: Analysis failed with a critical error.
+│   exception = (ErrorException("A `nothing` value was found in column 15 and it is not a printable value.\nThere are several ways to handle this situation:\n1) fix the data, perhaps replace `nothing` with `missing`,\n2) use `transform` option with a function to replace `nothing` with whatever value (including `missing`), like `CSV.write(...; transform=(col, val) -> something(val, missing))` or\n3) use `TableOperations.transform` option to transform specific columns\n"), Union{Ptr{Nothing}, Base.InterpreterIP}[Ptr{Nothing} @0x000000011c49099d, Ptr{Nothing} @0x0000000144b863fa, Ptr{Nothing} @0x0000000144b8648a, Ptr{Nothing} @0x0000000144b864c8, Ptr{Nothing} @0x0000000144b841a4, Ptr{Nothing} @0x0000000144b847ea, Ptr{Nothing} @0x0000000144b84a80, Ptr{Nothing} @0x0000000144b828bc, Ptr{Nothing} @0x0000000144b82e5e, Ptr{Nothing} @0x0000000144b82eba, Ptr{Nothing} @0x0000000107e4506e, Ptr{Nothing} @0x0000000107e4999e, Ptr{Nothing} @0x0000000107e4af6b, Ptr{Nothing} @0x0000000107e4b446, Ptr{Nothing} @0x0000000107e4b7d4, Ptr{Nothing} @0x0000000107e4b911, Ptr{Nothing} @0x0000000105596c5d, Ptr{Nothing} @0x000000010559640d, Ptr{Nothing} @0x00000001055950f5, Ptr{Nothing} @0x0000000105595798, Base.InterpreterIP in top-level CodeInfo for Main at statement 6, Ptr{Nothing} @0x00000001055b13d6, Ptr{Nothing} @0x00000001055b113e, Ptr{Nothing} @0x00000001055b1ff5, Ptr{Nothing} @0x000000011be00696, Ptr{Nothing} @0x000000011b757b1d, Ptr{Nothing} @0x000000011ae1b0bb, Ptr{Nothing} @0x000000011c224f55, Ptr{Nothing} @0x000000011ac2acf6, Ptr{Nothing} @0x000000011b9eb462, Ptr{Nothing} @0x000000011ac6388a, Ptr{Nothing} @0x00000001055e6632, Ptr{Nothing} @0x00000001055e6546])
+└ @ Main /Users/apple/Desktop/julia_stuff/org-analytics/analysis.jl:804
