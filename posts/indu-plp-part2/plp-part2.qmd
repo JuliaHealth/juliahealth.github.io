@@ -19,7 +19,7 @@ categories:
 
 Welcome back to Part 2 of the PLP-Pipeline blog series!
 
-In [Part 1](../indu-plp-part1plp-part1.qmd), we formulated a research question, loaded synthetic patient data, and constructed our target (hypertension) and outcome (diabetes) cohorts using OHDSI definitions and Julia tools. If you haven’t read that yet, I recommend checking it out before diving in here.
+In [Part 1](../indu-plp-part1/plp-part1.qmd), we formulated a research question, loaded synthetic patient data, and constructed our target (hypertension) and outcome (diabetes) cohorts using OHDSI definitions and Julia tools. If you haven’t read that yet, I recommend checking it out before diving in here.
 
 Now in Part 2, we move from cohorts to models - i.e., we’ll bridge the gap between structured clinical data and predictive modeling. Specifically, we’ll walk through:
 
@@ -28,35 +28,24 @@ Now in Part 2, we move from cohorts to models - i.e., we’ll bridge the gap bet
 - Splitting data into train/test sets
 - Training ML models using MLJ.jl
 
-# Reference: Foundation from the OHDSI PLP Framework
-
-As mentioned in Part 1, my work follows the methodology from:
-
-> Reps, J. M., Schuemie, M. J., Suchard, M. A., Ryan, P. B., Rijnbeek, P. R., & Madigan, D. (2018). Design and implementation of a standardized framework to generate and evaluate patient-level prediction models using observational healthcare data. *Journal of the American Medical Informatics Association, 25(8), 969–975*. [https://doi.org/10.1093/jamia/ocy032](https://doi.org/10.1093/jamia/ocy032)
-
-This paper outlines best practices for building patient-level prediction pipelines from observational health data. It emphasizes:
-
-- Extracting predictors from multiple OMOP CDM domains
-- Applying standardized time windows (e.g., 365 days prior to index)
-- Aggregating using counts, max values, or categorical indicators
-- Building reproducible pipelines
-
-I have translated these principles into Julia using DuckDB and MLJ.
+These steps will guide you through the prediction pipeline, aiming to predict the likelihood of a patient with hypertension developing diabetes.
 
 # Step 1: Feature Engineering from OMOP CDM
 
 We extract features from several structured OMOP CDM tables such as:
 
-- `condition_occurrence`
-- `drug_exposure`
-- `procedure_occurrence`
-- `observation`
-- `measurement`
-- `person`
+| **Table**               | **Features Extracted**                                                                 |
+|-------------------------|----------------------------------------------------------------------------------------|
+| `condition_occurrence`   | Count of distinct parent and child conditions diagnosed or observed before the index date. |
+| `drug_exposure`          | Count of distinct parent and child drugs exposed, total days of drug supply, total drug quantity, and the most common drug route before the index date. |
+| `procedure_occurrence`   | Count of distinct past procedures undergone before the index date. |
+| `observation`            | Count of distinct observation concepts and the latest recorded observation value before the index date. |
+| `measurement`            | Maximum recorded measurement value and the most common unit of measurement before the index date. |
+| `person`                 | Age, gender, race, and ethnicity information for the patient. |
 
-These features are computed for each patient in the **target cohort** using a **365-day window prior to the cohort start date**, aligning with the standardized methodology described in the OHDSI PLP framework by Reps et al. (JAMIA 2018).
+The features are computed for each patient in the **target cohort** using a **365-day window prior** to the cohort start date.
 
-Each domain is queried independently, and the results are merged on `subject_id` to create a patient-level feature matrix for modeling.
+Each table is queried independently, and the results are merged on `subject_id` to create a patient-level feature matrix for modeling.
 
 ### Example: Drug Exposure Feature Extraction
 
@@ -108,16 +97,15 @@ GROUP BY c.subject_id
 """
 ```
 
-This approach is repeated across other domains (conditions, observations, etc.) using similar logic-adhering to the paper’s recommendation to generate temporal, interpretable, and structured patient features from OMOP CDM.
-
+This approach is repeated across other OMOP CDM tables (condition_occurrence, observation, measurement, procedure_occurrence, and visit_occurrence). This aligns with the paper’s recommendation to generate temporal, interpretable, and structured patient features from OMOP CDM.
 
 # Step 2: Attaching Outcome Labels
 
-Now that we have extracted features for the target population (patients diagnosed with hypertension), the next step is to attach outcome labels that indicate whether a patient later developed diabetes.
+Now that we have extracted features for the target cohort (patients diagnosed with hypertension), the next step is to attach outcome labels that indicate whether a patient later developed diabetes.
 
-We use **Cohort 2**, which contains patients from the hypertension cohort who were subsequently diagnosed with diabetes, as defined using `OHDSICohortExpressions.jl`. This ensures that diabetes occurs *after* the hypertension event, maintaining proper temporal ordering between target and outcome.
+We use Cohort 2 i.e outcome cohort, which includes patients from the target cohort who were subsequently diagnosed with diabetes, as defined using `OHDSICohortExpressions.jl`. This ensures that diabetes occurs *after* the hypertension event, maintaining proper temporal ordering between the target and outcome.
 
-We query the `cohort` table for all subjects in Cohort 2 and assign them an outcome label of `1`.
+We query the `cohort` table for all subjects in outcome cohort and assign them an outcome label of `1`.
 
 **File:** `outcome_attach.jl`
 
@@ -127,7 +115,7 @@ diabetes_query = """
     FROM dbt_synthea_dev.cohort
     WHERE cohort_definition_id = 2
 """
-diabetes_df = execute(conn, diabetes_query) |> DataFrame
+diabetes_df = execute(conn, diabetes_query) | > DataFrame
 ```
 
 Next, we perform a **left join** with the previously created `features_df`, which contains covariates for all patients in the hypertension cohort. This ensures every patient has their features preserved, and only those present in the diabetes cohort will have a $1$ under the outcome column.
@@ -145,18 +133,7 @@ This gives us a binary classification dataset with:
 
 This labeled dataset is now ready for preprocessing and model training in later steps.
 
-<br>
-<center>
-  ![](./binary_classification.png)
-
-  Binary Classification Model
-</center>
-
 # Step 3: Preprocessing for Modeling
-
-Once we have the raw feature matrix and outcome labels, the next crucial step is to preprocess the dataset to make it suitable for training machine learning models. This step is essential because raw healthcare data, even when structured via the OMOP CDM, often contains missing values, variable scales, and unencoded categorical information. These issues can affect model performance, stability, and interpretability.
-
-The preprocessing approach we use is directly inspired by best practices discussed in the JAMIA paper. The authors highlight the importance of handling missing values, standardizing predictors, and transforming categorical data into usable formats.
 
 We perform the following three tasks:
 
@@ -204,15 +181,15 @@ train, test = partition(eachindex(df.outcome), 0.8, shuffle=true)
 
 # Step 4: Model Training with MLJ.jl
 
-We evaluated three machine learning models to identify the best-performing approach for predicting whether a patient develops diabetes. These models are consistent with those evaluated in the original JAMIA paper, which highlights the importance of testing multiple classifiers for each prediction problem. The paper specifically mentions using logistic regression (with L1 regularization) , random forest, and gradient boosting machines (like XGBoost) as part of their standardized framework.
+We evaluated three machine learning models to identify the best-performing approach for predicting whether a patient develops diabetes. The paper specifically mentions using logistic regression (with L1 regularization) , random forest, and gradient boosting machines (like XGBoost) as part of their standardized framework.
 
 The three models we implemented in Julia are:
 
-- **L1-Regularized Logistic Regression**: This model applies L1 (lasso) regularization to perform both classification and feature selection. It is particularly useful when working with a large number of sparse features, as is common in observational healthcare data. The JAMIA paper used L1-regularized logistic regression as a primary model due to its strong baseline performance and interpretability.
+- **L1-Regularized Logistic Regression**: Used for feature selection and classification, offering strong baseline performance and interpretability in sparse healthcare data.
 
-- **Random Forest**: A tree-based ensemble model that builds multiple decision trees and averages their predictions. It handles non-linear relationships and is robust to overfitting. The paper includes random forest to capture interactions and non-linearities in clinical data that logistic regression might miss.
+- **Random Forest**: An ensemble method that builds multiple decision trees to capture non-linear relationships and interactions, robust against overfitting.
 
-- **XGBoost (Extreme Gradient Boosting)**: A powerful boosting algorithm that builds trees sequentially to correct previous errors. It is known for high predictive accuracy and was also one of the models tested in the paper for comparative performance analysis.
+- **XGBoost (Extreme Gradient Boosting)**: A boosting algorithm that sequentially builds trees to improve accuracy, known for its high predictive performance and tested in the paper for comparison.
 
 **File:** `train_model.jl`
 
@@ -257,6 +234,13 @@ auc_xgb = evaluate_model(xgb_model, X_train, y_train, X_test, y_test)
 ```
 
 Each model is trained on the same training set and evaluated on the same test set using AUC (Area Under the ROC Curve), which the paper uses as the primary metric for discrimination. This approach ensures fair comparison between models and helps identify the most suitable one for the task.
+
+<br>
+<center>
+  ![](./binary_classification.png)
+
+  Binary Classification Model
+</center>
 
 # Wrapping Up
 
