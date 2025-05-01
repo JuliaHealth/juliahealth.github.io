@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Meeting Notes – JuliaHealth</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b91f5432c59177e88330fbc179e69942.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../JuliaHealthBlog/index.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#february-29-2024" id="toc-february-29-2024" class="nav-link active" data-scroll-target="#february-29-2024">February 29 2024</a>
+  <ul class="collapse">
+  <li><a href="#meeting-summary-americaseuropeafrica-specific" id="toc-meeting-summary-americaseuropeafrica-specific" class="nav-link" data-scroll-target="#meeting-summary-americaseuropeafrica-specific">Meeting Summary (Americas/Europe/Africa Specific)</a></li>
+  <li><a href="#meeting-outcomes" id="toc-meeting-outcomes" class="nav-link" data-scroll-target="#meeting-outcomes">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes" id="toc-short-term-outcomes" class="nav-link" data-scroll-target="#short-term-outcomes">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes" id="toc-long-term-outcomes" class="nav-link" data-scroll-target="#long-term-outcomes">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul></li>
+  <li><a href="#january-25-2024" id="toc-january-25-2024" class="nav-link" data-scroll-target="#january-25-2024">January 25 2024</a>
+  <ul class="collapse">
+  <li><a href="#meeting-summary-americaseuropeafrica-specific-1" id="toc-meeting-summary-americaseuropeafrica-specific-1" class="nav-link" data-scroll-target="#meeting-summary-americaseuropeafrica-specific-1">Meeting Summary (Americas/Europe/Africa Specific)</a></li>
+  <li><a href="#meeting-outcomes-1" id="toc-meeting-outcomes-1" class="nav-link" data-scroll-target="#meeting-outcomes-1">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-1" id="toc-short-term-outcomes-1" class="nav-link" data-scroll-target="#short-term-outcomes-1">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-1" id="toc-long-term-outcomes-1" class="nav-link" data-scroll-target="#long-term-outcomes-1">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes-1" id="toc-notes-1" class="nav-link" data-scroll-target="#notes-1">Notes</a></li>
+  </ul></li>
+  <li><a href="#january-20-2024" id="toc-january-20-2024" class="nav-link" data-scroll-target="#january-20-2024">January 20 2024</a>
+  <ul class="collapse">
+  <li><a href="#meeting-summary-oceaniaasia-specific" id="toc-meeting-summary-oceaniaasia-specific" class="nav-link" data-scroll-target="#meeting-summary-oceaniaasia-specific">Meeting Summary (Oceania/Asia specific)</a></li>
+  <li><a href="#meeting-outcomes-2" id="toc-meeting-outcomes-2" class="nav-link" data-scroll-target="#meeting-outcomes-2">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-2" id="toc-short-term-outcomes-2" class="nav-link" data-scroll-target="#short-term-outcomes-2">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-2" id="toc-long-term-outcomes-2" class="nav-link" data-scroll-target="#long-term-outcomes-2">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#meeting-notes" id="toc-meeting-notes" class="nav-link" data-scroll-target="#meeting-notes">Meeting Notes</a></li>
+  </ul></li>
+  <li><a href="#december-15-2023" id="toc-december-15-2023" class="nav-link" data-scroll-target="#december-15-2023">December 15 2023</a>
+  <ul class="collapse">
+  <li><a href="#agenda" id="toc-agenda" class="nav-link" data-scroll-target="#agenda">Agenda</a></li>
+  <li><a href="#meeting-outcomes-3" id="toc-meeting-outcomes-3" class="nav-link" data-scroll-target="#meeting-outcomes-3">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-3" id="toc-short-term-outcomes-3" class="nav-link" data-scroll-target="#short-term-outcomes-3">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-3" id="toc-long-term-outcomes-3" class="nav-link" data-scroll-target="#long-term-outcomes-3">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes-2" id="toc-notes-2" class="nav-link" data-scroll-target="#notes-2">Notes</a></li>
+  </ul></li>
+  <li><a href="#october-27-2023" id="toc-october-27-2023" class="nav-link" data-scroll-target="#october-27-2023">October 27 2023</a>
+  <ul class="collapse">
+  <li><a href="#agenda-1" id="toc-agenda-1" class="nav-link" data-scroll-target="#agenda-1">Agenda</a></li>
+  <li><a href="#meeting-outcomes-4" id="toc-meeting-outcomes-4" class="nav-link" data-scroll-target="#meeting-outcomes-4">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-4" id="toc-short-term-outcomes-4" class="nav-link" data-scroll-target="#short-term-outcomes-4">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-4" id="toc-long-term-outcomes-4" class="nav-link" data-scroll-target="#long-term-outcomes-4">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes-3" id="toc-notes-3" class="nav-link" data-scroll-target="#notes-3">Notes</a></li>
+  </ul></li>
+  <li><a href="#september-29-2023" id="toc-september-29-2023" class="nav-link" data-scroll-target="#september-29-2023">September 29 2023</a>
+  <ul class="collapse">
+  <li><a href="#agenda-2" id="toc-agenda-2" class="nav-link" data-scroll-target="#agenda-2">Agenda</a></li>
+  <li><a href="#meeting-outcomes-5" id="toc-meeting-outcomes-5" class="nav-link" data-scroll-target="#meeting-outcomes-5">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-5" id="toc-short-term-outcomes-5" class="nav-link" data-scroll-target="#short-term-outcomes-5">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-5" id="toc-long-term-outcomes-5" class="nav-link" data-scroll-target="#long-term-outcomes-5">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes-4" id="toc-notes-4" class="nav-link" data-scroll-target="#notes-4">Notes</a></li>
+  </ul></li>
+  <li><a href="#september-29-2023-1" id="toc-september-29-2023-1" class="nav-link" data-scroll-target="#september-29-2023-1">September 29 2023</a>
+  <ul class="collapse">
+  <li><a href="#agenda-3" id="toc-agenda-3" class="nav-link" data-scroll-target="#agenda-3">Agenda</a></li>
+  <li><a href="#meeting-outcomes-6" id="toc-meeting-outcomes-6" class="nav-link" data-scroll-target="#meeting-outcomes-6">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-6" id="toc-short-term-outcomes-6" class="nav-link" data-scroll-target="#short-term-outcomes-6">Short-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes-5" id="toc-notes-5" class="nav-link" data-scroll-target="#notes-5">Notes</a></li>
+  </ul></li>
+  <li><a href="#august-25-2023" id="toc-august-25-2023" class="nav-link" data-scroll-target="#august-25-2023">August 25 2023</a>
+  <ul class="collapse">
+  <li><a href="#agenda-4" id="toc-agenda-4" class="nav-link" data-scroll-target="#agenda-4">Agenda</a></li>
+  <li><a href="#meeting-outcomes-7" id="toc-meeting-outcomes-7" class="nav-link" data-scroll-target="#meeting-outcomes-7">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-7" id="toc-short-term-outcomes-7" class="nav-link" data-scroll-target="#short-term-outcomes-7">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-6" id="toc-long-term-outcomes-6" class="nav-link" data-scroll-target="#long-term-outcomes-6">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#notes-6" id="toc-notes-6" class="nav-link" data-scroll-target="#notes-6">Notes</a></li>
+  </ul></li>
+  <li><a href="#july-28-2023" id="toc-july-28-2023" class="nav-link" data-scroll-target="#july-28-2023">July 28 2023</a>
+  <ul class="collapse">
+  <li><a href="#agenda-5" id="toc-agenda-5" class="nav-link" data-scroll-target="#agenda-5">Agenda</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-8" id="toc-short-term-outcomes-8" class="nav-link" data-scroll-target="#short-term-outcomes-8">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-7" id="toc-long-term-outcomes-7" class="nav-link" data-scroll-target="#long-term-outcomes-7">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#meeting-notes-1" id="toc-meeting-notes-1" class="nav-link" data-scroll-target="#meeting-notes-1">Meeting Notes</a></li>
+  </ul></li>
+  <li><a href="#june-30-2023" id="toc-june-30-2023" class="nav-link" data-scroll-target="#june-30-2023">June 30 2023</a>
+  <ul class="collapse">
+  <li><a href="#meeting-summary" id="toc-meeting-summary" class="nav-link" data-scroll-target="#meeting-summary">Meeting Summary</a></li>
+  <li><a href="#agenda-6" id="toc-agenda-6" class="nav-link" data-scroll-target="#agenda-6">Agenda</a></li>
+  <li><a href="#meeting-outcomes-8" id="toc-meeting-outcomes-8" class="nav-link" data-scroll-target="#meeting-outcomes-8">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-9" id="toc-short-term-outcomes-9" class="nav-link" data-scroll-target="#short-term-outcomes-9">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-8" id="toc-long-term-outcomes-8" class="nav-link" data-scroll-target="#long-term-outcomes-8">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#meeting-notes-2" id="toc-meeting-notes-2" class="nav-link" data-scroll-target="#meeting-notes-2">Meeting Notes</a></li>
+  </ul></li>
+  <li><a href="#may-26-2023" id="toc-may-26-2023" class="nav-link" data-scroll-target="#may-26-2023">May 26 2023</a>
+  <ul class="collapse">
+  <li><a href="#meeting-summary-1" id="toc-meeting-summary-1" class="nav-link" data-scroll-target="#meeting-summary-1">Meeting Summary</a></li>
+  <li><a href="#agenda-7" id="toc-agenda-7" class="nav-link" data-scroll-target="#agenda-7">Agenda</a></li>
+  <li><a href="#meeting-outcomes-9" id="toc-meeting-outcomes-9" class="nav-link" data-scroll-target="#meeting-outcomes-9">Meeting Outcomes</a>
+  <ul class="collapse">
+  <li><a href="#short-term-outcomes-10" id="toc-short-term-outcomes-10" class="nav-link" data-scroll-target="#short-term-outcomes-10">Short-Term Outcomes</a></li>
+  <li><a href="#long-term-outcomes-9" id="toc-long-term-outcomes-9" class="nav-link" data-scroll-target="#long-term-outcomes-9">Long-Term Outcomes</a></li>
+  </ul></li>
+  <li><a href="#meeting-notes-3" id="toc-meeting-notes-3" class="nav-link" data-scroll-target="#meeting-notes-3">Meeting Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Meeting Notes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>These are the public notes for the JuliaHealth Community. Notes are published publicly here and are available for comments and review on the <a href="https://hackmd.io/@AQm1lp9PSPyir6IoTPAZeQ/SJNu_d3uh">public HackMD</a>. Additionally, the notes are <a href="https://github.com/JuliaHealth/juliahealth.github.io/blob/dev/meeting-notes.md">hosted publicly on the GitHub</a> and are open for PRs or edits as needed</p>
+<section id="february-29-2024" class="level1">
+<h1>February 29 2024</h1>
+<section id="meeting-summary-americaseuropeafrica-specific" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-summary-americaseuropeafrica-specific">Meeting Summary (Americas/Europe/Africa Specific)</h2>
+<p><strong>In Attendance:</strong> Jacob Zelko, Anshul Singhvi, Adam Wysokiński, Aurora Rossi, Dan Getz, Luna Fazio, Jay Landge, Edwin Mkwanazi, Alice Piller, Thembi Ndimande, Siyabonga Nxumalo, Hlengiwe, Muhammad Mahmoud, Jan Zubik, Sfundo Khumalo, Carlos Castillo Passi, Ram Samarth, Dina Khalid</p>
+<p><strong>Location:</strong> Virtual (Northeastern University Zoom)</p>
+<p><strong>Summary:</strong> Introducing new JuliaHealth projects, JuliaHealth blog, Google Summer of Code, and planning a JuliaHealth Day</p>
+<p><strong>Keywords:</strong> #juliahealth #meeting #americas #africa #europe #neuro #imaging #gsoc #planning</p>
+</section>
+<section id="meeting-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes">Meeting Outcomes</h2>
+<section id="short-term-outcomes" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes">Short-Term Outcomes</h3>
+<ul>
+<li>Jacob follows up with Carlos and Boris about synthetic MRI generation</li>
+</ul>
+</section>
+<section id="long-term-outcomes" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes">Long-Term Outcomes</h3>
+</section>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<ol type="1">
+<li>Announcements:</li>
+</ol>
+<ul>
+<li>Meeting recording logistics</li>
+</ul>
+<ol start="2" type="1">
+<li>New member introductions
+<ul>
+<li>Luna Fazio
+<ul>
+<li>Statistics PhD</li>
+<li>Coming back to epidemiology</li>
+<li>Coming back to health roots</li>
+</ul></li>
+<li>Adam Wysokiński
+<ul>
+<li>Creator of NeuroAnalyzer.jl</li>
+<li>Psychiatrist</li>
+<li>Many different modalities of research</li>
+</ul></li>
+<li>Aurora Rossi
+<ul>
+<li>Functional MRI</li>
+<li>PhD student</li>
+</ul></li>
+<li>Alice Piller
+<ul>
+<li>Applying Julia in bioinformatics</li>
+</ul></li>
+<li>Edwin Mkwanazi
+<ul>
+<li>Julia in clinical trials</li>
+<li>Learn more about how to implement more in Julia</li>
+</ul></li>
+<li>Carlos Castillo
+<ul>
+<li>Creator of KomaMRI</li>
+<li>PhD student</li>
+</ul></li>
+</ul></li>
+<li>New contributor round-up!
+<ul>
+<li>KomaMRI</li>
+<li>NeuroAnalyzer Adam Wysokinski</li>
+</ul></li>
+<li>JuliaHealth News
+<ul>
+<li>Northeastern University RISE Conference</li>
+<li>A JuliaHealth Blog?!?!?</li>
+</ul></li>
+<li>Task Follow-ups
+<ul>
+<li>Jacob follows up with Carlos and Boris about synthetic MRI generation</li>
+</ul></li>
+<li>GSoC + JuliaHealth
+<ul>
+<li>Projects</li>
+<li>Important dates</li>
+<li>Open discussion</li>
+</ul></li>
+<li>Brainstorming a JuliaHealth Day
+<ul>
+<li>JuliaHealth is growing rapidly!!!</li>
+<li>Might be confusing about where to go/get started
+<ul>
+<li>Three core ares</li>
+</ul></li>
+<li>Luna
+<ul>
+<li>Had a mixture of working with different data</li>
+<li>Public health approach</li>
+<li>I as a doctor want to predict for patients</li>
+<li>Perhaps it would be interesting to see what problems they have
+<ul>
+<li>Possible approaches</li>
+</ul></li>
+</ul></li>
+<li>Jan
+<ul>
+<li>More about pipelines</li>
+<li>What’s their strength in practice</li>
+<li>Seeing pipelines in action</li>
+</ul></li>
+<li>Ram
+<ul>
+<li>How is Julia being used in health already?</li>
+</ul></li>
+</ul></li>
+<li>Glass Notebooks
+<ul>
+<li>Created by Dale Black</li>
+<li>Link: https://glassnotebook.io</li>
+</ul></li>
+<li>Upcoming and ongoing research opportunities
+<ul>
+<li>Observational Health Research at Northeastern Uni</li>
+</ul></li>
+<li>Upcoming Events</li>
+</ol>
+<ul>
+<li>JuliaCon 2024</li>
+</ul>
+<ol start="11" type="1">
+<li>Open Discussion</li>
+</ol>
+</section>
+</section>
+<section id="january-25-2024" class="level1">
+<h1>January 25 2024</h1>
+<section id="meeting-summary-americaseuropeafrica-specific-1" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-summary-americaseuropeafrica-specific-1">Meeting Summary (Americas/Europe/Africa Specific)</h2>
+<p><strong>In Attendance:</strong> Jay Sanjay, Abhirath Anand, Carlos Castillo, Boris Enrique, Jacob Zelko</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> Medical imagining, fairness and health equity in observational health, and dashboards!</p>
+<p><strong>Keywords:</strong> #juliahealth #meeting #americas #africa #europe #fairness #koma #fairness #dashboards</p>
+</section>
+<section id="meeting-outcomes-1" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-1">Meeting Outcomes</h2>
+<section id="short-term-outcomes-1" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-1">Short-Term Outcomes</h3>
+<ul>
+<li>Jacob follows up with Carlos and Boris about synthetic MRI generation
+<ul>
+<li>Pulls in Jakub and Zachary to discussion</li>
+</ul></li>
+</ul>
+</section>
+<section id="long-term-outcomes-1" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-1">Long-Term Outcomes</h3>
+</section>
+</section>
+<section id="notes-1" class="level2">
+<h2 class="anchored" data-anchor-id="notes-1">Notes</h2>
+<ol type="1">
+<li><p>New member introductions</p>
+<ul>
+<li><p>Carlos Castillo</p>
+<ul>
+<li><p>King’s College London</p></li>
+<li><p>PhD student</p></li>
+</ul></li>
+<li><p>Abhirath Anand</p>
+<ul>
+<li>Final year undergraduate</li>
+<li>Curious about getting more into life sciences</li>
+<li>Biology and healthcare</li>
+</ul></li>
+</ul></li>
+<li><p>Announcements:</p>
+<ul>
+<li>New meeting times
+<ul>
+<li>Last Thursday of every month at 12PM EST</li>
+</ul></li>
+<li>Why two separate meetings?
+<ul>
+<li>One for Asia/Oceania
+<ul>
+<li>Thanks Jay Sanjay for running this!!!</li>
+</ul></li>
+<li>One for Americas/Africa/Europe</li>
+<li>Trying to improve accessibility and inclusion</li>
+</ul></li>
+<li>Meeting recordings
+<ul>
+<li>Going forward, meetings will be recorded</li>
+<li>Added to a playlist on Julia YouTube page</li>
+</ul></li>
+</ul></li>
+<li><p>New contributor round-up!</p>
+<ul>
+<li>Nothing this meeting</li>
+</ul></li>
+<li><p>Running tasks follow-ups:</p>
+<ul>
+<li>Nothing this meeting</li>
+</ul></li>
+<li><p>Presentation by Carlos Castillo Passi on GSoC projects on medical imaging.</p></li>
+</ol>
+<ul>
+<li>Written using CuDA</li>
+<li>Doing MRI simulation very quickly
+<ul>
+<li>Can be used for machine learning overview</li>
+</ul></li>
+<li>Built around several packages with MRI
+<ul>
+<li>Incredible work with coverage</li>
+</ul></li>
+<li>Super friendly GUI</li>
+<li>Bloch equations are hard to understand</li>
+<li>GSoC Project
+<ul>
+<li>Trying to do actual kernel programming</li>
+<li>KernelAbstractions.jl</li>
+<li>Solving DifferentialEquations.jl</li>
+<li>Boost speed</li>
+<li>Implement new algorithms</li>
+<li>Suggested skills
+<ul>
+<li>Experience with Julia</li>
+<li>MRI concepts</li>
+<li>GPU programming</li>
+</ul></li>
+<li>Goals:
+<ul>
+<li>New Bloch kernel methods</li>
+<li>Further tests on build kite/GPU testing</li>
+<li>Documentation</li>
+</ul></li>
+</ul></li>
+</ul>
+<ol start="6" type="1">
+<li><p>Fairness and health equity within Observational Health Research</p>
+<ul>
+<li><p>Assessing phenotype fairness</p></li>
+<li><p>Forthcoming package</p></li>
+<li><p>Work done so far</p></li>
+<li><p>Paper reference: https://arxiv.org/pdf/2203.05174.pdf</p></li>
+</ul></li>
+<li><p>Creating dashboards for JuliaHealth</p>
+<ul>
+<li><p>Announcement from Genie.jl</p></li>
+<li><p>Custom dashboard components</p></li>
+<li><p>Question: What would this look like for JuliaHealth?</p>
+<ul>
+<li>Create a standard interface across JuliaHealth packages</li>
+<li>Can interface with a JuliaHealthDashboards package
+<ul>
+<li>HealthDashboard.jl?</li>
+<li>Custom components for the general JuliaHealth ecosystem could be housed in package</li>
+</ul></li>
+<li>Researchers can easily build together commonly used health dashboards</li>
+</ul></li>
+</ul></li>
+<li><p>Event Reminders</p>
+<ul>
+<li><p>Google Summer of Code</p></li>
+<li><p>JuliaCon 2024</p></li>
+</ul></li>
+<li><p>Upcoming and ongoing research opportunities</p>
+<ul>
+<li><p>Observational Health Research at Northeastern Uni</p></li>
+<li><p>Glass Notebooks from Dale Black (Not Discussed; saved for next month)</p></li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="january-20-2024" class="level1">
+<h1>January 20 2024</h1>
+<section id="meeting-summary-oceaniaasia-specific" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-summary-oceaniaasia-specific">Meeting Summary (Oceania/Asia specific)</h2>
+<p><strong>In Attendance:</strong> Jay Sanjay, Abhirath Anand, Jacob Zelko</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> Overview of the Oceania/Asia specific JuliaHealth monthly meeting</p>
+<p><strong>Keywords:</strong> #juliahealth #meeting #asia #oceania #llms #beginner</p>
+</section>
+<section id="meeting-outcomes-2" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-2">Meeting Outcomes</h2>
+<section id="short-term-outcomes-2" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-2">Short-Term Outcomes</h3>
+</section>
+<section id="long-term-outcomes-2" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-2">Long-Term Outcomes</h3>
+</section>
+</section>
+<section id="meeting-notes" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-notes">Meeting Notes</h2>
+<ul>
+<li><p>Abhirath Anand</p>
+<ul>
+<li><p>Final year CS student in India.</p></li>
+<li><p>Former GSoCer.</p>
+<ul>
+<li><p>Worked on MetalHead.jl</p></li>
+<li><p>No longer quite interested in Computer CV</p></li>
+</ul></li>
+<li><p>Interested in JuliaHealth.</p></li>
+</ul></li>
+<li><p>People excited about separate JuliaHealth meeting</p>
+<ul>
+<li><p>Grown to a separate JuliaHealth meeting for Oceania/Asia specific times.</p></li>
+<li><p>Wanted more people to join .</p></li>
+</ul></li>
+<li><p>Different packages and ideas</p>
+<ul>
+<li><p>JuliaHealthLLMs</p>
+<ul>
+<li>How can we use LLMs for JuliaHealth?</li>
+</ul></li>
+</ul></li>
+<li><p>How to get started with JuliaHealth - Abhirath</p>
+<ul>
+<li><p>Medical imaging looks well-aligned but want to explore some different.</p></li>
+<li><p>What is the observational health subecosystem?</p>
+<ul>
+<li><p>Go through documentation of JuliaHealth.</p></li>
+<li><p>Jay can send some.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="december-15-2023" class="level1">
+<h1>December 15 2023</h1>
+<p><strong>In Attendance:</strong> Jacob Zelko, Jay Sanjay, Jakub Mitura, Zach Christensen, Divital coder</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> JuliaHealth full year review, Dicsussions on the upcoming GSoC projects in JuliaHealth.</p>
+<p><strong>Keywords:</strong> #medical #imaging #gsoc #ohdsi #newyear #observationalHealth</p>
+<section id="agenda" class="level2">
+<h2 class="anchored" data-anchor-id="agenda">Agenda</h2>
+<ol type="1">
+<li>New member introductions</li>
+<li>New contributor round-up!</li>
+<li>Running tasks follow-ups:</li>
+<li>State of the JuliaHealth community discussion
+<ul>
+<li>Talking about the different aspects of the JuliaHealth community
+<ul>
+<li>Mapping the JuliaHealth community</li>
+</ul></li>
+<li>Accomplishments throughout the year
+<ul>
+<li>JuliaCon 2023</li>
+<li>GSoC</li>
+<li>Publications/etc.</li>
+</ul></li>
+<li>Open Problems and ongoing work
+<ul>
+<li>Technical problems</li>
+<li>Making JuliaHealth more accessible for all</li>
+</ul></li>
+<li>Future goals for the JuliaHealth ecosystem</li>
+<li>Open discussion</li>
+</ul></li>
+<li>JuliaCon 2024!</li>
+<li>Google Summer of Code Discussion
+<ul>
+<li>What it is</li>
+<li>Proposed projects and ideas</li>
+<li>Open discussion</li>
+</ul></li>
+<li>Calls for collaboration</li>
+<li>Open discussion</li>
+</ol>
+</section>
+<section id="meeting-outcomes-3" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-3">Meeting Outcomes</h2>
+<section id="short-term-outcomes-3" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-3">Short-Term Outcomes</h3>
+<ul>
+<li>Jacob follows-up with Zach.</li>
+</ul>
+</section>
+<section id="long-term-outcomes-3" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-3">Long-Term Outcomes</h3>
+<ul>
+<li>Increasing code ownership.</li>
+</ul>
+</section>
+</section>
+<section id="notes-2" class="level2">
+<h2 class="anchored" data-anchor-id="notes-2">Notes</h2>
+<ol type="1">
+<li>Introductions
+<ul>
+<li>Divital coder
+<ul>
+<li>Aspiring contributor for the 2024 Julia Organization.</li>
+</ul></li>
+</ul></li>
+<li>Contributor Round-Up
+<ul>
+<li>Shout outs to Farreeda for working on JuliaHealth Observational Health Sub-ecosystem Juliacon proceddings paper.</li>
+<li>Shout outs to Jay-Sanjay for tagging new release of OMOPCDMCohortCreator.</li>
+</ul></li>
+<li>State of the JuliaHealth community discussion
+<ul>
+<li>Talking about the different aspects of the JuliaHealth community
+<ul>
+<li>Mapping the JuliaHealth community</li>
+</ul></li>
+<li>Accomplishments throughout the year
+<ul>
+<li>JuliaCon 2023
+<ul>
+<li>Birds of Feather: Julia for Health and Medicine – Dilum Aluthge, Jacob Zelko</li>
+<li>100 Million Patients: Julia for international Health studies</li>
+</ul></li>
+<li>First ever JuliaHealth GSoC fellow - Fareeda Abdelazeez</li>
+<li>ODHSI Global Symposium 2023</li>
+</ul></li>
+<li>Open Problems and ongoing work
+<ul>
+<li>Technical problems</li>
+<li>Making JuliaHealth more accessible for all</li>
+<li>Future goals for the JuliaHealth ecosystem</li>
+<li>Expanding the OMOPCDM for hospital price transparency and transparency coverage.</li>
+</ul></li>
+<li>Open discussion
+<ul>
+<li>Open discussion on standards across JuliaHealth</li>
+<li>Zach happy to support and think around this</li>
+<li>Schedule one-off discussion</li>
+<li>Making juliahealth calls more Europe+asia/pacific friendly. Suggestions to have a one meet each for american time zone separate and one for asia/pacific time zone</li>
+</ul></li>
+</ul></li>
+<li>JuliaCon 2024!
+<ul>
+<li>Proposal-a-thon</li>
+</ul></li>
+<li>Google Summer of Code Discussion
+<ul>
+<li>What is GSoC/JSoC ?</li>
+<li>Proposed projects and ideas</li>
+<li>MedPipe3D
+<ul>
+<li>Loading medical imaging data</li>
+<li>Modeling perspective most generally developed</li>
+<li>Super-voxels image mapping</li>
+<li>Edge matching; can make this code within Julia vs.&nbsp;Cpp</li>
+<li>Display borders of images</li>
+<li>Integrate segmentation like rotations recalling gamma.</li>
+<li>Add basic post-processing like largest corrected components.</li>
+<li>Add patch based data loading with probabilistic oversampling.</li>
+</ul></li>
+<li>Open discussion</li>
+</ul></li>
+<li>Calls for collaboration</li>
+<li>Open discussion
+<ul>
+<li>JuliaCon 2024 and Proposal-a-thon</li>
+<li>Addressing the “Paradox of Composition”</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="october-27-2023" class="level1">
+<h1>October 27 2023</h1>
+<p><strong>In Attendance:</strong> Jakub Mitura, Phil Vernes, Jay Sanjay</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> Jakub Mitura presented on his work for MedEval3D, discussion on medical imaging, debrief from the OHDSI Symposium, and some initial conversation about GSoC</p>
+<p><strong>Keywords:</strong> #medical #imaging #gsoc #ohdsi</p>
+<section id="agenda-1" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-1">Agenda</h2>
+<ol type="1">
+<li>New member introductions</li>
+<li>New contributor round-up!</li>
+<li>Running tasks follow-ups:</li>
+</ol>
+<ul>
+<li>Short-term task follow-ups:
+<ul>
+<li>Jacob shares info on waste water management + viral load information</li>
+</ul></li>
+<li>Long-term task follow-ups:
+<ul>
+<li>Creating a template repository</li>
+</ul></li>
+</ul>
+<ol start="4" type="1">
+<li>Presentation by Jakub Mitura on sub-ecosystem he created for working with CT, PET, and other medical imaging types of data.</li>
+<li>Debrief from OHDSI Symposium (Observational Health research venue)</li>
+<li>Google Summer of Code Project Discussion</li>
+</ol>
+<ul>
+<li>JuliaHealth documentation improvement</li>
+<li>Observational Health Tooling improvements and discussion</li>
+<li>Visualization tools</li>
+</ul>
+<ol start="7" type="1">
+<li>Upcoming and ongoing research opportunities</li>
+</ol>
+<ul>
+<li>Call for collaboration on using JuliaHealth observational health tools for multi-site study</li>
+</ul>
+<ol start="8" type="1">
+<li>Medical Imaging Extension for Real World Evidence exploration</li>
+<li>Open discussion</li>
+</ol>
+</section>
+<section id="meeting-outcomes-4" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-4">Meeting Outcomes</h2>
+<section id="short-term-outcomes-4" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-4">Short-Term Outcomes</h3>
+<ul>
+<li>Jacob intro’s Phil and Jakub</li>
+<li>Jacob follows-up with Phil</li>
+</ul>
+</section>
+<section id="long-term-outcomes-4" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-4">Long-Term Outcomes</h3>
+<ul>
+<li>Create a template repository for JuliaHealth</li>
+</ul>
+</section>
+</section>
+<section id="notes-3" class="level2">
+<h2 class="anchored" data-anchor-id="notes-3">Notes</h2>
+<ul>
+<li>New member introductions
+<ul>
+<li>Phil Vernes
+<ul>
+<li>Works at JuliaHub</li>
+<li>Developing platform for running Julia jobs</li>
+<li>Many people at JuliaHub using tools within epi</li>
+<li>Can solve many problems in DSL</li>
+</ul></li>
+<li>Jay Sanjay
+<ul>
+<li>Started contributing to the JuliaHealth ecosystem</li>
+<li>Looking forward to collaborating</li>
+</ul></li>
+</ul></li>
+<li>Running tasks follow-ups:
+<ul>
+<li>Short-term task follow-ups:
+<ul>
+<li>Jacob shares info on waste water management + viral load information</li>
+</ul></li>
+<li>Long-term task follow-ups:
+<ul>
+<li>Creating a template repository
+<ul>
+<li>We need to have a data structure to hold metadata (DICOM, NIFTI, etc.)</li>
+<li>JuliaNeuro</li>
+<li>HDF5 for long-term storage
+<ul>
+<li>Would be great to see everyone using this</li>
+<li>To work on this to bring this together</li>
+<li>Multiple packages could have same</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Presentation by Jakub Mitura on sub-ecosystem he created for working with CT, PET, and other medical imaging types of data.
+<ul>
+<li>Created three packages</li>
+<li>Mainly talking about MedEye3D</li>
+<li>Segment data and iterate to see what is going on</li>
+<li>Wanted to create tools for everything around model creation</li>
+<li>Wanted to make a viewer that is well-suited for the Julia ecosystem
+<ul>
+<li>Most medical viewers are quite “old”</li>
+<li>Not really dynamic</li>
+<li>Hard to show changes within run-time</li>
+</ul></li>
+<li>Easy to get big increase in Julia
+<ul>
+<li>Usually something like 10x’s faster</li>
+</ul></li>
+<li>We do not yet standardize way to load data</li>
+<li>Metadata is saved to HDF5 format</li>
+<li>Can introduce dynamic annotations</li>
+<li>Can have layers and switch on and switch layers</li>
+<li>Can annotate for saying where is the problem in the viewer</li>
+<li>Viewer can dynamically update</li>
+<li>Questions
+<ul>
+<li>Tested some semi-automatic algorithms</li>
+<li>Do evaluate repeat</li>
+<li>Makes it faster for evaluation and reviewing of medical images</li>
+<li>Depends on OpenGL and NVIDIA drivers</li>
+<li>Working on Docker container that keeps</li>
+<li>What segmentation algorithm? Approach?
+<ul>
+<li>Based on Gaussian probability distributions</li>
+<li>Some relaxation applied</li>
+<li>Based mainly on the units and different kinds</li>
+<li>Becoming more interested in transformers</li>
+<li>Implemented in JAX but want to bring it into Julia</li>
+<li>Segmentation for bladder cancer in image analysis</li>
+<li>Restarted work recently in Julia</li>
+</ul></li>
+<li>Would be useful for others?
+<ul>
+<li>New segmentation for other ecosystem within Julia</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Upcoming and ongoing research opportunities</li>
+<li>Call for collaboration on using JuliaHealth observational health tools for multi-site study</li>
+<li>Medical Imaging Extension for Real World Evidence exploration
+<ul>
+<li>Idea was to implement package for medical imaging</li>
+<li>Pillars
+<ul>
+<li>Computing statistics across medical imaging</li>
+<li>Complete datasets for experimenting</li>
+<li>Feature segmentation and scanning
+<ul>
+<li>Align probabilistic model between different scans</li>
+<li>Become easier for physicians</li>
+</ul></li>
+<li>ML model for complex models for image segmentation</li>
+</ul></li>
+<li>Thing to consider – need more robustness for image alignment?
+<ul>
+<li>Some transformations are relatively easier to repair</li>
+<li>Elastic deformations</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="september-29-2023" class="level1">
+<h1>September 29 2023</h1>
+<p><strong>In Attendance:</strong> Tiem van der Deure, Scott Jones, dx/dt</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> Discussion on viral load found in wastewater, GSoD for this fall/GSoC for next summer, and upcoming research opportunities and events</p>
+<p><strong>Keywords:</strong> #databases #wastewater #interfaces #gsoc #ohdsi</p>
+<section id="agenda-2" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-2">Agenda</h2>
+<ol type="1">
+<li><p>New member introductions</p></li>
+<li><p>Running tasks follow-ups:</p></li>
+</ol>
+<ol type="a">
+<li><p>Short-term task follow-ups:</p></li>
+<li><p>Long-term task follow-ups:</p></li>
+</ol>
+<pre><code>i. Creating a template repository</code></pre>
+<ol start="3" type="1">
+<li><p>Infectious Disease load for various sewage water data</p></li>
+<li><p>Upcoming research opportunities and events</p></li>
+</ol>
+<ol type="a">
+<li><p>Not too early to start thinking about GSoC</p></li>
+<li><p>Julia and OHDSI Symposium</p></li>
+</ol>
+<ol start="5" type="1">
+<li>Open discussion</li>
+</ol>
+</section>
+<section id="meeting-outcomes-5" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-5">Meeting Outcomes</h2>
+<section id="short-term-outcomes-5" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-5">Short-Term Outcomes</h3>
+<ul>
+<li>Jacob shares info on waste water management + viral load information</li>
+</ul>
+</section>
+<section id="long-term-outcomes-5" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-5">Long-Term Outcomes</h3>
+</section>
+</section>
+<section id="notes-4" class="level2">
+<h2 class="anchored" data-anchor-id="notes-4">Notes</h2>
+<ul>
+<li>New member introductions
+<ul>
+<li>Tiem van der Deure
+<ul>
+<li>University of Copenhagen PhD</li>
+<li>Vector-borne Disease Modeling</li>
+<li>Epidemiological modeling and climate effects on health</li>
+<li>Rafael Schoueten</li>
+</ul></li>
+<li>Scott Jones
+<ul>
+<li>Heavily involved in healthcare IT</li>
+</ul></li>
+<li>dx/dt</li>
+</ul></li>
+<li>Google Summer of Code
+<ul>
+<li>Didn’t know it existed</li>
+<li>Google Season of Docs is great too
+<ul>
+<li>Best for long-term maintenance</li>
+<li>In the Julia docs ecosystem is kinda a mess</li>
+</ul></li>
+</ul></li>
+<li>OHDSI + Julia
+<ul>
+<li>How difficult it has been to work with EHR from EPIC
+<ul>
+<li>Still a bit manual but getting better</li>
+</ul></li>
+<li>Turing modeling “making them work”
+<ul>
+<li>Getting them to run
+<ul>
+<li>Making it run fast enough</li>
+<li>Much easier to use but not as fast as otherwise</li>
+</ul></li>
+<li>Extremely mathy very fast</li>
+</ul></li>
+</ul></li>
+<li>Sewage water information for disease population estimations
+<ul>
+<li>Weekly excerpt</li>
+<li>Infectious disease doctor
+<ul>
+<li>Would be really neat to make some kind of app</li>
+<li>To check wastewater
+<ul>
+<li>Propensity of viruses in ER</li>
+</ul></li>
+</ul></li>
+<li>Physician testing for rough understanding of what is happening in community
+<ul>
+<li>You don’t just need to look for one disease, but rather multiple co-factors</li>
+</ul></li>
+<li>Many healthcare systems put together monitoring systems
+<ul>
+<li>NHS (in UK) dismantled their monitoring systems</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="september-29-2023-1" class="level1">
+<h1>September 29 2023</h1>
+<p><strong>In Attendance:</strong> Tiem van der Deure, Scott Jones, dx/dt</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> Discussion on viral load found in wastewater, GSoD for this fall/GSoC for next summer, and upcoming research opportunities and events</p>
+<p><strong>Keywords:</strong> #databases #wastewater #interfaces #gsoc #ohdsi</p>
+<section id="agenda-3" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-3">Agenda</h2>
+<ol type="1">
+<li><p>New member introductions</p></li>
+<li><p>Running tasks follow-ups:</p>
+<ol type="1">
+<li><p>Short-term task follow-ups:</p></li>
+<li><p>Long-term task follow-ups:</p>
+<ul>
+<li>Creating a template repository</li>
+</ul></li>
+</ol></li>
+<li><p>Upcoming research opportunities and events</p>
+<ol type="1">
+<li><p>Not too early to start thinking about GSoC</p></li>
+<li><p>Julia and OHDSI Symposium</p></li>
+</ol></li>
+<li><p>Infectious Disease load for various sewage water data</p></li>
+<li><p>Open discussion</p></li>
+</ol>
+</section>
+<section id="meeting-outcomes-6" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-6">Meeting Outcomes</h2>
+<section id="short-term-outcomes-6" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-6">Short-Term Outcomes</h3>
+<ul>
+<li>Jacob shares info on waste water management + viral load information</li>
+</ul>
+</section>
+</section>
+<section id="notes-5" class="level2">
+<h2 class="anchored" data-anchor-id="notes-5">Notes</h2>
+<ul>
+<li>Introductions
+<ul>
+<li>Tiem van der Deure
+<ul>
+<li>University of Copenhagen PhD</li>
+<li>Vector-borne Disease Modeling</li>
+<li>Epidemiological modeling and climate effects on health</li>
+<li>Rafael Schoueten</li>
+</ul></li>
+<li>Scott Jones
+<ul>
+<li>Heavily involved in healthcare IT</li>
+</ul></li>
+<li>dx/dt</li>
+</ul></li>
+<li>Google Summer of Code
+<ul>
+<li>Recently discovered by the team</li>
+<li>Google Season of Docs
+<ul>
+<li>Best for long-term maintenance</li>
+<li>Significant challenge organizing in Julia docs ecosystem</li>
+</ul></li>
+</ul></li>
+<li>OHDSI + Julia
+<ul>
+<li>Working with EHR from EPIC is demanding
+<ul>
+<li>Labour intensive albeit improving</li>
+</ul></li>
+<li>Turing modeling “making them work”
+<ul>
+<li>Getting them to run
+<ul>
+<li>Making it run fast enough</li>
+<li>Trade off ease-of-use for computation speed</li>
+</ul></li>
+<li>Requires significant mathematical ability for speed gains</li>
+</ul></li>
+</ul></li>
+<li>Sewage water information for disease population estimations
+<ul>
+<li>Weekly excerpt</li>
+<li>Infectious disease doctor
+<ul>
+<li>Would be really neat to make some kind of app to check wastewater
+<ul>
+<li>Propensity of viruses in ER</li>
+</ul></li>
+</ul></li>
+<li>Physician testing for rough understanding of what is happening in community
+<ul>
+<li>Ability to look for multiple co-factors instead of just one disease</li>
+</ul></li>
+<li>Many healthcare systems put together monitoring systems
+<ul>
+<li>NHS (in UK) dismantled their monitoring systems</li>
+</ul></li>
+</ul></li>
+<li>Databases and JuliaHealth
+<ul>
+<li>Show how to do the basics</li>
+<li>Common database errors
+<ul>
+<li>How to address them</li>
+</ul></li>
+<li>Consider having more people working in this space?</li>
+<li>Not really a problem within ecosystem</li>
+<li>Look at drivers across all packages to see how things work in Julia ecosystem
+<ul>
+<li>See how we can address issues across ecosystem</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="august-25-2023" class="level1">
+<h1>August 25 2023</h1>
+<p><strong>In Attendance:</strong> Edmund Miller, Jonathan Starr, Clark Evans, Kirill Simonov, Jacob Zelko</p>
+<p><strong>Location:</strong> Virtual (JuliaHealth Google Meet)</p>
+<p><strong>Summary:</strong> Recap of events from the JuliaHealth BoF at JuliaCon and introduction to the NumFOCUS OSSci project</p>
+<p><strong>Keywords:</strong> #numfocus #ossci #juliacon #bof #interoperability #databases #documentation</p>
+<section id="agenda-4" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-4">Agenda</h2>
+<ol type="1">
+<li><p>New member introductions</p></li>
+<li><p>Misc Announcements</p>
+<ol type="1">
+<li><p>CalciumScoring.jl – Dale Black</p></li>
+<li><p>Survival Analyses – Arin Basu</p></li>
+<li><p>Google Summer of Code Fellowship wrapping up</p></li>
+<li><p>We are on the Julia Community Calendar!</p></li>
+<li><p>Small updates to the JuliaHealth website</p></li>
+</ol></li>
+<li><p>Running tasks follow-ups:</p>
+<ol type="1">
+<li><p>Short-term task follow-ups:</p>
+<ul>
+<li><p><span class="citation" data-cites="Jacob">@Jacob</span> Set-up HackMD to take notes going forward</p>
+<ul>
+<li>Copy and paste meeting minutes over to JuliaHealth PR to update at end of meetings</li>
+</ul></li>
+</ul></li>
+<li><p><span class="citation" data-cites="Dilum">@Dilum</span> finds out how to live stream JuliaHealth BoF</p>
+<ul>
+<li>Long-term task follow-ups:</li>
+</ul></li>
+<li><p>Creating a template repository&nbsp;</p></li>
+</ol></li>
+<li><p>Debrief from JuliaCon</p>
+<ol type="1">
+<li><p>Interoperability of Julia with health research ecosystems (R )</p></li>
+<li><p>Develop and document tutorials showcasing compositional solutions to JuliaHealth ecosystem problems</p></li>
+<li><p>Coordinate with bigger Julia Blog to bridge between communities even better</p></li>
+<li><p>Databases and JuliaHealth</p></li>
+</ol></li>
+<li><p>Jon Starr and NumFOCUS’s OSSci Program</p></li>
+<li><p>Open discussion on next steps for the JuliaHealth community</p></li>
+</ol>
+</section>
+<section id="meeting-outcomes-7" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-7">Meeting Outcomes</h2>
+<section id="short-term-outcomes-7" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-7">Short-Term Outcomes</h3>
+<ul>
+<li><span class="citation" data-cites="Jacob">@Jacob</span> follow-up with Jonathan about JuliaHealth + OSSci</li>
+<li><span class="citation" data-cites="Edmund">@Edmund</span> let Jacob know about blog posts solving problems</li>
+</ul>
+</section>
+<section id="long-term-outcomes-6" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-6">Long-Term Outcomes</h3>
+<ul>
+<li>Support OSSci about JuliaHealth</li>
+</ul>
+</section>
+</section>
+<section id="notes-6" class="level2">
+<h2 class="anchored" data-anchor-id="notes-6">Notes</h2>
+<ul>
+<li>Introductions
+<ul>
+<li>Clark C. Evans
+<ul>
+<li>Master cobbler of YAML</li>
+<li>Used to work at Prometheus Research
+<ul>
+<li>Sold to IQVIA</li>
+</ul></li>
+<li>Worked under MechanicalRabbit Umbrella
+<ul>
+<li>Developed FunSQL.jl with Kirill</li>
+<li>Database characterization</li>
+</ul></li>
+<li>Joined Tufts University CTSA
+<ul>
+<li>Helping with data warehousing
+<ul>
+<li>Objects to query OHDSI databases and EPIC Clarity</li>
+</ul></li>
+<li>Getting Pluto working</li>
+</ul></li>
+</ul></li>
+<li>Jonathan
+<ul>
+<li>Manager for OSSci for NumFOCUS</li>
+<li>Goal: Mapping open source science ecosystem</li>
+<li>Work with Distributed Computing
+<ul>
+<li>Berkeley technology</li>
+<li>Blocks and chains!</li>
+</ul></li>
+<li>Using Open Source and Science to drive research</li>
+</ul></li>
+<li>Edmund
+<ul>
+<li>PhD Candidate at Texas Dallas
+<ul>
+<li>Molecular and Cell Biology</li>
+<li>Functional Genomics</li>
+</ul></li>
+<li>Coming from JuliaCon</li>
+<li>Excited about Health stuff</li>
+</ul></li>
+</ul></li>
+<li>Interoperability of Julia with health research ecosystems (R)
+<ul>
+<li>Easiest way to interoperate is to call them directly from the command line</li>
+<li>Build your own executables</li>
+<li>Most reliable/easiest</li>
+<li>Database approach:
+<ul>
+<li>Build table in one language</li>
+<li>Ingest in another</li>
+</ul></li>
+<li>Combining executables in one location – use Docker?
+<ul>
+<li>Can run on several different machines</li>
+</ul></li>
+<li>Building R packages with Julia backends is possible</li>
+</ul></li>
+<li>Develop and document tutorials showcasing compositional solutions to JuliaHealth ecosystem problems
+<ul>
+<li>Competing Julia with other tutorials?</li>
+<li>Switching over to Julia from what?</li>
+<li>Why are people still not switching?
+<ul>
+<li>Demonstrating the use is one way</li>
+</ul></li>
+<li>Obviously, one could write more posts</li>
+<li>But there seems to be a lot of content already – what is missing?</li>
+<li>Does seem like there is two different levels of documentation
+<ul>
+<li>Beginner</li>
+<li>Advanced</li>
+</ul></li>
+<li>Where are the practical means of solving problems in Julia?</li>
+</ul></li>
+<li>Databases and JuliaHealth
+<ul>
+<li>Show how to do the basics</li>
+<li>Common database errors
+<ul>
+<li>How to address them</li>
+</ul></li>
+<li>Unclear on how to solve it; more people working in this space?</li>
+<li>Not really a problem within ecosystem</li>
+<li>Look at drivers across all packages to see how things work in Julia ecosystem
+<ul>
+<li>See how we can address issues across ecosystem</li>
+</ul></li>
+</ul></li>
+<li>Jonathan Starr and NumFOCUS’s OSSci Program
+<ul>
+<li>Getting to deep diving within Julia ecosystem</li>
+<li>Researchers who want to find a package that they can use and develop</li>
+<li>Mapping projects and people to a given tool
+<ul>
+<li>Can look at map to see where packages are needed for a particular ecosystem</li>
+<li>Can click on and connect with researchers</li>
+<li>Highlighting of credit for researchers</li>
+</ul></li>
+<li>Starting with NumFOCUS projects</li>
+<li>Building out knowledge of all ongoing projects/software
+<ul>
+<li>Julia is little represented right now</li>
+</ul></li>
+<li>How to show to funders/orgs what projects to support</li>
+<li>How to build support across or collaboration between groups</li>
+<li>Trying to stop abandonware from happening</li>
+<li>Attempting to build social infrastructure</li>
+<li>Q&amp;A
+<ul>
+<li>Tufts doing something very similar – happy to collaborate</li>
+<li>How can JuliaHealth get started and involved?
+<ul>
+<li>Jonathan: Send me reference page and we can get this started!</li>
+</ul></li>
+</ul></li>
+<li>Links:
+<ul>
+<li>About: https://numfocus.org/open-source-science-initiative-ossci</li>
+<li>How To Join: https://opensource.science</li>
+<li>Map of Open Source Science (MOSS)</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="july-28-2023" class="level1">
+<h1>July 28 2023</h1>
+<p><strong>In Attendance:</strong> [Attendance Waived for In-Person Meeting</p>
+<p><strong>Location:</strong> JuliaCon 2023 JuliaHealth Birds of a Feather</p>
+<p><strong>Summary:</strong> New member backgrounds, problems within the Julia ecosystem related to healthcare, thoughts on addressing issues within a JuliaHealth context, and learning resources for Julia within the context of health.</p>
+<p><strong>Keywords:</strong> #ehr #genomics #biology #interoperability #database #sql #outreach</p>
+<section id="agenda-5" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-5">Agenda</h2>
+<ol type="1">
+<li><p>Introductions and what people in the community are using Julia for in health research</p></li>
+<li><p>What is missing of painful in Julia that is needed to drive health research forward</p></li>
+<li><p>Thoughts on how to address some of these problems</p></li>
+<li><p>Open discussion and next steps for JuliaHealth</p></li>
+</ol>
+<section id="short-term-outcomes-8" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-8">Short-Term Outcomes</h3>
+<p>Not Available</p>
+</section>
+<section id="long-term-outcomes-7" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-7">Long-Term Outcomes</h3>
+<ul>
+<li><p>ACTION: Develop and document tutorials showcasing compositional solutions to JuliaHealth ecosystem problems.</p></li>
+<li><p>ACTION: Establish cohesive and organized Julia Blog to guide users and highlight official blogs.</p></li>
+</ul>
+</section>
+</section>
+<section id="meeting-notes-1" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-notes-1">Meeting Notes</h2>
+<ul>
+<li><p>Attendee interests and background</p>
+<ul>
+<li><p>Here to learn</p></li>
+<li><p>From EHR development and background</p></li>
+<li><p>Genie folks here to support JuliaHealth endeavors</p></li>
+<li><p>Genomics research and prevention</p></li>
+<li><p>Quebec Heart and Lung Institute</p></li>
+<li><p>Representing PumasAI</p></li>
+<li><p>Consulting group</p>
+<ul>
+<li><p>Developing health research in Michigan area</p></li>
+<li><p>Aggregating claims data</p></li>
+<li><p>To learn what is going on in the community</p></li>
+</ul></li>
+<li><p>Creator of <a href="https://github.com/arinbasu/MetaAnalysis.jl">MetaAnalysis.jl</a></p></li>
+<li><p>Involved with backend of healthcare IT</p></li>
+<li><p>Working on JuliaHub</p>
+<ul>
+<li><p>Learning about packages that are out there</p></li>
+<li><p>Here to support JuliaHealth members</p></li>
+<li><p>New Zealand longitudinal child health</p>
+<ul>
+<li><p>Have own secure system</p></li>
+<li><p>Post-COVID syndrome</p></li>
+</ul></li>
+<li><p>Computational biology</p>
+<ul>
+<li><p>Sickle Cell</p></li>
+<li><p>Applying some ML</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Problems within the Julia ecosystem</p>
+<ul>
+<li><p>Julia needs more database connectivity to more easily do operations research</p></li>
+<li><p>Databases are a pain point and composing with other aspects of the ecosystem</p></li>
+<li><p>Interoperability within Julia and other sorts of resources</p></li>
+<li><p>I end up doing the bare minimum in SQL</p>
+<ul>
+<li><p>Do we have RAM?</p></li>
+<li><p>Can we pull this into the Julia ecosystem?</p></li>
+<li><p>Crank up the RAM! But only so much scaling</p></li>
+<li><p>Minimal SQL writing</p>
+<ul>
+<li>Searchlight.jl: Julia ORM layer within</li>
+</ul></li>
+<li><p>Is Genie like a shiny?</p>
+<ul>
+<li><p>No, more of a full-stack</p></li>
+<li><p>Goes beyond just visualization dashboards</p></li>
+</ul></li>
+</ul></li>
+<li><p>Sequencing data</p>
+<ul>
+<li><p>Equally data</p></li>
+<li><p>Everyone uploads data in slightly different ways</p></li>
+<li><p>Make simple ways to pull that data</p></li>
+<li><p>R Conductor –&gt; JuliaConductor?</p>
+<ul>
+<li>Would make genomic pipelines within Julia pipelines a lot easier</li>
+</ul></li>
+<li><p>We need to understand the underlying structures</p></li>
+<li><p>One of the big pain points</p>
+<ul>
+<li>Often to have roll your own</li>
+</ul></li>
+</ul></li>
+<li><p>EpiR –&gt; EpiJ?</p>
+<ul>
+<li>Power calculators</li>
+</ul></li>
+<li><p>Co-founder of start-up</p>
+<ul>
+<li><p>Found unmet need for remote monitoring for neuotropenia</p></li>
+<li><p>Non-invasive screen for neutropenia</p></li>
+<li><p>Device runs Julia</p></li>
+<li><p>Pain points:</p>
+<ul>
+<li><p>Testability of hardware</p></li>
+<li><p>LOTS of CI – bit of a pain</p></li>
+<li><p>How much repetition happens in CI</p></li>
+</ul></li>
+<li><p>Part of the problem for these problems:</p>
+<ul>
+<li><p>There are still going to be folks who use the same organizations</p></li>
+<li><p>Overcoming inertia to do the same or similar things in Julia</p></li>
+<li><p>Wrapping around Julia?</p>
+<ul>
+<li><p>Bringing it into the R ecosystem</p></li>
+<li><p>Leading to big impacts for callable things from R by having smaller static binaries</p></li>
+<li><p>Wrapping Julia packages in R</p></li>
+</ul></li>
+<li><p>N3C – National COVID Cohort Collaborative</p>
+<ul>
+<li><p>Went to many healthcare systems across the US to get COVID data</p></li>
+<li><p>Shelled out to Palantir</p></li>
+<li><p>Open source tools within the ecosystem</p></li>
+<li><p>JuliaHub has Boeing board member</p>
+<ul>
+<li><p>Trusted within security community</p></li>
+<li><p>Could help in this situation</p></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Thoughts on how to address some of these problems</p>
+<ul>
+<li><p>Using other packages outside of Julia</p>
+<ul>
+<li><p>If you have some way to wrap around it</p></li>
+<li><p>Getting support</p></li>
+<li><p>PythonCall.jl or RCall.jl</p>
+<ul>
+<li>Not clear how to make this compositional</li>
+</ul></li>
+</ul></li>
+<li><p>The paradox of compositionality</p>
+<ul>
+<li><p>Blog posts go a huge ways to solving problems</p></li>
+<li><p>Tutorials showing how things can be combined together</p></li>
+<li><p>Promotional type material</p></li>
+<li><p>Nice docs are <em>nice</em></p></li>
+</ul></li>
+<li><p>The Julia Blog itself</p>
+<ul>
+<li><p>Mentions JuliaBloggers but doesn’t help with guiding users to read</p></li>
+<li><p>Blogs need to go on as official blogs</p></li>
+<li><p>Julia Forem – is it maintained?</p>
+<ul>
+<li><p>Hook into the tags from blogs</p></li>
+<li><p>Cross-posting where appropriate</p></li>
+</ul></li>
+</ul></li>
+<li><p>How to learn Julia within the context of health</p>
+<ul>
+<li>Carpentries for learning resources</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="june-30-2023" class="level1">
+<h1>June 30 2023</h1>
+<section id="meeting-summary" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-summary">Meeting Summary</h2>
+<p><strong>In Attendance:</strong> Jacob Zelko, Fareeda Abdelazeez, Zachary Christensen</p>
+<p><strong>Location:</strong> Virtual</p>
+<p><strong>Summary:</strong> Discussed new members, upcoming JuliaCon, JuliaHealth Birds of a Feather discussion on topics like neural decoding and OMOP tooling, managing logistics for Julia organizations, and JuliaHealth PR reviews.</p>
+<p><strong>Keywords:</strong> #brain #imaging #neural #decoding #collaboration #community #engagement</p>
+</section>
+<section id="agenda-6" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-6">Agenda</h2>
+<ol type="1">
+<li><p>New member welcomes!</p></li>
+<li><p>Planning JuliaHealth Birds of a Feather</p>
+<ol type="1">
+<li>Topics?</li>
+<li>Facilitators?</li>
+<li>Creating actionable outcomes?</li>
+</ol></li>
+<li><p>Open discussion on <a href="https://discourse.julialang.org/t/julia-orgs-how-do-you-manage-logistics/100430/11?u=thecedarprince">Julia Orgs, How Do You Manage Logistics?</a></p></li>
+<li><p>Misc topics</p></li>
+<li><p>Julia for Health Informatics Research &amp; Bridging community organizations</p></li>
+</ol>
+<pre><code>1. Open Discussion on [The Graphs Ecosystem](https://discourse.julialang.org/t/the-graphs-ecosystem/99463?u=thecedarprince)</code></pre>
+</section>
+<section id="meeting-outcomes-8" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-8">Meeting Outcomes</h2>
+<section id="short-term-outcomes-9" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-9">Short-Term Outcomes</h3>
+<ul>
+<li><p><span class="citation" data-cites="Jacob">@Jacob</span> Set-up HackMD to take notes going forward</p>
+<ul>
+<li>Copy and paste meeting minutes over to JuliaHealth PR to update at end of meetings</li>
+</ul></li>
+</ul>
+</section>
+<section id="long-term-outcomes-8" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-8">Long-Term Outcomes</h3>
+<ul>
+<li>ACTION: Creating a template repository&nbsp;</li>
+</ul>
+</section>
+</section>
+<section id="meeting-notes-2" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-notes-2">Meeting Notes</h2>
+<ul>
+<li><p>New members:</p>
+<ul>
+<li><p>Zachary Christensen</p>
+<ul>
+<li><p>Neuroimaging research</p></li>
+<li><p>MD/PhD</p>
+<ul>
+<li>Trying to finish this year!!!</li>
+</ul></li>
+<li><p>Lots of background work like in JuliaData</p></li>
+<li><p>Works on making Julia interface</p></li>
+</ul></li>
+</ul></li>
+<li><p>Announcement: JuliaCon about 1 month away!</p>
+<ul>
+<li>We have our own track: biology and medicine</li>
+<li>Many people working on different things</li>
+</ul></li>
+<li><p>JuliaHealth Birds of a Feather Discussion</p>
+<ul>
+<li><p>Possible Topics:</p>
+<ul>
+<li><p>Neural decoding&nbsp;</p>
+<ul>
+<li>Inspired by MATLAB: <a href="http://www.readout.info" class="uri">http://www.readout.info</a>&nbsp;</li>
+<li>Sister organization: <a href="https://julianeuro.github.io/packages" class="uri">https://julianeuro.github.io/packages</a></li>
+</ul></li>
+<li><p>OMOP Tooling for Real World Data</p></li>
+<li><p>How to start collaborations?</p>
+<ul>
+<li><p>Maybe grant collaborations?</p></li>
+<li><p>Getting access to datasets</p>
+<ul>
+<li>Coming up with different research questions</li>
+</ul></li>
+</ul></li>
+<li><p>How can we integrate across the community?</p>
+<ul>
+<li><p>What problem can we solve?</p>
+<ul>
+<li><p>Become a community resource to point to packages</p></li>
+<li><p>Don’t need to keep recreating or developing new packages</p>
+<ul>
+<li>Packages could be applications built on top of a specific use case</li>
+<li>Combining old packages in new ways</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Open discussion on <a href="https://discourse.julialang.org/t/julia-orgs-how-do-you-manage-logistics/100430/11?u=thecedarprince">Julia Orgs, How Do You Manage Logistics?</a></p>
+<ul>
+<li><p>Have multiple persons part of the organizations</p></li>
+<li><p>Sharing meeting documentation</p>
+<ul>
+<li><p>Share Google Doc at the beginning or before a meeting in announcement</p></li>
+<li><p>Publish notes on website publicly</p>
+<ul>
+<li><p>PR to update the JuliaHealth website with new tab for meeting minutes</p>
+<ul>
+<li>ACTION: Using HackMD to take notes going forward</li>
+<li>Copy and paste meeting minutes over to JuliaHealth PR to update at end of meetings</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Consistent APIs for JuliaHealth</p>
+<ul>
+<li><p>Initial first pass with HealthBase.jl: <a href="https://github.com/JuliaHealth/HealthBase.jl" class="uri">https://github.com/JuliaHealth/HealthBase.jl</a>&nbsp;</p></li>
+<li><p>As free as possible from niche</p></li>
+<li><p>Could become quickly overwhelming or run risk of bikeshedding</p></li>
+<li><p>ArrayInterface is a learning example in this context</p></li>
+<li><p>Light dependency package is great with a well-described API&nbsp;</p></li>
+<li><p>How to move forward and get momentum</p>
+<ul>
+<li>Without it turning into a mess</li>
+</ul></li>
+<li><p>Common ontologies: <a href="http://obofoundry.org" class="uri">http://obofoundry.org</a>&nbsp;</p></li>
+</ul></li>
+<li><p>JuliaHealth PR Reviews</p>
+<ul>
+<li><p>PR Checklist:</p>
+<ul>
+<li><p>Purpose</p></li>
+<li><p>Reduce cognitive load</p></li>
+</ul></li>
+<li><p>JuliaHealth package forks: <a href="https://github.com/JuliaCI/PkgTemplates.jl" class="uri">https://github.com/JuliaCI/PkgTemplates.jl</a>&nbsp;</p></li>
+<li><p>ACTION: Creating a template repository&nbsp;</p></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="may-26-2023" class="level1">
+<h1>May 26 2023</h1>
+<section id="meeting-summary-1" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-summary-1">Meeting Summary</h2>
+<p><strong>In Attendance:</strong> Jacob Zelko, Dilum Aluthge, Asher Wasserman, Fareeda Abdelazeez, Kyle Beggs</p>
+<p><strong>Location:</strong> Virtual</p>
+<p><strong>Summary:</strong> First JuliaHealth community call to meet other Julians, learn how we can galvanize the Juliahealth Community, and open discussion on paths forward</p>
+<p><strong>Keywords:</strong> #data #analysis #hemodynamics #omop #machine #learning</p>
+</section>
+<section id="agenda-7" class="level2">
+<h2 class="anchored" data-anchor-id="agenda-7">Agenda</h2>
+<ol type="1">
+<li><p>Introductions</p></li>
+<li><p>What people are using Julia for in health research</p></li>
+<li><p>Selected topics and state within the Julia ecosystem:</p>
+<ol type="1">
+<li>Observational Health</li>
+<li>Medical Imaging</li>
+<li>Machine Learning and Health</li>
+<li>Interoperability Standards</li>
+<li>Drug Discovery</li>
+</ol></li>
+<li><p>Standard Interfaces</p></li>
+</ol>
+</section>
+<section id="meeting-outcomes-9" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-outcomes-9">Meeting Outcomes</h2>
+<section id="short-term-outcomes-10" class="level3">
+<h3 class="anchored" data-anchor-id="short-term-outcomes-10">Short-Term Outcomes</h3>
+<ul>
+<li><span class="citation" data-cites="Dilum">@Dilum</span> finds out how to live stream JuliaHealth BoF</li>
+</ul>
+</section>
+<section id="long-term-outcomes-9" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-outcomes-9">Long-Term Outcomes</h3>
+</section>
+</section>
+<section id="meeting-notes-3" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-notes-3">Meeting Notes</h2>
+<ol type="1">
+<li><p>Introductions</p>
+<ol type="1">
+<li><p>Dilum Aluthge – MD/PhD Student Brown University (BCBI), PumasAI</p>
+<ol type="1">
+<li><p>Julia Community Involvement</p>
+<ol type="1">
+<li>Pkg</li>
+<li>General Registry</li>
+<li>Continuous Integration</li>
+</ol></li>
+<li><p>JuliaHealth and beyond</p>
+<ol type="1">
+<li>Originally created JuliaHealth to bring people together in health</li>
+<li>BioJulia folks are a great source of inspiration for packages!</li>
+</ol></li>
+<li><p>Birds of a Feather!!! COME VISIT! – Friday July 28th, 4PM EST in Boston, MA!</p></li>
+</ol></li>
+<li><p>Asher Wasserman – Astronomy PhD, Data Scientist in BioTech</p>
+<ol type="1">
+<li><p>Julia Community Involvement</p>
+<ol type="1">
+<li>Differential Equations</li>
+<li>One off deployments</li>
+</ol></li>
+</ol></li>
+<li><p>Fareeda Abdelazeez – GSoC JuliaHealth (First GSoC Student!!!!!)</p>
+<ol type="1">
+<li><p>Julia Community Involvement</p>
+<ol type="1">
+<li>Observational Health tooling JuliaHealth!</li>
+</ol></li>
+</ol></li>
+<li><p>Kyle Beggs – Software Engineer in small Optics company, Finishing PhD in MechE</p>
+<ol type="1">
+<li><p>Julia Community Involvement</p>
+<ol type="1">
+<li>PDEs</li>
+<li>Hemodynamics research focus</li>
+<li>Take advantage of these tools for imaging, segmentation</li>
+</ol></li>
+</ol></li>
+</ol></li>
+<li><p>What people are using Julia for in health research</p>
+<ol type="1">
+<li><p>Asher: Cancer patient data</p>
+<ol type="1">
+<li><p>PDFs and other data formats&nbsp;</p>
+<ol type="1">
+<li>CDA documents</li>
+</ol></li>
+<li><p>How to structure this ad hoc type of data into common data model</p></li>
+<li><p>Developing processes to automatically make these documents useful</p></li>
+<li><p>How do we clean the data to match actual reality</p></li>
+<li><p>How do we make this data actionable/useful</p></li>
+<li><p>Could match towards goals of OHDSI/observational health</p>
+<ol type="1">
+<li>Analyses at population level?</li>
+<li>Outcome propensity scores?</li>
+<li>Patient phenotype development?</li>
+</ol></li>
+<li><p>Role of Julia:</p>
+<ol type="1">
+<li><p>Mainly as a scripting language</p></li>
+<li><p>Supplement to a lot of SQL scripting (FunSQL discovered)</p></li>
+<li><p>Python is generally being deployed because of software devs</p>
+<ol type="1">
+<li>How to not crash AWS, etc.</li>
+</ol></li>
+<li><p>Julia deployment for risk (?)</p></li>
+<li><p>Survival Analysis in Julia; lifelines in Python otherwise</p></li>
+</ol></li>
+</ol></li>
+<li><p>Kyle: Vascular Surgical Planning</p>
+<ol type="1">
+<li><p>Unobvious on where to place graft, etc – educated guesses</p></li>
+<li><p>Creating a tool to simulate operations</p></li>
+<li><p>Why Julia?</p>
+<ol type="1">
+<li><p>Existing tools are open source but really GUI-driven</p></li>
+<li><p>Integration across ecosystem would be even better for hemodynamics in Julia</p></li>
+<li><p>Give a base to simulate the mechanics involved with this</p>
+<ol type="1">
+<li>JuliaFEM, etc.&nbsp;</li>
+</ol></li>
+</ol></li>
+<li><p>Mesh list methods</p>
+<ol type="1">
+<li>Point clouds</li>
+<li>Main application is within hemodynamics</li>
+</ol></li>
+</ol></li>
+<li><p>Fareeda: JuliaHealth GSoC Student</p>
+<ol type="1">
+<li><p>Working on OMOP Common Data Model</p></li>
+<li><p>Standard model for observational health patient data</p></li>
+<li><p>Develop infrastructure of JuliaHealth to work with OMOP CDM data</p>
+<ol type="1">
+<li>Improve DBConnector</li>
+<li>OMOPCDMCohortCreator.jl – add tooling</li>
+<li>OHDSIAPI.jl – creating interfaces for ATHENA/ATLAS</li>
+</ol></li>
+<li><p>Patient Level Prediction tooling</p>
+<ol type="1">
+<li><p>Using MLJ algorithms</p></li>
+<li><p>Attempting to solve a research question</p>
+<ol type="1">
+<li>Evaluate success of package</li>
+</ol></li>
+</ol></li>
+<li><p>Stretch goals:</p>
+<ol type="1">
+<li>Cohort Quality and underlying data is “good”</li>
+<li>Build support for OBDC connections</li>
+</ol></li>
+</ol></li>
+<li><p>Overlap with other organizations</p>
+<ol type="1">
+<li><p>Doesn’t happen in a vacuum</p></li>
+<li><p>Serving as a bridge between a bridge and a community between other groups</p></li>
+<li><p>What should be JuliaHealth?</p>
+<ol type="1">
+<li>Bringing together people&nbsp;</li>
+</ol></li>
+</ol></li>
+</ol></li>
+<li><p>Selected topics and state within the Julia ecosystem:</p>
+<ol type="1">
+<li>Observational Health</li>
+<li>Medical Imaging</li>
+<li>Machine Learning and Health</li>
+<li>Interoperability Standards</li>
+<li>Drug Discovery</li>
+</ol></li>
+<li><p>Standard Interfaces</p></li>
+</ol>
+<p>June 30th, 2023</p>
+<p>Attending:</p>
+<p>Agenda:</p>
+<ol type="1">
+<li><p>New member welcomes!</p></li>
+<li><p>Planning JuliaHealth Birds of a Feather</p>
+<ol type="1">
+<li>Topics?</li>
+<li>Facilitators?</li>
+<li>Creating actionable outcomes?</li>
+</ol></li>
+<li><p>Open discussion on <a href="https://discourse.julialang.org/t/julia-orgs-how-do-you-manage-logistics/100430/11?u=thecedarprince">Julia Orgs, How Do You Manage Logistics?</a></p></li>
+<li><p>Misc topics</p>
+<ol type="1">
+<li><p>Julia for Health Informatics Research &amp; Bridging community organizations</p>
+<ol type="1">
+<li>Open Discussion on <a href="https://discourse.julialang.org/t/the-graphs-ecosystem/99463?u=thecedarprince">The Graphs Ecosystem</a></li>
+</ol></li>
+</ol></li>
+</ol>
+<p>Notes:&nbsp;</p>
+<ul>
+<li><p>New members:</p>
+<ul>
+<li><p>Zachary Christensen</p>
+<ul>
+<li><p>Neuroimaging research</p></li>
+<li><p>MD/PhD</p>
+<ul>
+<li>Trying to finish this year!!!</li>
+</ul></li>
+<li><p>Lots of background work like in JuliaData</p></li>
+<li><p>Works on making Julia interface</p></li>
+</ul></li>
+</ul></li>
+<li><p>Announcement: JuliaCon about 1 month away!</p>
+<ul>
+<li>We have our own track: biology and medicine</li>
+<li>Many people working on different things</li>
+</ul></li>
+<li><p>JuliaHealth Birds of a Feather Discussion</p>
+<ul>
+<li><p>Possible Topics:</p>
+<ul>
+<li><p>Neural decoding&nbsp;</p>
+<ul>
+<li>Inspired by MATLAB: <a href="http://www.readout.info" class="uri">http://www.readout.info</a>&nbsp;</li>
+<li>Sister organization: <a href="https://julianeuro.github.io/packages" class="uri">https://julianeuro.github.io/packages</a></li>
+</ul></li>
+<li><p>OMOP Tooling for Real World Data</p></li>
+<li><p>How to start collaborations?</p>
+<ul>
+<li><p>Maybe grant collaborations?</p></li>
+<li><p>Getting access to datasets</p>
+<ul>
+<li>Coming up with different research questions</li>
+</ul></li>
+</ul></li>
+<li><p>How can we integrate across the community?</p>
+<ul>
+<li><p>What problem can we solve?</p>
+<ul>
+<li><p>Become a community resource to point to packages</p></li>
+<li><p>Don’t need to keep recreating or developing new packages</p>
+<ul>
+<li>Packages could be applications built on top of a specific use case</li>
+<li>Combining old packages in new ways</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Open discussion on <a href="https://discourse.julialang.org/t/julia-orgs-how-do-you-manage-logistics/100430/11?u=thecedarprince">Julia Orgs, How Do You Manage Logistics?</a></p>
+<ul>
+<li><p>Have multiple persons part of the organizations</p></li>
+<li><p>Sharing meeting documentation</p>
+<ul>
+<li><p>Share Google Doc at the beginning or before a meeting in announcement</p></li>
+<li><p>Publish notes on website publicly</p>
+<ul>
+<li><p>PR to update the JuliaHealth website with new tab for meeting minutes</p>
+<ul>
+<li>ACTION: Using HackMD to take notes going forward</li>
+<li>Copy and paste meeting minutes over to JuliaHealth PR to update at end of meetings</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Consistent APIs for JuliaHealth</p>
+<ul>
+<li><p>Initial first pass with HealthBase.jl: <a href="https://github.com/JuliaHealth/HealthBase.jl" class="uri">https://github.com/JuliaHealth/HealthBase.jl</a>&nbsp;</p></li>
+<li><p>As free as possible from niche</p></li>
+<li><p>Could become quickly overwhelming or run risk of bikeshedding</p></li>
+<li><p>ArrayInterface is a learning example in this context</p></li>
+<li><p>Light dependency package is great with a well-described API&nbsp;</p></li>
+<li><p>How to move forward and get momentum</p>
+<ul>
+<li>Without it turning into a mess</li>
+</ul></li>
+<li><p>Common ontologies: <a href="http://obofoundry.org" class="uri">http://obofoundry.org</a>&nbsp;</p></li>
+</ul></li>
+<li><p>JuliaHealth PR Reviews</p>
+<ul>
+<li><p>PR Checklist:</p>
+<ul>
+<li>Purpose</li>
+<li>Reduce cognitive load</li>
+</ul></li>
+<li><p>JuliaHealth package forks: <a href="https://github.com/JuliaCI/PkgTemplates.jl" class="uri">https://github.com/JuliaCI/PkgTemplates.jl</a>&nbsp;</p></li>
+<li><p>ACTION: Creating a template repository&nbsp;</p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

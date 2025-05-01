@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.47">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>The JuliaHealth Blog</title>
+<title>JuliaHealth</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,61 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./profile.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<link href="./assets/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b91f5432c59177e88330fbc179e69942.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -83,8 +48,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
-    "?"
+    "f",
+    "/",
+    "s"
   ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -99,85 +67,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-author','listing-reading-time','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-<script data-goatcounter="https://juliahealthblog.goatcounter.com/count" async="" src="//gc.zgo.at/count.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="The JuliaHealth Blog" href="index.xml" data-external="1"><meta property="og:title" content="The JuliaHealth Blog">
-<meta property="og:site_name" content="The JuliaHealth Blog">
-<meta property="og:locale" content="en_EN">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./profile.png" alt="" class="navbar-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">The JuliaHealth Blog</span>
+    <span class="navbar-title">JuliaHealth</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -188,58 +91,12 @@ window.Quarto = {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Posts</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <span class="nav-link">
-<span class="menu-text">Write with Us</span>
-    </span>
+    <a class="nav-link" href="./JuliaHealthBlog/index.html"> 
+<span class="menu-text">Blogs</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-join-juliahealth" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Join JuliaHealth</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-join-juliahealth">    
-        <li>
-    <a class="dropdown-item" href="https://julialang.org/slack/"><i class="bi bi-slack" role="img">
-</i> 
- <span class="dropdown-text">Slack (#health-and-medicine)</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://julialang.zulipchat.com/"><i class="bi bi-lightning-charge-fill" role="img">
-</i> 
- <span class="dropdown-text">Julia Zulip</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://discourse.julialang.org/"><i class="bi bi-pencil-square" role="img">
-</i> 
- <span class="dropdown-text">Julia Discourse</span></a>
-  </li>  
-    </ul>
-  </li>
-</ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-github" role="img">
-</i> 
- <span class="menu-text"></span>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
-        <li>
-    <a class="dropdown-item" href="https://github.com/JuliaHealth/JuliaHealthBlog">
- <span class="dropdown-text">Source Code</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose">
- <span class="dropdown-text">Report a Bug</span></a>
-  </li>  
-    </ul>
-  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -248,279 +105,258 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
-<b>Navigation &amp; Tips:</b>
-
-<ul>
-    <li>Press <b>?</b> for search</li>
-    <li><b>"&lt;/&gt; Code"</b> for code nav</li>
-</ul>
-
-</div></div>
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="AI/ML">AI/ML <span class="quarto-category-count">(1)</span></div><div class="category" data-category="analysis">analysis <span class="quarto-category-count">(3)</span></div><div class="category" data-category="census">census <span class="quarto-category-count">(1)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="experience">experience <span class="quarto-category-count">(1)</span></div><div class="category" data-category="geospatial">geospatial <span class="quarto-category-count">(1)</span></div><div class="category" data-category="gpu">gpu <span class="quarto-category-count">(2)</span></div><div class="category" data-category="gsoc">gsoc <span class="quarto-category-count">(6)</span></div><div class="category" data-category="hpc">hpc <span class="quarto-category-count">(1)</span></div><div class="category" data-category="imaging">imaging <span class="quarto-category-count">(2)</span></div><div class="category" data-category="mentor">mentor <span class="quarto-category-count">(1)</span></div><div class="category" data-category="mri">mri <span class="quarto-category-count">(1)</span></div><div class="category" data-category="neuro">neuro <span class="quarto-category-count">(1)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="observational health">observational health <span class="quarto-category-count">(1)</span></div><div class="category" data-category="openGl">openGl <span class="quarto-category-count">(1)</span></div><div class="category" data-category="simulation">simulation <span class="quarto-category-count">(1)</span></div><div class="category" data-category="sql">sql <span class="quarto-category-count">(1)</span></div></div></div>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content"><div class="quarto-title-block"><div class="quarto-title-tools-only"><h1></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-<section id="welcome-to-the-juliahealthblog" class="level1">
-<h1>Welcome to the JuliaHealthBlog! 👋</h1>
+<div class="column-page mb-0 text-center">
+    <img src="./assets/images/logo.png" class="img-fluid" alt="JuliaHealth Logo">
+    <p class="h1">
+        Transforming Health Research!
+    </p>
+    <p class="h3 fs-2 mt-0">
+        Improving medicine, health and bio-medical research using the power of Julia.
+    </p>
+</div>
+<div class="column-page p-md-3">
+    <h3 class="mb-2 fs-2 text-center anchored"><i class="bi bi-boxes me-2"></i>Explore Packages</h3>
+    <p class="mb-4 fs-3 text-center">Below are some of the powerful packages developed by the community.</p>
+    <div class="grid text-center">
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/komamri.svg" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">KomaMRI.jl</span>
+                <p class="card-text">
+                    KomaMRI.jl is a Julia package for highly efficient ⚡ MRI simulations. KomaMRI was built from the ground up to be: easy to use, extensible, cross-platform, and powered by open-source community standards.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaHealth/KomaMRI.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://juliahealth.org/KomaMRI.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/neuroanalyzer.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">NeuroAnalyzer.jl</span>
+                <p class="card-text">
+                    NeuroAnalyzer is a Julia toolbox for analyzing neurophysiological data. Currently it covers importing, editing, processing, visualizing, and analyzing EEG, MEP and EDA data. Preliminary functionality is also available for MEG, NIRS, ECoG, SEEG and iEEG recordings.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaHealth/NeuroAnalyzer.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://neuroanalyzer.org/" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/dicomtree.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">DICOMTree.jl</span>
+                <p class="card-text">
+                    A little Julia package for visualizing DICOM file metadata in the form of a tree. The package have been tested with CT Scanner, RTDose and RTStruct files.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/icdgems.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">ICD_GEMs.jl</span>
+                <p class="card-text">
+                    ICD_GEMs.jl is a Julia package that allows to translate ICD-9 codes in ICD-10 and viceversa via the General Equivalence Mappings (GEMs) of the International Classification of Diseases (ICD).
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaHealth/ICD_GEMs.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://juliahealth.org/ICD_GEMs.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">MedEye3d.jl</span>
+                <p class="card-text">
+                    Julia library for visualization and annotation medical images, specialized particularly for rapid development segmentation of 3 dimensional images like CT or PET/CT scans. Has full support of nuclear medicine Data.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <p class="card-text">
+                    <a href="#">
+                        And many more...
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="column-page p-md-3">
+    <h3 class="mb-2 fs-2 text-center anchored"><i class="bi bi-people-fill me-2"></i>Similar Organizations</h3>
+    <p class="mb-4 fs-3 text-center">We are not the only one, there are other communities researching on various similar aspects.</p>
+    <div class="grid text-center">
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/orgs/biojulia.svg" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">BioJulia</span>
+                <p class="card-text">
+                    Fast, open, extensible software for bioinformatics and computational biology.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/BioJulia" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://biojulia.dev" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/orgs/ecojulia.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;">
+                <span class="card-title fw-bold">EcoJulia</span>
+                <p class="card-text">
+                    Ecological research in the Julia language.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/EcoJulia" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://ecojulia.org" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <p class="card-text">
+                    <a href="#">
+                        And many more...
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ```{=html}
+<div class="column-page p-3">
+    <h3 class="mb-2 fs-2 text-center"><i class="bi bi-question-circle-fill me-2"></i>FAQs</h3>
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+        <span class="accordion-header">
+            <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseOne"
+            >
+                Accordion Item #1
+            </button>
+        </span>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <span class="accordion-header">
+            <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseTwo"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseTwo"
+            >
+                Accordion Item #2
+            </button>
+        </span>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <span class="accordion-header">
+            <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseThree"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseThree"
+            >
+                Accordion Item #3
+            </button>
+        </span>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+        </div>
+    </div>
+</div>
+``` -->
 
 
 
-<!-- -->
-
-</section>
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-</div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="gsoc,AI/ML,imaging,gpu,analysis" data-listing-date-sort="1730606400000" data-listing-file-modified-sort="1738966606332" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="32" data-listing-word-count-sort="6347">
-<div class="thumbnail">
-<p><a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external"></a></p><a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">
-<p class="card-img-top"><img src="posts/JZubik-gsoc/Augmentations.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">GSoC ’24: Adding dataset-wide functions and integrations of augmentations</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">MedPipe3D - Medical segmentation pipeline with dataset-wide functions and augmentations.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html" class="no-external">
-<div class="listing-date">
-Nov 3, 2024
-</div>
-<div class="listing-author">
-Jan Zubik
-</div>
-<div class="listing-reading-time">
-32 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="gsoc,openGl,imaging,neuro" data-listing-date-sort="1730433600000" data-listing-file-modified-sort="1738966606339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3376">
-<div class="thumbnail">
-<p><a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p><a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">
-<p class="card-img-top"><img src="posts/divyansh-gsoc/multiple_dispatch_code.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">GSoC ’24: Adding functionalities to medical imaging visualizations</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">A summary of my project for Google Summer of Code - 2024</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/divyansh-gsoc/gsoc-2024-fellows.html" class="no-external">
-<div class="listing-date">
-Nov 1, 2024
-</div>
-<div class="listing-author">
-Divyansh Goyal
-</div>
-<div class="listing-reading-time">
-17 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="gsoc,mentor,experience" data-listing-date-sort="1726113600000" data-listing-file-modified-sort="1738966606351" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="885">
-<div class="thumbnail">
-<p><a href="./posts/mounika-gsoc-mentor/index.html" class="no-external"></a></p><a href="./posts/mounika-gsoc-mentor/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" style="height: 0;">&nbsp;</div>
-</a><p><a href="./posts/mounika-gsoc-mentor/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/mounika-gsoc-mentor/index.html" class="no-external">GSoC Co-Mentoring Experience</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/mounika-gsoc-mentor/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/mounika-gsoc-mentor/index.html" class="no-external">My experience as a GSoC co-mentor within JuliaHealth</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/mounika-gsoc-mentor/index.html" class="no-external">
-<div class="listing-date">
-Sep 12, 2024
-</div>
-<div class="listing-author">
-Mounika Thakkallapally
-</div>
-<div class="listing-reading-time">
-5 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="gsoc,sql,observational health,analysis" data-listing-date-sort="1725681600000" data-listing-file-modified-sort="1738966698242" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="19" data-listing-word-count-sort="3728">
-<div class="thumbnail">
-<p><a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p><a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">
-<p class="card-img-top"><img src="posts/jay-gsoc/image.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">GSoC ’24: Developing Tooling for Observational Health Research in Julia</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">A summary of my project for Google Summer of Code - 2024</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/jay-gsoc/gsoc-2024-fellows.html" class="no-external">
-<div class="listing-date">
-Sep 7, 2024
-</div>
-<div class="listing-author">
-Jay Sanjay Landge
-</div>
-<div class="listing-reading-time">
-19 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="gsoc,mri,gpu,hpc,simulation" data-listing-date-sort="1724990400000" data-listing-file-modified-sort="1725733855137" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2805">
-<div class="thumbnail">
-<p><a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external"></a></p><a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">
-<p class="card-img-top"><img src="posts/ryan-gsoc/Benchmark_Page.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">GSoC ’24: Enhancements to KomaMRI.jl GPU Support</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">A summary of my project for Google Summer of Code</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/ryan-gsoc/Ryan_GSOC.html" class="no-external">
-<div class="listing-date">
-Aug 30, 2024
-</div>
-<div class="listing-author">
-Ryan Kierulf
-</div>
-<div class="listing-reading-time">
-15 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="gsoc,geospatial,census" data-listing-date-sort="1724644800000" data-listing-file-modified-sort="1725733855130" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1421">
-<div class="thumbnail">
-<p><a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external"></a></p><a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external">
-<p class="card-img-top"><img src="posts/michela-gsoc/IPUMS_grid_logo.png" style="height: 0;"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external">GSoC ’24: IPUMS.jl Small Project</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external">A summary of my project for Google Summer of Code</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/michela-gsoc/Michela_JSoC.html" class="no-external">
-<div class="listing-date">
-Aug 26, 2024
-</div>
-<div class="listing-author">
-Michela Rocchetti
-</div>
-<div class="listing-reading-time">
-8 min
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="news,code,analysis" data-listing-date-sort="1719028800000" data-listing-file-modified-sort="1725733855130" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="16">
-<div class="thumbnail">
-<p><a href="./posts/dummy/index.html" class="no-external"></a></p><a href="./posts/dummy/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" style="height: 0;">&nbsp;</div>
-</a><p><a href="./posts/dummy/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/dummy/index.html" class="no-external">Dummy Post</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/dummy/index.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/dummy/index.html" class="no-external">Post description</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/dummy/index.html" class="no-external">
-<div class="listing-date">
-Jun 22, 2024
-</div>
-<div class="listing-author">
-Foobar
-</div>
-<div class="listing-reading-time">
-1 min
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -603,68 +439,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
   }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
-    }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
-  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/juliahealth\.org\/JuliaHealthBlog\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -766,7 +549,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -991,67 +773,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="an">listing:</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">  contents: posts</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">  sort: "date desc"</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">  fields: [image, date, title, author, reading-time, description]</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">  type: default</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">  categories: true</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">  sort-ui: true</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">  filter-ui: false</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">  feed: true</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">  image-height: "0"</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="an">page-layout:</span><span class="co"> full</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="an">toc:</span><span class="co"> false</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="an">title-block-banner:</span><span class="co"> true</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">---</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="fu"># Welcome to the JuliaHealthBlog! 👋</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2024, JuliaHealth.</p>
+<p>Copyright 2024-25, JuliaHealth.</p>
 </div>   
     <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
-    <li class="nav-item compact">
+    <li class="nav-item">
     <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
-      <i class="bi bi-github" role="img">
-</i> 
-    </a>
-  </li>  
-    <li class="nav-item compact">
-    <a class="nav-link" href="https://www.youtube.com/c/TheJuliaLanguage">
-      <i class="bi bi-youtube" role="img">
-</i> 
-    </a>
-  </li>  
-    <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml">
-      <i class="bi bi-rss" role="img">
-</i> 
-    </a>
-  </li>  
-    <li class="nav-item compact">
-    <a class="nav-link" href="https://julialang.org/slack/">
-      <i class="bi bi-slack" role="img">
-</i> 
-    </a>
-  </li>  
-    <li class="nav-item compact">
-    <a class="nav-link" href="https://x.com/julialanguage">
-      <i class="bi bi-twitter" role="img">
-</i> 
-    </a>
+<p>Report Issue</p>
+</a>
   </li>  
 </ul>
-    <div class="toc-actions"><ul><li><a href="https://github.com/JuliaHealth/JuliaHealthBlog/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/JuliaHealth/JuliaHealthBlog/issues/new/choose" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
-    <div class="nav-footer-right">
-      &nbsp;
     </div>
   </div>
 </footer>

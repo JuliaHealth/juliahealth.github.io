@@ -1,1 +1,9 @@
 /* css styles */
+
+.home-page-package-card:hover {
+    transition: all 300ms linear;
+}
+
+.home-page-package-card:hover {
+    border: 1px solid var(--bs-primary);
+}
