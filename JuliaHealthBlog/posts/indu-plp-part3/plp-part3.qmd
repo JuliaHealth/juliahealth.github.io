@@ -18,7 +18,7 @@ categories:
 
 Welcome back to the final part of the blog series on building a Patient-Level Prediction (PLP) Pipeline in Julia using the OMOP Common Data Model (CDM).
 
-In this concluding post, we'll reflect on the full journey - from cohort definition and feature extraction to preprocessing, modeling, and evaluation. We'll dig into what worked well, what challenges emerged, and what lessons were learned while building this pipeline from scratch using Julia. This post aims to bring the series full circle, offering insights into the practical realities of working with real-world health data and setting the stage for future work and improvements.
+In this concluding post, we'll reflect on the full journey -- from cohort definition and feature extraction to preprocessing, modeling, and evaluation. We'll dig into what worked well, what challenges emerged, and what lessons were learned while building this pipeline from scratch using Julia. This post aims to bring the series full circle, offering insights into the practical realities of working with real-world health data and setting the stage for future work and improvements.
 
 ## Recap of Previous Parts
 
@@ -26,16 +26,16 @@ In [**Part 1**](../indu-plp-part1/plp-part1.qmd), we introduced the motivation a
 
 > Among patients diagnosed with hypertension, who will go on to develop diabetes?
 
-We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature.
+We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature. To handle the data, we used the OMOP CDM format, which ensures that real-world patient data is structured in a consistent and analysis-friendly way.
 
-To extract patient cohorts, we used [`OHDSICohortExpressions.jl`](https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl), which allowed us to define concept sets and logic for cohort inclusion and exclusion. For example, the hypertension target cohort included patients with a confirmed hypertension diagnosis, and the outcome cohort included those later diagnosed with diabetes.
+To extract patient cohorts, we used [`OHDSICohortExpressions.jl`](https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl), which allowed us to define concept sets and logic for cohort inclusion and exclusion. 
 
-In [**Part 2**](../indu-plp-part2/plp-part2.qmd), we built a modular pipeline using the Julia ecosystem:
+In [**Part 2**](../indu-plp-part2/plp-part2.qmd), we built a modular Patient-Level Prediction pipeline using the Julia ecosystem:
 
-- **Feature extraction** involved pulling demographic, condition, drug, and visit data, encoding it as binary presence indicators.
-- **Preprocessing** included handling missing values, one-hot encoding, normalization, and creating train-test splits.
-- **Model training** used the [`MLJ.jl`](https://github.com/JuliaAI/MLJ.jl) framework to train logistic regression, random forest, and XGBoost models.
-- **Evaluation** involved computing AUC and accuracy for binary classification.
+- **Feature extraction**: involved pulling demographic, condition, drug, and visit data, encoding it as binary presence indicators.
+- **Preprocessing**: included handling missing values, one-hot encoding, normalization, and creating train-test splits.
+- **Model training**: used the `MLJ.jl` framework to train logistic regression, random forest, and XGBoost models.
+- **Evaluation**: involved computing AUC and accuracy for binary classification.
 
 ## Reflections on the OHDSI Framework vs Julia Approach
 
@@ -51,7 +51,7 @@ After preprocessing the features and labels, model performance was not as strong
 - Random Forest: AUC ≈ 0.485
 - XGBoost: AUC ≈ 0.52
 
-These unexpectedly low model performances prompted a deeper investigation into the root causes. The primary issue was that the **data available in the CDM was not well-suited** to answer the research question: “From those diagnosed with hypertension, who goes on to develop diabetes?” 
+These unexpectedly low model performances prompted a deeper investigation into the root causes. The primary issue was that the data available in our synthetic OMOP CDM was not well-suited to answer the research question: “From those diagnosed with hypertension, who goes on to develop diabetes?”
 
 Temporal context was also missing, as the features extracted were basic binary indicators that did not reflect the timing or frequency of clinical events. The one-year prediction window might have been too narrow for diabetes to develop meaningfully after a hypertension diagnosis. Many patients had very limited observation time before their index date, which weakened the reliability of feature construction. This further constrained the ability of the models to generalize well to new cases.
 
@@ -63,7 +63,7 @@ These issues suggest that the bottleneck wasn’t the modeling itself, but rathe
 
 Throughout the process, we encountered several technical and conceptual challenges:
 
-The most critical issue lay in the **quality and structure of the data itself**. Many patients had sparse or short observation periods, which meant that only limited clinical history was available before the cohort entry date. 
+The most critical issue lay in the quality and structure of the data itself. Many patients had sparse or short observation periods, which meant that only limited clinical history was available before the cohort entry date.
 
 This directly affected the utility of the extracted features. On the modeling side, integrating with [`MLJ.jl`](https://github.com/JuliaAI/MLJ.jl) required careful setup, especially when handling missing values, categorical encodings, and class imbalance.
 
