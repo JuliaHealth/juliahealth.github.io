@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
-<meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.43">
+<head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta charset="utf-8" />
+<meta name="generator" content="quarto-1.6.43" />
 
-<meta name="author" content="Kosuri Lakshmi Indu">
-<meta name="dcterms.date" content="2025-04-12">
-<meta name="description" content="Kicking off the PLP-Pipeline blog series - how we define research questions and construct cohorts using OMOP CDM and Julia tools.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<meta name="author" content="Kosuri Lakshmi Indu" />
+<meta name="dcterms.date" content="2025-04-12" />
+<meta name="description" content="Kicking off the PLP-Pipeline blog series - how we define research questions and construct cohorts using OMOP CDM and Julia tools." />
 
 <title>PLP-Pipeline Series Part 1: From Research Question to Cohort Construction – JuliaHealth</title>
 <style>
@@ -59,24 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../assets/favicon.ico" rel="icon">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-51278565e4f4f6ace0c1facf99b82dcc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<!-- htmldependencies:E3FAD763 -->
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,32 +91,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../../../styles.css" />
 </head>
 
-<body class="nav-fixed">
+<body>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="/index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+  aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation"
+  onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> 
+    <a class="nav-link" href="/index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> 
+    <a class="nav-link" href="/JuliaHealthBlog/index.html"> 
 <span class="menu-text">Blogs</span></a>
   </li>  
 </ul>
@@ -146,36 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction 👋</a></li>
-  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
-  <ul class="collapse">
-  <li><a href="#what-is-observational-health" id="toc-what-is-observational-health" class="nav-link" data-scroll-target="#what-is-observational-health">What is Observational Health?</a></li>
-  <li><a href="#what-is-the-omop-cdm" id="toc-what-is-the-omop-cdm" class="nav-link" data-scroll-target="#what-is-the-omop-cdm">What Is the OMOP CDM?</a></li>
-  <li><a href="#what-is-patient-level-prediction-plp" id="toc-what-is-patient-level-prediction-plp" class="nav-link" data-scroll-target="#what-is-patient-level-prediction-plp">What is Patient-Level Prediction (PLP)?</a></li>
-  <li><a href="#why-plp-in-julia" id="toc-why-plp-in-julia" class="nav-link" data-scroll-target="#why-plp-in-julia">Why PLP in Julia?</a></li>
-  </ul></li>
-  <li><a href="#reference-foundation-from-the-ohdsi-plp-framework" id="toc-reference-foundation-from-the-ohdsi-plp-framework" class="nav-link" data-scroll-target="#reference-foundation-from-the-ohdsi-plp-framework">Reference: Foundation from the OHDSI PLP Framework</a>
-  <ul class="collapse">
-  <li><a href="#methodologies-from-the-paper" id="toc-methodologies-from-the-paper" class="nav-link" data-scroll-target="#methodologies-from-the-paper">Methodologies from the Paper</a></li>
-  </ul></li>
-  <li><a href="#research-question" id="toc-research-question" class="nav-link" data-scroll-target="#research-question">Research Question</a>
-  <ul class="collapse">
-  <li><a href="#cohort-construction" id="toc-cohort-construction" class="nav-link" data-scroll-target="#cohort-construction">Cohort Construction</a></li>
-  </ul></li>
-  <li><a href="#defining-cohorts-using-ohdsicohortexpressions.jl" id="toc-defining-cohorts-using-ohdsicohortexpressions.jl" class="nav-link" data-scroll-target="#defining-cohorts-using-ohdsicohortexpressions.jl">Defining Cohorts using OHDSICohortExpressions.jl</a>
-  <ul class="collapse">
-  <li><a href="#cohort-definition-code" id="toc-cohort-definition-code" class="nav-link" data-scroll-target="#cohort-definition-code">Cohort Definition Code</a></li>
-  </ul></li>
-  <li><a href="#wrapping-up" id="toc-wrapping-up" class="nav-link" data-scroll-target="#wrapping-up">Wrapping Up</a>
-  <ul class="collapse">
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        <div id="quarto-toc-target"></div>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -220,7 +178,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction">Introduction 👋</a></li>
+  <li><a href="#background" id="toc-background">Background</a>
+  <ul>
+  <li><a href="#what-is-observational-health" id="toc-what-is-observational-health">What is Observational Health?</a></li>
+  <li><a href="#what-is-the-omop-cdm" id="toc-what-is-the-omop-cdm">What Is the OMOP CDM?</a></li>
+  <li><a href="#what-is-patient-level-prediction-plp" id="toc-what-is-patient-level-prediction-plp">What is Patient-Level Prediction (PLP)?</a></li>
+  <li><a href="#why-plp-in-julia" id="toc-why-plp-in-julia">Why PLP in Julia?</a></li>
+  </ul></li>
+  <li><a href="#reference-foundation-from-the-ohdsi-plp-framework" id="toc-reference-foundation-from-the-ohdsi-plp-framework">Reference: Foundation from the OHDSI PLP Framework</a>
+  <ul>
+  <li><a href="#methodologies-from-the-paper" id="toc-methodologies-from-the-paper">Methodologies from the Paper</a></li>
+  </ul></li>
+  <li><a href="#research-question" id="toc-research-question">Research Question</a>
+  <ul>
+  <li><a href="#cohort-construction" id="toc-cohort-construction">Cohort Construction</a></li>
+  </ul></li>
+  <li><a href="#defining-cohorts-using-ohdsicohortexpressions.jl" id="toc-defining-cohorts-using-ohdsicohortexpressions.jl">Defining Cohorts using OHDSICohortExpressions.jl</a>
+  <ul>
+  <li><a href="#cohort-definition-code" id="toc-cohort-definition-code">Cohort Definition Code</a></li>
+  </ul></li>
+  <li><a href="#wrapping-up" id="toc-wrapping-up">Wrapping Up</a>
+  <ul>
+  <li><a href="#acknowledgements" id="toc-acknowledgements">Acknowledgements</a></li>
+  </ul></li>
+  </ul>
+</nav>
 <section id="introduction" class="level1">
 <h1>Introduction 👋</h1>
 <p>Hi everyone! I’m <strong>Kosuri Lakshmi Indu</strong>, a third-year undergraduate student in Computer Science and an aspiring GSoC 2025 contributor. My interest in using data science for public health led me to the <strong>JuliaHealth</strong> community and, under the mentorship of Jacob S. Zelko, I began working on a project titled <strong>PLP-Pipeline</strong>. This project focuses on building modular, efficient tooling for Patient-Level Prediction (PLP) entirely in Julia, using the OMOP Common Data Model (OMOP CDM).</p>
@@ -237,34 +224,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="background" class="level1">
 <h1>Background</h1>
 <section id="what-is-observational-health" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-observational-health">What is Observational Health?</h2>
+<h2>What is Observational Health?</h2>
 <p>Observational health research examines real-world patient data such as electronic health records (EHRs), claims, and registries to understand health and disease outside of controlled trial environments. This type of research plays a vital role in informing decisions by clinicians, policymakers, and researchers, especially when addressing population-level health questions and disparities.</p>
 <p>A core aspect of observational health is the use of phenotype definitions, which describe a specific set of observable patient characteristics (e.g., diagnosis codes, symptoms, demographics, biomarkers) that define a population of interest. Creating accurate and reproducible phenotype definitions is essential for ensuring research validity. However, challenges such as missing data, demographic biases, and inconsistently recorded information can significantly impact the reliability of these definitions.</p>
 <p>To support reproducible research at scale, communities like OHDSI (Observational Health Data Sciences and Informatics) have developed standards such as the OMOP Common Data Model (CDM) and workflows for developing computable phenotype definitions.</p>
 <p>In our work, we utilize observational health data already structured through the OMOP Common Data Model (CDM). We construct patient cohorts based on existing phenotype definitions. These cohorts then serve as the basis for building patient-level prediction models, enabling us to explore and generate insights that can support data-driven clinical decision-making.</p>
 </section>
 <section id="what-is-the-omop-cdm" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-the-omop-cdm">What Is the OMOP CDM?</h2>
+<h2>What Is the OMOP CDM?</h2>
 <p>The <strong>Observational Medical Outcomes Partnership Common Data Model (OMOP CDM)</strong> is a standardized framework for organizing and analyzing observational healthcare data. The OMOP CDM converts diverse sources of health data into a common format that supports large-scale, systematic analysis.</p>
 <p>The OMOP CDM organizes data into a consistent set of relational tables like <code>condition_occurrence</code>, <code>drug_exposure</code>, <code>person</code>, <code>visit_occurrence</code> etc, using standardized vocabularies. These tables are interconnected, allowing for relational analysis across a patient’s medical history.</p>
 <p>By transforming diverse healthcare datasets into a common format, the OMOP CDM enables reproducibility, interoperability, and large-scale studies across institutions and populations.</p>
 <br>
 <center>
-<p><img src="./omopcdm.png" class="img-fluid"></p>
+<p><img src="./omopcdm.png" class="img-fluid" /></p>
 OMOP Common Data Model
 </center>
 </section>
 <section id="what-is-patient-level-prediction-plp" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-patient-level-prediction-plp">What is Patient-Level Prediction (PLP)?</h2>
+<h2>What is Patient-Level Prediction (PLP)?</h2>
 <p><strong>Patient-Level Prediction (PLP)</strong> is a data-driven approach that uses machine learning or statistical models to estimate the risk of specific clinical outcomes for individual patients, based on their historical healthcare data.</p>
 <p>The key goal of PLP is to answer personalized clinical questions like:</p>
-<blockquote class="blockquote">
+<blockquote>
 <p><em>“For patients who present with chest pain leading to a hospital visit, can we predict which of these patients will go on to experience a heart attack after their hospital visit?”</em></p>
 </blockquote>
 <p>PLP focuses on using observational patient data such as diagnoses, medications, procedures, and demographics - to predict individual-level risks of future health events. While it may sound similar to precision medicine, there’s a key distinction: precision medicine aims to tailor treatment plans based on a patient’s genetics, environment, and lifestyle, whereas PLP is specifically about forecasting outcomes for individual patients using data-driven models. These predictions can support timely and personalized clinical decisions.</p>
 </section>
 <section id="why-plp-in-julia" class="level2">
-<h2 class="anchored" data-anchor-id="why-plp-in-julia">Why PLP in Julia?</h2>
+<h2>Why PLP in Julia?</h2>
 <p>While established PLP workflows are well-supported in R through OHDSI’s suite of packages, our work explores an alternative approach using Julia - a high-performance language that enables building efficient and reproducible pipelines from end to end.</p>
 <p>Julia offers several advantages that make it well-suited for observational health research:</p>
 <ul>
@@ -275,7 +262,7 @@ OMOP Common Data Model
 <p>Additionally, Julia features a rich and growing ecosystem with many tools for scientific computing and data science, making it a strong alternative for modern health informatics workflows.</p>
 <br>
 <center>
-<p><img src="./julia.webp" class="img-fluid"></p>
+<p><img src="./julia.webp" class="img-fluid" /></p>
 Julia Equivalents
 </center>
 </section>
@@ -283,12 +270,12 @@ Julia Equivalents
 <section id="reference-foundation-from-the-ohdsi-plp-framework" class="level1">
 <h1>Reference: Foundation from the OHDSI PLP Framework</h1>
 <p>Throughout the development of this PLP pipeline, I referenced the methodology presented in the following paper:</p>
-<blockquote class="blockquote">
+<blockquote>
 <p>Reps, J. M., Schuemie, M. J., Suchard, M. A., Ryan, P. B., Rijnbeek, P. R., &amp; Madigan, D. (2018). Design and implementation of a standardized framework to generate and evaluate patient-level prediction models using observational healthcare data. <em>Journal of the American Medical Informatics Association, 25(8), 969–975</em>. <a href="https://doi.org/10.1093/jamia/ocy032">https://doi.org/10.1093/jamia/ocy032</a></p>
 </blockquote>
 <p>This paper laid the groundwork for my implementation and inspired several core components of the project — from data curation to model evaluation.</p>
 <section id="methodologies-from-the-paper" class="level2">
-<h2 class="anchored" data-anchor-id="methodologies-from-the-paper">Methodologies from the Paper</h2>
+<h2>Methodologies from the Paper</h2>
 <ol type="1">
 <li><p>Standardized Framework for PLP - Outlines a consistent process for building patient-level prediction models across datasets and settings.</p></li>
 <li><p>Defining the Prediction Problem - Emphasizes clear definition of target, outcome, and time-at-risk for valid predictions.</p></li>
@@ -302,12 +289,12 @@ Julia Equivalents
 <section id="research-question" class="level1">
 <h1>Research Question</h1>
 <p>As an example, here is one question we could potentially explore within this PLP pipeline:</p>
-<blockquote class="blockquote">
+<blockquote>
 <p><strong>Among patients diagnosed with hypertension, who will go on to develop diabetes?</strong></p>
 </blockquote>
 <p>The focus is on identifying patients with hypertension who may progress to diabetes based on their medical history and risk factors.</p>
 <section id="cohort-construction" class="level2">
-<h2 class="anchored" data-anchor-id="cohort-construction">Cohort Construction</h2>
+<h2>Cohort Construction</h2>
 <p>Cohorts are groups of patients defined by specific criteria that are relevant to the research question. For this task, two main cohorts need to be defined:</p>
 <ul>
 <li><p><strong>Target Cohort</strong>: This refers to the group of patients we want to make predictions for. In our case, it includes patients who have been diagnosed with hypertension. These patients serve as the starting point for our prediction timeline.</p></li>
@@ -333,10 +320,10 @@ Julia Equivalents
 <li><p>Executing the SQL queries to create the target and outcome cohorts in the database.</p></li>
 </ol>
 <section id="cohort-definition-code" class="level3">
-<h3 class="anchored" data-anchor-id="cohort-definition-code">Cohort Definition Code</h3>
+<h3>Cohort Definition Code</h3>
 <p>Here’s how we set up the DuckDB connection and define cohorts using OHDSI JSON definitions:</p>
 <p><strong>File:</strong> <code>cohort_definition.jl</code></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">DBInterface</span>: connect, execute</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">DBInterface</span>: connect, execute</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">FunSQL</span>: reflect, render</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">OHDSICohortExpressions</span>: translate</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DuckDB</span>, <span class="bu">DataFrames</span></span>
@@ -345,40 +332,40 @@ Julia Equivalents
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># This ensures portable and reproducible file access within the project</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the cohort definitions from JSON files (Hypertension and Diabetes definitions)</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>target_json <span class="op">=</span> <span class="fu">read</span>(<span class="fu">datadir</span>(<span class="st">"exp_raw"</span>, <span class="st">"definitions"</span>, <span class="st">"Hypertension.json"</span>), <span class="dt">String</span>)  <span class="co"># Target cohort (Hypertension)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>outcome_json <span class="op">=</span> <span class="fu">read</span>(<span class="fu">datadir</span>(<span class="st">"exp_raw"</span>, <span class="st">"definitions"</span>, <span class="st">"Diabetes.json"</span>), <span class="dt">String</span>)  <span class="co"># Outcome cohort (Diabetes)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>target_json <span class="op">=</span> <span class="fu">read</span>(<span class="fu">datadir</span>(<span class="st">&quot;exp_raw&quot;</span>, <span class="st">&quot;definitions&quot;</span>, <span class="st">&quot;Hypertension.json&quot;</span>), <span class="dt">String</span>)  <span class="co"># Target cohort (Hypertension)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>outcome_json <span class="op">=</span> <span class="fu">read</span>(<span class="fu">datadir</span>(<span class="st">&quot;exp_raw&quot;</span>, <span class="st">&quot;definitions&quot;</span>, <span class="st">&quot;Diabetes.json&quot;</span>), <span class="dt">String</span>)  <span class="co"># Outcome cohort (Diabetes)</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Establish a connection to the DuckDB database</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>connection <span class="op">=</span> <span class="fu">connect</span>(DuckDB.DB, <span class="fu">datadir</span>(<span class="st">"exp_raw"</span>, <span class="st">"synthea_1M_3YR.duckdb"</span>))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>connection <span class="op">=</span> <span class="fu">connect</span>(DuckDB.DB, <span class="fu">datadir</span>(<span class="st">&quot;exp_raw&quot;</span>, <span class="st">&quot;synthea_1M_3YR.duckdb&quot;</span>))</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to process a cohort definition (translate the JSON to SQL and execute)</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">process_cohort</span>(def_json, def_id, conn)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  catalog <span class="op">=</span> <span class="fu">reflect</span>(conn; schema<span class="op">=</span><span class="st">"dbt_synthea_dev"</span>, dialect<span class="op">=:</span>duckdb)  <span class="co"># Reflect the database schema</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  catalog <span class="op">=</span> <span class="fu">reflect</span>(conn; schema<span class="op">=</span><span class="st">&quot;dbt_synthea_dev&quot;</span>, dialect<span class="op">=:</span>duckdb)  <span class="co"># Reflect the database schema</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  fun_sql <span class="op">=</span> <span class="fu">translate</span>(def_json; cohort_definition_id<span class="op">=</span>def_id)  <span class="co"># Translate the JSON to SQL query</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  sql <span class="op">=</span> <span class="fu">render</span>(catalog, fun_sql)  <span class="co"># Render the SQL query</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ensure the cohort table exists before inserting</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">execute</span>(conn, <span class="st">"""</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">execute</span>(conn, <span class="st">&quot;&quot;&quot;</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="st">  CREATE TABLE IF NOT EXISTS dbt_synthea_dev.cohort (</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="st">    cohort_definition_id INTEGER,</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">    subject_id INTEGER,</span></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">    cohort_start_date DATE,</span></span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">    cohort_end_date DATE</span></span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">  );</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;&quot;&quot;</span>)</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Execute the SQL query to insert cohort data into the database</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">execute</span>(conn, <span class="st">"""</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">execute</span>(conn, <span class="st">&quot;&quot;&quot;</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">  INSERT INTO dbt_synthea_dev.cohort</span></span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT * FROM (</span><span class="sc">$</span>sql<span class="st">) AS foo;</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="st">  """</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;&quot;&quot;</span>)</span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the target and outcome cohorts</span></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">process_cohort</span>(target_json, <span class="fl">1</span>, connection)  <span class="co"># Define the target cohort (Hypertension)</span></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">process_cohort</span>(outcome_json, <span class="fl">2</span>, connection)  <span class="co"># Define the outcome cohort (Diabetes)</span></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">close!</span>(connection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">close!</span>(connection)</span></code></pre></div>
 <p>This code uses FunSQL.jl and OHDSICohortExpressions.jl to translate and render OHDSI ATLAS cohort definitions into executable SQL for DuckDB. The <code>translate</code> function from OHDSICohortExpressions.jl converts the JSON cohort definitions (Hypertension and Diabetes) into a FunSQL query representation. Then, <code>reflect</code> is used to introspect the DuckDB schema, and <code>render</code> from FunSQL.jl turns the abstract query into valid DuckDB SQL. The <code>process_cohort</code> function executes this SQL using <code>execute</code> to insert the resulting cohort data into the cohort table. This pipeline allows OHDSI cohort logic to be ported directly into a Julia workflow without relying on external OHDSI R tools.</p>
 </section>
 </section>
@@ -394,28 +381,27 @@ Julia Equivalents
 </ul>
 <p>In the next post, I’ll walk through how we go from raw clinical data to predictive modeling, with Julia code examples that highlight feature extraction, data processing, and model training-bringing the full PLP pipeline to life.</p>
 <section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<h2>Acknowledgements</h2>
 <p>Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.</p>
 <p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p>
 <p><em>Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure.</em></p>
-
-
+<div id="quarto-navigation-envelope" class="hidden">
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl">JuliaHealth</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXItdGl0bGU=">JuliaHealth</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6SG9tZQ==">Home</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2luZGV4Lmh0bWw=">/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6QmxvZ3M=">Blogs</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L0p1bGlhSGVhbHRoQmxvZy9pbmRleC5odG1s">/JuliaHealthBlog/index.html</span></p>
+<div class="hidden quarto-markdown-envelope-contents" data-render-id="Zm9vdGVyLWxlZnQ=">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>
+<div class="hidden quarto-markdown-envelope-contents" data-render-id="Zm9vdGVyLXJpZ2h0LWh0dHBzOi8vZ2l0aHViLmNvbS9KdWxpYUhlYWx0aC9KdWxpYUhlYWx0aEJsb2c=">
+<p>Report Issue</p>
+</div>
+</div>
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGF0aXRsZQ==">PLP-Pipeline Series Part 1: From Research Question to Cohort Construction – JuliaHealth</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU=">PLP-Pipeline Series Part 1: From Research Question to Cohort Construction – JuliaHealth</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZHRpdGxl">PLP-Pipeline Series Part 1: From Research Question to Cohort Construction – JuliaHealth</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGFzaXRlbmFtZQ==">JuliaHealth</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw==">Kicking off the PLP-Pipeline blog series - how we define research questions and construct cohorts using OMOP CDM and Julia tools.</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZGRkZXNj">Kicking off the PLP-Pipeline blog series - how we define research questions and construct cohorts using OMOP CDM and Julia tools.</span></p>
+</div>
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lakshmi_indu2025,
-  author = {Lakshmi Indu, Kosuri},
-  title = {PLP-Pipeline {Series} {Part} 1: {From} {Research} {Question}
-    to {Cohort} {Construction}},
-  date = {2025-04-12},
-  langid = {en}
-}
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lakshmi_indu2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-<div class="">K.
-Lakshmi Indu, <span>“PLP-Pipeline Series Part 1: From Research Question
-to Cohort Construction,”</span> Apr. 12, 2025.</div>
-</div></div></section></div></main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</main> <!-- /main -->
+<script id = "quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -832,14 +818,19 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js"
+  repo="JuliaHealth/JuliaHealthBlog"
+  issue-term="title"
+  theme="github-dark"
+  crossorigin="anonymous"
+  async>
 </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2024-25, JuliaHealth.</p>
-</div>   
+      <div class='footer-contents'>Copyright 2024-25, JuliaHealth.</div>  
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
@@ -847,15 +838,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
     <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
-<p>Report Issue</p>
-</a>
+ Report Issue
+    </a>
   </li>  
 </ul>
     </div>
   </div>
 </footer>
 
+</body>
 
-
-
-</body></html>
+</html>

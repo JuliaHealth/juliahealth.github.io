@@ -139,7 +139,7 @@ For cohort creation, I used OHDSI cohort definitions provided directly by my men
 - **Target cohort**: `Hypertension.json`
 - **Outcome cohort**: `Diabetes.json`
 
-To execute them, I used the [OHDSICohortExpressions](https://github.com/JuliaHealth/OHDSICohortExpressions.jl) to convert the JSON definiti.jlons into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.
+To execute them, I used the [OHDSICohortExpressions](https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl) to convert the JSON definiti.jlons into SQL queries, which were then run against the DuckDB database to extract the relevant cohorts.
 
 Here’s the breakdown of the process:
 
