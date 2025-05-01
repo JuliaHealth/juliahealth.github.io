@@ -26,13 +26,13 @@
 <p>In this concluding post, we’ll reflect on the full journey - from cohort definition and feature extraction to preprocessing, modeling, and evaluation. We’ll dig into what worked well, what challenges emerged, and what lessons were learned while building this pipeline from scratch using Julia. This post aims to bring the series full circle, offering insights into the practical realities of working with real-world health data and setting the stage for future work and improvements.</p>
 <section id="recap-of-previous-parts" class="level2">
 <h2 class="anchored" data-anchor-id="recap-of-previous-parts">Recap of Previous Parts</h2>
-<p>In <strong>Part 1</strong>, we introduced the motivation and core question driving the pipeline:</p>
+<p>In <a href="../indu-plp-part1/plp-part1.qmd"><strong>Part 1</strong></a>, we introduced the motivation and core question driving the pipeline:</p>
 <blockquote class="blockquote">
-<p>From those diagnosed with hypertension, who goes on to develop diabetes?</p>
+<p>Among patients diagnosed with hypertension, who will go on to develop diabetes?</p>
 </blockquote>
-<p>We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature. To handle the data, we used the <strong>OMOP CDM</strong> format, which ensures that real-world patient data is structured in a consistent and analysis-friendly way.</p>
-<p>To extract patient cohorts, we used <code>OHDSICohortExpressions.jl</code>, which allowed us to define concept sets and logic for cohort inclusion and exclusion. For example, the hypertension target cohort included patients with a confirmed hypertension diagnosis, and the outcome cohort included those later diagnosed with diabetes.</p>
-<p>In <strong>Part 2</strong>, we built a modular pipeline using the Julia ecosystem:</p>
+<p>We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature.</p>
+<p>To extract patient cohorts, we used <a href="https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl"><code>OHDSICohortExpressions.jl</code></a>, which allowed us to define concept sets and logic for cohort inclusion and exclusion. For example, the hypertension target cohort included patients with a confirmed hypertension diagnosis, and the outcome cohort included those later diagnosed with diabetes.</p>
+<p>In <a href="../indu-plp-part2/plp-part2.qmd"><strong>Part 2</strong></a>, we built a modular pipeline using the Julia ecosystem:</p>
 <ul>
 <li><strong>Feature extraction</strong> involved pulling demographic, condition, drug, and visit data, encoding it as binary presence indicators.</li>
 <li><strong>Preprocessing</strong> included handling missing values, one-hot encoding, normalization, and creating train-test splits.</li>
@@ -42,14 +42,8 @@
 </section>
 <section id="reflections-on-the-ohdsi-framework-vs-julia-approach" class="level2">
 <h2 class="anchored" data-anchor-id="reflections-on-the-ohdsi-framework-vs-julia-approach">Reflections on the OHDSI Framework vs Julia Approach</h2>
-<p>The OHDSI ecosystem, particularly its <strong>Patient Level Prediction</strong> package in R, offers an end-to-end solution that integrates tightly with ATLAS and standardized vocabularies. It handles cohort creation, covariate extraction, modeling, and visualization all in one environment.</p>
-<br>
-<center>
-<p><img src="https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/ohdsi_plp.png" class="img-fluid"></p>
-OHDSI Patient Level Prediction Package in R
-</center>
-<p><br></p>
-<p>In contrast, building this pipeline in Julia provided greater flexibility and control. Each step, from cohort extraction to model evaluation, had to be explicitly implemented. While this required more effort, it allowed deeper insight into how features were generated, how cohorts were structured, and how model performance was affected by upstream choices.</p>
+<p>The OHDSI ecosystem, particularly its <a href="https://github.com/OHDSI/PatientLevelPrediction"><code>PatientLevelPrediction</code></a> package in R, offers an end-to-end solution that integrates tightly with ATLAS and standardized vocabularies. It handles cohort creation, covariate extraction, modeling, and visualization all in one environment.</p>
+<p>In contrast, building this pipeline in Julia offered greater flexibility by composing modular packages for each step—from cohort extraction and feature engineering to model training and evaluation—rather than relying on a single integrated tool like OHDSI’s <code>PatientLevelPrediction</code> package in R. While this required more manual implementation, it gave me deeper insight into how design decisions impacted performance and reproducibility. Using Julia’s ecosystem (e.g., <code>DataFrames.jl</code>, <code>MLJ.jl</code>), I could customize the workflow and experiment with different modeling strategies. To give a complete picture of the pipeline’s outcome, I’ve included relevant performance statistics and visualizations, even where the results were suboptimal.</p>
 </section>
 <section id="model-performance" class="level2">
 <h2 class="anchored" data-anchor-id="model-performance">Model performance</h2>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>The JuliaHealth Blog</title>
+<link>https://juliahealth.org/JuliaHealthBlog/</link>
+<atom:link href="https://juliahealth.org/JuliaHealthBlog/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.6.43</generator>
+<lastBuildDate>Sun, 20 Apr 2025 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>{B4F502887207:/posts/indu-plp-part3/plp-part3.html}</title>
+  <dc:creator>Kosuri Lakshmi Indu</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html</link>
+  <description>{B4F502887207:/posts/indu-plp-part3/plp-part3.html}</description>
+  <category>patient-level prediction</category>
+  <category>omop cdm</category>
+  <category>observational health</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/indu-plp-part3/plp-part3.html</guid>
+  <pubDate>Sun, 20 Apr 2025 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html}</title>
+  <dc:creator>Jan Zubik</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</link>
+  <description>{B4F502887207:/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html}</description>
+  <category>gsoc</category>
+  <category>AI/ML</category>
+  <category>imaging</category>
+  <category>gpu</category>
+  <category>analysis</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html</guid>
+  <pubDate>Sat, 02 Nov 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/divyansh-gsoc/gsoc-2024-fellows.html}</title>
+  <dc:creator>Divyansh Goyal</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</link>
+  <description>{B4F502887207:/posts/divyansh-gsoc/gsoc-2024-fellows.html}</description>
+  <category>gsoc</category>
+  <category>openGl</category>
+  <category>imaging</category>
+  <category>neuro</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html</guid>
+  <pubDate>Thu, 31 Oct 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/mounika-gsoc-mentor/index.html}</title>
+  <dc:creator>Mounika Thakkallapally</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</link>
+  <description>{B4F502887207:/posts/mounika-gsoc-mentor/index.html}</description>
+  <category>gsoc</category>
+  <category>mentor</category>
+  <category>experience</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/mounika-gsoc-mentor/</guid>
+  <pubDate>Wed, 11 Sep 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/jay-gsoc/gsoc-2024-fellows.html}</title>
+  <dc:creator>Jay Sanjay Landge</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</link>
+  <description>{B4F502887207:/posts/jay-gsoc/gsoc-2024-fellows.html}</description>
+  <category>gsoc</category>
+  <category>sql</category>
+  <category>observational health</category>
+  <category>analysis</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/jay-gsoc/gsoc-2024-fellows.html</guid>
+  <pubDate>Fri, 06 Sep 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/ryan-gsoc/Ryan_GSOC.html}</title>
+  <dc:creator>Ryan Kierulf</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</link>
+  <description>{B4F502887207:/posts/ryan-gsoc/Ryan_GSOC.html}</description>
+  <category>gsoc</category>
+  <category>mri</category>
+  <category>gpu</category>
+  <category>hpc</category>
+  <category>simulation</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html</guid>
+  <pubDate>Thu, 29 Aug 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/michela-gsoc/Michela_JSoC.html}</title>
+  <dc:creator>Michela Rocchetti</dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</link>
+  <description>{B4F502887207:/posts/michela-gsoc/Michela_JSoC.html}</description>
+  <category>gsoc</category>
+  <category>geospatial</category>
+  <category>census</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html</guid>
+  <pubDate>Sun, 25 Aug 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>{B4F502887207:/posts/dummy/index.html}</title>
+  <dc:creator>Foobar </dc:creator>
+  <link>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</link>
+  <description>{B4F502887207:/posts/dummy/index.html}</description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <guid>https://juliahealth.org/JuliaHealthBlog/posts/dummy/</guid>
+  <pubDate>Fri, 21 Jun 2024 18:30:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
