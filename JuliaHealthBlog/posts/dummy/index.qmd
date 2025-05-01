@@ -1,0 +1,31 @@
+---
+title: "Dummy Post"
+description: "Post description"
+author: "Foobar"
+date: "6/22/2024"
+toc: true
+engine: julia
+categories:
+  - news
+  - code
+  - analysis
+---
+
+# Seciton 1
+
+Small dummy blog post
+
+```{julia}
+#| echo: true
+#| eval: true
+
+2 + 2
+```
+
+```{julia}
+println(2 + 2)
+```
+
+# Section 2
+
+# Section 3

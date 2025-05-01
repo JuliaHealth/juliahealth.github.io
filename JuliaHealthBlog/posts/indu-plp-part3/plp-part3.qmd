@@ -1,0 +1,124 @@
+---
+title: "PLP-Pipeline Series Part 3: Lessons Learned, Key Challenges, and What Comes Next"
+description: "Reflections on building an end-to-end PLP pipeline in Julia tools - lessons learned, current challenges, and future directions."  
+author: "Kosuri Lakshmi Indu"
+date: "4/21/2025"
+bibliography: ./references.bib
+csl: ./../../ieee-with-url.csl
+toc: true
+engine: julia
+image: false
+categories:
+  - patient-level prediction
+  - omop cdm
+  - observational health
+---
+
+# Introduction 👋
+
+Welcome back to the final part of the blog series on building a Patient-Level Prediction (PLP) Pipeline in Julia using the OMOP Common Data Model (CDM).
+
+In this concluding post, we'll reflect on the full journey - from cohort definition and feature extraction to preprocessing, modeling, and evaluation. We'll dig into what worked well, what challenges emerged, and what lessons were learned while building this pipeline from scratch using Julia. This post aims to bring the series full circle, offering insights into the practical realities of working with real-world health data and setting the stage for future work and improvements.
+
+## Recap of Previous Parts
+
+In [**Part 1**](../indu-plp-part1/plp-part1.qmd), we introduced the motivation and core question driving the pipeline:
+
+> Among patients diagnosed with hypertension, who will go on to develop diabetes?
+
+We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature.
+
+To extract patient cohorts, we used [`OHDSICohortExpressions.jl`](https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl), which allowed us to define concept sets and logic for cohort inclusion and exclusion. For example, the hypertension target cohort included patients with a confirmed hypertension diagnosis, and the outcome cohort included those later diagnosed with diabetes.
+
+In [**Part 2**](../indu-plp-part2/plp-part2.qmd), we built a modular pipeline using the Julia ecosystem:
+
+- **Feature extraction** involved pulling demographic, condition, drug, and visit data, encoding it as binary presence indicators.
+- **Preprocessing** included handling missing values, one-hot encoding, normalization, and creating train-test splits.
+- **Model training** used the [`MLJ.jl`](https://github.com/JuliaAI/MLJ.jl) framework to train logistic regression, random forest, and XGBoost models.
+- **Evaluation** involved computing AUC and accuracy for binary classification.
+
+## Reflections on the OHDSI Framework vs Julia Approach
+
+The OHDSI ecosystem, particularly its [`PatientLevelPrediction`](https://github.com/OHDSI/PatientLevelPrediction) package in R, offers an end-to-end solution that integrates tightly with ATLAS and standardized vocabularies. It handles cohort creation, covariate extraction, modeling, and visualization all in one environment.
+
+Building this pipeline in Julia offered a solid balance of flexibility and control. While most tasks, such as cohort extraction and model evaluation, were efficiently handled using existing Julia packages, a few areas required more custom implementation. These instances, though limited, provided valuable learning experiences, deepening my understanding of how the components of the pipeline interact, how features are generated, and how decisions at each stage impact model performance.
+
+## Model performance
+
+After preprocessing the features and labels, model performance was not as strong as expected. The AUC values for the classifiers were relatively low for the models:
+
+- Logistic Regression (L1-regularized): AUC ≈ 0.097
+- Random Forest: AUC ≈ 0.485
+- XGBoost: AUC ≈ 0.52
+
+These unexpectedly low model performances prompted a deeper investigation into the root causes. The primary issue was that the **data available in the CDM was not well-suited** to answer the research question: “From those diagnosed with hypertension, who goes on to develop diabetes?” 
+
+Temporal context was also missing, as the features extracted were basic binary indicators that did not reflect the timing or frequency of clinical events. The one-year prediction window might have been too narrow for diabetes to develop meaningfully after a hypertension diagnosis. Many patients had very limited observation time before their index date, which weakened the reliability of feature construction. This further constrained the ability of the models to generalize well to new cases.
+
+Additionally, many patients did not match our cohort criteria or had insufficient data to form meaningful predictions. The dataset size may have been too small to detect strong patterns or relationships between hypertension and subsequent diabetes development, especially given that the synthetic dataset may not have represented real-world complexities fully. 
+
+These issues suggest that the bottleneck wasn’t the modeling itself, but rather the mismatch between the research question and the available data, especially within the constraints of synthetic data. The limited sample size and the difficulty in matching the right cohort to the research question further impacted the model’s ability to make reliable predictions.
+
+## Key Challenges Faced
+
+Throughout the process, we encountered several technical and conceptual challenges:
+
+The most critical issue lay in the **quality and structure of the data itself**. Many patients had sparse or short observation periods, which meant that only limited clinical history was available before the cohort entry date. 
+
+This directly affected the utility of the extracted features. On the modeling side, integrating with [`MLJ.jl`](https://github.com/JuliaAI/MLJ.jl) required careful setup, especially when handling missing values, categorical encodings, and class imbalance.
+
+<br>
+<center>
+  ![](./mlj.png)
+
+  MLJ.jl
+</center>
+<br>
+
+Feature engineering was another bottleneck, since most features were binary flags or simple counts that did not capture clinical nuance or temporal dynamics. Preprocessing steps like normalization and imputation also needed fine-tuning and often had to be manually adjusted per model. 
+
+## Next Steps for the Pipeline
+
+As I look to enhance the pipeline, improving the code and modularizing it for reusability is a top priority. I plan to refine the existing functions and ensure that the pipeline can handle different types of OMOP CDM datasets, including exploring other tables that could enrich the features we extract. Additionally, I’m particularly interested in incorporating temporal-based prediction features, which would allow us to account for the sequence of patient events over time and improve model accuracy.
+
+One direction I’m especially excited about is building interfaces in Julia to streamline the PLP process. Creating intuitive, modular tools that wrap around cohort creation, feature engineering, and modeling would make it easier for researchers to plug into OMOP CDM data and get started with predictive tasks. These interfaces could help reduce the complexity of working directly with lower-level tools, while still offering flexibility for customization.
+
+## Looking Ahead
+
+This project focused on building patient-level prediction (PLP) models in Julia. While the initial models underperformed, it emphasized the importance of validated cohorts, thoughtful feature engineering, strong baselines, and interpretable results.
+
+The goal is to develop this into a robust Julia-native package for PLP tasks, integrated with JuliaHealth tools and OMOP CDM datasets, offering flexibility for custom pipelines. Aligning with OHDSI definitions and adding diagnostics could make it a valuable research and educational resource.
+
+To enhance interpretability, I’m exploring a visualization layer for PLP pipelines using tools like Makie.jl or VegaLite.jl. Example visualizations could include:
+
+- Timeline plots to visualize index dates, lookback periods, and outcome windows per patient, aiding in temporal reasoning.
+- Feature density plots to assess feature sparsity and guide preprocessing decisions.
+- ROC and PR curves to evaluate and compare model performance.
+- Feature importance charts (especially for tree-based models like Random Forest or XGBoost) to help identify clinically relevant predictors.
+
+Eventually, this project could serve as a foundation for a Julia-native PLP toolkit, or at least a template for others interested in working with observational health data in Julia.
+
+## Lessons Learned
+
+This project highlighted that Julia is well-suited for observational health research workflows. Its strong data ecosystem (`DataFrames.jl`, `DuckDB.jl`, `CSV.jl`), rich machine learning interfaces (`MLJ.jl`), and increasing support from domain-specific packages like `OHDSICohortExpressions.jl` make it a compelling environment for building transparent, customizable pipelines. Unlike black-box tools, Julia allows full control over every stage-from data access to model tuning-encouraging deeper understanding and reproducibility.
+
+Some lessons I learnt on the way:
+
+- One big realization for me was that the cohort population should closely align with the research question. I ran into situations where the cohorts didn’t actually support the prediction goal, which led to misleading outputs. I’m still learning how to validate cohort logic better, but now I see how critical this alignment is.
+- I also struggled a bit with preprocessing and data understanding. There were points where I wasn’t sure how to handle missing data or what specific fields really meant. A deeper data check early on could have helped guide better feature engineering.
+- While I didn’t build everything manually, I feel like I could have better leveraged existing Julia tools for some common steps. Exploring the ecosystem more might have simplified things.
+- Finally, I have learned that debugging and iteration are part of the process. Things rarely work on the first try, and often the biggest insights came from chasing unexpected results or poor model performance. It has made me more comfortable with being wrong and learning through trial.
+
+# Thank You
+
+If you’ve followed the blog series till now - thank you. Your time and interest in this work mean a lot. I hope this series helped you understand what it takes to build predictive models using real-world health data, and how Julia can support that process in a flexible and open way.
+
+Feel free to connect  connect with me on [**LinkedIn**](https://www.linkedin.com/in/kosuri-indu/) and follow me on [**GitHub**](https://github.com/kosuri-indu)
+
+## Acknowledgements
+
+Thanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.
+
+[Jacob S. Zelko](https://jacobzelko.com): aka, [TheCedarPrince](https://github.com/TheCedarPrince)
+
+_Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure._
