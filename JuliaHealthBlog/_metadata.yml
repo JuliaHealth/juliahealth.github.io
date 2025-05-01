@@ -1,0 +1,28 @@
+# options specified here will apply to all posts in this folder
+website: 
+  sidebar:
+    - title: "Blogs"
+      style: "docked"
+      background: light
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+execute:
+  freeze: auto
+  eval: true
+  echo: true
+  output: true
+
+comments:
+  utterances:
+    repo: JuliaHealth/JuliaHealthBlog
+    theme: github-dark
+    issue-term: title
+    label: Comment
+
+# bibliography: https://raw.githubusercontent.com/pat-alt/bib/main/bib.bib
+citation: true
+
+crossref:
+  fig-prefix: Figure
+  tbl-prefix: Table
