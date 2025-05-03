@@ -378,76 +378,6 @@
     "text": "3. Multirepo Management and Collaboration\nIn addition to my work on the MedEye3d visualizer, I made significant contributions to other JuliaHealth repositories, including MedImages.jl and worked over an Insight Toolkit wrapper library ITKIOWrapper.jl for support in image I/O down the road in MedImages.jl. I also maintained relevant documentation and ensured continuous collaboration and synchronization across these packages."
   },
   {
-<<<<<<< HEAD
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Welcome to the JuliaHealthBlog! 👋",
-    "section": "",
-    "text": "Welcome to the JuliaHealthBlog! 👋\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n\n\n\n\n\n\n\n\n\n\nPLP-Pipeline Series Part 1: From Research Question to Cohort Construction\n\n\n\n\n\nKicking off the PLP-Pipeline blog series - how we define research questions and construct cohorts using OMOP CDM and Julia tools.\n\n\n\n\n\nApr 12, 2025\n\n\nKosuri Lakshmi Indu\n\n\n10 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Adding dataset-wide functions and integrations of augmentations\n\n\n\n\n\nMedPipe3D - Medical segmentation pipeline with dataset-wide functions and augmentations.\n\n\n\n\n\nNov 3, 2024\n\n\nJan Zubik\n\n\n32 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Adding functionalities to medical imaging visualizations\n\n\n\n\n\nA summary of my project for Google Summer of Code - 2024\n\n\n\n\n\nNov 1, 2024\n\n\nDivyansh Goyal\n\n\n17 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC Co-Mentoring Experience\n\n\n\n\n\nMy experience as a GSoC co-mentor within JuliaHealth\n\n\n\n\n\nSep 12, 2024\n\n\nMounika Thakkallapally\n\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Developing Tooling for Observational Health Research in Julia\n\n\n\n\n\nA summary of my project for Google Summer of Code - 2024\n\n\n\n\n\nSep 7, 2024\n\n\nJay Sanjay Landge\n\n\n19 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: Enhancements to KomaMRI.jl GPU Support\n\n\n\n\n\nA summary of my project for Google Summer of Code\n\n\n\n\n\nAug 30, 2024\n\n\nRyan Kierulf\n\n\n15 min\n\n\n\n\n\n\n\n\n\n\n\n\nGSoC ’24: IPUMS.jl Small Project\n\n\n\n\n\nA summary of my project for Google Summer of Code\n\n\n\n\n\nAug 26, 2024\n\n\nMichela Rocchetti\n\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nDummy Post\n\n\n\n\n\nPost description\n\n\n\n\n\nJun 22, 2024\n\n\nFoobar\n\n\n1 min\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html",
-    "href": "posts/indu-plp-part1/plp-part1.html",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "",
-    "text": "Hi everyone! I’m Kosuri Lakshmi Indu, a third-year undergraduate student in Computer Science and an aspiring GSoC 2025 contributor. My interest in using data science for public health led me to the JuliaHealth community and, under the mentorship of Jacob S. Zelko, I began working on a project titled PLP-Pipeline. This project focuses on building modular, efficient tooling for Patient-Level Prediction (PLP) entirely in Julia, using the OMOP Common Data Model (OMOP CDM).\nIn this post, I’ll walk through the first part of a three-part blog series documenting my work on building a Patient-Level Prediction (PLP) pipeline in Julia. Each post focuses on a different stage of the pipeline:\n\nFrom Research Question to Cohort Construction (this post)\nFrom Raw Clinical Data to Predictive Models\nLessons Learned, Key Challenges, and What Comes Next\n\nIn Part 1, we’ll start at the very beginning-formulating the research question, exploring the OMOP CDM, setting up the local database, and defining target and outcome cohorts using Julia tools. Whether you’re a health researcher, a GSoC aspirant, or a Julia enthusiast, I hope this gives you a clear and accessible introduction to how observational health research can be made more composable, reproducible, and efficient using Julia.\nYou can find my PLP-Pipeline Project Link Here\nLinkedIn | GitHub"
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#what-is-observational-health",
-    "href": "posts/indu-plp-part1/plp-part1.html#what-is-observational-health",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "What is Observational Health?",
-    "text": "What is Observational Health?\nObservational health research examines real-world patient data such as electronic health records (EHRs), claims, and registries to understand health and disease outside of controlled trial environments. This type of research plays a vital role in informing decisions by clinicians, policymakers, and researchers, especially when addressing population-level health questions and disparities.\nA core aspect of observational health is the use of phenotype definitions, which describe a specific set of observable patient characteristics (e.g., diagnosis codes, symptoms, demographics, biomarkers) that define a population of interest. Creating accurate and reproducible phenotype definitions is essential for ensuring research validity. However, challenges such as missing data, demographic biases, and inconsistently recorded information can significantly impact the reliability of these definitions.\nTo support reproducible research at scale, communities like OHDSI (Observational Health Data Sciences and Informatics) have developed standards such as the OMOP Common Data Model (CDM) and workflows for developing computable phenotype definitions.\nIn our work, we utilize observational health data already structured through the OMOP Common Data Model (CDM). We construct patient cohorts based on existing phenotype definitions. These cohorts then serve as the basis for building patient-level prediction models, enabling us to explore and generate insights that can support data-driven clinical decision-making."
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#what-is-omop-cdm",
-    "href": "posts/indu-plp-part1/plp-part1.html#what-is-omop-cdm",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "What is OMOP CDM?",
-    "text": "What is OMOP CDM?\nThe Observational Medical Outcomes Partnership Common Data Model (OMOP CDM) is a standardized framework for organizing and analyzing observational healthcare data. The OMOP CDM converts diverse sources of health data into a common format that supports large-scale, systematic analysis.\nOMOP CDM organizes data into a consistent set of relational tables like condition_occurrence, drug_exposure, person, visit_occurrence etc, using standardized vocabularies. These tables are interconnected, allowing for relational analysis across a patient’s medical history.\nBy transforming diverse healthcare datasets into a common format, OMOP CDM enables reproducibility, interoperability, and large-scale studies across institutions and populations.\n\n\n\nOMOP Common Data Model"
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#what-is-patient-level-prediction-plp",
-    "href": "posts/indu-plp-part1/plp-part1.html#what-is-patient-level-prediction-plp",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "What is Patient-Level Prediction (PLP)?",
-    "text": "What is Patient-Level Prediction (PLP)?\nPatient-Level Prediction (PLP) is a data-driven approach that uses machine learning or statistical models to estimate the risk of specific clinical outcomes for individual patients, based on their historical healthcare data.\nThe key goal of PLP is to answer personalized clinical questions like:\n\n“For patients who present with chest pain leading to a hospital visit, can we predict which of these patients will go on to experience a heart attack after their hospital visit?”\n\nPLP focuses on using observational patient data such as diagnoses, medications, procedures, and demographics - to predict individual-level risks of future health events. While it may sound similar to precision medicine, there’s a key distinction: precision medicine aims to tailor treatment plans based on a patient’s genetics, environment, and lifestyle, whereas PLP is specifically about forecasting outcomes for individual patients using data-driven models. These predictions can support timely and personalized clinical decisions."
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#why-plp-in-julia",
-    "href": "posts/indu-plp-part1/plp-part1.html#why-plp-in-julia",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "Why PLP in Julia?",
-    "text": "Why PLP in Julia?\nWhile established PLP workflows are well-supported in R through OHDSI’s suite of packages, our work explores an alternative approach using Julia - a high-performance language that enables building efficient and reproducible pipelines from end to end.\nJulia offers several advantages that make it well-suited for observational health research:\n\nComposability: Julia’s modular design supports reusable components, making PLP pipelines easier to maintain and extend.\nSpeed: With performance comparable to C, Julia efficiently handles large, complex healthcare datasets.\nUnified Ecosystem: Tools like OHDSICohortExpressions.jl, DataFrames.jl, MLJ.jl etc. integrate seamlessly, enabling cohort definition, data transformation, and modeling within one consistent environment.\n\nAdditionally, Julia features a rich and growing ecosystem with many tools for scientific computing and data science, making it a strong alternative for modern health informatics workflows.\n\n\n\nJulia Equivalents"
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#cohort-construction",
-    "href": "posts/indu-plp-part1/plp-part1.html#cohort-construction",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "Cohort Construction",
-    "text": "Cohort Construction\nCohorts are groups of patients defined by specific criteria that are relevant to the research question. For this task, two main cohorts need to be defined:\n\nTarget Cohort: This refers to the group of patients we want to make predictions for. In our case, it includes patients who have been diagnosed with hypertension. These patients serve as the starting point for our prediction timeline.\nOutcome Cohort: This refers to the clinical event we aim to predict. In our case, it includes patients from the target cohort who are subsequently diagnosed with diabetes within a specified time window. This event marks the outcome that our model will learn to forecast.\n\nThese cohort definitions are central to structuring the data pipeline, as they form the foundation for downstream tasks like feature extraction, model training, and evaluation."
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#acknowledgements",
-    "href": "posts/indu-plp-part1/plp-part1.html#acknowledgements",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "Acknowledgements",
-    "text": "Acknowledgements\nThanks to Jacob Zelko for his mentorship, clarity, and constant feedback throughout the project. I also thank the JuliaHealth community for building an ecosystem where composable science can thrive.\nJacob S. Zelko: aka, TheCedarPrince\nNote: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure."
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#methodologies-from-the-paper",
-    "href": "posts/indu-plp-part1/plp-part1.html#methodologies-from-the-paper",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "Methodologies from the Paper",
-    "text": "Methodologies from the Paper\n\nStandardized Framework for PLP - Outlines a consistent process for building patient-level prediction models across datasets and settings.\nDefining the Prediction Problem - Emphasizes clear definition of target, outcome, and time-at-risk for valid predictions.\nCohort Definition and Data Extraction - Uses standardized OMOP CDM cohorts to ensure reproducibility and consistent data extraction.\nFeature Construction - Derives meaningful predictors from observational data like conditions and demographics.\nModel Training and Evaluation - Trains ML models and evaluates them using metrics like AUC and cross-validation.\n\nWe are adapting this framework for our PLP pipeline to ensure a consistent approach."
-  },
-  {
-    "objectID": "posts/indu-plp-part1/plp-part1.html#what-is-the-omop-cdm",
-    "href": "posts/indu-plp-part1/plp-part1.html#what-is-the-omop-cdm",
-    "title": "PLP-Pipeline Series Part 1: From Research Question to Cohort Construction",
-    "section": "What Is the OMOP CDM?",
-    "text": "What Is the OMOP CDM?\nThe Observational Medical Outcomes Partnership Common Data Model (OMOP CDM) is a standardized framework for organizing and analyzing observational healthcare data. The OMOP CDM converts diverse sources of health data into a common format that supports large-scale, systematic analysis.\nThe OMOP CDM organizes data into a consistent set of relational tables like condition_occurrence, drug_exposure, person, visit_occurrence etc, using standardized vocabularies. These tables are interconnected, allowing for relational analysis across a patient’s medical history.\nBy transforming diverse healthcare datasets into a common format, the OMOP CDM enables reproducibility, interoperability, and large-scale studies across institutions and populations.\n\n\n\nOMOP Common Data Model"
-=======
     "objectID": "JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html",
     "href": "JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html",
     "title": "GSoC ’24: IPUMS.jl Small Project",
@@ -670,6 +600,5 @@
     "title": "Connect With Us",
     "section": "",
     "text": "Visit us on GitHub: https://github.com/JuliaHealth\nPost in the Biology, Health, and Medicine category on Discourse.\nJoin us in the #biology-health-and-medicine stream on Zulip.\nChat with us in the #health-and-medicine channel on Slack. (Get a Slack invite here.)"
->>>>>>> origin/main
   }
 ]

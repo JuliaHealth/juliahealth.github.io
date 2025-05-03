@@ -2,16 +2,7 @@
   {
     "listing": "/JuliaHealthBlog/index.html",
     "items": [
-<<<<<<< HEAD
-      "/posts/indu-plp-part1/plp-part1.html",
-      "/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html",
-      "/posts/divyansh-gsoc/gsoc-2024-fellows.html",
-      "/posts/mounika-gsoc-mentor/index.html",
-      "/posts/jay-gsoc/gsoc-2024-fellows.html",
-      "/posts/ryan-gsoc/Ryan_GSOC.html",
-      "/posts/michela-gsoc/Michela_JSoC.html",
-      "/posts/dummy/index.html"
-=======
+      "/JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html",
       "/JuliaHealthBlog/posts/JZubik-gsoc/GSoC_Jan_Zubik_MedPipe3D.html",
       "/JuliaHealthBlog/posts/divyansh-gsoc/gsoc-2024-fellows.html",
       "/JuliaHealthBlog/posts/mounika-gsoc-mentor/index.html",
@@ -19,7 +10,6 @@
       "/JuliaHealthBlog/posts/ryan-gsoc/Ryan_GSOC.html",
       "/JuliaHealthBlog/posts/michela-gsoc/Michela_JSoC.html",
       "/JuliaHealthBlog/posts/dummy/index.html"
->>>>>>> origin/main
     ]
   }
 ]
