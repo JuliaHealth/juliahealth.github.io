@@ -6,13 +6,12 @@ date: "4/20/2025"
 bibliography: ./references.bib
 csl: ./../../ieee-with-url.csl
 toc: true
-engine: julia
 image: false
 categories:
   - patient-level prediction
   - omop cdm
   - observational health
-  - machine learning
+  - AI/ML
 ---
 
 # Introduction 👋
