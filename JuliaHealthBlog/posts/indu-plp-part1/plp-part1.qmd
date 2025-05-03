@@ -9,7 +9,7 @@ toc: true
 engine: julia
 image: false
 categories:
-  - patient level prediction
+  - patient-level prediction
   - omop cdm
   - observational health
 ---
