@@ -42,7 +42,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-51278565e4f4f6ace0c1facf99b82dcc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-65fd452e27565dcd78ad8c8152a052d5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -183,13 +183,13 @@ ul.task-list li input[type="checkbox"] {
 <p>In this concluding post, we’ll reflect on the full journey – from cohort definition and feature extraction to preprocessing, modeling, and evaluation. We’ll dig into what worked well, what challenges emerged, and what lessons were learned while building this pipeline from scratch using Julia. This post aims to bring the series full circle, offering insights into the practical realities of working with real-world health data and setting the stage for future work and improvements.</p>
 <section id="recap-of-previous-parts" class="level2">
 <h2 class="anchored" data-anchor-id="recap-of-previous-parts">Recap of Previous Parts</h2>
-<p>In <a href="../indu-plp-part1/plp-part1.qmd"><strong>Part 1</strong></a>, we introduced the motivation and core question driving the pipeline:</p>
+<p>In <a href="../../../JuliaHealthBlog/posts/indu-plp-part1/plp-part1.html"><strong>Part 1</strong></a>, we introduced the motivation and core question driving the pipeline:</p>
 <blockquote class="blockquote">
 <p>Among patients diagnosed with hypertension, who will go on to develop diabetes?</p>
 </blockquote>
 <p>We chose this prediction problem because of its clinical relevance and because hypertension and diabetes are both common chronic conditions with strong associations in literature. To handle the data, we used the OMOP CDM format, which ensures that real-world patient data is structured in a consistent and analysis-friendly way.</p>
 <p>To extract patient cohorts, we used <a href="https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl"><code>OHDSICohortExpressions.jl</code></a>, which allowed us to define concept sets and logic for cohort inclusion and exclusion.</p>
-<p>In <a href="../indu-plp-part2/plp-part2.qmd"><strong>Part 2</strong></a>, we built a modular Patient-Level Prediction pipeline using the Julia ecosystem:</p>
+<p>In <a href="../../../JuliaHealthBlog/posts/indu-plp-part2/plp-part2.html"><strong>Part 2</strong></a>, we built a modular Patient-Level Prediction pipeline using the Julia ecosystem:</p>
 <ul>
 <li><strong>Feature extraction</strong>: involved pulling demographic, condition, drug, and visit data, encoding it as binary presence indicators.</li>
 <li><strong>Preprocessing</strong>: included handling missing values, one-hot encoding, normalization, and creating train-test splits.</li>
