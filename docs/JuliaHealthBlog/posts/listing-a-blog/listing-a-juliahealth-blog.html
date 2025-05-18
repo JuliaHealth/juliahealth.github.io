@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="JuliaHealth Community (Leader JacobZelko, Contributor DivyanshGoyal)">
+<meta name="dcterms.date" content="2025-04-28">
+<meta name="description" content="Feeling inspired by JuliaHealth projects? This guide walks you through creating and sharing your own blog post on our website using Quarto. It’s easier than you think!">
+
+<title>Sharing Your Story: A Guide to Contributing Your First Blog Post to JuliaHealth – JuliaHealth</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-1a941ba53de54fd32606c4de22292d93.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome-future-juliahealth-blogger" id="toc-welcome-future-juliahealth-blogger" class="nav-link active" data-scroll-target="#welcome-future-juliahealth-blogger">Welcome, Future JuliaHealth Blogger! 👋</a></li>
+  <li><a href="#why-share-your-work-on-the-juliahealth-blog" id="toc-why-share-your-work-on-the-juliahealth-blog" class="nav-link" data-scroll-target="#why-share-your-work-on-the-juliahealth-blog">Why Share Your Work on the JuliaHealth Blog?</a></li>
+  <li><a href="#the-blogging-workflow-a-gentle-walkthrough" id="toc-the-blogging-workflow-a-gentle-walkthrough" class="nav-link" data-scroll-target="#the-blogging-workflow-a-gentle-walkthrough">The Blogging Workflow: A Gentle Walkthrough</a>
+  <ul class="collapse">
+  <li><a href="#step-1-fork-the-blog-repository-make-your-own-copy" id="toc-step-1-fork-the-blog-repository-make-your-own-copy" class="nav-link" data-scroll-target="#step-1-fork-the-blog-repository-make-your-own-copy">Step 1: Fork the Blog Repository (Make Your Own Copy)</a></li>
+  <li><a href="#step-2-clone-your-fork-download-to-your-computer" id="toc-step-2-clone-your-fork-download-to-your-computer" class="nav-link" data-scroll-target="#step-2-clone-your-fork-download-to-your-computer">Step 2: Clone Your Fork (Download to Your Computer)</a></li>
+  <li><a href="#step-3-create-your-blog-post-files-set-up-your-workspace" id="toc-step-3-create-your-blog-post-files-set-up-your-workspace" class="nav-link" data-scroll-target="#step-3-create-your-blog-post-files-set-up-your-workspace">Step 3: Create Your Blog Post Files (Set Up Your Workspace)</a></li>
+  <li><a href="#step-4-write-your-content-the-fun-part" id="toc-step-4-write-your-content-the-fun-part" class="nav-link" data-scroll-target="#step-4-write-your-content-the-fun-part">Step 4: Write Your Content (The Fun Part!)</a>
+  <ul class="collapse">
+  <li><a href="#a-the-yaml-header-settings-for-your-post" id="toc-a-the-yaml-header-settings-for-your-post" class="nav-link" data-scroll-target="#a-the-yaml-header-settings-for-your-post">a) The YAML Header (Settings for Your Post)</a></li>
+  <li><a href="#b-the-main-content-using-markdown" id="toc-b-the-main-content-using-markdown" class="nav-link" data-scroll-target="#b-the-main-content-using-markdown">b) The Main Content (Using Markdown)</a></li>
+  </ul></li>
+  <li><a href="#step-5-add-supporting-files-images-data-citations" id="toc-step-5-add-supporting-files-images-data-citations" class="nav-link" data-scroll-target="#step-5-add-supporting-files-images-data-citations">Step 5: Add Supporting Files (Images, Data, Citations)</a></li>
+  <li><a href="#step-6-preview-locally-see-how-it-looks" id="toc-step-6-preview-locally-see-how-it-looks" class="nav-link" data-scroll-target="#step-6-preview-locally-see-how-it-looks">Step 6: Preview Locally (See How It Looks!)</a></li>
+  <li><a href="#step-7-commit-and-push-your-changes-save-your-work-to-github" id="toc-step-7-commit-and-push-your-changes-save-your-work-to-github" class="nav-link" data-scroll-target="#step-7-commit-and-push-your-changes-save-your-work-to-github">Step 7: Commit and Push Your Changes (Save Your Work to GitHub)</a></li>
+  <li><a href="#step-8-open-a-pull-request-pr-ask-to-merge-your-post" id="toc-step-8-open-a-pull-request-pr-ask-to-merge-your-post" class="nav-link" data-scroll-target="#step-8-open-a-pull-request-pr-ask-to-merge-your-post">Step 8: Open a Pull Request (PR) (Ask to Merge Your Post)</a></li>
+  </ul></li>
+  <li><a href="#what-happens-next-the-review-process" id="toc-what-happens-next-the-review-process" class="nav-link" data-scroll-target="#what-happens-next-the-review-process">What Happens Next? (The Review Process)</a></li>
+  <li><a href="#need-help-just-ask" id="toc-need-help-just-ask" class="nav-link" data-scroll-target="#need-help-just-ask">Need Help? Just Ask!</a></li>
+  <li><a href="#go-forth-and-blog" id="toc-go-forth-and-blog" class="nav-link" data-scroll-target="#go-forth-and-blog">Go Forth and Blog!</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sharing Your Story: A Guide to Contributing Your First Blog Post to JuliaHealth</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">tutorial</div>
+    <div class="quarto-category">blogging</div>
+    <div class="quarto-category">community</div>
+    <div class="quarto-category">quarto</div>
+    <div class="quarto-category">quickstarter</div>
+    <div class="quarto-category">contributing</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Feeling inspired by JuliaHealth projects? This guide walks you through creating and sharing your own blog post on our website using Quarto. It’s easier than you think!
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>JuliaHealth Community (Leader JacobZelko, Contributor DivyanshGoyal) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 28, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="welcome-future-juliahealth-blogger" class="level1">
+<h1>Welcome, Future JuliaHealth Blogger! 👋</h1>
+<p><img src="./juliahealth_ghibli.png" class="img-fluid" alt="“Juliahealth Ghibli Style Artifact”"> &gt; Hello! | ¡Hola! | Hallo! | !مرحبا – Welcome to the cedar ledge! ~ Leader JacobZelko</p>
+<p>Hello there! We’re thrilled you’re interested in contributing to the JuliaHealth community blog. Whether you’ve just completed a fascinating analysis, developed a useful utility package, want to share insights from a research paper, or simply have a tutorial idea related to Julia in the health domain, your voice is valuable. The JuliaHealth organization is built on the collective efforts of people like you, using the power of Julia to make strides in medicine, healthcare, public health, and biomedical research.</p>
+<p>Sharing your work through a blog post is a fantastic way to connect with others, showcase your achievements (big or small!), and contribute to the collective knowledge base. Don’t worry if you’ve never written a technical blog post before or if you’re new to tools like Git or Quarto. This guide is designed to walk you through the process step-by-step, making it as smooth and comfortable as possible.</p>
+<p>We use <a href="https://quarto.org/"><strong>Quarto</strong></a> for our blog. It’s a wonderful, open-source tool that lets you easily combine regular text (like this!), code (like Julia, R, or Python), results, and even interactive visualizations into beautiful, web-friendly articles.</p>
+<p><strong>The basic steps are simple:</strong></p>
+<ol type="1">
+<li><strong>Fork &amp; Clone:</strong> Make your own copy of the blog repository and download it.</li>
+<li><strong>Create:</strong> Set up a new file for your post using Quarto’s simple format (<code>.qmd</code>).</li>
+<li><strong>Write:</strong> Craft your content using Markdown and maybe some code.</li>
+<li><strong>Preview:</strong> Check how it looks on your own computer.</li>
+<li><strong>Share:</strong> Submit your post for review through a GitHub Pull Request (PR).</li>
+</ol>
+<p>Ready to begin? Let’s get started!</p>
+</section>
+<section id="why-share-your-work-on-the-juliahealth-blog" class="level1">
+<h1>Why Share Your Work on the JuliaHealth Blog?</h1>
+<p>You might be wondering, “Is my work worth a blog post?” Absolutely! Here’s why sharing matters:</p>
+<ul>
+<li><strong>Boost Visibility:</strong> Your work gets seen by people specifically interested in Julia and health applications – potential collaborators, users, or just curious minds!</li>
+<li><strong>Make an Impact:</strong> Your tutorial could unlock a new technique for someone, your package update could solve a user’s problem, or your research summary could inspire new ideas.</li>
+<li><strong>Learn Through Teaching:</strong> Explaining something often solidifies your own understanding. Plus, feedback can help you refine your ideas.</li>
+<li><strong>Connect with the Community:</strong> Blogging opens doors for discussion, feedback, and collaboration with peers who share your interests.</li>
+<li><strong>Build Your Portfolio:</strong> It’s a tangible way to document your skills and contributions, which can be great for your career or academic profile.</li>
+<li><strong>Give Back:</strong> Contribute to the open-source spirit that makes communities like JuliaHealth thrive.</li>
+</ul>
+<p>Every contribution, from a quick tip to a detailed project summary, adds value. Contributions can range from Public Health, Medical-Imaging, Neurobiology, Seizure-detection, Virtual-cell modelling, Epigenetics and Simulation models.</p>
+<blockquote class="blockquote">
+<p>Juliahealth is a community of scientists, researchers and contributors who are actively in the medical-field.</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./juliahealth_vertical.png" style="height:6in" class="figure-img"></p>
+<figcaption>“Juliahealth Ghibli vertical image”</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-blogging-workflow-a-gentle-walkthrough" class="level1">
+<h1>The Blogging Workflow: A Gentle Walkthrough</h1>
+<p>Let’s break down the process into manageable steps. Don’t hesitate to pause and take your time with each one.</p>
+<section id="step-1-fork-the-blog-repository-make-your-own-copy" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-fork-the-blog-repository-make-your-own-copy">Step 1: Fork the Blog Repository (Make Your Own Copy)</h2>
+<p>Think of “forking” as creating your own personal copy of the official JuliaHealth blog project on GitHub. This gives you a safe space to make changes without affecting the live website directly.</p>
+<ol type="1">
+<li>Go to the main JuliaHealth blog repository on GitHub. (<code>https://github.com/JuliaHealth/JuliaHealthBlog</code>).</li>
+<li>Look for the “Fork” button, usually in the top-right corner of the page. Click it.</li>
+<li>GitHub will ask where you want to fork the repository; choose your own GitHub account. It will take a few seconds to create your copy.</li>
+</ol>
+<p>You now have a complete replica of the blog under your GitHub account (e.g., <code>https://github.com/YOUR_USERNAME/JuliaHealthBlog</code>).</p>
+</section>
+<section id="step-2-clone-your-fork-download-to-your-computer" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-clone-your-fork-download-to-your-computer">Step 2: Clone Your Fork (Download to Your Computer)</h2>
+<p>Now, you need to download your newly created fork to your local computer so you can work on the files. This is called “cloning”.</p>
+<ol type="1">
+<li><p>Open your terminal (like Command Prompt, PowerShell, or Terminal on Mac/Linux) or your preferred Git client.</p></li>
+<li><p>Navigate to the directory where you want to store the project (e.g., <code>cd Documents/Projects</code>).</p></li>
+<li><p>Run the <code>git clone</code> command, replacing <code>YOUR_USERNAME</code> with your actual GitHub username:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/YOUR_USERNAME/JuliaHealthBlog.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Change into the newly created directory:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> JuliaHealthBlog/JuliaHealthBlog</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>You now have the blog’s files on your computer!</p>
+</section>
+<section id="step-3-create-your-blog-post-files-set-up-your-workspace" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-create-your-blog-post-files-set-up-your-workspace">Step 3: Create Your Blog Post Files (Set Up Your Workspace)</h2>
+<p>Blog posts usually live inside a specific folder within the repository, often called <code>posts</code>. We’ll create a new folder just for <em>your</em> post to keep things organized.</p>
+<ol type="1">
+<li><p><strong>Choose a Name:</strong> Think of a short, descriptive name for your post folder. Including the date helps keep things chronological. For example, if you’re writing about DICOM tools on May 1st, 2025, you could use <code>2025-05-01-dicom-tools-intro</code>.</p></li>
+<li><p><strong>Create the Folder:</strong> In your terminal (make sure you are inside the <code>JuliaHealthBlog</code> directory), create your folder:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> posts/2025-05-01-dicom-tools-intro</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(Adjust <code>posts/</code> if the directory name is different).</p></li>
+<li><p><strong>Navigate Inside:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> posts/2025-05-01-dicom-tools-intro</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Create the Main File:</strong> Inside this new folder, create your main blog post file. It <em>must</em> end with <code>.qmd</code>. Using <code>index.qmd</code> is a common convention, but you can use a more descriptive name if you prefer (e.g., <code>dicom_intro.qmd</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the common convention:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> index.qmd</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Or using a descriptive name:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># touch dicom_intro.qmd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>This <code>.qmd</code> file is where you’ll write your actual blog post content. Any images or other files specific to your post will also go into this same folder.</p>
+</section>
+<section id="step-4-write-your-content-the-fun-part" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-write-your-content-the-fun-part">Step 4: Write Your Content (The Fun Part!)</h2>
+<p>Now, open your <code>index.qmd</code> (or <code>your_filename.qmd</code>) file in a text editor (like VS Code, Sublime Text, Notepad++, etc.). A Quarto file has two main parts:</p>
+<section id="a-the-yaml-header-settings-for-your-post" class="level3">
+<h3 class="anchored" data-anchor-id="a-the-yaml-header-settings-for-your-post">a) The YAML Header (Settings for Your Post)</h3>
+<p>At the very top of the file, enclosed by <sub>```</sub> lines, is a block of text called YAML. Think of it as a configuration section that tells Quarto and the website important details about your post. It might look intimidating, but it’s just key-value pairs.</p>
+<p>Here’s a detailed example you can adapt:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># --- REQUIRED ---</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My Awesome JuliaHealth Blog Post Title"</span><span class="co"> # Be descriptive and engaging!</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">description</span><span class="kw">:</span><span class="at"> </span><span class="st">"A short (1-2 sentence) summary of your post. This appears in previews and search results."</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Your Name (Optional: Your Affiliation or GitHub Handle)"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">"2025-05-01"</span><span class="co"> # Use YYYY-MM-DD format for the publication date (or today's date)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OFTEN USED / RECOMMENDED ---</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">categories</span><span class="kw">:</span><span class="co"> # Keywords to help people find your post</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> julia</span><span class="co"> # General category</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> package-showcase</span><span class="co"> # e.g., if showing off a package</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> tutorial</span><span class="co"> # e.g., if it's a how-to guide</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> medical-imaging</span><span class="co"> # Specific domain</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> DICOM.jl</span><span class="co"> # Specific package/tool mentioned</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="co"> # Set to 'true' to automatically create a Table of Contents (highly recommended for longer posts)</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> ./references.bib</span><span class="co"> # Tells Quarto where to find your citation list (if you have one). Keep this file in the same folder.</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># csl: ./../../ieee-with-url.csl # Path to the citation style file. This makes citations look consistent.</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- OPTIONAL / ADVANCED ---</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># image: false</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># engine: julia # Uncomment ONLY if you have Julia code blocks (```julia) you want Quarto to run when building the site.</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># draft: true # Keep as true while writing; REMOVE or set to 'false' when ready to publish.</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Don’t stress about getting this perfect initially.</strong> The title, author, date, description, and categories are the most important to start with.</p>
+</section>
+<section id="b-the-main-content-using-markdown" class="level3">
+<h3 class="anchored" data-anchor-id="b-the-main-content-using-markdown">b) The Main Content (Using Markdown)</h3>
+<p>Below the <sub>```</sub> YAML block, you write your actual content using <strong>Markdown</strong>. Markdown is a simple text formatting syntax that’s easy to learn. Quarto adds extra features on top.</p>
+<p>Here are the basics:</p>
+<ul>
+<li><p><strong>Headings:</strong> Use <code>#</code> for the main title (Quarto often uses the <code>title</code> from YAML, so you might start with <code>##</code> for sections), <code>##</code> for major sections, <code>###</code> for subsections, etc.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## My First Section</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Some introductory text here.</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Sub-section</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>More details go here.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Paragraphs:</strong> Just type text. Separate paragraphs with a blank line.</p></li>
+<li><p><strong>Emphasis:</strong> Use <code>*italic text*</code> or <code>_italic text_</code> and <code>**bold text**</code> or <code>__bold text__</code>.</p></li>
+<li><p><strong>Code:</strong> For inline code snippets, use backticks: <code>`println("Hello, JuliaHealth!")`</code>. (Note: Inline code typically still uses backticks in standard Markdown/Quarto).</p></li>
+<li><p><strong>Code Blocks:</strong> For longer code examples, use triple tildes, optionally specifying the language for nice highlighting:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DICOM</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a DICOM file</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dcm_data <span class="op">=</span> <span class="fu">dcm_parse</span>(<span class="st">"path/to/your/dicom_file.dcm"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Patient Name: "</span>, dcm_data[(<span class="bn">0x0010</span>, <span class="bn">0x0010</span>)]) <span class="co"># Access DICOM tag</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Tip:</em> If you uncommented <code>engine: julia</code> in the YAML header, Quarto can actually run this Julia code and include the output directly in your post!</p></li>
+<li><p><strong>Lists:</strong></p>
+<ul>
+<li>Unordered (bullets): Use <code>-</code>, <code>*</code>, or <code>+</code> at the start of a line. &gt; <img src="./unordered_list.png" class="img-fluid" alt="“Unordered list image with a nested element”"></li>
+<li>Ordered (numbers): Use <code>1.</code>, <code>2.</code>, etc. &gt; <img src="./ordered_list.png" class="img-fluid" alt="“Ordered list image with numbers”"></li>
+</ul></li>
+<li><p><strong>Links:</strong> Use <code>[Text to display](URL)</code>. &gt; <img src="./markdown_url.png" class="img-fluid" alt="“Format for embedding a URL in a markdown file”"> &gt; <em>Format for embedding a URL in a markdown file</em></p></li>
+<li><p><strong>Images:</strong> Use <code>![Alternative text description for accessibility](./image_filename.png)</code>. Put the image file (e.g., <code>image_filename.png</code>) in the <em>same folder</em> as your <code>.qmd</code> file. The alt text is important! &gt; <img src="./markdown_image.png" class="img-fluid" alt="“Format for embedding an image in a markdown file”"> &gt; <em>Format for embedding an image in a markdown file</em></p></li>
+<li><p><strong>Citations:</strong> If you need to cite papers or other sources:</p>
+<ol type="1">
+<li>Create a file named <code>references.bib</code> in the same folder as your <code>.qmd</code> file.</li>
+<li>Add entries in BibTeX format (you can often export these from reference managers like Zotero or sites like Google Scholar). &gt; <img src="./bibtex_sample.png" class="img-fluid" alt="“Sample bibtex citation”"></li>
+<li>In your text, cite using the key: <code>[@Mitura2021MedEye3d]</code>. Quarto will format it and add it to a reference list at the end. Example: <code>This approach was used in MedEye3d [@Mitura2021MedEye3d].</code></li>
+</ol></li>
+</ul>
+<p><strong>Write naturally!</strong> Explain your concepts clearly. Use headings to structure your thoughts. Include code examples where helpful. Add images or diagrams if they aid understanding. Don’t feel pressured to write a massive post; sometimes short, focused articles are the most useful.</p>
+</section>
+</section>
+<section id="step-5-add-supporting-files-images-data-citations" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-add-supporting-files-images-data-citations">Step 5: Add Supporting Files (Images, Data, Citations)</h2>
+<p>Remember that any images you included using <code>![](./...)</code> and your <code>references.bib</code> file (if you used citations) need to actually <em>be</em> in the same folder as your <code>index.qmd</code> file. Double-check that the filenames match exactly.</p>
+</section>
+<section id="step-6-preview-locally-see-how-it-looks" class="level2">
+<h2 class="anchored" data-anchor-id="step-6-preview-locally-see-how-it-looks">Step 6: Preview Locally (See How It Looks!)</h2>
+<p>This is a crucial step! Before you ask others to review your post, you should see what it will look like when rendered as a webpage. Quarto makes this easy.</p>
+<ol type="1">
+<li><p><strong>Install Quarto:</strong> If you haven’t already, install Quarto from <a href="https://quarto.org/docs/get-started/">quarto.org</a>.</p></li>
+<li><p><strong>Open Terminal:</strong> Navigate back to the <em>root</em> directory of your cloned <code>JuliaHealthBlog</code> project in your terminal (the folder containing the <code>posts</code> directory, etc.).</p></li>
+<li><p><strong>Run Preview:</strong> Execute the <code>quarto preview</code> command, pointing it to your <em>specific post file</em>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the path is correct!</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview posts/2025-05-01-dicom-tools-intro/index.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Alternatively, you might be able to preview the entire site, which will build all posts including yours:</em></p>
+<p>Quarto will process your file (and potentially run code if you enabled the engine) and should automatically open a preview in your web browser.</p></li>
+<li><p><strong>Review Carefully:</strong> Check everything:</p>
+<ul>
+<li>Is the text formatted correctly?</li>
+<li>Do headings look right?</li>
+<li>Do images appear and are they the right size?</li>
+<li>Are code blocks highlighted properly? Did executed code produce the expected output?</li>
+<li>Do links work?</li>
+<li>Are citations rendered correctly? Is the reference list present?</li>
+<li>Is the Table of Contents there (if you enabled it)?</li>
+</ul></li>
+<li><p><strong>Iterate:</strong> If you find mistakes, go back to your <code>.qmd</code> file, fix them, save the file, and Quarto’s preview should update automatically in your browser (or you might need to re-run the <code>quarto preview</code> command). Repeat until you’re happy.</p></li>
+<li><p><strong>Stop Preview:</strong> Press <code>Ctrl+C</code> in the terminal where <code>quarto preview</code> is running to stop the local server.</p></li>
+</ol>
+</section>
+<section id="step-7-commit-and-push-your-changes-save-your-work-to-github" class="level2">
+<h2 class="anchored" data-anchor-id="step-7-commit-and-push-your-changes-save-your-work-to-github">Step 7: Commit and Push Your Changes (Save Your Work to GitHub)</h2>
+<p>Okay, your post looks great locally! Now it’s time to save your work using Git and send it up to <em>your fork</em> on GitHub. This involves three main Git commands: <code>add</code>, <code>commit</code>, and <code>push</code>.</p>
+<ol type="1">
+<li><p><strong>Best Practice: Create a Branch:</strong> It’s highly recommended to keep your blog post changes on a separate “branch”. This isolates your work and makes the review process cleaner. From the root directory of <code>JuliaHealthBlog</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose a descriptive branch name</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> add-dicom-intro-post</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This command creates a new branch named <code>add-dicom-intro-post</code> and switches you to it. All subsequent commits will be on this branch.</p></li>
+<li><p><strong>Stage Your Files (<code>git add</code>):</strong> Tell Git which files you want to include in your next save point. You need to add your <code>.qmd</code> file and any supporting files (images, <code>.bib</code>). The easiest way is often to add the entire directory you created:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the path is correct!</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add posts/2025-05-01-dicom-tools-intro/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Commit Your Changes (<code>git commit</code>):</strong> Create a “save point” (a commit) with a descriptive message explaining what you did.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"feat: Add blog post on introductory DICOM tools"</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or a simpler message:</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># git commit -m "Add blog post: Introduction to DICOM Tools"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><em>Good commit messages help everyone understand the history of the project.</em></p></li>
+<li><p><strong>Push to Your Fork (<code>git push</code>):</strong> Send your new branch and its commit(s) from your local computer up to your fork on GitHub.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The '-u' sets up tracking for the branch on the first push</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin add-dicom-intro-post</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(Replace <code>add-dicom-intro-post</code> with your actual branch name). Git might ask for your GitHub username and password/token.</p></li>
+</ol>
+<p>Your changes are now safely stored on your GitHub fork!</p>
+</section>
+<section id="step-8-open-a-pull-request-pr-ask-to-merge-your-post" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-open-a-pull-request-pr-ask-to-merge-your-post">Step 8: Open a Pull Request (PR) (Ask to Merge Your Post)</h2>
+<p>The final step! A Pull Request (PR) is how you formally propose your changes (your new blog post) to be merged into the <em>official</em> JuliaHealth blog repository.</p>
+<ol type="1">
+<li><p><strong>Go to GitHub:</strong> Open your web browser and navigate to <em>your fork</em> of the <code>JuliaHealthBlog</code> repository on GitHub (<code>https://github.com/YOUR_USERNAME/JuliaHealthBlog</code>).</p></li>
+<li><p><strong>Start the PR:</strong> You should see a yellow banner near the top saying your branch (<code>add-dicom-intro-post</code>) had recent pushes, with a green button “Compare &amp; pull request”. Click that button!</p>
+<ul>
+<li>If you don’t see the banner, go to the main <code>JuliaHealth/JuliaHealthBlog</code> repository. Click the “Pull requests” tab, then the green “New pull request” button.</li>
+<li>On the next screen, you need to ensure the settings are correct:
+<ul>
+<li><strong>Base repository:</strong> <code>JuliaHealth/JuliaHealthBlog</code> Base branch: <code>main</code></li>
+<li><strong>Head repository:</strong> <code>YOUR_USERNAME/JuliaHealthBlog</code> Compare branch: <code>add-dicom-intro-post</code> (your branch name)</li>
+</ul></li>
+</ul></li>
+<li><p><strong>Write a Description:</strong> Give your PR a clear title (e.g., “Add Blog Post: Introduction to DICOM Tools”). In the description box, briefly explain what your post is about. You can link to relevant issues if applicable. Be polite! ~~~ Hi JuliaHealth maintainers,</p>
+<p>This PR adds a new blog post titled “Introduction to DICOM Tools in Julia”. It covers basic loading and tag access using DICOM.jl.</p>
+<p>Preview link (optional, if you deployed a preview somewhere): [link]</p>
+<p>Thanks for reviewing! ~~~</p></li>
+<li><p><strong>Create the PR:</strong> Click the green “Create pull request” button.</p></li>
+</ol>
+<p>That’s it! You’ve successfully submitted your blog post for review.</p>
+</section>
+</section>
+<section id="what-happens-next-the-review-process" class="level1">
+<h1>What Happens Next? (The Review Process)</h1>
+<p>Once you open the PR, one or more maintainers from the JuliaHealth community will review your submission.</p>
+<ul>
+<li><strong>Review:</strong> They will read your post, check the code/formatting, and ensure it aligns with the blog’s goals.</li>
+<li><strong>Feedback:</strong> They might leave comments directly on the PR asking for clarifications, suggesting improvements, or pointing out minor typos. This is a normal, collaborative part of the process! Don’t take it personally; feedback helps make the final post even better.</li>
+<li><strong>Updates:</strong> If changes are requested, simply make the edits in your local <code>.qmd</code> file, then <code>git add</code>, <code>git commit</code>, and <code>git push</code> to the <em>same branch</em> (<code>add-dicom-intro-post</code>) on your fork. The PR on GitHub will update automatically with your new changes.</li>
+<li><strong>Approval &amp; Merge:</strong> Once the reviewers are happy, they will approve the PR and “merge” it. This integrates your post into the main blog repository.</li>
+<li><strong>Publication:</strong> Depending on how the website is built, your post should appear live on the JuliaHealth blog shortly after merging! 🎉</li>
+</ul>
+</section>
+<section id="need-help-just-ask" class="level1">
+<h1>Need Help? Just Ask!</h1>
+<p>Feeling stuck at any point? That’s perfectly okay! The JuliaHealth community is friendly and helpful. Don’t hesitate to reach out on our communication channels:</p>
+<ul>
+<li><strong>Discourse Forum:</strong> Post in the <a href="https://discourse.julialang.org/c/domain/bio/15">Biology, Health, and Medicine category</a>.</li>
+<li><strong>Zulip Chat:</strong> Join the <code>#biology-health-and-medicine</code> stream.</li>
+<li><strong>Slack Channel:</strong> Ask in the <code>#health-and-medicine</code> channel (<a href="https://julialang.org/slack/">Get invite link here</a>).</li>
+</ul>
+<p>Explain where you’re having trouble, and someone will likely guide you.</p>
+</section>
+<section id="go-forth-and-blog" class="level1">
+<h1>Go Forth and Blog!</h1>
+<p>We genuinely hope this guide makes the process of contributing to the JuliaHealth blog feel approachable and exciting. Sharing your unique perspective, your technical solutions, or your research journey enriches our community immensely. Whether it’s your first post or your fiftieth, your contribution matters.</p>
+<p>We can’t wait to read what you have to share! Happy blogging!</p>
+<blockquote class="blockquote">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./buildspace_stream.jpg" class="img-fluid figure-img"></p>
+<figcaption>“School sometimes is distress image”</figcaption>
+</figure>
+</div>
+</blockquote>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{community_(leader_jacobzelko,_contributor_divyanshgoyal)2025,
+  author = {Community (Leader JacobZelko, Contributor DivyanshGoyal),
+    JuliaHealth},
+  title = {Sharing {Your} {Story:} {A} {Guide} to {Contributing} {Your}
+    {First} {Blog} {Post} to {JuliaHealth}},
+  date = {2025-04-28},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-community_(leader_jacobzelko,_contributor_divyanshgoyal)2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+<div class="">J.
+Community (Leader JacobZelko, Contributor DivyanshGoyal), <span>“Sharing
+Your Story: A Guide to Contributing Your First Blog Post to
+JuliaHealth,”</span> Apr. 28, 2025.</div>
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
