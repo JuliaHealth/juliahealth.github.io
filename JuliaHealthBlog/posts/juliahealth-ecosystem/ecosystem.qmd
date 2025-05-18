@@ -1,0 +1,184 @@
+---
+title: "Growing Together: Exploring Sub-Ecosystems within JuliaHealth 👋"
+description: "Learn about the specialized focus areas emerging within the JuliaHealth community and how you can contribute to these exciting sub-ecosystems."
+author: "JuliaHealth Community (Leader JacobZelko, Contributor Divyansh Goyal)"
+date: "2025-04-29"
+# bibliography: ./references.bib
+# csl: ./../../ieee-with-url.csl # Uncomment and adjust path if using citations
+toc: true
+# engine: julia # Unlikely needed for this overview post
+categories:
+  - community
+  - organization
+  - subecosystems
+  - roadmap
+  - contributing
+  - medical-imaging
+  - omop
+  - neuroscience
+  - public-health
+  - simulation
+---
+Welcome to the vibrant and expanding world of JuliaHealth! As our community grows and the number of powerful Julia packages dedicated to health, medicine, and biomedical research increases, we're seeing natural clusters of activity form around specific domains. To foster collaboration, improve discoverability, and accelerate progress in these specialized areas, we're excited to introduce the concept of **Sub-Ecosystems** within JuliaHealth.
+
+This post aims to:
+
+1.  Explain what we mean by a "sub-ecosystem."
+2.  Highlight some of the prominent and emerging focus areas we see.
+3.  Invite *you* to participate in shaping and growing these vital communities within the broader JuliaHealth organization.
+
+# What is a JuliaHealth Sub-Ecosystem?
+
+Think of JuliaHealth as a large, bustling city. A sub-ecosystem is like a specialized district within that city – a place where people working on similar problems congregate, share tools, develop specific expertise, and collaborate closely.
+
+More formally, a JuliaHealth sub-ecosystem is:
+
+*   A **collection of related Julia packages** addressing challenges within a specific health domain (e.g., medical imaging, observational health data).
+*   A **community of developers and users** passionate about that domain.
+*   A **focal point for collaboration**, potentially leading to shared standards, interoperable tools, and targeted documentation or tutorials within that niche.
+
+These aren't rigid silos, but rather areas of concentrated effort that make it easier for newcomers and veterans alike to find relevant tools and expertise.
+
+# Why Sub-Ecosystems? The Benefits
+
+Structuring our community efforts around these focus areas offers several advantages:
+
+*   **Improved Discoverability:** Newcomers looking for tools for, say, MRI simulation or analyzing OMOP CDM data can more easily find the relevant cluster of packages.
+*   **Focused Collaboration:** Developers working on related packages can coordinate efforts, avoid duplication, and build tools that work well together.
+*   **Deeper Expertise:** Sub-ecosystems become hubs of specialized knowledge, accelerating innovation within that domain.
+*   **Targeted Resources:** It becomes easier to create specific tutorials, documentation examples, and showcase demonstrations (like introductory videos!) for a particular area.
+*   **Clearer Roadmap:** Identifying strengths and gaps within a sub-ecosystem can help guide future development efforts.
+
+# Exploring Potential & Existing Sub-Ecosystems
+
+Based on the packages currently under the JuliaHealth organization and exciting areas of growth, here are some potential sub-ecosystems we envision. *This is a starting point for discussion, and we expect these areas to evolve!*
+
+::: {.callout title="1. Medical Imaging"}
+
+![](./MedEye3D.jl.png){fig-align="center"}
+**Point of Contact:** **[Jakub Mitura](https://github.com/jakubMitura14)** | **[cncastillo](https://github.com/cncastillo)** | **[Divyansh Goyal](https://github.com/divital-coder)**
+
+This is already a strong area within JuliaHealth, focusing on the handling, processing, visualization, and analysis of medical images from various modalities.
+
+*   **Focus:** Reading, writing, viewing, segmenting, registering, and analyzing medical image data (DICOM, NIfTI, etc.). Simulation of imaging processes.
+*   **Relevant Packages:** `DICOM.jl`, `DICOMClient.jl`, `DICOMTree.jl`, `ITKIOWrapper.jl` (and archived predecessors), `MedEval3D.jl`, `MedEye3d.jl`, `MedImages.jl`, `MedPipe3D.jl`, `KomaMRI.jl`.
+*   **Emerging Areas:** Expanding support for diverse modalities like Cellular Imaging, Molecular Imaging, Transmission Electron Microscopy (TEM), X-ray, advanced CT/PET analysis. Developing robust pipelines from image acquisition to analysis.
+*   **Showcase:**
+    [Placeholder for a short video showcasing Medical Imaging packages like MedEye3d.jl and DICOM.jl interaction]
+:::
+
+::: {.callout title="2. Observational Health Data Science & OMOP CDM"}
+
+![](./omp_cdm.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Jay Sanjay](https://github.com/jay-sanjay)** 
+
+This area centers on leveraging real-world health data, often standardized using models like the OMOP Common Data Model, for research and analysis.
+
+*   **Focus:** Working with standardized health data formats (especially OMOP CDM), creating cohorts, analyzing patient pathways, generating metrics, connecting to relevant APIs (OHDSI). Handling code mappings (ICD, RxNorm, etc.).
+*   **Relevant Packages:** `OMOPCommonDataModel.jl`, `OMOPCDMDatabaseConnector.jl`, `OMOPCDMCohortCreator.jl`, `OMOPCDMPathways.jl`, `OMOPVocabMapper.jl`, `OHDSIAPI.jl`, `ICD_GEMs.jl`, `DiagnosisClassification.jl`, `PharmaceuticalClassification.jl`. `EpiJ` often uses data derived from these sources.
+*   **Emerging Areas:** Patient-level prediction (`OMOPCDMPredictor`), advanced analytics on OMOP data, integration with federated learning frameworks.
+*   **Showcase:**
+    [Placeholder for a short video demonstrating cohort creation with OMOPCDMCohortCreator.jl]
+:::
+
+::: {.callout title="3. Neuroscience & Neurophysiology"}
+
+![](./neuroscience.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Adam Wysokiński](https://github.com/AdamWysokinski)** 
+
+Dedicated to tools for analyzing data from the brain and nervous system.
+
+*   **Focus:** Processing and analyzing neurophysiological data like EEG, MEG, ECOG, NIRS. Applying computational neuroscience techniques.
+*   **Relevant Packages:** `NeuroAnalyzer.jl`.
+*   **Emerging Areas:** Seizure detection algorithms, analysis of brain connectivity, integration with neuroimaging data (linking to Medical Imaging), modeling neural dynamics.
+*   **Showcase:**
+    [Placeholder for a short video showing EEG data analysis with NeuroAnalyzer.jl]
+:::
+
+::: {.callout title="4. Simulation & Computational Modeling"}
+
+![](./simluation.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Yolhan Mannes](https://github.com/yolhan83)** | **[Divyansh Goyal](https://github.com/divital-coder)**
+
+Using computational power to simulate biological and physiological processes relevant to health.
+
+*   **Focus:** Simulating complex systems like MRI physics, cardiac electrophysiology and mechanics, blood flow dynamics.
+*   **Relevant Packages:** `KomaMRI.jl`, `Thunderbolt.jl`, `BloodFlowTrixi.jl`.
+*   **Emerging Areas:** Virtual cell modeling, pharmacokinetic/pharmacodynamic (PK/PD) modeling, multi-scale modeling integrating different physiological levels, agent-based modeling for epidemiology.
+*   **Showcase:**
+    [Placeholder for a short video illustrating an MRI simulation using KomaMRI.jl]
+:::
+
+::: {.callout title="5. Public Health & Epidemiology"}
+
+![](./epidemiology.png){fig-align="center"}
+**Point of Contact:** **[Krishna Bhogaonker](https://github.com/00krishna)** 
+
+Applying computational tools to population health, disease surveillance, and epidemiological research.
+
+*   **Focus:** Analyzing population datasets (like IPUMS), environmental health data (NCEI), implementing epidemiological methods, disease surveillance techniques.
+*   **Relevant Packages:** `EpiJ`, `IPUMS.jl`, `NCEI.jl`, `ICD_GEMs.jl` (for population statistics). Connects strongly with Observational Health Data.
+*   **Emerging Areas:** Geospatial analysis for health, infectious disease modeling (could overlap with Simulation), analysis of social determinants of health.
+*   **Showcase:**
+    [Placeholder for a short video on using EpiJ for a simple epidemiological calculation]
+:::
+
+::: {.callout title="6. Bioinformatics & Data Querying"}
+
+![](./bioinformatics.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** 
+
+Tools focused on interacting with biomedical databases and literature.
+
+*   **Focus:** Programmatic access to databases like PubMed/MEDLINE, PubChem. Analyzing co-occurrences in literature.
+*   **Relevant Packages:** `BioMedQuery.jl`, `PubMedMiner.jl`, `PubChemCrawler.jl`. (Note: This overlaps with the larger BioJulia ecosystem, focusing here on health-specific applications).
+*   **Emerging Areas:** Integration with knowledge graphs, advanced text mining for clinical notes (see NLP/ML).
+:::
+
+::: {.callout title="7. Interoperability, Standards & Foundational Tools"}
+
+![](./interoperability.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** 
+
+Packages providing core functionalities, implementing health standards (FHIR, DICOM, OMOP), or offering essential utilities.
+
+*   **Focus:** Implementing standards like FHIR and SMART on FHIR, DICOM communication, providing common data structures or functions, managing authentication, handling sensitive data.
+*   **Relevant Packages:** `FHIRClient.jl`, `SMARTAppLaunch.jl`, `SMARTBackendServices.jl`, `DICOM.jl`, `DICOMClient.jl`, `OMOPCommonDataModel.jl`, `HealthBase.jl`, `HealthSampleData.jl`, `DateShifting.jl`, `EHRAuthentication.jl`.
+:::
+
+::: {.callout title="8. Health AI/ML & Text Analysis"}
+
+![](./health_llm.png){fig-align="center"}
+**Point of Contact:** **[Jacob Zelko](https://github.com/thecedarprince)** | **[Param Thakkar](https://github.com/ParamThakkar123)** 
+
+Applying machine learning techniques, including NLP, to health data.
+*   **Focus:** Association rule learning, parsing clinical text (cTAKES), using specific ML models for health predictions (CloToP), foundational ML tools, interacting with health LLMs.
+*   **Relevant Packages:** `ARules.jl`, `CAOS.jl`, `CTakesParser.jl`, `MTIWrapper.jl`, `CloToP.jl`, `HealthMLBase.jl`, `JuliaHealthLLM`, `OMOPCDMPredictor`.
+:::
+
+::: {.callout-note title="Exciting Frontiers"}
+Beyond these, we see potential for growth in areas like:
+
+*   **Epigenetics:** Tools for analyzing epigenetic data in health contexts.
+*   **Genomics in Health:** While overlapping with BioJulia, specific clinical genomics applications could form a focus.
+*   **Clinical Trials:** Tools for design, simulation, and analysis (e.g., `BlindingIndex.jl`).
+:::
+
+# How You Can Get Involved!
+
+This is a community effort! We need your input and participation to make these sub-ecosystems thrive:
+
+1.  **Join the Discussion:** Share your thoughts on these proposed areas. Do they make sense? Are key areas missing? Discuss on:
+    *   **Discourse:** [Biology, Health, and Medicine category](https://discourse.julialang.org/c/domain/bio/15)
+    *   **Zulip:** `#biology-health-and-medicine` stream
+    *   **Slack:** `#health-and-medicine` channel ([Invite link](https://julialang.org/slack/))
+2.  **Contribute to Packages:** Find a sub-ecosystem that interests you and contribute to the existing packages within it – documentation, bug fixes, new features are all welcome!
+3.  **Propose New Packages:** See a gap within a sub-ecosystem? Consider starting a new package to fill that need.
+4.  **Develop Showcase Materials:** Help create tutorials, examples, or even short introductory videos (like the placeholders above!) demonstrating how packages within a sub-ecosystem work together. Let us know if you're interested in contributing a video!
+5.  **Lead or Champion:** Passionate about a specific area? Consider helping to coordinate efforts or act as a point person for that sub-ecosystem.
+
+# Conclusion: Building Focused Communities
+
+By recognizing and nurturing these specialized sub-ecosystems, we aim to make JuliaHealth even more effective, collaborative, and welcoming. This structure can help channel the amazing energy within our community, leading to more robust, interoperable, and impactful tools for improving health worldwide.
+
+This is just the beginning of the conversation. Let's work together to map out these territories and build thriving communities within them. We're excited to see where these focused efforts take us!
