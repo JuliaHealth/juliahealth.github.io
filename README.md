@@ -3,6 +3,7 @@
   <h1>Julia Health</h1>
   <p><em> Transforming Health Research! Improving medicine, health and bio-medical research using the power of Julia</em></p>
 </div>
+
 <br clear="all"/>
 
 ```sh
