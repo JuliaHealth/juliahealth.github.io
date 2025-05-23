@@ -1,6 +1,6 @@
 ```{=html}
 <div class="column-page mb-0 text-center">
-    <img src="./assets/images/logo.png" class="img-fluid" alt="JuliaHealth Logo" width="200" />
+    <img src="./assets/images/logo.png" class="img-fluid" alt="JuliaHealth Logo" />
     <p class="h1">
         Transforming Health Research!
     </p>
