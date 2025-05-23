@@ -60,7 +60,7 @@
                     <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-github me-1"></i>Github
                     </a>
-                    <a href="https://juliapackages.com/p/dicomtree" target="_blank" class="text-link-primary text-decoration-none">
+                    <a href="https://juliahealth.org/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-globe me-1"></i>Website
                     </a>
                 </p>
@@ -94,7 +94,7 @@
                     <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-github me-1"></i>Github
                     </a>
-                    <a href="https://juliahealth.github.io/MedEye3d.jl/dev" target="_blank" class="text-link-primary text-decoration-none">
+                    <a href="https://juliahealth.org/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-globe me-1"></i>Website
                     </a>
                 </p>
