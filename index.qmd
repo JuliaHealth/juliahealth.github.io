@@ -26,7 +26,7 @@
                     <a href="https://github.com/JuliaHealth/KomaMRI.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-github me-1"></i>Github
                     </a>
-                    <a href="https://juliahealth.org/KomaMRI.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
+                    <a href="https://juliahealth.github.io/KomaMRI.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-globe me-1"></i>Website
                     </a>
                 </p>
@@ -34,7 +34,7 @@
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-between">
-                <img src="./assets/images/packages/neuroanalyzer.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <img src="./assets/images/packages/neuroanalyzer.png" class="img-fluid card-img-top mb-3" alt="NeuroAnalyzer Logo" style="width: 10em; height: 10em;" />
                 <span class="card-title fw-bold">NeuroAnalyzer.jl</span>
                 <p class="card-text">
                     NeuroAnalyzer is a Julia toolbox for analyzing neurophysiological data. Currently it covers importing, editing, processing, visualizing, and analyzing EEG, MEP and EDA data. Preliminary functionality is also available for MEG, NIRS, ECoG, SEEG and iEEG recordings.
@@ -51,7 +51,7 @@
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-between">
-                <img src="./assets/images/packages/dicomtree.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <img src="./assets/images/packages/dicomtree.png" class="img-fluid card-img-top mb-3" alt="DicomTree Logo" style="width: 10em; height: 10em;" />
                 <span class="card-title fw-bold">DICOMTree.jl</span>
                 <p class="card-text">
                     A little Julia package for visualizing DICOM file metadata in the form of a tree. The package have been tested with CT Scanner, RTDose and RTStruct files.
@@ -60,7 +60,7 @@
                     <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-github me-1"></i>Github
                     </a>
-                    <a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank" class="text-link-primary text-decoration-none">
+                    <a href="https://juliapackages.com/p/dicomtree" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-globe me-1"></i>Website
                     </a>
                 </p>
@@ -68,7 +68,7 @@
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-between">
-                <img src="./assets/images/packages/icdgems.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <img src="./assets/images/packages/icdgems.png" class="img-fluid card-img-top mb-3" alt="ICDGems Logo" style="width: 10em; height: 10em;" />
                 <span class="card-title fw-bold">ICD_GEMs.jl</span>
                 <p class="card-text">
                     ICD_GEMs.jl is a Julia package that allows to translate ICD-9 codes in ICD-10 and viceversa via the General Equivalence Mappings (GEMs) of the International Classification of Diseases (ICD).
@@ -77,7 +77,7 @@
                     <a href="https://github.com/JuliaHealth/ICD_GEMs.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-github me-1"></i>Github
                     </a>
-                    <a href="https://juliahealth.org/ICD_GEMs.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
+                    <a href="https://juliahealth.github.io/ICD_GEMs.jl/stable/" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-globe me-1"></i>Website
                     </a>
                 </p>
@@ -85,7 +85,7 @@
         </div>
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex flex-column align-items-center justify-content-between">
-                <img src="./assets/images/logo.png" class="img-fluid card-img-top mb-3" alt="JuliaHealth Logo" style="width: 10em; height: 10em;" />
+                <img src="./assets/images/packages/medeye3d.png" class="img-fluid card-img-top mb-3" alt="MedEye3d Logo" style="width: 10em; height: 10em;" />
                 <span class="card-title fw-bold">MedEye3d.jl</span>
                 <p class="card-text">
                     Julia library for visualization and annotation medical images, specialized particularly for rapid development segmentation of 3 dimensional images like CT or PET/CT scans. Has full support of nuclear medicine Data.
@@ -94,12 +94,30 @@
                     <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-github me-1"></i>Github
                     </a>
-                    <a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank" class="text-link-primary text-decoration-none">
+                    <a href="https://juliahealth.github.io/MedEye3d.jl/dev" target="_blank" class="text-link-primary text-decoration-none">
                         <i class="bi bi-globe me-1"></i>Website
                     </a>
                 </p>
             </div>
         </div>
+         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
+            <div class="card-body d-flex flex-column align-items-center justify-content-between">
+                <img src="./assets/images/packages/medimages.png" class="img-fluid card-img-top mb-3" alt="MedImages Logo" style="width: 10em; height: 10em;" />
+                <span class="card-title fw-bold">MedImages.jl</span>
+                <p class="card-text">
+                    MedImages provides a standardized framework for handling 3D and 4D medical imaging data. The metadata structure is loosely based on the BIDS format.
+                </p>
+                <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaHealth/MedImages.jl" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-github me-1"></i>Github
+                    </a>
+                    <a href="https://juliahealth.github.io/MedImages.jl/dev" target="_blank" class="text-link-primary text-decoration-none">
+                        <i class="bi bi-globe me-1"></i>Website
+                    </a>
+                </p>
+            </div>
+        </div>
+
         <div class="card g-col-12 g-col-md-4 p-2 rounded home-page-package-card">
             <div class="card-body d-flex align-items-center justify-content-center">
                 <p class="card-text">
