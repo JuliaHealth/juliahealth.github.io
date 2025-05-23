@@ -2,8 +2,8 @@ project:
   type: website
   output-dir: docs
   resources:
-    - "*.jl/"
-  
+  - "*.jl/"
+
 website:
   favicon: "assets/favicon.ico"
   title: "JuliaHealth"
