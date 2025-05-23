@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./assets/logo.png" alt="JuliaHealth Logo" width="200" align="left" style="margin-right: 20px"/>
+  <img src="./assets/images/logo.png" alt="JuliaHealth Logo" width="200" align="left" style="margin-right: 20px"/>
   <h1>Julia Health</h1>
   <p><em> Transforming Health Research! Improving medicine, health and bio-medical research using the power of Julia</em></p>
 </div>
