@@ -1,8 +1,6 @@
 project:
   type: website
   output-dir: docs
-  resources:
-  - "*.jl/"
 
 website:
   favicon: "assets/favicon.ico"
