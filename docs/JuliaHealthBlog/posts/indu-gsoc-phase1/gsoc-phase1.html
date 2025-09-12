@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kosuri Lakshmi Indu">
+<meta name="dcterms.date" content="2025-07-12">
+<meta name="description" content="A summary of my project for Google Summer of Code - 2025 (Phase 1)">
+
+<title>GSoC ’25 Phase 1: Enabling OMOP CDM Tables and Preprocessing in HealthBase.jl – JuliaHealth</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-51278565e4f4f6ace0c1facf99b82dcc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction 👋</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
+  <ul class="collapse">
+  <li><a href="#what-is-healthbase.jl" id="toc-what-is-healthbase.jl" class="nav-link" data-scroll-target="#what-is-healthbase.jl">What is HealthBase.jl?</a></li>
+  </ul></li>
+  <li><a href="#project-description" id="toc-project-description" class="nav-link" data-scroll-target="#project-description">Project Description</a></li>
+  <li><a href="#project-goals" id="toc-project-goals" class="nav-link" data-scroll-target="#project-goals">Project Goals</a></li>
+  <li><a href="#tasks" id="toc-tasks" class="nav-link" data-scroll-target="#tasks">Tasks</a>
+  <ul class="collapse">
+  <li><a href="#core-healthtable-interface-with-tables.jl-connection" id="toc-core-healthtable-interface-with-tables.jl-connection" class="nav-link" data-scroll-target="#core-healthtable-interface-with-tables.jl-connection">1. Core <code>HealthTable</code> Interface with <code>Tables.jl</code> Connection</a>
+  <ul class="collapse">
+  <li><a href="#what-is-healthtable" id="toc-what-is-healthtable" class="nav-link" data-scroll-target="#what-is-healthtable">What is <code>HealthTable</code>?</a></li>
+  <li><a href="#how-is-it-defined" id="toc-how-is-it-defined" class="nav-link" data-scroll-target="#how-is-it-defined">How is it defined?</a></li>
+  <li><a href="#creating-a-healthtable" id="toc-creating-a-healthtable" class="nav-link" data-scroll-target="#creating-a-healthtable">Creating a <code>HealthTable</code></a></li>
+  <li><a href="#accessing-the-source" id="toc-accessing-the-source" class="nav-link" data-scroll-target="#accessing-the-source">Accessing the Source</a></li>
+  <li><a href="#handling-invalid-tables" id="toc-handling-invalid-tables" class="nav-link" data-scroll-target="#handling-invalid-tables">Handling Invalid Tables</a></li>
+  </ul></li>
+  <li><a href="#preprocessing-functions" id="toc-preprocessing-functions" class="nav-link" data-scroll-target="#preprocessing-functions">2. Preprocessing Functions</a>
+  <ul class="collapse">
+  <li><a href="#concept-mapping" id="toc-concept-mapping" class="nav-link" data-scroll-target="#concept-mapping">Concept Mapping</a></li>
+  <li><a href="#vocabulary-compression" id="toc-vocabulary-compression" class="nav-link" data-scroll-target="#vocabulary-compression">Vocabulary Compression</a></li>
+  <li><a href="#one-hot-encoding" id="toc-one-hot-encoding" class="nav-link" data-scroll-target="#one-hot-encoding">One-Hot Encoding</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#contribution-beyond-coding" id="toc-contribution-beyond-coding" class="nav-link" data-scroll-target="#contribution-beyond-coding">Contribution Beyond Coding</a>
+  <ul class="collapse">
+  <li><a href="#organizing-meetings-and-communication" id="toc-organizing-meetings-and-communication" class="nav-link" data-scroll-target="#organizing-meetings-and-communication">1. Organizing Meetings and Communication</a></li>
+  <li><a href="#engaging-with-the-juliahealth-ecosystem" id="toc-engaging-with-the-juliahealth-ecosystem" class="nav-link" data-scroll-target="#engaging-with-the-juliahealth-ecosystem">2. Engaging with the JuliaHealth Ecosystem</a></li>
+  </ul></li>
+  <li><a href="#conclusion-and-future-development" id="toc-conclusion-and-future-development" class="nav-link" data-scroll-target="#conclusion-and-future-development">Conclusion and Future Development</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GSoC ’25 Phase 1: Enabling OMOP CDM Tables and Preprocessing in HealthBase.jl</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">gsoc</div>
+    <div class="quarto-category">omop cdm</div>
+    <div class="quarto-category">julia health</div>
+    <div class="quarto-category">healthbase</div>
+    <div class="quarto-category">tables</div>
+    <div class="quarto-category">preprocessing</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A summary of my project for Google Summer of Code - 2025 (Phase 1)
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kosuri Lakshmi Indu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 12, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction 👋</h1>
+<p>Hi everyone! I’m Kosuri Lakshmi Indu, a third-year undergraduate student majoring in Computer Science and a GSoC 2025 contributor. Over the past few months, I’ve had the opportunity to work with the JuliaHealth community, where I got a chance to learn, contribute, and get involved in projects focused on improving how we work with real-world health data.</p>
+<p>As part of this project, I contributed to HealthBase.jl, a Julia package within the JuliaHealth ecosystem. During Phase 1, I focused on implementing both of these key features - adding seamless <code>Tables.jl</code> integration for working with OMOP CDM tables and developing a set of reusable preprocessing functions to make data modeling easier and more consistent.</p>
+<p>In this blog post, I’ll walk you through everything we accomplished in Phase 1 from the motivation behind these additions, to examples of how they work in practice.</p>
+<ol type="1">
+<li><p>You can find my <a href="https://summerofcode.withgoogle.com/programs/2025/projects/xpSEgu5b"><strong>GSoC’25 Project Link</strong></a></p></li>
+<li><p>You can check out the project repository here: <a href="https://github.com/JuliaHealth/HealthBase.jl"><strong>HealthBase.jl</strong></a></p></li>
+<li><p>Official Documentation of HealthBase.jl: <a href="https://juliahealth.org/HealthBase.jl/dev/"><strong>Documentation</strong></a></p></li>
+<li><p>If you want, you can connect with me on <a href="https://www.linkedin.com/in/kosuri-indu/"><strong>LinkedIn</strong></a> and <a href="https://github.com/kosuri-indu/"><strong>GitHub</strong></a>.</p></li>
+</ol>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="what-is-healthbase.jl" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-healthbase.jl">What is HealthBase.jl?</h2>
+<p><strong>HealthBase.jl</strong> is a lightweight foundational package that serves as a shared namespace across the JuliaHealth ecosystem. It’s designed to provide consistent interfaces, common utilities, and templates for building health data workflows in Julia, all while staying minimal and extensible.</p>
+<p>As part of this project, we expanded HealthBase.jl to support working directly with OMOP CDM data. While the HealthTable interface is defined in HealthBase.jl as a generic, reusable interface for working with health data tables, the actual implementation for the OMOP Common Data Model lives in the OMOPCommonDataModel.jl package.</p>
+<p>This design allows HealthBase.jl to provide a flexible interface that can be extended for any health data standard - not just OMOP CDM. So if someone wants to make HealthTable work for their packages, they can use the HealthTable interface from HealthBase.jl and define the necessary extensions accordingly.</p>
+</section>
+</section>
+<section id="project-description" class="level1">
+<h1>Project Description</h1>
+<p>This included introducing a new type called <strong><code>HealthTable</code></strong>, which wraps OMOP CDM tables with built-in schema validation and metadata attachment. We also made these tables compatible with the wider Julia data ecosystem by implementing the <strong><code>Tables.jl</code></strong> interface, making it easier to plug OMOP CDM datasets into standard tools for modeling and analysis. To support real-world workflows, we added a suite of preprocessing utilities tailored to observational health data, including one-hot encoding, vocabulary compression, and concept mapping. All of these features aim to make it easier for researchers to load, validate, and prepare OMOP CDM datasets in a reproducible and scalable way - while keeping the code clean and modular.</p>
+</section>
+<section id="project-goals" class="level1">
+<h1>Project Goals</h1>
+<p>The main goal of this GSoC project was to improve how researchers interact with OMOP CDM data in Julia by extending and strengthening the capabilities of <strong>HealthBase.jl</strong>. This involved building a structured, schema-aware interface for working with health data and providing built-in tools for preprocessing. Specifically, we focused on:</p>
+<ol type="1">
+<li><p><strong>Introduce a schema-aware table interface for OMOP CDM</strong>: Develop a new type of structure that wraps OMOP CDM tables in a consistent, validated format. This interface should use <code>Tables.jl</code> under the hood and provide column-level metadata, schema enforcement, and compatibility with downstream tabular workflows.</p></li>
+<li><p><strong>Implement reusable preprocessing utilities for health data workflows</strong>: Add essential preprocessing functions like:</p>
+<ul>
+<li><code>one_hot_encode</code> for converting categorical columns into binary indicators,</li>
+<li><code>apply_vocabulary_compression</code> for grouping rare categories under a label,</li>
+<li><code>map_concepts</code> and <code>map_concepts!</code> for translating concept IDs to readable names via DuckDB or user-defined mappings.</li>
+</ul></li>
+<li><p><strong>Integrate HealthBase.jl with the JuliaHealth ecosystem</strong>: Ensure <code>HealthBase.jl</code> plays a foundational role in JuliaHealth by interoperating with other packages like <code>OMOPCommonDataModel.jl</code>, <code>Tables.jl</code>, <code>DuckDB.jl</code>, <code>DataFrames.jl</code> etc. This makes it easier to build reproducible, modular workflows within the Julia ecosystem.</p></li>
+</ol>
+<p>These goals lay the foundation for future JuliaHealth tooling, making OMOP CDM data easier to validate, preprocess, and use in reproducible health data science workflows.</p>
+</section>
+<section id="tasks" class="level1">
+<h1>Tasks</h1>
+<section id="core-healthtable-interface-with-tables.jl-connection" class="level2">
+<h2 class="anchored" data-anchor-id="core-healthtable-interface-with-tables.jl-connection">1. Core <code>HealthTable</code> Interface with <code>Tables.jl</code> Connection</h2>
+<p>A major part of this project was introducing a new type called <code>HealthTable</code>, which makes it easier to work with OMOP CDM tables in Julia in a reliable and standardized way.</p>
+<section id="what-is-healthtable" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-healthtable">What is <code>HealthTable</code>?</h3>
+<p><code>HealthTable</code> is a wrapper around a Julia <code>DataFrame</code> that:</p>
+<ul>
+<li>Validates your OMOP CDM data against the official OMOP CDM schema</li>
+<li>Connects your data to Julia’s <code>Tables.jl</code> interface, so you can use it with any table-compatible package (like <code>DataFrames.jl</code> etc.)</li>
+<li>Attaches metadata about each column (e.g., what kind of concept it represents)</li>
+<li>Gives detailed error messages if your data doesn’t follow the expected OMOP CDM format</li>
+<li>Uses <code>PrettyTables.jl</code> under the hood to display the table in a clean and readable format in the REPL or Jupyter notebooks</li>
+</ul>
+</section>
+<section id="how-is-it-defined" class="level3">
+<h3 class="anchored" data-anchor-id="how-is-it-defined">How is it defined?</h3>
+<p>The type is defined using Julia’s <code>@kwdef</code> macro to allow keyword-based construction:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kwdef</span> <span class="kw">struct</span> HealthTable{T}</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    source<span class="op">::</span><span class="dt">T</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">schema</span>(ht)                     <span class="co"># View schema (column names and types)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">rows</span>(ht)                       <span class="co"># Iterate over rows</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">columns</span>(ht)                    <span class="co"># Access columns as named tuples</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">materializer</span>(<span class="fu">typeof</span>(ht))       <span class="co"># Used to materialize tables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, source is the original validated data (usually a DataFrame), and all logic is built around enforcing the schema and providing utilities on top of this source. Once wrapped in a HealthTable, you can interact with it using the complete Tables.jl interface. This makes HealthTable compatible with the entire Julia Tables ecosystem, meaning users can directly use OMOP CDM data with existing tooling, without needing custom adapters.</p>
+</section>
+<section id="creating-a-healthtable" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-healthtable">Creating a <code>HealthTable</code></h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span>, <span class="bu">OMOPCommonDataModel</span>, <span class="bu">InlineStrings</span>, <span class="bu">Serialization</span>, <span class="bu">Dates</span>, <span class="bu">FeatureTransforms</span>, <span class="bu">DBInterface</span>, <span class="bu">DuckDB</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">HealthBase</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> <span class="fu">DataFrame</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    person_id <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    gender_concept_id <span class="op">=</span> [<span class="fl">8507</span>, <span class="fl">8532</span>, <span class="fl">8507</span>, <span class="fl">8532</span>],</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    year_of_birth <span class="op">=</span> [<span class="fl">1990</span>, <span class="fl">1985</span>, <span class="fl">1992</span>, <span class="fl">1980</span>],</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    race_concept_id <span class="op">=</span> [<span class="fl">8527</span>, <span class="fl">8516</span>, <span class="fl">8527</span>, <span class="fl">8527</span>],</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>ht <span class="op">=</span> <span class="fu">HealthTable</span>(df; omop_cdm_version<span class="op">=</span><span class="st">"v5.4.1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<br> <img src="./extension_loading.png" class="img-fluid"> <br>
+<center>
+HealthTable Extension Loading
+</center>
+<br>
+<center>
+<img src="./healthtable.png" class="img-fluid"> HealthTable
+</center>
+</section>
+<section id="accessing-the-source" class="level3">
+<h3 class="anchored" data-anchor-id="accessing-the-source">Accessing the Source</h3>
+<p>Each <code>HealthTable</code> instance stores the original validated data in <code>ht.source</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(ht.source)                           <span class="co"># DataFrame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span>(ht.source, <span class="st">"omop_cdm_version"</span>)     <span class="co"># "v5.4.1"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colmetadata</span>(ht.source, <span class="op">:</span>gender_concept_id)  <span class="co"># Per-column metadata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="handling-invalid-tables" class="level3">
+<h3 class="anchored" data-anchor-id="handling-invalid-tables">Handling Invalid Tables</h3>
+<p>If the input table does not conform to the expected OMOP CDM schema - for example, if a column has the wrong data type is present - the HealthTable constructor throws a detailed and user-friendly error. This makes it easier to catch mistakes early and ensures that only well-structured, validated data enters your pipeline. You can optionally relax this strict enforcement by setting disable_type_enforcement = true, in which case the constructor will emit warnings instead of throwing errors.</p>
+</section>
+</section>
+<section id="preprocessing-functions" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessing-functions">2. Preprocessing Functions</h2>
+<p>Once your data is wrapped in a <code>HealthTable</code>, you can apply several built-in preprocessing functions to prepare it for modeling. These functions help transform OMOP CDM data into formats that are more interpretable, compact, and ML-friendly.</p>
+<section id="concept-mapping" class="level3">
+<h3 class="anchored" data-anchor-id="concept-mapping">Concept Mapping</h3>
+<p>Replaces concept IDs (e.g., 8507) with readable names (e.g., “Male”) using an OMOP CDM vocabulary table in DuckDB. If no schema is provided, the function will use the default main schema in the DuckDB connection. It supports both single and multiple columns, and allows custom naming for output columns. This greatly enhances data interpretability and allows models to work with semantically meaningful features.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> DBInterface.<span class="fu">connect</span>(DuckDB.DB, <span class="st">"path_to_file.duckdb"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Single column (adds gender_concept_id_mapped)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ht_mapped <span class="op">=</span> <span class="fu">map_concepts</span>(ht, <span class="op">:</span>gender_concept_id, conn; schema <span class="op">=</span> <span class="st">"schema_name"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple columns, drop original</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ht_mapped2 <span class="op">=</span> <span class="fu">map_concepts</span>(ht, [<span class="op">:</span>gender_concept_id, <span class="op">:</span>race_concept_id], conn;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                          new_cols<span class="op">=</span>[<span class="st">"gender"</span>, <span class="st">"race"</span>], drop_original<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># In-place variant</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">map_concepts!</span>(ht, <span class="op">:</span>gender_concept_id, conn; schema <span class="op">=</span> <span class="st">"schema_name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<br>
+<center>
+<img src="./map_concepts.png" class="img-fluid"> Map Concepts
+</center>
+<p><br></p>
+<p>You can also perform concept mapping manually without relying on a database connection. This is especially useful for smaller datasets or when you already know the categorical values. For instance, by defining a custom dictionary such as Dict(8507 =&gt; “Male”, 8532 =&gt; “Female”), you can create a new column by mapping over the existing concept ID column using functions like Base.map or map!. This manual approach allows for flexible labeling and is particularly helpful during exploratory data analysis or early-stage prototyping when a full vocabulary table isn’t available or necessary.</p>
+</section>
+<section id="vocabulary-compression" class="level3">
+<h3 class="anchored" data-anchor-id="vocabulary-compression">Vocabulary Compression</h3>
+<p>Groups rare categorical values into an <code>"Other"</code> or a user-specified label to simplify high-cardinality columns. This is useful for reducing sparsity in features with many rare categories. The function calculates the frequency of each level and retains only those above a threshold, replacing the rest. It ensures that model inputs remain interpretable and avoids overfitting on underrepresented categories.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ht_compressed <span class="op">=</span> <span class="fu">apply_vocabulary_compression</span>(ht_mapped; cols <span class="op">=</span> [<span class="op">:</span>race_concept_id],</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    min_freq <span class="op">=</span> <span class="fl">2</span>, other_label <span class="op">=</span> <span class="st">"Other"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<br>
+<center>
+<img src="./vocab_compression.png" class="img-fluid"> Vocabulary Compression
+</center>
+</section>
+<section id="one-hot-encoding" class="level3">
+<h3 class="anchored" data-anchor-id="one-hot-encoding">One-Hot Encoding</h3>
+<p>Converts a categorical column into binary columns. This prepares your features for ML models that can’t handle raw categorical values. The function works on both HealthTable and DataFrame objects and allows you to specify whether to drop the original column. It’s especially useful when working with encoded health conditions, demographics, or other categorical features.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ht_ohe <span class="op">=</span> <span class="fu">one_hot_encode</span>(ht_compressed; cols <span class="op">=</span> [<span class="op">:</span>gender_concept_id, <span class="op">:</span>race_concept_id])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<br>
+<center>
+<img src="./one_hot_encoding.png" class="img-fluid"> One Hot Encoding
+</center>
+<p><br></p>
+<p>Each of these preprocessing functions is designed to be both composable and schema-aware. This means you can mix and match transformations like one-hot encoding, vocabulary compression, and concept mapping depending on the needs of your workflow. You have the flexibility to work directly with a HealthTable or switch to a regular DataFrame when needed. This modular design ensures that your data processing steps are reproducible and consistent across different JuliaHealth tools, making health data analysis more efficient, reliable, and seamlessly integrated with Julia’s modern data ecosystem.</p>
+</section>
+</section>
+</section>
+<section id="contribution-beyond-coding" class="level1">
+<h1>Contribution Beyond Coding</h1>
+<section id="organizing-meetings-and-communication" class="level2">
+<h2 class="anchored" data-anchor-id="organizing-meetings-and-communication">1. Organizing Meetings and Communication</h2>
+<p>Throughout the project, I had regular weekly meetings with my mentor, Jacob Zelko, where we discussed progress, clarified doubts, and made plans for the upcoming tasks. These sessions helped me better understand design decisions and refine my implementations with expert feedback. In addition to our meetings, I actively communicated via Zulip and Slack, where we discussed code behavior, errors, ideas, and other project-related decisions in detail. This consistent back-and-forth ensured a clear direction and rapid iteration.</p>
+</section>
+<section id="engaging-with-the-juliahealth-ecosystem" class="level2">
+<h2 class="anchored" data-anchor-id="engaging-with-the-juliahealth-ecosystem">2. Engaging with the JuliaHealth Ecosystem</h2>
+<p>Beyond contributing code to HealthBase.jl, I also engaged with the broader JuliaHealth ecosystem. After discussing with my mentor, I opened and contributed to issues in related JuliaHealth repositories identifying potential bugs and suggesting enhancements. These contributions aimed to improve the coherence and usability of JuliaHealth tools as a whole, not just within my assigned project.</p>
+</section>
+</section>
+<section id="conclusion-and-future-development" class="level1">
+<h1>Conclusion and Future Development</h1>
+<p>Contributing to HealthBase.jl during Phase 1 of GSoC has been a rewarding and insightful journey. It gave me the opportunity to dive deep into the structure of OMOP CDM, explore Julia’s composable interfaces like <code>Tables.jl</code>, and build features that directly support observational health workflows. Learning to design with extensibility in mind, especially when working with healthcare data has shaped how I now approach open-source problems.</p>
+<p>Looking ahead, here are some of the directions I’d like to explore to further strengthen <code>HealthBase.jl</code> and its integration within the JuliaHealth ecosystem:</p>
+<ul>
+<li><p><strong>Refine schema handling</strong><br>
+Improve how internal schema checks reflect the structure of the underlying data source. This includes better alignment with OMOP CDM specifications and improved flexibility when dealing with edge cases or schema variations.</p></li>
+<li><p><strong>Strengthen Tables.jl integration</strong><br>
+Enhance the robustness of how <code>HealthTable</code> interacts with the <code>Tables.jl</code> interface - ensuring better compatibility and reducing any overhead when working with downstream packages like <code>DataFrames.jl</code>.</p></li>
+<li><p><strong>Add new preprocessing functions</strong><br>
+Extend the current toolkit by implementing more real-world utilities such as missing value imputation, cohort filtering etc.</p></li>
+<li><p><strong>Address related issues in the ecosystem</strong><br>
+Collaborate with maintainers to help resolve open issues related to the project in <code>OMOPCommonDataModel.jl</code>, especially <a href="https://github.com/JuliaHealth/OMOPCommonDataModel.jl/issues/41">Issue #41</a> and <a href="https://github.com/JuliaHealth/OMOPCommonDataModel.jl/issues/40">Issue #40</a></p></li>
+</ul>
+<p>Overall, this phase has not only improved the package but also helped me grow in terms of design thinking, working with abstractions, and contributing to a larger ecosystem. I’m looking forward to what comes next and to making HealthBase even more useful for the JuliaHealth community and beyond.</p>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements</h1>
+<p>A big thank you to <strong>Jacob S. Zelko</strong> for being such a kind and thoughtful mentor throughout this project. His clear guidance, encouragement, and helpful feedback made a huge difference at every step. I’m also really thankful to the <strong>JuliaHealth</strong> community for creating such a welcoming and inspiring space to learn, build, and grow. It’s been a joy to be part of it.</p>
+<p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p>
+<p><em>Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure.</em></p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lakshmi_indu2025,
+  author = {Lakshmi Indu, Kosuri},
+  title = {GSoC ’25 {Phase} 1: {Enabling} {OMOP} {CDM} {Tables} and
+    {Preprocessing} in {HealthBase.jl}},
+  date = {2025-07-12},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lakshmi_indu2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lakshmi Indu, Kosuri. 2025. <span>“GSoC ’25 Phase 1: Enabling OMOP CDM
+Tables and Preprocessing in HealthBase.jl.”</span> July 12, 2025.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
