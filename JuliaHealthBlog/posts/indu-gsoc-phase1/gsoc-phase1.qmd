@@ -1,0 +1,236 @@
+---
+title: "GSoC '25 Phase 1: Enabling OMOP CDM Tables and Preprocessing in HealthBase.jl"
+description: "A summary of my project for Google Summer of Code - 2025 (Phase 1)"
+author: "Kosuri Lakshmi Indu"
+date: "7/12/2025"
+toc: true
+engine: julia
+image: false
+categories:
+  - gsoc
+  - omop cdm
+  - julia health
+  - healthbase
+  - tables
+  - preprocessing
+---
+
+# Introduction 👋
+
+Hi everyone! I'm Kosuri Lakshmi Indu, a third-year undergraduate student majoring in Computer Science and a GSoC 2025 contributor. Over the past few months, I’ve had the opportunity to work with the JuliaHealth community, where I got a chance to learn, contribute, and get involved in projects focused on improving how we work with real-world health data.
+
+As part of this project, I contributed to HealthBase.jl, a Julia package within the JuliaHealth ecosystem. During Phase 1, I focused on implementing both of these key features - adding seamless `Tables.jl` integration for working with OMOP CDM tables and developing a set of reusable preprocessing functions to make data modeling easier and more consistent.
+
+In this blog post, I'll walk you through everything we accomplished in Phase 1 from the motivation behind these additions, to examples of how they work in practice.
+
+1. You can find my [**GSoC'25 Project Link**](https://summerofcode.withgoogle.com/programs/2025/projects/xpSEgu5b)
+
+2. You can check out the project repository here: [**HealthBase.jl**](https://github.com/JuliaHealth/HealthBase.jl)
+
+3. Official Documentation of HealthBase.jl: [**Documentation**](https://juliahealth.org/HealthBase.jl/dev/)
+
+4. If you want, you can connect with me on [**LinkedIn**](https://www.linkedin.com/in/kosuri-indu/) and [**GitHub**](https://github.com/kosuri-indu/).
+
+# Background
+
+## What is HealthBase.jl?
+
+**HealthBase.jl** is a lightweight foundational package that serves as a shared namespace across the JuliaHealth ecosystem. It's designed to provide consistent interfaces, common utilities, and templates for building health data workflows in Julia, all while staying minimal and extensible.
+
+As part of this project, we expanded HealthBase.jl to support working directly with OMOP CDM data. While the HealthTable interface is defined in HealthBase.jl as a generic, reusable interface for working with health data tables, the actual implementation for the OMOP Common Data Model lives in the OMOPCommonDataModel.jl package. 
+
+This design allows HealthBase.jl to provide a flexible interface that can be extended for any health data standard - not just OMOP CDM. So if someone wants to make HealthTable work for their packages, they can use the HealthTable interface from HealthBase.jl and define the necessary extensions accordingly.
+
+# Project Description
+
+This included introducing a new type called **`HealthTable`**, which wraps OMOP CDM tables with built-in schema validation and metadata attachment. We also made these tables compatible with the wider Julia data ecosystem by implementing the **`Tables.jl`** interface, making it easier to plug OMOP CDM datasets into standard tools for modeling and analysis. To support real-world workflows, we added a suite of preprocessing utilities tailored to observational health data, including one-hot encoding, vocabulary compression, and concept mapping. All of these features aim to make it easier for researchers to load, validate, and prepare OMOP CDM datasets in a reproducible and scalable way - while keeping the code clean and modular.
+
+# Project Goals
+
+The main goal of this GSoC project was to improve how researchers interact with OMOP CDM data in Julia by extending and strengthening the capabilities of **HealthBase.jl**. This involved building a structured, schema-aware interface for working with health data and providing built-in tools for preprocessing. Specifically, we focused on:
+
+1. **Introduce a schema-aware table interface for OMOP CDM**: Develop a new type of structure that wraps OMOP CDM tables in a consistent, validated format. This interface should use `Tables.jl` under the hood and provide column-level metadata, schema enforcement, and compatibility with downstream tabular workflows.
+
+2. **Implement reusable preprocessing utilities for health data workflows**: Add essential preprocessing functions like:
+   - `one_hot_encode` for converting categorical columns into binary indicators,
+   - `apply_vocabulary_compression` for grouping rare categories under a label,
+   - `map_concepts` and `map_concepts!` for translating concept IDs to readable names via DuckDB or user-defined mappings.
+
+3. **Integrate HealthBase.jl with the JuliaHealth ecosystem**: Ensure `HealthBase.jl` plays a foundational role in JuliaHealth by interoperating with other packages like `OMOPCommonDataModel.jl`, `Tables.jl`, `DuckDB.jl`, `DataFrames.jl` etc. This makes it easier to build reproducible, modular workflows within the Julia ecosystem.
+
+These goals lay the foundation for future JuliaHealth tooling, making OMOP CDM data easier to validate, preprocess, and use in reproducible health data science workflows.
+
+# Tasks
+
+## 1. Core `HealthTable` Interface with `Tables.jl` Connection
+
+A major part of this project was introducing a new type called `HealthTable`, which makes it easier to work with OMOP CDM tables in Julia in a reliable and standardized way.
+
+### What is `HealthTable`?
+
+`HealthTable` is a wrapper around a Julia `DataFrame` that:
+
+- Validates your OMOP CDM data against the official OMOP CDM schema
+- Connects your data to Julia's `Tables.jl` interface, so you can use it with any table-compatible package (like `DataFrames.jl` etc.)
+- Attaches metadata about each column (e.g., what kind of concept it represents)
+- Gives detailed error messages if your data doesn't follow the expected OMOP CDM format
+- Uses `PrettyTables.jl` under the hood to display the table in a clean and readable format in the REPL or Jupyter notebooks
+
+### How is it defined?
+
+The type is defined using Julia's `@kwdef` macro to allow keyword-based construction:
+
+```julia
+@kwdef struct HealthTable{T}
+    source::T
+end
+
+Tables.schema(ht)                     # View schema (column names and types)
+Tables.rows(ht)                       # Iterate over rows
+Tables.columns(ht)                    # Access columns as named tuples
+Tables.materializer(typeof(ht))       # Used to materialize tables
+```
+Here, source is the original validated data (usually a DataFrame), and all logic is built around enforcing the schema and providing utilities on top of this source. Once wrapped in a HealthTable, you can interact with it using the complete Tables.jl interface. This makes HealthTable compatible with the entire Julia Tables ecosystem, meaning users can directly use OMOP CDM data with existing tooling, without needing custom adapters.
+
+### Creating a `HealthTable`
+
+```julia
+using DataFrames, OMOPCommonDataModel, InlineStrings, Serialization, Dates, FeatureTransforms, DBInterface, DuckDB
+using HealthBase
+
+df = DataFrame(
+    person_id = [1, 2, 3, 4],
+    gender_concept_id = [8507, 8532, 8507, 8532],
+    year_of_birth = [1990, 1985, 1992, 1980],
+    race_concept_id = [8527, 8516, 8527, 8527],
+)
+
+ht = HealthTable(df; omop_cdm_version="v5.4.1")
+```
+<br>
+![](./extension_loading.png)
+<br>
+<center>
+  HealthTable Extension Loading
+</center>
+<br>
+<center>
+  ![](./healthtable.png)
+  HealthTable
+</center>
+
+### Accessing the Source
+
+Each `HealthTable` instance stores the original validated data in `ht.source`:
+
+```julia
+typeof(ht.source)                           # DataFrame
+metadata(ht.source, "omop_cdm_version")     # "v5.4.1"
+colmetadata(ht.source, :gender_concept_id)  # Per-column metadata
+```
+
+### Handling Invalid Tables
+
+If the input table does not conform to the expected OMOP CDM schema - for example, if a column has the wrong data type is present - the HealthTable constructor throws a detailed and user-friendly error. This makes it easier to catch mistakes early and ensures that only well-structured, validated data enters your pipeline. You can optionally relax this strict enforcement by setting disable_type_enforcement = true, in which case the constructor will emit warnings instead of throwing errors.
+
+## 2. Preprocessing Functions
+
+Once your data is wrapped in a `HealthTable`, you can apply several built-in preprocessing functions to prepare it for modeling. These functions help transform OMOP CDM data into formats that are more interpretable, compact, and ML-friendly.
+
+### Concept Mapping
+
+Replaces concept IDs (e.g., 8507) with readable names (e.g., "Male") using an OMOP CDM vocabulary table in DuckDB. If no schema is provided, the function will use the default main schema in the DuckDB connection. It supports both single and multiple columns, and allows custom naming for output columns. This greatly enhances data interpretability and allows models to work with semantically meaningful features.
+
+```julia
+conn = DBInterface.connect(DuckDB.DB, "path_to_file.duckdb")
+
+# Single column (adds gender_concept_id_mapped)
+ht_mapped = map_concepts(ht, :gender_concept_id, conn; schema = "schema_name")
+
+# Multiple columns, drop original
+ht_mapped2 = map_concepts(ht, [:gender_concept_id, :race_concept_id], conn;
+                          new_cols=["gender", "race"], drop_original=true)
+
+# In-place variant
+map_concepts!(ht, :gender_concept_id, conn; schema = "schema_name")
+```
+
+<br>
+<center>
+  ![](./map_concepts.png)
+  Map Concepts
+</center>
+<br>
+
+You can also perform concept mapping manually without relying on a database connection. This is especially useful for smaller datasets or when you already know the categorical values. For instance, by defining a custom dictionary such as Dict(8507 => "Male", 8532 => "Female"), you can create a new column by mapping over the existing concept ID column using functions like Base.map or map!. This manual approach allows for flexible labeling and is particularly helpful during exploratory data analysis or early-stage prototyping when a full vocabulary table isn't available or necessary.
+
+### Vocabulary Compression
+
+Groups rare categorical values into an `"Other"` or a user-specified label to simplify high-cardinality columns. This is useful for reducing sparsity in features with many rare categories. The function calculates the frequency of each level and retains only those above a threshold, replacing the rest. It ensures that model inputs remain interpretable and avoids overfitting on underrepresented categories.
+
+```julia
+ht_compressed = apply_vocabulary_compression(ht_mapped; cols = [:race_concept_id],
+                    min_freq = 2, other_label = "Other")
+```
+<br>
+<center>
+  ![](./vocab_compression.png)
+  Vocabulary Compression
+</center>
+
+### One-Hot Encoding
+
+Converts a categorical column into binary columns. This prepares your features for ML models that can't handle raw categorical values. The function works on both HealthTable and DataFrame objects and allows you to specify whether to drop the original column. It's especially useful when working with encoded health conditions, demographics, or other categorical features.
+
+
+```julia
+ht_ohe = one_hot_encode(ht_compressed; cols = [:gender_concept_id, :race_concept_id])
+```
+
+<br>
+<center>
+  ![](./one_hot_encoding.png)
+  One Hot Encoding
+</center>
+<br>
+
+Each of these preprocessing functions is designed to be both composable and schema-aware. This means you can mix and match transformations like one-hot encoding, vocabulary compression, and concept mapping depending on the needs of your workflow. You have the flexibility to work directly with a HealthTable or switch to a regular DataFrame when needed. This modular design ensures that your data processing steps are reproducible and consistent across different JuliaHealth tools, making health data analysis more efficient, reliable, and seamlessly integrated with Julia's modern data ecosystem.
+
+# Contribution Beyond Coding
+
+## 1. Organizing Meetings and Communication
+
+Throughout the project, I had regular weekly meetings with my mentor, Jacob Zelko, where we discussed progress, clarified doubts, and made plans for the upcoming tasks. These sessions helped me better understand design decisions and refine my implementations with expert feedback. In addition to our meetings, I actively communicated via Zulip and Slack, where we discussed code behavior, errors, ideas, and other project-related decisions in detail. This consistent back-and-forth ensured a clear direction and rapid iteration.
+
+## 2. Engaging with the JuliaHealth Ecosystem
+
+Beyond contributing code to HealthBase.jl, I also engaged with the broader JuliaHealth ecosystem. After discussing with my mentor, I opened and contributed to issues in related JuliaHealth repositories identifying potential bugs and suggesting enhancements. These contributions aimed to improve the coherence and usability of JuliaHealth tools as a whole, not just within my assigned project. 
+
+# Conclusion and Future Development
+
+Contributing to HealthBase.jl during Phase 1 of GSoC has been a rewarding and insightful journey. It gave me the opportunity to dive deep into the structure of OMOP CDM, explore Julia's composable interfaces like `Tables.jl`, and build features that directly support observational health workflows. Learning to design with extensibility in mind, especially when working with healthcare data has shaped how I now approach open-source problems.
+
+Looking ahead, here are some of the directions I’d like to explore to further strengthen `HealthBase.jl` and its integration within the JuliaHealth ecosystem:
+
+- **Refine schema handling**  
+  Improve how internal schema checks reflect the structure of the underlying data source. This includes better alignment with OMOP CDM specifications and improved flexibility when dealing with edge cases or schema variations.
+
+- **Strengthen Tables.jl integration**  
+  Enhance the robustness of how `HealthTable` interacts with the `Tables.jl` interface - ensuring better compatibility and reducing any overhead when working with downstream packages like `DataFrames.jl`.
+
+- **Add new preprocessing functions**  
+  Extend the current toolkit by implementing more real-world utilities such as missing value imputation, cohort filtering etc.
+
+- **Address related issues in the ecosystem**  
+  Collaborate with maintainers to help resolve open issues related to the project in `OMOPCommonDataModel.jl`, especially [Issue #41](https://github.com/JuliaHealth/OMOPCommonDataModel.jl/issues/41) and [Issue #40](https://github.com/JuliaHealth/OMOPCommonDataModel.jl/issues/40)
+
+Overall, this phase has not only improved the package but also helped me grow in terms of design thinking, working with abstractions, and contributing to a larger ecosystem. I'm looking forward to what comes next and to making HealthBase even more useful for the JuliaHealth community and beyond.
+
+
+# Acknowledgements 
+
+A big thank you to **Jacob S. Zelko** for being such a kind and thoughtful mentor throughout this project. His clear guidance, encouragement, and helpful feedback made a huge difference at every step. I'm also really thankful to the **JuliaHealth** community for creating such a welcoming and inspiring space to learn, build, and grow. It's been a joy to be part of it.
+
+[Jacob S. Zelko](https://jacobzelko.com): aka, [TheCedarPrince](https://github.com/TheCedarPrince)
+
+_Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure._
