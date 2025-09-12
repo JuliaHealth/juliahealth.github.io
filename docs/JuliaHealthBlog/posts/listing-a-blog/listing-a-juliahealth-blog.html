@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -75,10 +75,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-9fa26084f9aab9440991ca1362497831.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -107,6 +107,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -230,11 +259,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We use <a href="https://quarto.org/"><strong>Quarto</strong></a> for our blog. It’s a wonderful, open-source tool that lets you easily combine regular text (like this!), code (like Julia, R, or Python), results, and even interactive visualizations into beautiful, web-friendly articles.</p>
 <p><strong>The basic steps are simple:</strong></p>
 <ol type="1">
-<li><strong>Fork &amp; Clone:</strong> Make your own copy of the blog repository and download it.</li>
-<li><strong>Create:</strong> Set up a new file for your post using Quarto’s simple format (<code>.qmd</code>).</li>
-<li><strong>Write:</strong> Craft your content using Markdown and maybe some code.</li>
-<li><strong>Preview:</strong> Check how it looks on your own computer.</li>
-<li><strong>Share:</strong> Submit your post for review through a GitHub Pull Request (PR).</li>
+<li><strong><a href="#step-1-fork-the-blog-repository-make-your-own-copy">Fork &amp; Clone</a>:</strong> Make your own copy of the blog repository and download it.</li>
+<li><strong><a href="#step-3-create-your-blog-post-files-set-up-your-workspace">Create</a>:</strong> Set up a new file for your post using Quarto’s simple format (<code>.qmd</code>).</li>
+<li><strong><a href="#step-4-write-your-content-the-fun-part">Write</a>:</strong> Craft your content using Markdown and maybe some code.</li>
+<li><strong><a href="#step-6-preview-locally-see-how-it-looks">Preview</a>:</strong> Check how it looks on your own computer.</li>
+<li><strong><a href="#step-8-open-a-pull-request-pr-ask-to-merge-your-post">Share</a>:</strong> Submit your post for review through a GitHub Pull Request (PR).</li>
 </ol>
 <p>Ready to begin? Let’s get started!</p>
 </section>
@@ -243,9 +272,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You might be wondering, “Is my work worth a blog post?” Absolutely! Here’s why sharing matters:</p>
 <ul>
 <li><strong>Boost Visibility:</strong> Your work gets seen by people specifically interested in Julia and health applications – potential collaborators, users, or just curious minds!</li>
+<li><strong>Tell the Story Behind the Code:</strong> While package documentation explains <em>what</em> your code does and <em>how</em> to use it, a blog post lets you share the <em>why</em> – your motivation, the problems you encountered, alternative approaches you considered, and lessons learned. This narrative context is invaluable for readers.</li>
+<li><strong>Reach Beyond Users:</strong> Package documentation primarily serves people already using your package. Blog posts reach a broader audience who might not know your package exists, or who are exploring whether Julia is right for their health-related work.</li>
 <li><strong>Make an Impact:</strong> Your tutorial could unlock a new technique for someone, your package update could solve a user’s problem, or your research summary could inspire new ideas.</li>
 <li><strong>Learn Through Teaching:</strong> Explaining something often solidifies your own understanding. Plus, feedback can help you refine your ideas.</li>
 <li><strong>Connect with the Community:</strong> Blogging opens doors for discussion, feedback, and collaboration with peers who share your interests.</li>
+<li><strong>Show Real-World Applications:</strong> Documentation focuses on API references and basic examples. Blog posts let you showcase complete workflows, integrate multiple packages, and demonstrate how your work fits into larger research pipelines.</li>
 <li><strong>Build Your Portfolio:</strong> It’s a tangible way to document your skills and contributions, which can be great for your career or academic profile.</li>
 <li><strong>Give Back:</strong> Contribute to the open-source spirit that makes communities like JuliaHealth thrive.</li>
 </ul>
@@ -267,11 +299,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="step-1-fork-the-blog-repository-make-your-own-copy">Step 1: Fork the Blog Repository (Make Your Own Copy)</h2>
 <p>Think of “forking” as creating your own personal copy of the official JuliaHealth blog project on GitHub. This gives you a safe space to make changes without affecting the live website directly.</p>
 <ol type="1">
-<li>Go to the main JuliaHealth blog repository on GitHub. (<code>https://github.com/JuliaHealth/JuliaHealthBlog</code>).</li>
+<li>Go to the main JuliaHealth blog repository on GitHub.</li>
+</ol>
+<blockquote class="blockquote">
+<p>(<a href="https://github.com/JuliaHealth/juliahealth.github.io">https://github.com/JuliaHealth/juliahealth.github.io</a>).</p>
+</blockquote>
+<ol start="2" type="1">
 <li>Look for the “Fork” button, usually in the top-right corner of the page. Click it.</li>
 <li>GitHub will ask where you want to fork the repository; choose your own GitHub account. It will take a few seconds to create your copy.</li>
 </ol>
-<p>You now have a complete replica of the blog under your GitHub account (e.g., <code>https://github.com/YOUR_USERNAME/JuliaHealthBlog</code>).</p>
+<p>You now have a complete replica of the blog under your GitHub account (e.g., <code>https://github.com/YOUR_USERNAME/juliahealth.github.io</code>).</p>
 </section>
 <section id="step-2-clone-your-fork-download-to-your-computer" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-clone-your-fork-download-to-your-computer">Step 2: Clone Your Fork (Download to Your Computer)</h2>
@@ -280,9 +317,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Open your terminal (like Command Prompt, PowerShell, or Terminal on Mac/Linux) or your preferred Git client.</p></li>
 <li><p>Navigate to the directory where you want to store the project (e.g., <code>cd Documents/Projects</code>).</p></li>
 <li><p>Run the <code>git clone</code> command, replacing <code>YOUR_USERNAME</code> with your actual GitHub username:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/YOUR_USERNAME/JuliaHealthBlog.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/YOUR_USERNAME/juliahealth.github.io.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>Change into the newly created directory:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> JuliaHealthBlog/JuliaHealthBlog</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> juliahealth.github.io/JuliaHealthBlog</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ol>
 <p>You now have the blog’s files on your computer!</p>
 </section>
@@ -356,7 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a DICOM file</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dcm_data <span class="op">=</span> <span class="fu">dcm_parse</span>(<span class="st">"path/to/your/dicom_file.dcm"</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">println</span>(<span class="st">"Patient Name: "</span>, dcm_data[(<span class="bn">0x0010</span>, <span class="bn">0x0010</span>)]) <span class="co"># Access DICOM tag</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><em>Tip:</em> If you uncommented <code>engine: julia</code> in the YAML header, Quarto can actually run this Julia code and include the output directly in your post!</p></li>
+<p><em>Note:</em> By default, code blocks are for display purposes only and are not executed. If you uncommented <code>engine: julia</code> in the YAML header, Quarto can actually run this Julia code and include the output directly in your post!<br>
+<em>Tip:</em> If you uncommented <code>engine: julia</code> in the YAML header, Quarto can actually run this Julia code and include the output directly in your post!</p></li>
 <li><p><strong>Lists:</strong></p>
 <ul>
 <li>Unordered (bullets): Use <code>-</code>, <code>*</code>, or <code>+</code> at the start of a line. &gt; <img src="./unordered_list.png" class="img-fluid" alt="“Unordered list image with a nested element”"></li>
@@ -370,8 +408,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Add entries in BibTeX format (you can often export these from reference managers like Zotero or sites like Google Scholar). &gt; <img src="./bibtex_sample.png" class="img-fluid" alt="“Sample bibtex citation”"></li>
 <li>In your text, cite using the key: <code>[@Mitura2021MedEye3d]</code>. Quarto will format it and add it to a reference list at the end. Example: <code>This approach was used in MedEye3d [@Mitura2021MedEye3d].</code></li>
 </ol></li>
+<li><p><strong>Mathematical Formulas:</strong> Quarto supports LaTeX for mathematical expressions:</p>
+<ul>
+<li><strong>Inline math:</strong> Use single dollar signs: <code>$E = mc^2$</code> renders as <span class="math inline">\(E = mc^2\)</span></li>
+<li><strong>Display math:</strong> Use double dollar signs for centered equations: <code>latex     $$     \frac{\partial u}{\partial t} = D \nabla^2 u + f(u)     $$</code> This is perfect for showing statistical models, differential equations, or any mathematical relationships in your health/biomedical work.</li>
+<li><strong>Complex expressions:</strong> You can use full LaTeX syntax for matrices, integrals, summations, etc.: <code>latex     $$     P(X|Y) = \frac{P(Y|X) \cdot P(X)}{P(Y)}     $$</code></li>
+</ul></li>
+<li><p><strong>Write naturally!</strong> Explain your concepts clearly. Use headings to structure your thoughts. Include code examples where helpful. Add images or diagrams if they aid understanding. Don’t feel pressured to write a massive post; sometimes short, focused articles are the most useful.</p></li>
 </ul>
-<p><strong>Write naturally!</strong> Explain your concepts clearly. Use headings to structure your thoughts. Include code examples where helpful. Add images or diagrams if they aid understanding. Don’t feel pressured to write a massive post; sometimes short, focused articles are the most useful.</p>
 </section>
 </section>
 <section id="step-5-add-supporting-files-images-data-citations" class="level2">
@@ -383,7 +427,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This is a crucial step! Before you ask others to review your post, you should see what it will look like when rendered as a webpage. Quarto makes this easy.</p>
 <ol type="1">
 <li><p><strong>Install Quarto:</strong> If you haven’t already, install Quarto from <a href="https://quarto.org/docs/get-started/">quarto.org</a>.</p></li>
-<li><p><strong>Open Terminal:</strong> Navigate back to the <em>root</em> directory of your cloned <code>JuliaHealthBlog</code> project in your terminal (the folder containing the <code>posts</code> directory, etc.).</p></li>
+<li><p><strong>Open Terminal:</strong> Navigate back to the <em>root</em> directory of your cloned <code>juliahealth.github.io</code> project in your terminal (the folder containing the <code>posts</code> directory, etc.).</p></li>
 <li><p><strong>Run Preview:</strong> Execute the <code>quarto preview</code> command, pointing it to your <em>specific post file</em>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the path is correct!</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview posts/2025-05-01-dicom-tools-intro/index.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -407,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="step-7-commit-and-push-your-changes-save-your-work-to-github">Step 7: Commit and Push Your Changes (Save Your Work to GitHub)</h2>
 <p>Okay, your post looks great locally! Now it’s time to save your work using Git and send it up to <em>your fork</em> on GitHub. This involves three main Git commands: <code>add</code>, <code>commit</code>, and <code>push</code>.</p>
 <ol type="1">
-<li><p><strong>Best Practice: Create a Branch:</strong> It’s highly recommended to keep your blog post changes on a separate “branch”. This isolates your work and makes the review process cleaner. From the root directory of <code>JuliaHealthBlog</code>:</p>
+<li><p><strong>Best Practice: Create a Branch:</strong> It’s highly recommended to keep your blog post changes on a separate “branch”. This isolates your work and makes the review process cleaner. From the root directory of <code>juliahealth.github.io</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose a descriptive branch name</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> add-dicom-intro-post</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This command creates a new branch named <code>add-dicom-intro-post</code> and switches you to it. All subsequent commits will be on this branch.</p></li>
@@ -430,20 +474,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="step-8-open-a-pull-request-pr-ask-to-merge-your-post">Step 8: Open a Pull Request (PR) (Ask to Merge Your Post)</h2>
 <p>The final step! A Pull Request (PR) is how you formally propose your changes (your new blog post) to be merged into the <em>official</em> JuliaHealth blog repository.</p>
 <ol type="1">
-<li><p><strong>Go to GitHub:</strong> Open your web browser and navigate to <em>your fork</em> of the <code>JuliaHealthBlog</code> repository on GitHub (<code>https://github.com/YOUR_USERNAME/JuliaHealthBlog</code>).</p></li>
+<li><p><strong>Go to GitHub:</strong> Open your web browser and navigate to <em>your fork</em> of the <code>juliahealth.github.io</code> repository on GitHub (<code>https://github.com/YOUR_USERNAME/juliahealth.github.io</code>).</p></li>
 <li><p><strong>Start the PR:</strong> You should see a yellow banner near the top saying your branch (<code>add-dicom-intro-post</code>) had recent pushes, with a green button “Compare &amp; pull request”. Click that button!</p>
 <ul>
-<li>If you don’t see the banner, go to the main <code>JuliaHealth/JuliaHealthBlog</code> repository. Click the “Pull requests” tab, then the green “New pull request” button.</li>
+<li>If you don’t see the banner, go to the main <code>JuliaHealth/juliahealth.github.io</code> repository. Click the “Pull requests” tab, then the green “New pull request” button.</li>
 <li>On the next screen, you need to ensure the settings are correct:
 <ul>
-<li><strong>Base repository:</strong> <code>JuliaHealth/JuliaHealthBlog</code> Base branch: <code>main</code></li>
-<li><strong>Head repository:</strong> <code>YOUR_USERNAME/JuliaHealthBlog</code> Compare branch: <code>add-dicom-intro-post</code> (your branch name)</li>
+<li><strong>Base repository:</strong> <code>JuliaHealth/juliahealth.github.io</code> Base branch: <code>main</code></li>
+<li><strong>Head repository:</strong> <code>YOUR_USERNAME/juliahealth.github.io</code> Compare branch: <code>add-dicom-intro-post</code> (your branch name)</li>
 </ul></li>
 </ul></li>
-<li><p><strong>Write a Description:</strong> Give your PR a clear title (e.g., “Add Blog Post: Introduction to DICOM Tools”). In the description box, briefly explain what your post is about. You can link to relevant issues if applicable. Be polite! ~~~ Hi JuliaHealth maintainers,</p>
-<p>This PR adds a new blog post titled “Introduction to DICOM Tools in Julia”. It covers basic loading and tag access using DICOM.jl.</p>
-<p>Preview link (optional, if you deployed a preview somewhere): [link]</p>
-<p>Thanks for reviewing! ~~~</p></li>
+<li><p><strong>Write a Description:</strong> Give your PR a clear title (e.g., “Add Blog Post: Introduction to DICOM Tools”). In the description box, briefly explain what your post is about. You can link to relevant issues if applicable. Be polite!</p>
+<pre><code>Hi JuliaHealth maintainers,
+
+This PR adds a new blog post titled "Introduction to DICOM Tools in Julia".
+It covers basic loading and tag access using DICOM.jl.
+
+Preview link (optional, if you deployed a preview somewhere): [link]
+
+Thanks for reviewing!</code></pre></li>
 <li><p><strong>Create the PR:</strong> Click the green “Create pull request” button.</p></li>
 </ol>
 <p>That’s it! You’ve successfully submitted your blog post for review.</p>
