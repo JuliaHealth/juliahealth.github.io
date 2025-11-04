@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kosuri Lakshmi Indu">
+<meta name="dcterms.date" content="2025-09-09">
+<meta name="description" content="A summary of my project for Google Summer of Code - 2025 (Phase 2)">
+
+<title>GSoC ’25 Phase 2: Building OMOPCDMFeasibility.jl for Post-Cohort Feasibility Analysis – JuliaHealth</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction 👋</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a>
+  <ul class="collapse">
+  <li><a href="#what-is-omopcdmfeasibility.jl" id="toc-what-is-omopcdmfeasibility.jl" class="nav-link" data-scroll-target="#what-is-omopcdmfeasibility.jl">What is OMOPCDMFeasibility.jl?</a></li>
+  </ul></li>
+  <li><a href="#project-description" id="toc-project-description" class="nav-link" data-scroll-target="#project-description">Project Description</a>
+  <ul class="collapse">
+  <li><a href="#design-and-structure" id="toc-design-and-structure" class="nav-link" data-scroll-target="#design-and-structure">Design and Structure</a></li>
+  <li><a href="#deep-integration-with-the-juliahealth-ecosystem" id="toc-deep-integration-with-the-juliahealth-ecosystem" class="nav-link" data-scroll-target="#deep-integration-with-the-juliahealth-ecosystem">Deep Integration with the JuliaHealth Ecosystem</a></li>
+  </ul></li>
+  <li><a href="#key-features-and-examples" id="toc-key-features-and-examples" class="nav-link" data-scroll-target="#key-features-and-examples">Key Features and Examples</a>
+  <ul class="collapse">
+  <li><a href="#pre-cohort-analysis-precohort.jl" id="toc-pre-cohort-analysis-precohort.jl" class="nav-link" data-scroll-target="#pre-cohort-analysis-precohort.jl">Pre-Cohort Analysis (<code>precohort.jl</code>)</a></li>
+  <li><a href="#post-cohort-analysis-postcohort.jl" id="toc-post-cohort-analysis-postcohort.jl" class="nav-link" data-scroll-target="#post-cohort-analysis-postcohort.jl">Post-Cohort Analysis (<code>postcohort.jl</code>)</a>
+  <ul class="collapse">
+  <li><a href="#key-functions" id="toc-key-functions" class="nav-link" data-scroll-target="#key-functions">Key Functions</a></li>
+  <li><a href="#input-options-cohort_df-vs.-cohort_definition_id" id="toc-input-options-cohort_df-vs.-cohort_definition_id" class="nav-link" data-scroll-target="#input-options-cohort_df-vs.-cohort_definition_id">Input Options: <code>cohort_df</code> vs.&nbsp;<code>cohort_definition_id</code></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#future-scope" id="toc-future-scope" class="nav-link" data-scroll-target="#future-scope">Future Scope</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final Thoughts</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GSoC ’25 Phase 2: Building OMOPCDMFeasibility.jl for Post-Cohort Feasibility Analysis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">gsoc</div>
+    <div class="quarto-category">omop cdm</div>
+    <div class="quarto-category">julia health</div>
+    <div class="quarto-category">feasibility</div>
+    <div class="quarto-category">cohort analysis</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A summary of my project for Google Summer of Code - 2025 (Phase 2)
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kosuri Lakshmi Indu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 9, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction 👋</h1>
+<p>Hi everyone! I’m Kosuri Lakshmi Indu, a third-year undergraduate student majoring in Computer Science and a GSoC 2025 contributor. Over the past few months, I’ve had the opportunity to work with the JuliaHealth community, where I got a chance to learn, contribute, and get involved in projects focused on improving how we work with real-world health data.</p>
+<p>As part of this project, I created and contributed to OMOPCDMFeasibility.jl, a Julia package within the JuliaHealth ecosystem. During Phase 2, I focused on designing and implementing practical tools for pre and post-cohort feasibility analysis on OMOP CDM data. This included developing utilities for cohort characterization, covariate profiling, and summary statistics—making it easier for researchers to explore, understand, and compare cohorts in real-world health datasets.</p>
+<p>In this blog post, I’ll walk you through everything we accomplished in Phase 2, from the motivation behind these additions to examples of how they work in practice.</p>
+<ol type="1">
+<li><p>You can find my <a href="https://summerofcode.withgoogle.com/programs/2025/projects/xpSEgu5b"><strong>GSoC’25 Project Link</strong></a></p></li>
+<li><p>You can check out the project repository here: <a href="https://github.com/JuliaHealth/OMOPCDMFeasibility.jl"><strong>OMOPCDMFeasibility.jl</strong></a></p></li>
+<li><p>Official Documentation of OMOPCDMFeasibility.jl: <a href="https://juliahealth.org/OMOPCDMFeasibility.jl/dev/"><strong>Documentation</strong></a></p></li>
+<li><p>If you want, you can connect with me on <a href="https://www.linkedin.com/in/kosuri-indu/"><strong>LinkedIn</strong></a> and <a href="https://github.com/kosuri-indu/"><strong>GitHub</strong></a>.</p></li>
+</ol>
+</section>
+<section id="background" class="level1">
+<h1>Background</h1>
+<section id="what-is-omopcdmfeasibility.jl" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-omopcdmfeasibility.jl">What is OMOPCDMFeasibility.jl?</h2>
+<p><strong>OMOPCDMFeasibility.jl</strong> is a Julia package designed to make post-cohort feasibility analysis on OMOP CDM data easy, reproducible, and robust. It provides a set of tools for characterizing cohorts, generating covariate profiles, and summarizing key statistics, all while supporting multiple SQL dialects and working seamlessly with the Julia data ecosystem.</p>
+<p>The package is built to help researchers and data scientists quickly answer questions like:</p>
+<ul>
+<li><p>How many patients meet my cohort criteria?</p></li>
+<li><p>What are the demographic and clinical characteristics of my cohort?</p></li>
+<li><p>How does my cohort compare to the overall database population?</p></li>
+<li><p>Are my cohort definitions reproducible and robust across different database backends?</p></li>
+</ul>
+</section>
+</section>
+<section id="project-description" class="level1">
+<h1>Project Description</h1>
+<section id="design-and-structure" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-structure">Design and Structure</h2>
+<p>The core of <strong>OMOPCDMFeasibility.jl</strong> is organized in a clear, modular file structure, making it easy to navigate and extend:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>OMOPCDMFeasibility.jl<span class="op">/</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>├── src<span class="op">/</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>│   ├── OMOPCDMFeasibility.jl   <span class="co"># Main module file</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>│   ├── precohort.jl            <span class="co"># Pre-cohort analysis: concept exploration, domain breakdown, eligibility checks</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>│   ├── postcohort.jl           <span class="co"># Post-cohort analysis: cohort characterization, covariate profiling, summary stats</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>│   └── utils.jl                <span class="co"># Utilities: person ID extraction, input validation, error handling, SQL support</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p><strong><code>precohort.jl</code></strong>: Handles pre-cohort analysis, such as concept set exploration, domain breakdown, and eligibility checks. Use this module to analyze the distribution of concepts and get a sense of your data before defining a cohort.</p></li>
+<li><p><strong><code>postcohort.jl</code></strong>: Focuses on post-cohort analysis, including cohort characterization, covariate profiling, and summary statistics. This is the main engine for generating demographic and clinical profiles.</p></li>
+<li><p><strong><code>utils.jl</code></strong>: Contains utility functions for extracting person IDs, validating inputs, handling errors, and supporting dialect-agnostic SQL queries.</p></li>
+</ul>
+</section>
+<section id="deep-integration-with-the-juliahealth-ecosystem" class="level2">
+<h2 class="anchored" data-anchor-id="deep-integration-with-the-juliahealth-ecosystem">Deep Integration with the JuliaHealth Ecosystem</h2>
+<p>One of the greatest strengths of OMOPCDMFeasibility.jl is its deep and seamless integration with the JuliaHealth ecosystem and the OHDSI standards that underpin modern observational health research.</p>
+<p>At the heart of this workflow is <strong>OMOPCohortCreator.jl</strong>. This foundational package not only enables the creation and management of cohorts from OHDSI JSON definitions, but also provides a rich set of covariate getter functions (such as <code>GetPatientGender</code>, <code>GetPatientRace</code>, <code>GetPatientAgeGroup</code>, and more). These functions are essential for stratified analyses and cohort profiling within OMOPCDMFeasibility.jl.</p>
+<p>But the integration doesn’t stop there. OMOPCDMFeasibility.jl is designed to work hand-in-hand with a wide array of JuliaHealth tools, empowering users to build flexible, end-to-end pipelines for observational health research. This ecosystem approach ensures that your analyses are robust, reproducible, and scalable—making it.</p>
+<p align="center">
+<img src="./juliahealth.png" alt="JuliaHealth" width="300"> <br> Julia Health
+</p>
+</section>
+</section>
+<section id="key-features-and-examples" class="level1">
+<h1>Key Features and Examples</h1>
+<section id="pre-cohort-analysis-precohort.jl" class="level2">
+<h2 class="anchored" data-anchor-id="pre-cohort-analysis-precohort.jl">Pre-Cohort Analysis (<code>precohort.jl</code>)</h2>
+<p>The <code>precohort.jl</code> module is your toolkit for exploring and understanding your OMOP CDM data before you define a cohort. This is especially useful for feasibility checks and planning your study design. The main functions include:</p>
+<ol type="1">
+<li><strong><code>analyze_concept_distribution</code></strong>: Examines how frequently specific OMOP concepts (such as conditions, drugs, or procedures) appear in your database. You can also stratify results by covariates (like gender or age group) to see how distributions differ across subpopulations.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OMOPCDMFeasibility</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OMOPCDMCohortCreator</span>: GetPatientGender, GetPatientAgeGroup</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyze the distribution of two concepts, stratified by gender and age group</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>distribution <span class="op">=</span> OMOPCDMFeasibility.<span class="fu">analyze_concept_distribution</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    conn;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    concept_set<span class="op">=</span>[</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="fl">31967</span>,   <span class="co"># Condition: Nausea</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="fl">1127433</span>  <span class="co"># Drug: Acetaminophen</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    ],     covariate_funcs<span class="op">=</span>[GetPatientGender, GetPatientRace],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    schema<span class="op">=</span><span class="st">"dbt_synthea_dev"</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<img src="./analyze_cohort_distribution.png" class="img-fluid"> <br>
+<center>
+Cohort Distribution
+</center>
+<p><br></p>
+<ol start="2" type="1">
+<li><strong><code>generate_summary</code></strong>: Produces summary statistics for a set of concepts, including the total number of patients, the number of eligible patients, and the coverage percentage. This helps you quickly assess the prevalence and relevance of your concepts of interest.</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate summary statistics for the same concepts</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> OMOPCDMFeasibility.<span class="fu">generate_summary</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    conn;</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    concept_set<span class="op">=</span>[</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="fl">31967</span>,   <span class="co"># Condition: Nausea</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="fl">1127433</span>  <span class="co"># Drug: Acetaminophen</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ], </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    covariate_funcs<span class="op">=</span>[GetPatientAgeGroup, GetPatientRace],</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    schema<span class="op">=</span><span class="st">"dbt_synthea_dev"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li><strong><code>generate_domain_breakdown</code></strong>: Breaks down your concept set by OMOP domain (e.g., Condition, Drug, Procedure), with options for raw or formatted output. This is useful for understanding the clinical context of your selected concepts.</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Break down the concepts by OMOP domain</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>domain_breakdown <span class="op">=</span> OMOPCDMFeasibility.<span class="fu">generate_domain_breakdown</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    conn;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    concept_set<span class="op">=</span>[</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="fl">31967</span>,   <span class="co"># Condition: Nausea</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="fl">1127433</span>  <span class="co"># Drug: Acetaminophen</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    ], </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    schema<span class="op">=</span><span class="st">"dbt_synthea_dev"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<img src="./domain_breakdown.png" class="img-fluid"> <br>
+<center>
+Domain Breakdown
+</center>
+<p><br></p>
+<p>These functions help you understand the data landscape, check eligibility, and plan your cohort definitions before you commit to extracting a cohort.</p>
+</section>
+<section id="post-cohort-analysis-postcohort.jl" class="level2">
+<h2 class="anchored" data-anchor-id="post-cohort-analysis-postcohort.jl">Post-Cohort Analysis (<code>postcohort.jl</code>)</h2>
+<p>The <code>postcohort.jl</code> module is the core of post-cohort feasibility analysis. Here, you can deeply characterize your extracted cohort using flexible, composable functions.</p>
+<section id="key-functions" class="level3">
+<h3 class="anchored" data-anchor-id="key-functions">Key Functions</h3>
+<ul>
+<li><p><strong><code>create_individual_profiles</code></strong>: Generates demographic or clinical profiles for each subgroup in your cohort, based on any set of covariate functions (e.g., gender, race, age group). This helps you understand the makeup of your cohort at a granular level.</p></li>
+<li><p><strong><code>create_cartesian_profiles</code></strong>: Produces multi-covariate (cartesian product) profiles, allowing you to analyze intersections of multiple covariates (e.g., “female patients aged (50-60) of a specific race”).</p></li>
+</ul>
+</section>
+<section id="input-options-cohort_df-vs.-cohort_definition_id" class="level3">
+<h3 class="anchored" data-anchor-id="input-options-cohort_df-vs.-cohort_definition_id">Input Options: <code>cohort_df</code> vs.&nbsp;<code>cohort_definition_id</code></h3>
+<ul>
+<li><p><strong><code>cohort_df</code></strong>: Pass a DataFrame of person IDs (and optionally, cohort start/end dates) if you have already extracted your cohort into Julia. This is ideal for in-memory analysis or when working with custom cohort tables.</p></li>
+<li><p><strong><code>cohort_definition_id</code></strong>: Pass an integer ID to reference a cohort table stored in your database (created via OMOPCohortCreator.jl). This is useful for large-scale analyses or when working directly with database-resident cohorts.</p></li>
+</ul>
+<p><strong>Example usage:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OMOPCDMFeasibility</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OMOPCDMCohortCreator</span>: GetPatientGender, GetPatientRace, GetPatientAgeGroup</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>diabetes_concept_ids <span class="op">=</span> [<span class="fl">201826</span>]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>cohort_result <span class="op">=</span> <span class="fu">ConditionFilterPersonIDs</span>(diabetes_concept_ids, conn)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>cohort_ids <span class="op">=</span> cohort_result.person_id</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>sample_cohort <span class="op">=</span> <span class="fu">DataFrame</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    person_id <span class="op">=</span> cohort_ids</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Using a DataFrame of person IDs (cohort_df)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>individual_demographics <span class="op">=</span> OMOPCDMFeasibility.<span class="fu">create_individual_profiles</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    cohort_df<span class="op">=</span>sample_cohort,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    conn<span class="op">=</span>conn,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    covariate_funcs<span class="op">=</span>[GetPatientGender, GetPatientRace]</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<img src="./gender.png" class="img-fluid"> <br>
+<center>
+Gender
+</center>
+<p><br></p>
+<img src="./race.png" class="img-fluid"> <br>
+<center>
+Race
+</center>
+<p><br></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 3: Multi-covariate (cartesian) profiling</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cartesian_demographics <span class="op">=</span> OMOPCDMFeasibility.<span class="fu">create_cartesian_profiles</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    cohort_df<span class="op">=</span>sample_cohort,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    conn<span class="op">=</span>conn,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    covariate_funcs<span class="op">=</span>[GetPatientAgeGroup, GetPatientGender, GetPatientRace]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<img src="./cartesian_profiles.png" class="img-fluid"> <br>
+<center>
+Cartesian Profiles
+</center>
+<p><br></p>
+<p>These functions allow you to flexibly analyze your cohort, whether you’re working with in-memory DataFrames or large database tables, and to stratify your results by any combination of covariates relevant to your database.</p>
+</section>
+</section>
+</section>
+<section id="future-scope" class="level1">
+<h1>Future Scope</h1>
+<p>Looking ahead, here are some directions to further strengthen OMOPCDMFeasibility.jl and its integration within the JuliaHealth ecosystem:</p>
+<ul>
+<li><p><strong>Add more functions and mathematical/statistical analyses:</strong><br>
+Extend the toolkit to support more complex cohort characterizations, outcome analyses, and advanced statistics.</p></li>
+<li><p><strong>Use Genie.jl to create visual dashboards:</strong><br>
+Build interactive dashboards for cohort exploration and reporting, making results more accessible to researchers and clinicians.</p></li>
+<li><p><strong>Develop and utilize OMOP CDM datasets for testing:</strong><br>
+Incorporate both real and synthetic OMOP CDM datasets to rigorously test the package’s features and ensure robust, generalizable performance across diverse data sources. This will help validate the toolkit and provide users with ready-to-use test cases.</p></li>
+<li><p><strong>Ongoing maintenance and community-driven improvements:</strong><br>
+Actively maintain the repository by addressing issues, updating dependencies, and refining documentation. Encourage community contributions to expand functionality, improve interoperability, and keep the package aligned with evolving</p></li>
+</ul>
+</section>
+<section id="final-thoughts" class="level1">
+<h1>Final Thoughts</h1>
+<p>Thank you to everyone who made this project possible! Working on OMOPCDMFeasibility.jl has been an incredible learning experience. I’ve gained a deeper understanding of cohort analysis, reproducible research, and open-source development. I’m grateful for the support and mentorship I received, and I look forward to continuing to contribute to JuliaHealth and the open-source health data science community.</p>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements</h1>
+<p>A big thank you to <strong>Jacob S. Zelko</strong> for being such a kind and thoughtful mentor throughout this project. His clear guidance, encouragement, and helpful feedback made a huge difference at every step. I’m also really thankful to the <strong>JuliaHealth</strong> community for creating such a welcoming and inspiring space to learn, build, and grow. It’s been a joy to be part of it.</p>
+<p><a href="https://jacobzelko.com">Jacob S. Zelko</a>: aka, <a href="https://github.com/TheCedarPrince">TheCedarPrince</a></p>
+<p><em>Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure.</em></p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{lakshmi_indu2025,
+  author = {Lakshmi Indu, Kosuri},
+  title = {GSoC ’25 {Phase} 2: {Building} {OMOPCDMFeasibility.jl} for
+    {Post-Cohort} {Feasibility} {Analysis}},
+  date = {2025-09-09},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-lakshmi_indu2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Lakshmi Indu, Kosuri. 2025. <span>“GSoC ’25 Phase 2: Building
+OMOPCDMFeasibility.jl for Post-Cohort Feasibility Analysis.”</span>
+September 9, 2025.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2024-25, JuliaHealth.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
