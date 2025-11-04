@@ -63,8 +63,6 @@ This is already a strong area within JuliaHealth, focusing on the handling, proc
 *   **Focus:** Reading, writing, viewing, segmenting, registering, and analyzing medical image data (DICOM, NIfTI, etc.). Simulation of imaging processes.
 *   **Relevant Packages:** `DICOM.jl`, `DICOMClient.jl`, `DICOMTree.jl`, `ITKIOWrapper.jl` (and archived predecessors), `MedEval3D.jl`, `MedEye3d.jl`, `MedImages.jl`, `MedPipe3D.jl`, `KomaMRI.jl`.
 *   **Emerging Areas:** Expanding support for diverse modalities like Cellular Imaging, Molecular Imaging, Transmission Electron Microscopy (TEM), X-ray, advanced CT/PET analysis. Developing robust pipelines from image acquisition to analysis.
-*   **Showcase:**
-    [Placeholder for a short video showcasing Medical Imaging packages like MedEye3d.jl and DICOM.jl interaction]
 :::
 
 ::: {.callout title="2. Observational Health Data Science & OMOP CDM"}
@@ -77,8 +75,6 @@ This area centers on leveraging real-world health data, often standardized using
 *   **Focus:** Working with standardized health data formats (especially OMOP CDM), creating cohorts, analyzing patient pathways, generating metrics, connecting to relevant APIs (OHDSI). Handling code mappings (ICD, RxNorm, etc.).
 *   **Relevant Packages:** `OMOPCommonDataModel.jl`, `OMOPCDMDatabaseConnector.jl`, `OMOPCDMCohortCreator.jl`, `OMOPCDMPathways.jl`, `OMOPVocabMapper.jl`, `OHDSIAPI.jl`, `ICD_GEMs.jl`, `DiagnosisClassification.jl`, `PharmaceuticalClassification.jl`. `EpiJ` often uses data derived from these sources.
 *   **Emerging Areas:** Patient-level prediction (`OMOPCDMPredictor`), advanced analytics on OMOP data, integration with federated learning frameworks.
-*   **Showcase:**
-    [Placeholder for a short video demonstrating cohort creation with OMOPCDMCohortCreator.jl]
 :::
 
 ::: {.callout title="3. Neuroscience & Neurophysiology"}
@@ -91,8 +87,6 @@ Dedicated to tools for analyzing data from the brain and nervous system.
 *   **Focus:** Processing and analyzing neurophysiological data like EEG, MEG, ECOG, NIRS. Applying computational neuroscience techniques.
 *   **Relevant Packages:** `NeuroAnalyzer.jl`.
 *   **Emerging Areas:** Seizure detection algorithms, analysis of brain connectivity, integration with neuroimaging data (linking to Medical Imaging), modeling neural dynamics.
-*   **Showcase:**
-    [Placeholder for a short video showing EEG data analysis with NeuroAnalyzer.jl]
 :::
 
 ::: {.callout title="4. Simulation & Computational Modeling"}
@@ -105,8 +99,6 @@ Using computational power to simulate biological and physiological processes rel
 *   **Focus:** Simulating complex systems like MRI physics, cardiac electrophysiology and mechanics, blood flow dynamics.
 *   **Relevant Packages:** `KomaMRI.jl`, `Thunderbolt.jl`, `BloodFlowTrixi.jl`.
 *   **Emerging Areas:** Virtual cell modeling, pharmacokinetic/pharmacodynamic (PK/PD) modeling, multi-scale modeling integrating different physiological levels, agent-based modeling for epidemiology.
-*   **Showcase:**
-    [Placeholder for a short video illustrating an MRI simulation using KomaMRI.jl]
 :::
 
 ::: {.callout title="5. Public Health & Epidemiology"}
@@ -119,8 +111,6 @@ Applying computational tools to population health, disease surveillance, and epi
 *   **Focus:** Analyzing population datasets (like IPUMS), environmental health data (NCEI), implementing epidemiological methods, disease surveillance techniques.
 *   **Relevant Packages:** `EpiJ`, `IPUMS.jl`, `NCEI.jl`, `ICD_GEMs.jl` (for population statistics). Connects strongly with Observational Health Data.
 *   **Emerging Areas:** Geospatial analysis for health, infectious disease modeling (could overlap with Simulation), analysis of social determinants of health.
-*   **Showcase:**
-    [Placeholder for a short video on using EpiJ for a simple epidemiological calculation]
 :::
 
 ::: {.callout title="6. Bioinformatics & Data Querying"}
@@ -174,7 +164,7 @@ This is a community effort! We need your input and participation to make these s
     *   **Slack:** `#health-and-medicine` channel ([Invite link](https://julialang.org/slack/))
 2.  **Contribute to Packages:** Find a sub-ecosystem that interests you and contribute to the existing packages within it – documentation, bug fixes, new features are all welcome!
 3.  **Propose New Packages:** See a gap within a sub-ecosystem? Consider starting a new package to fill that need.
-4.  **Develop Showcase Materials:** Help create tutorials, examples, or even short introductory videos (like the placeholders above!) demonstrating how packages within a sub-ecosystem work together. Let us know if you're interested in contributing a video!
+4.  **Develop Showcase Materials:** Help create tutorials, examples, or other demonstration materials showing how packages within a sub-ecosystem work together.
 5.  **Lead or Champion:** Passionate about a specific area? Consider helping to coordinate efforts or act as a point person for that sub-ecosystem.
 
 # Conclusion: Building Focused Communities
