@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,14 +71,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../assets/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a1de9f6e5ae6ee48424c1770da54d3e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,6 +119,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
@@ -237,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Step 1: Support for Different GPU backends</h1>
 <p>Previously, KomaMRI’s support for GPU acceleration worked by converting each array used within the simulation to a <code>CuArray</code>, the device array type defined in <a href="https://github.com/JuliaGPU/CUDA.jl">CUDA.jl</a>. This was done through a general <code>gpu</code> function. The inner simulation code is GPU-agnostic, as the same operations can be performed on a CuArray or a plain CPU Array. This approach is good for extensibility, as it does not require writing different simulation code for the CPU / GPU, or different GPU backends, and would only work in a language like Julia based on runtime dispatch!</p>
 <p>To extend this to multiple GPU backends, all that is needed is to generalize the <code>gpu</code> function to convert to either the device types of CUDA.jl, AMDGPU.jl, Metal.jl, or oneAPI.jl, depending on which backend is being used. To give an idea of what the gpu conversion code looked like before, here is a snippet:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> KomaCUDAAdaptor <span class="kw">end</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> KomaCUDAAdaptor <span class="kw">end</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">adapt_storage</span>(to<span class="op">::</span><span class="dt">KomaCUDAAdaptor</span>, x) <span class="op">=</span> CUDA.<span class="fu">cu</span>(x)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">gpu</span>(x)</span>
@@ -250,18 +253,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">adapt_storage</span>(to<span class="op">::</span><span class="dt">KomaCPUAdaptor</span>, x<span class="op">::</span><span class="dt">AbstractArray</span>) <span class="op">=</span> <span class="fu">adapt</span>(<span class="dt">Array</span>, x)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">adapt_storage</span>(to<span class="op">::</span><span class="dt">KomaCPUAdaptor</span>, x<span class="op">::</span><span class="dt">AbstractRange</span>) <span class="op">=</span> x</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cpu</span>(x) <span class="op">=</span> <span class="fu">fmap</span>(x <span class="op">-&gt;</span> <span class="fu">adapt</span>(<span class="fu">KomaCPUAdaptor</span>(), x), x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cpu</span>(x) <span class="op">=</span> <span class="fu">fmap</span>(x <span class="op">-&gt;</span> <span class="fu">adapt</span>(<span class="fu">KomaCPUAdaptor</span>(), x), x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>fmap</code> function is from the package <code>Functors.jl</code> and can recursively apply a function to a struct tagged with <code>@functor</code>. The function being applied is <code>adapt</code> from <code>Adapt.jl</code>, which will call the lower-level <code>adapt_storage</code> function to actually convert to / from the device type. The second parameter to <code>adapt</code> is what is being adapted, and the first is what it is being adapted to, which in this case is a custom adapter struct <code>KomaCUDAAdapter</code>.</p>
 <p>One possible approach to generalize to different backends would be to define additional adapter structs for each backend and corresponding <code>adapt_storage</code> functions. This is what the popular machine learning library <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a> does. However, there is a simpler way!</p>
 <p>Each backend package (CUDA.jl, Metal.jl, etc.) already defines <code>adapt_storage</code> functions for converting different types to / from corresponding device type. Reusing these functions is preferable to defining our own since, not only does it save work, but it allows us to rely on the expertise of the developers who wrote those packages! If there is an issue with types being converted incorrectly that is fixed in one of those packages, then we would not need to update our code to get this fix since we are using the definitions they created.</p>
 <p>Our final <code>gpu</code> and <code>cpu</code> functions are very simple. The <code>backend</code> parameter is a type derived from the abstract <code>Backend</code> type of <a href="https://github.com/JuliaGPU/KernelAbstractions.jl"><code>KernelAbstractions.jl</code></a>, which is extended by each of the backend packages:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">KernelAbstractions</span> as KA</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> <span class="bu">KernelAbstractions</span> as KA</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">gpu</span>(x, backend<span class="op">::</span><span class="dt">KA.GPU</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">fmap</span>(x <span class="op">-&gt;</span> <span class="fu">adapt</span>(backend, x), x; exclude<span class="op">=</span>_isleaf)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cpu</span>(x) <span class="op">=</span> <span class="fu">fmap</span>(x <span class="op">-&gt;</span> <span class="fu">adapt</span>(KA.<span class="fu">CPU</span>(), x), x, exclude<span class="op">=</span>_isleaf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cpu</span>(x) <span class="op">=</span> <span class="fu">fmap</span>(x <span class="op">-&gt;</span> <span class="fu">adapt</span>(KA.<span class="fu">CPU</span>(), x), x, exclude<span class="op">=</span>_isleaf)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The other work needed to generalize our GPU support involved switching to use <a href="https://pkgdocs.julialang.org/v1/creating-packages/#Conditional-loading-of-code-in-packages-(Extensions)">package extensions</a> to avoid having each of the backend packages as an explicit dependency, and defining some basic GPU functions for backend selection and printing information about available GPU devices. The pull request for adding support for multiple backends is linked below:</p>
 <blockquote class="blockquote">
 <p>https://github.com/JuliaHealth/KomaMRI.jl/pull/405</p>
@@ -332,11 +335,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="https://github.com/JuliaHealth/KomaMRI.jl/blob/master/KomaMRICore/src/simulation/SimMethods/Bloch/BlochCPU.jl#L90">Skipping an expensive computation</a> if the magnetization at that time point is not added to the final signal</p></li>
 <li><p>Ensuring that each statement is fully broadcasted. We were surprised to see the difference between the following examples:</p></li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fast</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fast</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Bz <span class="op">=</span> x <span class="op">.*</span> seq.Gx<span class="op">'</span> <span class="op">.+</span> y <span class="op">.*</span> seq.Gy<span class="op">'</span> <span class="op">.+</span> z <span class="op">.*</span> seq.Gz<span class="op">'</span> <span class="op">.+</span> p.Δw <span class="op">./</span> <span class="fu">T</span>(<span class="fl">2</span>π <span class="op">.*</span> γ)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Slow</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Bz <span class="op">=</span> x <span class="op">.*</span> seq.Gx<span class="op">'</span> <span class="op">.+</span> y <span class="op">.*</span> seq.Gy<span class="op">'</span> <span class="op">.+</span> z <span class="op">.*</span> seq.Gz<span class="op">'</span> <span class="op">.+</span> p.Δw <span class="op">/</span> <span class="fu">T</span>(<span class="fl">2</span>π <span class="op">*</span> γ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Bz <span class="op">=</span> x <span class="op">.*</span> seq.Gx<span class="op">'</span> <span class="op">.+</span> y <span class="op">.*</span> seq.Gy<span class="op">'</span> <span class="op">.+</span> z <span class="op">.*</span> seq.Gz<span class="op">'</span> <span class="op">.+</span> p.Δw <span class="op">/</span> <span class="fu">T</span>(<span class="fl">2</span>π <span class="op">*</span> γ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="4" type="1">
 <li>Using the <code>cis</code> function for complex exponentiation, which is faster than <code>exp</code></li>
 </ol>
@@ -356,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This last step was a stretch goal for exploring how to add distributed support to KomaMRI. MRI simulations can become quite large, so it is useful to be able to distribute work across either multiple GPUs or multiple compute nodes.</p>
 <p>A nice thing about MRI simulation is the independent spin property: if a phantom object (representing, for example a brain tissue slice) is divided into two parts, and each part is simulated separately, the signal result from simulating the whole phantom will be equal to the sum of the signal results from simulating each subdivision of the original phantom. This makes it quite easy to distribute work, either across more than one GPU or accross multiple compute nodes.</p>
 <p>The following scripts worked, with the only necessary code change to the repository being a new + function to add two RawAcquisitionData structs:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use multiple GPUs:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use multiple GPUs:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributed</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CUDA</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -377,8 +380,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="bu">Distributed</span>.<span class="pp">@distributed</span> (<span class="op">+</span>) <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu">nworkers</span>()</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    KomaMRICore.<span class="fu">set_device!</span>(i<span class="op">-</span><span class="fl">1</span>) <span class="co">#Sets device for this worker, note that CUDA devices are indexed from 0</span></span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simulate</span>(obj[parts[i]], seq, sys)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use multiple compute nodes</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use multiple compute nodes</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributed</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ClusterManagers</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -397,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Distribute simulation across workers</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="bu">Distributed</span>.<span class="pp">@distributed</span> (<span class="op">+</span>) <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu">nworkers</span>()</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simulate</span>(obj[parts[i]], seq, sys)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Pull reqeust for adding these examples to the KomaMRI documentation: https://github.com/JuliaHealth/KomaMRI.jl/pull/468</p>
 </section>
 <section id="conclusions-future-work" class="level1">
@@ -479,13 +482,14 @@ Support.”</span> August 30, 2024.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,14 +91,15 @@ div.csl-indent {
 <link href="../../../assets/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a1de9f6e5ae6ee48424c1770da54d3e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -138,6 +139,8 @@ div.csl-indent {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
@@ -315,7 +318,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="testing-and-development-setup-on-my-local-computer">3. Testing and Development setup on my local computer</h2>
 <p>To get a proper environment for functionality creation and concurrent testing we required a proper testing setup so that we could test the new functions made at the same time. This was done using <a href="https://timholy.github.io/Revise.jl/stable/">Revise.jl</a>, which helps to keep Julia sessions running without frequent restarts when making changes to code. It allowed me to edit my code, update packages, or switch git branches during a session, with changes applied immediately in the next command. My mentor helped me set it up, added Revise.jl to the global Julia environment, also <a href="https://github.com/GunnarFarneback/PackageCompatUI.jl">PackageCompatUI</a> that provides a terminal text interface to the [compat] section of a Julia Project.toml file, and finally made a Julia script by the name “startup.jl” out of it. This script was then added to <code>/home/jay-sanjay/.julia/config/</code> path in my local computer.</p>
 <p>Here is the sample for the startup.jl file:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PackageCompatUI</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PackageCompatUI</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PkgTemplates</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Revise</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -343,7 +346,7 @@ div.csl-indent {
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Formatter</span>(;style <span class="op">=</span> <span class="st">"blue"</span>)</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        ],</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="selecting-treatments-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="selecting-treatments-of-interest">4. Selecting Treatments of Interest</h2>
@@ -353,28 +356,28 @@ div.csl-indent {
 <li><p>Construct a SQL query to select cohort_definition_id, subject_id, and cohort_start_date from a specified table, filtering by cohort_id.</p></li>
 <li><p>The SQL query construction and execution was done using the <a href="https://mechanicalrabbit.github.io/FunSQL.jl/stable/">FunSQL.jl</a> library, in the below-shown manner:</p></li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sql <span class="op">=</span> <span class="fu">From</span>(tab) <span class="op">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sql <span class="op">=</span> <span class="fu">From</span>(tab) <span class="op">|&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Where</span>(Fun.<span class="fu">in</span>(Get.cohort_definition_id, cohort_id<span class="op">...</span>)) <span class="op">|&gt;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">Select</span>(Get.cohort_definition_id, Get.subject_id, Get.cohort_start_date) <span class="op">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            q <span class="op">-&gt;</span> <span class="fu">render</span>(q, dialect<span class="op">=</span>dialect)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            q <span class="op">-&gt;</span> <span class="fu">render</span>(q, dialect<span class="op">=</span>dialect)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="3" type="1">
 <li><p>Executes the constructed SQL query using a database connection, fetching the results into a data frame.</p></li>
 <li><p>If the DataFrame is not empty, convert cohort_start_date to DateTime and subtract date_prior from each date, then return the modified DataFrame.</p></li>
 </ol>
 <p>This was then be called this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">period_prior_to_index</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">period_prior_to_index</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        cohort_id <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>], </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        conn; </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        date_prior <span class="op">=</span> <span class="fu">Day</span>(<span class="fl">100</span>), </span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        tab<span class="op">=</span>cohort</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="filters-applied" class="level2">
 <h2 class="anchored" data-anchor-id="filters-applied">5. Filters Applied</h2>
 <p>After this, we where needed to get the patient’s database filtered more finely so that there are minimal variations that can be ignored. The duration of the above extracted event eras may vary a lot and it can be preferable to limit to only treatments exceeding a minimum duration. Hence, minEraDuration speciﬁes the minimum time an event era should last to be included in the analysis. All these implementations were more of Dataframe manipulation where I used <a href="https://dataframes.juliadata.org/stable/">DataFrames.jl</a> package.</p>
 <p>After that proper testing and documentation are also added.</p>
 <p>A basic implementation for the minEraDuration is: It filters the treatment history <code>DataFrame</code> to retain only those rows where the duration between <code>drug_exposure_end</code> and <code>drug_exposure_start</code> is at least <code>minEraDuration</code>. This function can be used as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate_era_duration</span>(test_df, <span class="fl">920000</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -387,11 +390,11 @@ div.csl-indent {
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>   <span class="fl">1</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">3.7273e8</span>          <span class="op">-</span><span class="fl">364953600</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2</span> │         <span class="fl">1</span>            <span class="fl">2.90304e7</span>           <span class="fl">31449600</span></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>   <span class="fl">3</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">8.18208e7</span>          <span class="op">-</span><span class="fl">80006400</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4</span> │         <span class="fl">1</span>            <span class="fl">1.32918e9</span>         <span class="fl">1330387200</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4</span> │         <span class="fl">1</span>            <span class="fl">1.32918e9</span>         <span class="fl">1330387200</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Another filter we worked on is the EraCollapse. So, let’s suppose a case where an individual receives the same treatment for a long period of time (e.g.&nbsp;need for chronic treatment). Then it’s highly likely that the person would require refills. Now as patients are not 100% adherent, there might be a gap between two subsequent event eras. Usually, these eras are still considered as one treatment episode, and the eraCollapseSize deals with the maximum gap within which two eras of the same event cohort would be collapsed into one era (i.e.&nbsp;seen as a continuous treatment instead of a stop and re-initiation of the same treatment). After that proper testing and documentation are also added.</p>
 <p>A basic implementation for the eraCollapseSize is: (a) Sorts the data frame by event_start_date and event_end_date. (b) Calculates the gap between each era and the previous era. (c) Filters out rows with gap_same &gt; eraCollapseSize.</p>
 <p>These functions can be used as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -403,7 +406,7 @@ div.csl-indent {
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>   <span class="fl">1</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">5.33347e8</span>         <span class="op">-</span><span class="fl">532483200</span>  <span class="op">-</span><span class="fl">1.86373e9</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">3.7273e8</span>          <span class="op">-</span><span class="fl">364953600</span>   <span class="fl">1.59754e8</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>   <span class="fl">3</span> │         <span class="fl">1</span>           <span class="op">-</span><span class="fl">8.18208e7</span>          <span class="op">-</span><span class="fl">80006400</span>   <span class="fl">2.83133e8</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4</span> │         <span class="fl">1</span>            <span class="fl">2.90304e7</span>           <span class="fl">31449600</span>   <span class="fl">1.09037e8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4</span> │         <span class="fl">1</span>            <span class="fl">2.90304e7</span>           <span class="fl">31449600</span>   <span class="fl">1.09037e8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="treatment-history-of-the-patients" class="level2">
 <h2 class="anchored" data-anchor-id="treatment-history-of-the-patients">6. Treatment History of the Patients</h2>
@@ -417,18 +420,18 @@ div.csl-indent {
 <section id="switch-case" class="level3">
 <h3 class="anchored" data-anchor-id="switch-case">Switch Case:</h3>
 <p><em>Condition</em>: If the gap between the two treatment events is smaller than the combinationWindow, but the gap is not equal to the duration of either event. <em>Action</em>: The event_end_date of the previous treatment is set to the event_start_date of the current treatment. This effectively “shifts” the previous treatment’s end date to eliminate the gap, merging the treatments into one continuous period. <em>Purpose</em>: This ensures that treatment gaps that are too small (less than combinationWindow) are treated as part of the same treatment window.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">-</span>gap_previous <span class="op">&lt;</span> combinationWindow <span class="op">&amp;&amp;</span> !(<span class="op">-</span>gap_previous <span class="kw">in</span> [duration_era, prev_duration_era])</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date] <span class="op">=</span> treatment_history[i, <span class="op">:</span>event_start_date]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date] <span class="op">=</span> treatment_history[i, <span class="op">:</span>event_start_date]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here is the pictorial representation for the same: <img src="./case1.png" class="img-fluid"></p>
 </section>
 <section id="frfs-first-row-first-shortened" class="level3">
 <h3 class="anchored" data-anchor-id="frfs-first-row-first-shortened">FRFS (First Row, First Shortened):</h3>
 <p><em>Condition</em>: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the two treatments, and the first treatment ends before or on the same date as the second treatment. <em>Action</em>: A new row is created where the second treatment’s event_end_date is set to the end date of the first treatment. This preserves the overlap but ensures that the earlier treatment period stays intact. <em>Purpose</em>: This prevents unnecessary truncation of the first treatment if it spans the entire overlap window.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -436,18 +439,18 @@ div.csl-indent {
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date] <span class="op">&lt;=</span> treatment_history[i, <span class="op">:</span>event_end_date]</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        new_row <span class="op">=</span> <span class="fu">deepcopy</span>(treatment_history[i, <span class="op">:</span>])</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        new_row.event_end_date <span class="op">=</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date]</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append!</span>(treatment_history, <span class="fu">DataFrame</span>(new_row<span class="op">'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append!</span>(treatment_history, <span class="fu">DataFrame</span>(new_row<span class="op">'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here is the pictorial representation for the same: <img src="./case2.png" class="img-fluid"></p>
 </section>
 <section id="lrfs-last-row-first-shortened" class="level3">
 <h3 class="anchored" data-anchor-id="lrfs-last-row-first-shortened">LRFS (Last Row, First Shortened):</h3>
 <p><em>Condition</em>: If the gap is larger than or equal to the combinationWindow, or the gap equals the duration of one of the treatments, and the first treatment ends after the second treatment. <em>Action</em>: The current treatment’s event_end_date is adjusted to match the event_end_date of the previous treatment. <em>Purpose</em>: This handles cases where the second treatment’s window should be shortened to prevent overlap with the previous treatment, merging them into a single continuous window.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false </span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#= ... =#</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>else</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    treatment_history[i, <span class="op">:</span>event_end_date] <span class="op">=</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    treatment_history[i, <span class="op">:</span>event_end_date] <span class="op">=</span> treatment_history[i<span class="op">-</span><span class="fl">1</span>, <span class="op">:</span>event_end_date]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here is the pictorial representation for the same: <img src="./case3.png" class="img-fluid"></p>
 <blockquote class="blockquote">
 <p><em>Note:</em> However, There are a few things left to cover here, most of which are the documentation and writing the test suite for the same.</p>
@@ -567,13 +570,14 @@ Health Research in Julia,”</span> Sep. 07, 2024.</div>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

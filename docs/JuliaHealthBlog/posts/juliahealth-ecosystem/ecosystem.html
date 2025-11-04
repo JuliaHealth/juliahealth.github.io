@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -36,14 +36,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../../assets/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-9fa26084f9aab9440991ca1362497831.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a1de9f6e5ae6ee48424c1770da54d3e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -83,6 +84,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
@@ -214,7 +217,7 @@ ul.task-list li input[type="checkbox"] {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Medical Imaging
+<span class="screen-reader-only">None</span>Medical Imaging
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -224,7 +227,6 @@ Medical Imaging
 <li><strong>Focus:</strong> Reading, writing, viewing, segmenting, registering, and analyzing medical image data (DICOM, NIfTI, etc.). Simulation of imaging processes.</li>
 <li><strong>Relevant Packages:</strong> <code>DICOM.jl</code>, <code>DICOMClient.jl</code>, <code>DICOMTree.jl</code>, <code>ITKIOWrapper.jl</code> (and archived predecessors), <code>MedEval3D.jl</code>, <code>MedEye3d.jl</code>, <code>MedImages.jl</code>, <code>MedPipe3D.jl</code>, <code>KomaMRI.jl</code>.</li>
 <li><strong>Emerging Areas:</strong> Expanding support for diverse modalities like Cellular Imaging, Molecular Imaging, Transmission Electron Microscopy (TEM), X-ray, advanced CT/PET analysis. Developing robust pipelines from image acquisition to analysis.</li>
-<li><strong>Showcase:</strong> [Placeholder for a short video showcasing Medical Imaging packages like MedEye3d.jl and DICOM.jl interaction]</li>
 </ul>
 </div>
 </div>
@@ -234,7 +236,7 @@ Medical Imaging
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Observational Health Data Science &amp; OMOP CDM
+<span class="screen-reader-only">None</span>Observational Health Data Science &amp; OMOP CDM
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -244,7 +246,6 @@ Observational Health Data Science &amp; OMOP CDM
 <li><strong>Focus:</strong> Working with standardized health data formats (especially OMOP CDM), creating cohorts, analyzing patient pathways, generating metrics, connecting to relevant APIs (OHDSI). Handling code mappings (ICD, RxNorm, etc.).</li>
 <li><strong>Relevant Packages:</strong> <code>OMOPCommonDataModel.jl</code>, <code>OMOPCDMDatabaseConnector.jl</code>, <code>OMOPCDMCohortCreator.jl</code>, <code>OMOPCDMPathways.jl</code>, <code>OMOPVocabMapper.jl</code>, <code>OHDSIAPI.jl</code>, <code>ICD_GEMs.jl</code>, <code>DiagnosisClassification.jl</code>, <code>PharmaceuticalClassification.jl</code>. <code>EpiJ</code> often uses data derived from these sources.</li>
 <li><strong>Emerging Areas:</strong> Patient-level prediction (<code>OMOPCDMPredictor</code>), advanced analytics on OMOP data, integration with federated learning frameworks.</li>
-<li><strong>Showcase:</strong> [Placeholder for a short video demonstrating cohort creation with OMOPCDMCohortCreator.jl]</li>
 </ul>
 </div>
 </div>
@@ -254,7 +255,7 @@ Observational Health Data Science &amp; OMOP CDM
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Neuroscience &amp; Neurophysiology
+<span class="screen-reader-only">None</span>Neuroscience &amp; Neurophysiology
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -264,7 +265,6 @@ Neuroscience &amp; Neurophysiology
 <li><strong>Focus:</strong> Processing and analyzing neurophysiological data like EEG, MEG, ECOG, NIRS. Applying computational neuroscience techniques.</li>
 <li><strong>Relevant Packages:</strong> <code>NeuroAnalyzer.jl</code>.</li>
 <li><strong>Emerging Areas:</strong> Seizure detection algorithms, analysis of brain connectivity, integration with neuroimaging data (linking to Medical Imaging), modeling neural dynamics.</li>
-<li><strong>Showcase:</strong> [Placeholder for a short video showing EEG data analysis with NeuroAnalyzer.jl]</li>
 </ul>
 </div>
 </div>
@@ -274,7 +274,7 @@ Neuroscience &amp; Neurophysiology
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Simulation &amp; Computational Modeling
+<span class="screen-reader-only">None</span>Simulation &amp; Computational Modeling
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -284,7 +284,6 @@ Simulation &amp; Computational Modeling
 <li><strong>Focus:</strong> Simulating complex systems like MRI physics, cardiac electrophysiology and mechanics, blood flow dynamics.</li>
 <li><strong>Relevant Packages:</strong> <code>KomaMRI.jl</code>, <code>Thunderbolt.jl</code>, <code>BloodFlowTrixi.jl</code>.</li>
 <li><strong>Emerging Areas:</strong> Virtual cell modeling, pharmacokinetic/pharmacodynamic (PK/PD) modeling, multi-scale modeling integrating different physiological levels, agent-based modeling for epidemiology.</li>
-<li><strong>Showcase:</strong> [Placeholder for a short video illustrating an MRI simulation using KomaMRI.jl]</li>
 </ul>
 </div>
 </div>
@@ -294,7 +293,7 @@ Simulation &amp; Computational Modeling
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Public Health &amp; Epidemiology
+<span class="screen-reader-only">None</span>Public Health &amp; Epidemiology
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -304,7 +303,6 @@ Public Health &amp; Epidemiology
 <li><strong>Focus:</strong> Analyzing population datasets (like IPUMS), environmental health data (NCEI), implementing epidemiological methods, disease surveillance techniques.</li>
 <li><strong>Relevant Packages:</strong> <code>EpiJ</code>, <code>IPUMS.jl</code>, <code>NCEI.jl</code>, <code>ICD_GEMs.jl</code> (for population statistics). Connects strongly with Observational Health Data.</li>
 <li><strong>Emerging Areas:</strong> Geospatial analysis for health, infectious disease modeling (could overlap with Simulation), analysis of social determinants of health.</li>
-<li><strong>Showcase:</strong> [Placeholder for a short video on using EpiJ for a simple epidemiological calculation]</li>
 </ul>
 </div>
 </div>
@@ -314,7 +312,7 @@ Public Health &amp; Epidemiology
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Bioinformatics &amp; Data Querying
+<span class="screen-reader-only">None</span>Bioinformatics &amp; Data Querying
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -333,7 +331,7 @@ Bioinformatics &amp; Data Querying
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Interoperability, Standards &amp; Foundational Tools
+<span class="screen-reader-only">None</span>Interoperability, Standards &amp; Foundational Tools
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -351,7 +349,7 @@ Interoperability, Standards &amp; Foundational Tools
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Health AI/ML &amp; Text Analysis
+<span class="screen-reader-only">None</span>Health AI/ML &amp; Text Analysis
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -365,7 +363,7 @@ Health AI/ML &amp; Text Analysis
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exciting Frontiers
+<span class="screen-reader-only">Note</span>Exciting Frontiers
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -390,7 +388,7 @@ Exciting Frontiers
 </ul></li>
 <li><strong>Contribute to Packages:</strong> Find a sub-ecosystem that interests you and contribute to the existing packages within it – documentation, bug fixes, new features are all welcome!</li>
 <li><strong>Propose New Packages:</strong> See a gap within a sub-ecosystem? Consider starting a new package to fill that need.</li>
-<li><strong>Develop Showcase Materials:</strong> Help create tutorials, examples, or even short introductory videos (like the placeholders above!) demonstrating how packages within a sub-ecosystem work together. Let us know if you’re interested in contributing a video!</li>
+<li><strong>Develop Showcase Materials:</strong> Help create tutorials, examples, or other demonstration materials showing how packages within a sub-ecosystem work together.</li>
 <li><strong>Lead or Champion:</strong> Passionate about a specific area? Consider helping to coordinate efforts or act as a point person for that sub-ecosystem.</li>
 </ol>
 </section>
@@ -466,13 +464,14 @@ JuliaHealth 👋.”</span> April 29, 2025.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
