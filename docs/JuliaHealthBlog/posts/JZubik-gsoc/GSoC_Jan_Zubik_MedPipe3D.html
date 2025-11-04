@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,14 +71,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../assets/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a1de9f6e5ae6ee48424c1770da54d3e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,6 +119,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
@@ -437,7 +440,7 @@ Full list of all major parts and minor tasks (all tasks set up in the original G
 <summary>
 evaluate_test:
 </summary>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> test_group <span class="kw">in</span> test_groups</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    test_data, test_label, attributes <span class="op">=</span> <span class="fu">fetch_and_preprocess_data</span>([test_group], h5, config)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    results, test_metrics <span class="op">=</span> <span class="fu">evaluate_patches</span>(test_data, test_label,  tstate, model, config)</span>
@@ -445,8 +448,8 @@ evaluate_test:
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">save_results</span>(y_pred, attributes, config)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push!</span>(all_test_metrics, metr)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">evaluate_patches</span>(test_data, test_label, tstate, model, config, axis, angle)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">evaluate_patches</span>(test_data, test_label, tstate, model, config, axis, angle)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Evaluating patches..."</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    test_metrics <span class="op">=</span> []</span>
@@ -475,8 +478,8 @@ evaluate_test:
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results, test_metrics</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">divide_into_patches</span>(image<span class="op">::</span><span class="dt">AbstractArray{T, 5}</span>, patch_size<span class="op">::</span><span class="dt">Tuple{Int, Int, Int}</span>) <span class="kw">where</span> T</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">divide_into_patches</span>(image<span class="op">::</span><span class="dt">AbstractArray{T, 5}</span>, patch_size<span class="op">::</span><span class="dt">Tuple{Int, Int, Int}</span>) <span class="kw">where</span> T</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Dividing image into patches..."</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Size of the image: "</span>, <span class="fu">size</span>(image)) </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -545,7 +548,7 @@ evaluate_test:
 <span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    ]</span>
 <span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Size of the final image: "</span>, <span class="fu">size</span>(final_image))</span>
 <span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> final_image</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <p>Comment:<br> In this section, there is significant potential to incorporate additional types of invertible augmentations.</p>
 </section>
@@ -556,7 +559,7 @@ evaluate_test:
 <summary>
 extract_patch:
 </summary>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">extract_patch</span>(image, label, patch_size, config)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">extract_patch</span>(image, label, patch_size, config)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fetch the oversampling probability from the config</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Extracting patch."</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    oversampling_probability <span class="op">=</span> config[<span class="st">"learning"</span>][<span class="st">"oversampling_probability"</span>]</span>
@@ -652,7 +655,7 @@ extract_patch:
 <span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>    label_patch <span class="op">=</span> label[start_indices[<span class="fl">1</span>]<span class="op">:</span>end_indices[<span class="fl">1</span>], start_indices[<span class="fl">2</span>]<span class="op">:</span>end_indices[<span class="fl">2</span>], start_indices[<span class="fl">3</span>]<span class="op">:</span>end_indices[<span class="fl">3</span>]]</span>
 <span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image_patch, label_patch</span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </section>
 <section id="calculate-median-and-mean-spacing-with-resampling" class="level2">
@@ -665,11 +668,11 @@ extract_patch:
 <summary>
 resample_images_to_target:
 </summary>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_images_to_target <span class="op">&amp;&amp;</span> !<span class="fu">isempty</span>(Med_images)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_images_to_target <span class="op">&amp;&amp;</span> !<span class="fu">isempty</span>(Med_images)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resampling </span><span class="sc">$</span>channel_type<span class="st"> files in channel '</span><span class="sc">$</span>channel_folder<span class="st">' to the first </span><span class="sc">$</span>channel_type<span class="st"> in the channel."</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    reference_image <span class="op">=</span> Med_images[<span class="fl">1</span>]</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    Med_images <span class="op">=</span> [<span class="fu">resample_to_image</span>(reference_image, img, interpolator) for img <span class="kw">in</span> Med_images]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <p>Comment:<br> <code>Resample_to_image</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
 </section>
@@ -680,7 +683,7 @@ resample_images_to_target:
 <summary>
 esample_to_spacing:
 </summary>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_images_spacing <span class="op">==</span> <span class="st">"set"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_images_spacing <span class="op">==</span> <span class="st">"set"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resampling all </span><span class="sc">$</span>channel_type<span class="st"> files to target spacing: </span><span class="sc">$</span>target_spacing<span class="st">"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    target_spacing <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">Float32</span>(s) <span class="cf">for</span> s <span class="kw">in</span> target_spacing)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">resample_to_spacing</span>(img, target_spacing, interpolator) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
@@ -699,7 +702,7 @@ esample_to_spacing:
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="cf">elseif</span> resample_images_spacing <span class="op">==</span> <span class="cn">false</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Skipping resampling of </span><span class="sc">$</span>channel_type<span class="st"> files."</span>)</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># No resampling will be applied, channels_data remains unchanged.</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <p>Comment:<br> <code>Resample_to_spacing</code> uses interpolation that is not yet GPU-accelerated in this implementation, this step slows down the data preparation phase significantly.</p>
 </section>
@@ -710,7 +713,7 @@ esample_to_spacing:
 <summary>
 crop_or_pad:
 </summary>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_size <span class="op">==</span> <span class="st">"avg"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> resample_size <span class="op">==</span> <span class="st">"avg"</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    sizes <span class="op">=</span> [<span class="fu">size</span>(img.voxel_data) for img <span class="kw">in</span> channels_data for img <span class="kw">in</span> img]  <span class="co"># Get sizes from all images</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    avg_dim <span class="op">=</span> <span class="fu">map</span>(mean, <span class="fu">zip</span>(sizes<span class="op">...</span>))</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    avg_dim <span class="op">=</span> <span class="fu">Tuple</span>(<span class="fu">Int</span>(<span class="fu">round</span>(d)) <span class="cf">for</span> d <span class="kw">in</span> avg_dim)</span>
@@ -720,7 +723,7 @@ crop_or_pad:
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    target_dim <span class="op">=</span> <span class="fu">Tuple</span>(resample_size)</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Resizing all </span><span class="sc">$</span>channel_type<span class="st"> files to target dimension: </span><span class="sc">$</span>target_dim<span class="st">"</span>)</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    channels_data <span class="op">=</span> [[<span class="fu">crop_or_pad</span>(img, target_dim) for img <span class="kw">in</span> channel] for channel <span class="kw">in</span> channels_data]</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </section>
 </section>
@@ -731,7 +734,7 @@ crop_or_pad:
 <summary>
 initialize_labels_kernel:
 </summary>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kernel</span> <span class="kw">function</span> <span class="fu">initialize_labels_kernel</span>(mask, labels, width, height, depth)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kernel</span> <span class="kw">function</span> <span class="fu">initialize_labels_kernel</span>(mask, labels, width, height, depth)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    idx <span class="op">=</span> <span class="pp">@index</span>(Global, Cartesian)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> idx[<span class="fl">1</span>]</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> idx[<span class="fl">2</span>]</span>
@@ -744,11 +747,11 @@ initialize_labels_kernel:
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            labels[i, j, k] <span class="op">=</span> <span class="fl">0</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 Propagate_labels_kernel iteratively updates the labels to maintain connected regions. propagate_labels_kernel:
 <details>
-<div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kernel</span> <span class="kw">function</span> <span class="fu">propagate_labels_kernel</span>(mask, labels, width, height, depth)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kernel</span> <span class="kw">function</span> <span class="fu">propagate_labels_kernel</span>(mask, labels, width, height, depth)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    idx<span class="op">=</span> <span class="pp">@index</span>(Global, Cartesian)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> idx[<span class="fl">1</span>]</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    j <span class="op">=</span> idx[<span class="fl">2</span>]</span>
@@ -776,14 +779,14 @@ Propagate_labels_kernel iteratively updates the labels to maintain connected reg
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
 <span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <p>This process facilitates the identification of the largest connected components in 3D space, helping to isolate relevant medical structures, such as tumors, in the segmented mask. Allowing determining how many such areas are to be returned.</p>
 <details>
 <summary>
 largest_connected_components:
 </summary>
-<div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">largest_connected_components</span>(mask<span class="op">::</span><span class="dt">Array{Int32, 3}</span>, n_lcc<span class="op">::</span><span class="dt">Int</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">largest_connected_components</span>(mask<span class="op">::</span><span class="dt">Array{Int32, 3}</span>, n_lcc<span class="op">::</span><span class="dt">Int</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    width, height, depth <span class="op">=</span> <span class="fu">size</span>(mask)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    mask_gpu <span class="op">=</span> <span class="fu">CuArray</span>(mask)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    labels_gpu <span class="op">=</span> CUDA.<span class="fu">fill</span>(<span class="fl">0</span>, <span class="fu">size</span>(mask))</span>
@@ -815,7 +818,7 @@ largest_connected_components:
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a mask for each of the top n_lcc components</span></span>
 <span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    components <span class="op">=</span> [labels_cpu <span class="op">.==</span> label[<span class="fl">1</span>] for label <span class="kw">in</span> top_labels]</span>
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> components</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </section>
 <section id="structured-configuration-of-all-hyperparameters" class="level2">
@@ -825,7 +828,7 @@ largest_connected_components:
 <summary>
 Example configuration:
 </summary>
-<div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"model"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"patience"</span><span class="fu">:</span> <span class="dv">10</span><span class="fu">,</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"early_stopping_metric"</span><span class="fu">:</span> <span class="st">"val_loss"</span><span class="fu">,</span></span>
@@ -883,7 +886,7 @@ Example configuration:
 <span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
 <span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"shuffle"</span><span class="fu">:</span> <span class="kw">false</span></span>
 <span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <p>Comments:<br> The current configuration is loaded as a dictionary, which simplifies access and modification. This setup presents a strong foundation for integrating automated search algorithms for hyperparameter tuning, enabling more efficient model optimization.<br> The configuration structure could be reorganized and re-named to improve readability, making it easier for users to locate and adjust specific parameters.</p>
 </section>
@@ -899,7 +902,7 @@ Example configuration:
 <summary>
 K-fold cross-validation functionality:
 </summary>
-<div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  tstate <span class="op">=</span> <span class="fu">initialize_train_state</span>(rng, model, optimizer)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> config[<span class="st">"learning"</span>][<span class="st">"n_cross_val"</span>]</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      n_folds <span class="op">=</span> config[<span class="st">"learning"</span>][<span class="st">"n_folds"</span>]</span>
@@ -919,21 +922,21 @@ K-fold cross-validation functionality:
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>      final_tstate <span class="op">=</span> <span class="fu">epoch_loop</span>(num_epochs, train_groups, validation_groups, h5, model, tstate, config, loss_function, num_classes)</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> final_tstate</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="op">...</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="op">...</span>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <p>The <code>k_fold_split</code> function organizes the indices for each fold, ensuring comprehensive coverage of the dataset during training.</p>
 <details>
 <summary>
 k_fold_split
 </summary>
-<div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">k_fold_split</span>(data, n_folds, current_fold)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">k_fold_split</span>(data, n_folds, current_fold)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    fold_size <span class="op">=</span> <span class="fu">length</span>(data) <span class="op">÷</span> n_folds</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    validation_start <span class="op">=</span> (current_fold <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> fold_size <span class="op">+</span> <span class="fl">1</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    validation_end <span class="op">=</span> validation_start <span class="op">+</span> fold_size <span class="op">-</span> <span class="fl">1</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    validation_indices <span class="op">=</span> data[validation_start<span class="op">:</span>validation_end]</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    train_indices <span class="op">=</span> [data[<span class="fl">1</span><span class="op">:</span>validation_start<span class="op">-</span><span class="fl">1</span>]; data[validation_end<span class="op">+</span><span class="fl">1</span><span class="op">:</span><span class="kw">end</span>]]</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_indices, validation_indices</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </section>
 </section>
@@ -1029,13 +1032,14 @@ Integrations of Augmentations.”</span> November 3, 2024.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

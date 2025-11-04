@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,14 +71,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../assets/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a1de9f6e5ae6ee48424c1770da54d3e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,6 +119,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
@@ -292,19 +295,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-is-it-defined" class="level3">
 <h3 class="anchored" data-anchor-id="how-is-it-defined">How is it defined?</h3>
 <p>The type is defined using Julia’s <code>@kwdef</code> macro to allow keyword-based construction:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kwdef</span> <span class="kw">struct</span> HealthTable{T}</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@kwdef</span> <span class="kw">struct</span> HealthTable{T}</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    source<span class="op">::</span><span class="dt">T</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">schema</span>(ht)                     <span class="co"># View schema (column names and types)</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">rows</span>(ht)                       <span class="co"># Iterate over rows</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">columns</span>(ht)                    <span class="co"># Access columns as named tuples</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">materializer</span>(<span class="fu">typeof</span>(ht))       <span class="co"># Used to materialize tables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Tables.<span class="fu">materializer</span>(<span class="fu">typeof</span>(ht))       <span class="co"># Used to materialize tables</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here, source is the original validated data (usually a DataFrame), and all logic is built around enforcing the schema and providing utilities on top of this source. Once wrapped in a HealthTable, you can interact with it using the complete Tables.jl interface. This makes HealthTable compatible with the entire Julia Tables ecosystem, meaning users can directly use OMOP CDM data with existing tooling, without needing custom adapters.</p>
 </section>
 <section id="creating-a-healthtable" class="level3">
 <h3 class="anchored" data-anchor-id="creating-a-healthtable">Creating a <code>HealthTable</code></h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span>, <span class="bu">OMOPCommonDataModel</span>, <span class="bu">InlineStrings</span>, <span class="bu">Serialization</span>, <span class="bu">Dates</span>, <span class="bu">FeatureTransforms</span>, <span class="bu">DBInterface</span>, <span class="bu">DuckDB</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">DataFrames</span>, <span class="bu">OMOPCommonDataModel</span>, <span class="bu">InlineStrings</span>, <span class="bu">Serialization</span>, <span class="bu">Dates</span>, <span class="bu">FeatureTransforms</span>, <span class="bu">DBInterface</span>, <span class="bu">DuckDB</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">HealthBase</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> <span class="fu">DataFrame</span>(</span>
@@ -314,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    race_concept_id <span class="op">=</span> [<span class="fl">8527</span>, <span class="fl">8516</span>, <span class="fl">8527</span>, <span class="fl">8527</span>],</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>ht <span class="op">=</span> <span class="fu">HealthTable</span>(df; omop_cdm_version<span class="op">=</span><span class="st">"v5.4.1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>ht <span class="op">=</span> <span class="fu">HealthTable</span>(df; omop_cdm_version<span class="op">=</span><span class="st">"v5.4.1"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <br> <img src="./extension_loading.png" class="img-fluid"> <br>
 <center>
 HealthTable Extension Loading
@@ -327,9 +330,9 @@ HealthTable Extension Loading
 <section id="accessing-the-source" class="level3">
 <h3 class="anchored" data-anchor-id="accessing-the-source">Accessing the Source</h3>
 <p>Each <code>HealthTable</code> instance stores the original validated data in <code>ht.source</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(ht.source)                           <span class="co"># DataFrame</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(ht.source)                           <span class="co"># DataFrame</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span>(ht.source, <span class="st">"omop_cdm_version"</span>)     <span class="co"># "v5.4.1"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colmetadata</span>(ht.source, <span class="op">:</span>gender_concept_id)  <span class="co"># Per-column metadata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colmetadata</span>(ht.source, <span class="op">:</span>gender_concept_id)  <span class="co"># Per-column metadata</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="handling-invalid-tables" class="level3">
 <h3 class="anchored" data-anchor-id="handling-invalid-tables">Handling Invalid Tables</h3>
@@ -342,7 +345,7 @@ HealthTable Extension Loading
 <section id="concept-mapping" class="level3">
 <h3 class="anchored" data-anchor-id="concept-mapping">Concept Mapping</h3>
 <p>Replaces concept IDs (e.g., 8507) with readable names (e.g., “Male”) using an OMOP CDM vocabulary table in DuckDB. If no schema is provided, the function will use the default main schema in the DuckDB connection. It supports both single and multiple columns, and allows custom naming for output columns. This greatly enhances data interpretability and allows models to work with semantically meaningful features.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> DBInterface.<span class="fu">connect</span>(DuckDB.DB, <span class="st">"path_to_file.duckdb"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> DBInterface.<span class="fu">connect</span>(DuckDB.DB, <span class="st">"path_to_file.duckdb"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Single column (adds gender_concept_id_mapped)</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ht_mapped <span class="op">=</span> <span class="fu">map_concepts</span>(ht, <span class="op">:</span>gender_concept_id, conn; schema <span class="op">=</span> <span class="st">"schema_name"</span>)</span>
@@ -352,7 +355,7 @@ HealthTable Extension Loading
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                          new_cols<span class="op">=</span>[<span class="st">"gender"</span>, <span class="st">"race"</span>], drop_original<span class="op">=</span><span class="cn">true</span>)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># In-place variant</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">map_concepts!</span>(ht, <span class="op">:</span>gender_concept_id, conn; schema <span class="op">=</span> <span class="st">"schema_name"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">map_concepts!</span>(ht, <span class="op">:</span>gender_concept_id, conn; schema <span class="op">=</span> <span class="st">"schema_name"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <br>
 <center>
 <img src="./map_concepts.png" class="img-fluid"> Map Concepts
@@ -363,8 +366,8 @@ HealthTable Extension Loading
 <section id="vocabulary-compression" class="level3">
 <h3 class="anchored" data-anchor-id="vocabulary-compression">Vocabulary Compression</h3>
 <p>Groups rare categorical values into an <code>"Other"</code> or a user-specified label to simplify high-cardinality columns. This is useful for reducing sparsity in features with many rare categories. The function calculates the frequency of each level and retains only those above a threshold, replacing the rest. It ensures that model inputs remain interpretable and avoids overfitting on underrepresented categories.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ht_compressed <span class="op">=</span> <span class="fu">apply_vocabulary_compression</span>(ht_mapped; cols <span class="op">=</span> [<span class="op">:</span>race_concept_id],</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    min_freq <span class="op">=</span> <span class="fl">2</span>, other_label <span class="op">=</span> <span class="st">"Other"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ht_compressed <span class="op">=</span> <span class="fu">apply_vocabulary_compression</span>(ht_mapped; cols <span class="op">=</span> [<span class="op">:</span>race_concept_id],</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    min_freq <span class="op">=</span> <span class="fl">2</span>, other_label <span class="op">=</span> <span class="st">"Other"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <br>
 <center>
 <img src="./vocab_compression.png" class="img-fluid"> Vocabulary Compression
@@ -373,7 +376,7 @@ HealthTable Extension Loading
 <section id="one-hot-encoding" class="level3">
 <h3 class="anchored" data-anchor-id="one-hot-encoding">One-Hot Encoding</h3>
 <p>Converts a categorical column into binary columns. This prepares your features for ML models that can’t handle raw categorical values. The function works on both HealthTable and DataFrame objects and allows you to specify whether to drop the original column. It’s especially useful when working with encoded health conditions, demographics, or other categorical features.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ht_ohe <span class="op">=</span> <span class="fu">one_hot_encode</span>(ht_compressed; cols <span class="op">=</span> [<span class="op">:</span>gender_concept_id, <span class="op">:</span>race_concept_id])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ht_ohe <span class="op">=</span> <span class="fu">one_hot_encode</span>(ht_compressed; cols <span class="op">=</span> [<span class="op">:</span>gender_concept_id, <span class="op">:</span>race_concept_id])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <br>
 <center>
 <img src="./one_hot_encoding.png" class="img-fluid"> One Hot Encoding
@@ -481,13 +484,14 @@ Tables and Preprocessing in HealthBase.jl.”</span> July 12, 2025.
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,14 +91,15 @@ div.csl-indent {
 <link href="../../../assets/favicon.ico" rel="icon">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-8d12ad3b218f1ab7af429b2c1f4f53b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a1de9f6e5ae6ee48424c1770da54d3e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -138,6 +139,8 @@ div.csl-indent {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
@@ -287,7 +290,7 @@ div.csl-indent {
 <section id="migration-of-package-from-rocket-to-julias-base.channel" class="level2">
 <h2 class="anchored" data-anchor-id="migration-of-package-from-rocket-to-julias-base.channel">1. Migration of package from Rocket to Julia’s Base.Channel</h2>
 <p>Initially, there was significant screen-tearing evident from the pixelated display of the rendered text and main image which, furthermore exhibited flickering upon scrolling through the slices in the relevant displayed image’s planar views i.e (Transversal, Coronal and Saggital). Troubleshooting along the way, we narrowed down the issue within the Rocket’s actor-subscription mechanism and decided to integrate Julia’s Base.Channel within <a href="https://github.com/Juliahealth/MedEye3d.jl">MedEye3d.jl</a> for handling the event and state management routine. Julia has asynchronous, threadsafe <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/#Communicating-with-Channels">channels</a> which facilitate in asynchronous programming with the help of a producer-consumer mechanism. An example usage of Base.Channel is as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">consumer</span>(channel<span class="op">::</span><span class="dt">Base.Channel</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">consumer</span>(channel<span class="op">::</span><span class="dt">Base.Channel</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(<span class="cn">true</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    channelData<span class="op">::</span><span class="dt">String </span><span class="op">=</span> <span class="fu">take!</span>(channel)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">println</span>(<span class="st">"Channel got "</span> <span class="op">*</span> channelData)</span>
@@ -297,7 +300,7 @@ div.csl-indent {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>newChannel <span class="op">=</span> <span class="bu">Base</span>.<span class="fu">Channel</span>(<span class="fl">100</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="pp">@async</span> <span class="fu">consumer</span>(newChannel)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">put!</span>(newChannel, <span class="st">"apples"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">put!</span>(newChannel, <span class="st">"apples"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Julia’s multiple dispatch made for the architectural setup of MedEye3d, facilitated fixing the issue of screen tearing. Below is how the <code>on_next!</code> function, invokes different reactive components based on the types of arguments it is dealing with.</p>
 <blockquote class="blockquote">
 <p>Dump data in channel -&gt; fetch data from the channel in an event loop -&gt; invoke <code>on_next!(state, channelData)</code> -&gt; invoke relevant functionality based on the type of arguments passed</p>
@@ -316,11 +319,11 @@ div.csl-indent {
 <li><p>Producing the final segmentation display</p></li>
 </ol>
 <p>In order to simplify basic usage, high-level abstractions were put in place with the help of <a href="https://github.com/MedImages.jl">MedImages.jl</a> (under ongoing development) library to load images in the form of MedImage objects to formulate a single display function for the user. Further simplifications were made to accommodate options for the user to manipulate the imaging data that is displayed currently in the visualizer i.e retrieval of voxel arrays and their modification. Taking this in mind, the following relevant functions were exposed:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>MedEye3d.SegmentationDisplay.<span class="fu">displayImage</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MedEye3d.DisplayDataManag.<span class="fu">getDisplayedData</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>MedEye3d.DisplayDataManag.<span class="fu">setDisplayedData</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>MedEye3d.SegmentationDisplay.<span class="fu">displayImage</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>MedEye3d.DisplayDataManag.<span class="fu">getDisplayedData</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>MedEye3d.DisplayDataManag.<span class="fu">setDisplayedData</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Putting all of the above functions to use together, we can launch the visualizer, retrieve the displayed voxel data and modify it to our liking. A sample script to achieve the former, is highlighted below:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MedEye3d</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MedEye3d</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ctNiftiImage <span class="op">=</span> <span class="st">"/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>medEyeStruct <span class="op">=</span> MedEye3d.SegmentationDisplay.<span class="fu">displayImage</span>(ctNiftiImage)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>displayData <span class="op">=</span> MedEye3d.DisplayDataManag.<span class="fu">getDisplayedData</span>(medEyeStruct, [<span class="fu">Int32</span>(<span class="fl">1</span>), <span class="fu">Int32</span>(<span class="fl">2</span>)]) <span class="co">#passing the active texture number</span></span>
@@ -329,7 +332,7 @@ div.csl-indent {
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Now in this case we are setting Gaussian noise over the manualModif Texture voxel layer, and the manualModif texture defaults to 2 for active number</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>displayData[<span class="fl">2</span>][<span class="op">:</span>, <span class="op">:</span>, <span class="op">:</span>] <span class="op">=</span> <span class="fu">randn</span>(<span class="dt">Float32</span>, <span class="fu">size</span>(displayData[<span class="fl">2</span>]))</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>MedEye3d.DisplayDataManag.<span class="fu">setDisplayedData</span>(medEyeStruct, displayData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>MedEye3d.DisplayDataManag.<span class="fu">setDisplayedData</span>(medEyeStruct, displayData)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The result of this <a href="https://www.sfu.ca/sonic-studio-webdav/handbook/Gaussian_Noise.html">Gaussian noise</a> within the annotation layer, made for an outcome like the following:</p>
 <p><img src="./gaussian_noise_annotation.png" class="img-fluid"></p>
 </section>
@@ -365,7 +368,7 @@ div.csl-indent {
 <li>Checks the letter code of the keymap control and updates the minimum and maximum values of the texture specification accordingly.</li>
 <li>Updates the uniforms for the texture specification using the <code>controlMinMaxUniformVals</code> function.</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setTextureWindow</span>(activeTextur<span class="op">::</span><span class="dt">TextureSpec</span>, stateObject<span class="op">::</span><span class="dt">StateDataFields</span>, windowControlStruct<span class="op">::</span><span class="dt">WindowControlStruct</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setTextureWindow</span>(activeTextur<span class="op">::</span><span class="dt">TextureSpec</span>, stateObject<span class="op">::</span><span class="dt">StateDataFields</span>, windowControlStruct<span class="op">::</span><span class="dt">WindowControlStruct</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    activeTexturName <span class="op">=</span> activeTextur.name</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    displayRange <span class="op">=</span> activeTextur.minAndMaxValue[<span class="fl">2</span>] <span class="op">-</span> activeTextur.minAndMaxValue[<span class="fl">1</span>]</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    activeTexturStudyType <span class="op">=</span> activeTextur.studyType</span>
@@ -404,7 +407,7 @@ div.csl-indent {
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    stateObject.mainForDisplayObjects.listOfTextSpecifications <span class="op">=</span> <span class="fu">map</span>(texture <span class="op">-&gt;</span> texture.name <span class="op">==</span> activeTexturName ? activeTextur <span class="op">:</span> texture, stateObject.mainForDisplayObjects.listOfTextSpecifications)</span>
 <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coontrolMinMaxUniformVals</span>(activeTextur)</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p>Bone windowing in CT</p>
 </blockquote>
@@ -419,7 +422,7 @@ div.csl-indent {
 <p>Following the mid-term evaluation, MedEye3d.jl underwent a significant enhancement, whereby a multi-image display capability was implemented through a series of refinements. Specifically, a novel approach was adopted, whereby separate OpenGL <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">fragment shaders</a> were introduced to concurrently render images on either side of the visualizer, namely the left and right views. Prior to integrating voxel data into the fragment shaders, an initial series of tests involved evaluating individual colors to validate the integrity of the double image display. A screenshot from one of these critical testing phases is presented below: <img src="./multi_fragment_shader.png" class="img-fluid"></p>
 <p>The shaders were further manipulated to automatically initialize for each of the images separately. Further, the reactive aspect of the visualizer in multi-image display mode was iterated upon and now, instead of a single state management struct, a vector of states was being passed around, facilitating the user to scroll each of the images separately just by simply hovering their mouse over either of the image, activating its relevant associated state struct.</p>
 <p>Down below, is the struct for state that handles all of the things currently related with an image:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@with_kw</span> <span class="kw">mutable struct</span> StateDataFields</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@with_kw</span> <span class="kw">mutable struct</span> StateDataFields</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  currentDisplayedSlice<span class="op">::</span><span class="dt">Int </span><span class="op">=</span> <span class="fl">1</span> <span class="co"># stores information what slice number we are currently displaying</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  mainForDisplayObjects<span class="op">::</span><span class="dt">forDisplayObjects </span><span class="op">=</span> <span class="fu">forDisplayObjects</span>() <span class="co"># stores objects needed to  display using OpenGL and GLFW</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  onScrollData<span class="op">::</span><span class="dt">FullScrollableDat </span><span class="op">=</span> <span class="fu">FullScrollableDat</span>()</span>
@@ -442,12 +445,12 @@ div.csl-indent {
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  spacingsValue<span class="op">::</span><span class="dt">Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} </span><span class="op">=</span> [(<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>)]</span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  originValue<span class="op">::</span><span class="dt">Union{Vector{Tuple{Float64,Float64,Float64}},Tuple{Float64,Float64,Float64}} </span><span class="op">=</span> [(<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">1.0</span>)]</span>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  supervoxelFields<span class="op">::</span><span class="dt">GlShaderAndBufferFields </span><span class="op">=</span> <span class="fu">GlShaderAndBufferFields</span>()</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>After the integrity of the fragment shaders was verified in multi-image, voxel data for the images was integrated and further modifications to the high-level functions were made and eventually the following script produced a rather appealing result.</p>
 <p>Script for loading the same NIFTI image twice in the visualizer for side-by-side display:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MedEye3d</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MedEye3d</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ctNiftiImage <span class="op">=</span> <span class="st">"/home/hurtbadly/Downloads/ct_soft_study.nii.gz"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>MedEye3d.SegmentationDisplay.<span class="fu">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>MedEye3d.SegmentationDisplay.<span class="fu">displayImage</span>([[ctNiftiImage],[ctNifitImage]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <blockquote class="blockquote">
 <p>Results in :</p>
 </blockquote>
@@ -613,13 +616,14 @@ visualizations,”</span> Nov. 01, 2024.</div>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
