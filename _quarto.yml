@@ -13,10 +13,13 @@ website:
     left:
       - href: index.qmd
         text: Home
+        icon: house-door
       - href: pages/packages.qmd
         text: Packages
+        icon: boxes
       - href: JuliaHealthBlog/index.qmd
         text: Blogs
+        icon: journal-richtext
       - href: pages/connect_with_us.qmd
         text: Connect With Us
         icon: chat-heart
@@ -24,10 +27,14 @@ website:
         menu:
           - href: pages/meeting_notes.qmd
             text: Meetings Notes
+            icon: card-text
           - href: pages/related_organizations.qmd
             text: Related Organizations
+            icon: buildings
   page-footer:
-    left: "Copyright 2024-25, JuliaHealth."
+    left:
+      - text: "Copyright 2024-25, JuliaHealth."
+        icon: c-circle
     right:
       - href: https://github.com/JuliaHealth/JuliaHealthBlog
         text: Report Issue
