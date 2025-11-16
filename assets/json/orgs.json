@@ -1,0 +1,58 @@
+[
+    {
+        "name": "BioJulia",
+        "image": "assets/images/orgs/biojulia.svg",
+        "description": "Fast, open, extensible software for bioinformatics and computational biology.",
+        "web_link": "https://biojulia.dev",
+        "repo_link": "https://github.com/BioJulia"
+    },
+    {
+        "name": "EcoJulia",
+        "image": "assets/images/orgs/ecojulia.png",
+        "description": "Ecological research in the Julia language.",
+        "web_link": "https://ecojulia.org",
+        "repo_link": "https://github.com/EcoJulia"
+    },
+    {
+        "name": "MagneticResonanceImaging",
+        "image": "assets/images/orgs/magneticresonanceimaging.png",
+        "description": "Collection of packages for MRI research and application (simulation, reconstruction and analysis).",
+        "web_link": "",
+        "repo_link": "https://github.com/MagneticResonanceImaging"
+    },
+    {
+        "name": "JuliaGeo",
+        "image": "assets/images/orgs/juliageo.svg",
+        "description": "Extensible and flexible tools for geospatial(raster and vector) analysis and science.",
+        "web_link": "https://juliageo.org",
+        "repo_link": "https://github.com/JuliaGeo"
+    },
+    {
+        "name": "JuliaEpi",
+        "image": "assets/images/orgs/juliaepi.png",
+        "description": "Open research community to develop an epidemiological modelling ecosystem written in Julia.",
+        "web_link": "",
+        "repo_link": "https://github.com/JuliaEpi"
+    },
+    {
+        "name": "JuliaImageRecon",
+        "image": "assets/images/orgs/juliaimagerecon.png",
+        "description": "General purpose image reconstruction and computational imaging packages.",
+        "web_link": "",
+        "repo_link": "https://github.com/JuliaImageRecon"
+    },
+    {
+        "name": "JuliaNeuroscience",
+        "image": "assets/images/orgs/julianeuroscience.png",
+        "description": "Flexible neuroinformatics tools built on high performance computational tools.",
+        "web_link": "",
+        "repo_link": "https://github.com/JuliaNeuroscience"
+    },
+    {
+        "name": "JuliaNeuro",
+        "image": "assets/images/orgs/julianeuro.png",
+        "description": "Julia for Neuroscience",
+        "web_link": "https://julianeuro.github.io/",
+        "repo_link": "https://github.com/JuliaNeuro"
+    }
+]

@@ -1,0 +1,44 @@
+[
+    {
+        "name": "KomaMRI.jl",
+        "image": "assets/images/packages/komamri.svg",
+        "description": "KomaMRI.jl is a Julia package for highly efficient ⚡ MRI simulations. KomaMRI was built from the ground up to be: easy to use, extensible, cross-platform, and powered by open-source community standards.",
+        "web_link": "https://juliahealth.org/KomaMRI.jl",
+        "repo_link": "https://github.com/JuliaHealth/KomaMRI.jl"
+    },
+    {
+        "name": "NeuroAnalyzer.jl",
+        "image": "assets/images/packages/neuroanalyzer.png",
+        "description": "NeuroAnalyzer is a Julia toolbox for analyzing neurophysiological data. Currently it covers importing, editing, processing, visualizing, and analyzing EEG, MEP and EDA data. Preliminary functionality is also available for MEG, NIRS, ECoG, SEEG and iEEG recordings.",
+        "web_link": "https://juliahealth.org/NeuroAnalyzer.jl",
+        "repo_link": "https://github.com/JuliaHealth/NeuroAnalyzer.jl"
+    },
+    {
+        "name": "DICOMTree.jl",
+        "image": "assets/images/packages/dicomtree.png",
+        "description": "A little Julia package for visualizing DICOM file metadata in the form of a tree. The package have been tested with CT Scanner, RTDose and RTStruct files.",
+        "web_link": "https://juliahealth.org/DICOMTree.jl",
+        "repo_link": "https://github.com/JuliaHealth/DICOMTree.jl"
+    },
+    {
+        "name": "ICD_GEMs.jl",
+        "image": "assets/images/packages/icdgems.png",
+        "description": "ICD_GEMs.jl is a Julia package that allows to translate ICD-9 codes in ICD-10 and viceversa via the General Equivalence Mappings (GEMs) of the International Classification of Diseases (ICD).",
+        "web_link": "https://juliahealth.org/ICD_GEMs.jl",
+        "repo_link": "https://github.com/JuliaHealth/ICD_GEMs.jl"
+    },
+    {
+        "name": "MedEye3d.jl",
+        "image": "assets/images/packages/medeye3d.png",
+        "description": "Julia library for visualization and annotation medical images, specialized particularly for rapid development segmentation of 3 dimensional images like CT or PET/CT scans. Has full support of nuclear medicine Data.",
+        "web_link": "https://juliahealth.org/MedEye3d.jl",
+        "repo_link": "https://github.com/JuliaHealth/MedEye3d.jl"
+    },
+    {
+        "name": "MedImages.jl",
+        "image": "assets/images/packages/medimages.png",
+        "description": "MedImages provides a standardized framework for handling 3D and 4D medical imaging data. The metadata structure is loosely based on the BIDS format.",
+        "web_link": "https://juliahealth.org/MedImages.jl",
+        "repo_link": "https://github.com/JuliaHealth/MedImages.jl"
+    }
+]

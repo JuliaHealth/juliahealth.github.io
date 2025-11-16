@@ -5,21 +5,27 @@ project:
 website:
   favicon: "assets/favicon.ico"
   title: "JuliaHealth"
+  image: "assets/images/logo.png"
+  image-alt: "JuliaHub Logo"
   navbar:
+    logo: "assets/images/logo.png"
+    logo-alt: "JuliaHub Logo"
     left:
       - href: index.qmd
         text: Home
+      - href: pages/packages.qmd
+        text: Packages
       - href: JuliaHealthBlog/index.qmd
         text: Blogs
-      # - href: pages/connect_with_us.qmd
-      #   text: Connect With Us
-      #   icon: chat-heart
-      # - text: "More"
-        # menu:
-        #   - href: pages/meeting_notes.qmd
-        #     text: Meetings Notes
-        #   - href: pages/related_organizations.qmd
-        #     text: Related Organizations
+      - href: pages/connect_with_us.qmd
+        text: Connect With Us
+        icon: chat-heart
+      - text: "More"
+        menu:
+          - href: pages/meeting_notes.qmd
+            text: Meetings Notes
+          - href: pages/related_organizations.qmd
+            text: Related Organizations
   page-footer:
     left: "Copyright 2024-25, JuliaHealth."
     right:
