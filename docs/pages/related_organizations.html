@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c5c3f28b6ae8c9f11fb0320148d8c713.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,6 +69,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -82,6 +85,8 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo light-content">
+    <img src="../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">JuliaHealth</span>
@@ -94,13 +99,42 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
+    <a class="nav-link" href="../index.html"> <i class="bi bi-house-door" role="img">
+</i> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../JuliaHealthBlog/index.html"> 
+    <a class="nav-link" href="../pages/packages.html"> <i class="bi bi-boxes" role="img">
+</i> 
+<span class="menu-text">Packages</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../JuliaHealthBlog/index.html"> <i class="bi bi-journal-richtext" role="img">
+</i> 
 <span class="menu-text">Blogs</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/connect_with_us.html"> <i class="bi bi-chat-heart" role="img">
+</i> 
+<span class="menu-text">Connect With Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../pages/meeting_notes.html"><i class="bi bi-card-text" role="img">
+</i> 
+ <span class="dropdown-text">Meetings Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/related_organizations.html"><i class="bi bi-buildings" role="img">
+</i> 
+ <span class="dropdown-text">Related Organizations</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -146,18 +180,156 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>This is a (not necessarily comprehensive) list of organizations that focus primarily on developing and maintaining open-source Julia packages related to the life sciences and health sciences.</p>
-<p>If you would like to add an organization to this list, please feel free to <a href="https://github.com/JuliaHealth/juliahealth.github.io/blob/dev/%7B%7Bfd_rpath%7D%7D">make a pull request</a>.</p>
+<p>If you would like to add an organization to this list, please feel free to <a href="https://github.com/JuliaHealth/juliahealth.github.io/">make a pull request</a>.</p>
 <section id="julia-community-organizations" class="level2">
 <h2 class="anchored" data-anchor-id="julia-community-organizations">Julia community organizations</h2>
-<ul>
-<li><a href="https://github.com/BioJulia">BioJulia</a> – Biology, bioinformatics, and computational biology (<a href="https://biojulia.dev">website</a> | <a href="https://gitter.im/BioJulia/home">Gitter</a>)</li>
-<li><a href="https://github.com/EcoJulia">EcoJulia</a> - Ecology (<a href="https://ecojulia.github.io">website</a>)</li>
-<li><a href="https://github.com/JuliaHealth">JuliaHealth</a> – Medicine, health care, public health, and biomedical research (<a href="https://juliahealth.org">website</a>)</li>
-<li><a href="https://github.com/JuliaEpi">JuliaEpi</a> – Epidemiology</li>
-<li><a href="https://github.com/JuliaNeuro">JuliaNeuro</a> - Neuroscience (<a href="https://julianeuro.github.io">website</a>)</li>
-<li><a href="https://github.com/JuliaNeuroscience">JuliaNeuroscience</a> - Neuroscience</li>
-<li><a href="https://github.com/MagneticResonanceImaging">MagneticResonanceImaging</a> - Magnetic resonance imaging</li>
-</ul>
+<div id="2" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+    <div class="grid text-center">
+            <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/biojulia.svg" class="img-fluid card-img-top mb-3" alt="BioJulia Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">BioJulia</span>
+            <p class="card-text">
+                Fast, open, extensible software for bioinformatics and computational biology.
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/BioJulia" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                    <a href="https://biojulia.dev" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-globe me-1"></i>Website
+    </a>
+
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/ecojulia.png" class="img-fluid card-img-top mb-3" alt="EcoJulia Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">EcoJulia</span>
+            <p class="card-text">
+                Ecological research in the Julia language.
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/EcoJulia" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                    <a href="https://ecojulia.org" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-globe me-1"></i>Website
+    </a>
+
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/magneticresonanceimaging.png" class="img-fluid card-img-top mb-3" alt="MagneticResonanceImaging Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">MagneticResonanceImaging</span>
+            <p class="card-text">
+                Collection of packages for MRI research and application (simulation, reconstruction and analysis).
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/MagneticResonanceImaging" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/juliageo.svg" class="img-fluid card-img-top mb-3" alt="JuliaGeo Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">JuliaGeo</span>
+            <p class="card-text">
+                Extensible and flexible tools for geospatial(raster and vector) analysis and science.
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaGeo" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                    <a href="https://juliageo.org" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-globe me-1"></i>Website
+    </a>
+
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/juliaepi.png" class="img-fluid card-img-top mb-3" alt="JuliaEpi Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">JuliaEpi</span>
+            <p class="card-text">
+                Open research community to develop an epidemiological modelling ecosystem written in Julia.
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaEpi" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/juliaimagerecon.png" class="img-fluid card-img-top mb-3" alt="JuliaImageRecon Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">JuliaImageRecon</span>
+            <p class="card-text">
+                General purpose image reconstruction and computational imaging packages.
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaImageRecon" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/julianeuroscience.png" class="img-fluid card-img-top mb-3" alt="JuliaNeuroscience Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">JuliaNeuroscience</span>
+            <p class="card-text">
+                Flexible neuroinformatics tools built on high performance computational tools.
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaNeuroscience" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                
+            </p>
+        </div>
+    </div>
+    <div class="card g-col-12 g-col-sm-6 p-2 rounded org-page-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-between">
+            <img src="../assets/images/orgs/julianeuro.png" class="img-fluid card-img-top mb-3" alt="JuliaNeuro Logo" style="width: 12em; height: 12em;">
+            <span class="card-title fw-bold">JuliaNeuro</span>
+            <p class="card-text">
+                Julia for Neuroscience
+            </p>
+            <p class="card-text d-flex align-items-center gap-2">
+                    <a href="https://github.com/JuliaNeuro" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-github me-1"></i>Github
+    </a>
+
+                    <a href="https://julianeuro.github.io/" target="_blank" class="text-link-primary text-decoration-none">
+        <i class="bi bi-globe me-1"></i>Website
+    </a>
+
+            </p>
+        </div>
+    </div>
+
+    </div>
+</div>
+</div>
 </section>
 <section id="labs-and-research-groups" class="level2">
 <h2 class="anchored" data-anchor-id="labs-and-research-groups">Labs and research groups</h2>
@@ -582,8 +754,14 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Copyright 2024-25, JuliaHealth.</p>
-</div>   
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+      <i class="bi bi-c-circle" role="img">
+</i> 
+ Copyright 2024-25, JuliaHealth.
+  </li>  
+</ul>
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
