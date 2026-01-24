@@ -7,6 +7,12 @@ website:
   title: "JuliaHealth"
   image: "assets/images/logo.png"
   image-alt: "JuliaHub Logo"
+  announcement:
+    icon: megaphone
+    dismissable: true
+    content: "[**JuliaCon 2026**](https://juliacon.org/2026/): Submit your talks for the Health Mini-Symposium [here](https://pretalx.com/juliacon-2026/talk/NR9PGW/)!"
+    type: primary
+    position: above-navbar
   navbar:
     logo: "assets/images/logo.png"
     logo-alt: "JuliaHub Logo"
