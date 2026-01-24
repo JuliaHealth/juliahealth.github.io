@@ -2,6 +2,7 @@
 title: "JuliaHealth Ecosystem Audit: Documentation, CI and Package Health"
 description: "A reproducible audit summarizing findings across documentation, CI/testing, community activity and package quality, with actionables to guide maintainers and contributors in improving the JuliaHealth ecosystem."
 author: "Kosuri Indu"
+date: "1/23/2026"
 toc: true
 engine: julia
 image: false
@@ -42,7 +43,7 @@ Before diving into detailed findings, let's look at the big picture. This sectio
 
 ### General Registry Status
 
-The General Registry is Julia's central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run `using PackageName` or `] add PackageName` without needing to know the GitHub URL. Out of 48 packages, **38 are registered** in the General Registry (79%), while **10 remain unregistered** (21%). 
+The General Registry is Julia's central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run `using PackageName` or `] add PackageName` without needing to know the GitHub URL. Out of 48 packages, **34 are registered** in the General Registry (79%), while **14 remain unregistered** (21%). 
 
 <br>
 <div style="text-align: center;">
@@ -51,21 +52,24 @@ The General Registry is Julia's central package repository that makes packages e
 
 </div>
 
-**Packages NOT in General Registry (10):**
+**Packages NOT in General Registry (14):**
 
-- Thunderbolt.jl
-- PubMedMiner.jl
 - CTakesParser.jl
-- OMOPCDMFeasibility.jl
-- OMOPCDMPathways.jl
+- CloToP.jl
+- GitHubAnalytics.jl
 - HealthDash.jl
 - HealthLLM.jl
-- OHDSIAPI.jl
-- GitHubAnalytics.jl
 - IPUMS.jl
-- CloToP.jl
+- ITKIOWrapp.jl
+- MTIWrapper.jl
+- OHDSIAPI.jl
+- OMOPCDMFeasibility.jl
+- OMOPCDMPathways.jl
+- PubMedMiner.jl
+- Thunderbolt.jl
+- WrapperITKIO.jl
 
-**Packages with Repo Link Mismatches (7):**
+**Packages with Repo Link Mismatches (7):** What I have noticed is that, even though the repo-link stated is different, it is redirecting to the JuliaHealth page.
 
 - BlindingIndex.jl
 - DICOMTree.jl
@@ -111,8 +115,6 @@ Archived packages are read-only repositories that are no longer actively maintai
 
 The JuliaHealth organization also hosts **12 non-package repositories** for documentation, tutorials, papers, and infrastructure:
 
-**Note:** The audit identified 10 non-package repositories through the GitHub API. Two additional repositories (juliahealth.github.io and juliahealth.github.io-previews) could not be identified due to API privacy constraints.
-
 <div style="text-align: center;">
 
 ![](./images/nonpackages_all_stars.png)
@@ -129,15 +131,16 @@ The JuliaHealth organization also hosts **12 non-package repositories** for docu
 
 Now let's dive deeper into specific aspects of the JuliaHealth ecosystem. This section breaks down the audit findings by categories:
 
-- [Documentation](#documentation)
-- [CI/CD & Testing](#ci-cd-testing)
-- [Community & Activity](#community-activity)
-- [Code Quality & Standards](#code-quality-standards)
-- [Package Structure & Maturity](#package-structure-maturity)
+- [Documentation & README](#documentation-readme)
+- [CI/CD, Testing & Coverage](#ci-cd-testing-coverage)
+- [Structure, Licensing & Maturity](#structure-licensing-maturity)
+- [Activity, Releases & Engagement](#activity-releases-engagement)
+- [Issues & PR Health](#issues-pr-health)
+- [Contributors (Cross-Ecosystem)](#contributors-cross-ecosystem)
 
-### Documentation {#documentation}
+### Documentation & README {#documentation-readme}
 
-Documentation is crucial for package adoption and contribution. We evaluated multiple aspects: whether packages have a docs/ directory, use Documenter.jl, deploy to GitHub Pages, and include contributor guidelines.
+Documentation is crucial for package adoption and contribution. We evaluated whether packages have a docs/ directory, use Documenter.jl, deploy to GitHub Pages, and include contributor guidelines.
 
 #### Documentation Coverage
 
@@ -148,7 +151,6 @@ Documentation is crucial for package adoption and contribution. We evaluated mul
 </div>
 
 #### GitHub Pages Deployment
-<br>
 
 <div style="text-align: center;">
 
@@ -178,12 +180,31 @@ Packages without GitHub Pages
 - ITKIOWrapp.jl
 - MTIWrapper.jl
 
-### CI/CD & Testing {#ci-cd-testing}
+#### README Completeness
 
-Continuous Integration and testing infrastructure ensure code quality and catch bugs early. We examined CI adoption, infrastructure choices, code coverage tracking, and testing practices.
+<div style="text-align: center;">
+
+![](./images/packages_readme_completeness.png)
+
+</div>
+
+README completeness scoring (0–8), one point each:
+
+- Install/quickstart instructions
+- Usage or examples section
+- Contributing guidance
+- Lists that break up dense text
+- Links to docs/issues/community
+- Code blocks or inline examples
+- Badges (build, coverage, license, etc.)
+- Section headers (##) for structure
+
+### CI/CD, Testing & Coverage {#ci-cd-testing-coverage}
+
+Continuous Integration and testing infrastructure ensure code quality and catch bugs early. We examined CI adoption, CI status, code coverage tracking, and testing practices.
 
 #### CI/CD Adoption
-<br>
+
 <div style="text-align: center;">
 
 ![](./images/packages_ci_adoption.png)
@@ -199,7 +220,6 @@ Packages missing CI workflows
 - WrapperITKIO.jl
 - ITKIOWrapp.jl
 
-<br>
 <div style="text-align: center;">
 
 ![](./images/nonpackages_ci_adoption.png)
@@ -214,7 +234,6 @@ Packages missing CI workflows
 - JuliaHealthEcosystemPaper
 - JuliaHealthZoo
 
-
 #### CI Status
 
 <div style="text-align: center;">
@@ -224,7 +243,7 @@ Packages missing CI workflows
 </div>
 
 #### Code Coverage
-<br>
+
 <div style="text-align: center;">
 
 ![](./images/packages_code_coverage.png)
@@ -251,123 +270,9 @@ Packages without code coverage configured
 - WrapperITKIO.jl
 - ITKIOWrapp.jl
 
-### Community & Activity {#community-activity}
+### Structure, Licensing & Maturity {#structure-licensing-maturity}
 
-Community engagement and maintenance activity indicate package health. We analyzed stars, contributors, issues, pull requests, and maintenance status.
-
-#### Contributors Distribution
-
-<div style="text-align: center;">
-
-![](./images/packages_contributors_distribution.png)
-
-</div>
-
-#### Stars Distribution
-
-<div style="text-align: center;">
-
-![](./images/packages_stars_distribution.png)
-
-</div>
-
-#### Maintenance Health
-
-<div style="text-align: center;">
-
-![](./images/packages_maintenance_health.png)
-
-</div>
-
-| Status | Criteria |
-|---|---|
-| Active | Last push < 180 days |
-| Maintenance | Last push 180–365 days |
-| Inactive | Last push > 365 days |
-| Unknown | Timestamp unavailable or unparsable |
-
-<br>
-
-#### Issues Comparison
-
-<div style="text-align: center;">
-
-![](./images/packages_issues_comparison.png)
-
-</div>
-
-#### Pull Requests Comparison
-
-<div style="text-align: center;">
-
-![](./images/packages_prs_comparison.png)
-
-</div>
-
-#### Releases Distribution
-
-<div style="text-align: center;">
-
-![](./images/packages_releases_distribution.png)
-
-</div>
-
-#### Non-Package Issues
-
-<div style="text-align: center;">
-
-![](./images/nonpackages_issues_comparison.png)
-
-</div>
-
-#### Non-Package Pull Requests
-
-<div style="text-align: center;">
-
-![](./images/nonpackages_prs_comparison.png)
-
-</div>
-
-### Code Quality & Standards {#code-quality-standards}
-
-Code quality standards improve maintainability and collaboration. We checked for README quality, style guide adoption, license compliance, and overall standards.
-
-#### README Quality
-
-<div style="text-align: center;">
-
-![](./images/packages_readme_quality.png)
-
-</div>
-
-README quality is assessed by evaluating: (1) presence of code blocks/examples, (2) content length (indicating comprehensiveness), and (3) documentation completeness. These metrics help users quickly understand package functionality and usage.
-
-#### Style Guide Distribution
-<br>
-<div style="text-align: center;">
-
-![](./images/packages_style_guide_distribution.png)
-
-</div>
-
-**Packages Following Blue or SciML Style Guides:**
-
-| Package | Style Guide |
-|---|---|
-| KomaMRI.jl | Blue |
-| HealthSampleData.jl | Blue |
-| Thunderbolt.jl | SciML |
-| OMOPCDMFeasibility.jl | Blue |
-| OMOPCDMPathways.jl | Blue |
-| HealthLLM.jl | Blue |
-| IPUMS.jl | Blue |
-
-<br>
-
-### Package Structure & Maturity {#package-structure-maturity}
-
-Proper package structure and maturity indicators help users assess reliability. We evaluated standard layout compliance, registry status, archive status, and maturity tiers.
-
+Proper package structure, licensing clarity, and maturity indicators help users assess reliability. We evaluated standard layout compliance, registry status, archive status, maturity tiers, and license coverage.
 
 For clarity, in this audit a package is considered to follow the "standard layout" when it meets the required items and all recommended checks below.
 
@@ -401,6 +306,25 @@ Packages marked as following the standard layout must satisfy every item in both
 
 </div>
 
+#### Style Guide Distribution
+
+<div style="text-align: center;">
+
+![](./images/packages_style_guide_distribution.png)
+
+</div>
+
+**Packages Following Blue or SciML Style Guides:**
+
+| Package | Style Guide |
+|---|---|
+| KomaMRI.jl | Blue |
+| HealthSampleData.jl | Blue |
+| Thunderbolt.jl | SciML |
+| OMOPCDMFeasibility.jl | Blue |
+| OMOPCDMPathways.jl | Blue |
+| HealthLLM.jl | Blue |
+| IPUMS.jl | Blue |
 
 #### Maturity Tiers
 
@@ -412,62 +336,261 @@ Packages marked as following the standard layout must satisfy every item in both
 
 | Tier | Criteria |
 |---|---|
-| Stable | In General Registry; releases >= 10 |
-| Developing | In General Registry; releases >= 1 |
-| Early | Not in General Registry OR no releases |
+| Mature | In General Registry; releases_count ≥ 20 |
+| Stable | In General Registry; 5 ≤ releases_count ≤ 19 |
+| Early Release | In General Registry; 1–4 releases |
+| Registered (No Releases) | In General Registry; releases_count = 0 |
+| Not Registered | Not in General Registry |
 
-<br>
+#### License Presence & Types
+
+All JuliaHealth packages have licenses -- 100% license compliance! This is an important ecosystem signal showing professionalism and legal clarity.
+
+<div style="text-align: center;">
+
+![](./images/packages_license_presence.png)
+
+</div>
+
+License types vary across the ecosystem. The most common licenses include MIT, Apache-2.0 and BSD variants, reflecting standard open-source practices:
+
+<div style="text-align: center;">
+
+![](./images/packages_license_types.png)
+
+</div>
+
+#### Non-Package License Coverage
+
+Non-package repositories also show strong license compliance:
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_license_presence.png)
+
+</div>
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_license_status.png)
+
+</div>
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_license_types.png)
+
+</div>
+
+Non-package repositories missing a LICENSE file:
+
+- JuliaHealthEcosystemPaper
+- JuliaHealthWebsiteOld
+- JuliaHealthZoo
+- MedPipe3DTutorial
+- ObservationalHealthSubecosystemPaper
+
+### Activity, Releases & Engagement {#activity-releases-engagement}
+
+Community engagement and maintenance activity indicate package health. We analyzed activity recency, releases, stars, contributors, and popularity.
+
+#### Activity Recency
+
+<div style="text-align: center;">
+
+![](./images/packages_activity_recency.png)
+
+</div>
+
+#### Releases Distribution
+
+<div style="text-align: center;">
+
+![](./images/packages_releases_distribution.png)
+
+</div>
+
+#### Stars Distribution
+
+<div style="text-align: center;">
+
+![](./images/packages_stars_distribution.png)
+
+</div>
+
+#### Contributors Distribution
+
+<div style="text-align: center;">
+
+![](./images/packages_contributors_distribution.png)
+
+</div>
+
+#### Top Packages by Stars
+
+<div style="text-align: center;">
+
+![](./images/packages_top15_stars.png)
+
+</div>
+
+#### Top Packages by Contributors
+
+<div style="text-align: center;">
+
+![](./images/packages_top15_contributors.png)
+
+</div>
+
+#### Top Packages by Releases
+
+<div style="text-align: center;">
+
+![](./images/packages_top_releases.png)
+
+</div>
+
+#### Non-Package Stars and Contributors
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_all_stars.png)
+
+</div>
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_all_contributors.png)
+
+</div>
+
+### Issues & PR Health {#issues-pr-health}
+
+#### Issues Comparison (Packages)
+
+<div style="text-align: center;">
+
+![](./images/packages_issues_comparison.png)
+
+</div>
+
+#### PRs Comparison (Packages)
+
+<div style="text-align: center;">
+
+![](./images/packages_prs_comparison.png)
+
+</div>
+
+#### Issues Comparison (Non-Packages)
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_issues_comparison.png)
+
+</div>
+
+#### PRs Comparison (Non-Packages)
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_prs_comparison.png)
+
+</div>
+
+### Contributors (Cross-Ecosystem) {#contributors-cross-ecosystem}
+
+Human contributors across all JuliaHealth repos (bots excluded). `total_contributions` sums all contributions across repos; `num_repos_contributed` counts distinct repos touched.
+
+#### Top Contributors by Total
+
+<div style="text-align: center;">
+
+![](./images/contributors_top_by_total.png)
+
+</div>
+
+#### Top Contributors by Repo Count
+
+<div style="text-align: center;">
+
+![](./images/contributors_top_by_repo_count.png)
+
+</div>
+
+#### Contribution Distribution
+
+<div style="text-align: center;">
+
+![](./images/contributors_contribution_distribution.png)
+
+</div>
+
+#### Engagement Tiers
+
+| Tier | Rule (total_contributions, num_repos_contributed) |
+| --- | --- |
+| Core | total > 500 or repos > 10 |
+| Regular | total ≥ 100 or repos ≥ 3 |
+| Occasional | total ≥ 10 or repos ≥ 1 |
+| One-time | Otherwise |
+
+<div style="text-align: center;">
+
+![](./images/contributors_engagement_tiers.png)
+
+</div>
 
 ## Actionables
 
-Looking at our findings, here are concise, prioritized actions organized in the requested order. Each item is phrased as a small, actionable task that can be addressed in a single PR or issue.
+Looking at our findings, here are concise, prioritized actions organized in the updated categories. Each item is phrased as a small, actionable task that can be addressed in a single PR or issue.
 
-### Documentation
+### Documentation & README
 
-- **Rationale:** Good documentation makes it easy for users to learn and use the package.
-  Good docs also help contributors get started and contribute safely.
+- **Rationale:** Good documentation makes it easy for users to learn and use the package. Good docs also help contributors get started and contribute safely.
 - **Actions:**
   - Deploy `docs/` to GitHub Pages.
   - Add a short `CONTRIBUTING.md` and a `CODE_OF_CONDUCT.md`.
   - Add a well-defined example and description with a code block to the `README`.
   - Use `Documenter.jl` to build docs when appropriate.
 
+### CI/CD, Testing & Coverage
 
-### CI/CD & Testing
-
- - **Rationale:** CI runs tests automatically to find bugs early.
-  Coverage helps identify parts of the code that need more tests.
+- **Rationale:** CI runs tests automatically to find bugs early. Coverage helps identify parts of the code that need more tests.
 - **Actions:**
   - Add a GitHub Actions workflow that runs tests and builds docs.
   - Enable coverage reporting and add a coverage badge (codecov) to the `README`.
   - Add `test/` for key functionality.
 
-### Community & Activity
+### Structure, Licensing & Maturity
 
-- **Rationale:** Clear labels and simple guides help new contributors find tasks.
-  Public maintainer info makes it easier to coordinate work and handoffs.
+- **Rationale:** A standard layout makes packages easier to install and use. Published releases and clear licensing let others depend on stable, compliant versions. A shared code style reduces trivial review comments and confusion, and CI checks catch obvious issues before human review.
+- **Actions:**
+  - Finalize a standard template for package structure.
+  - Publish a release and register in the General Registry if ready; fix registry metadata if needed.
+  - Adopt `JuliaFormatter` and add formatting to CI.
+  - Add basic lint or build checks to CI (e.g., docs build, tests pass).
+
+### Activity, Releases & Engagement
+
+- **Rationale:** Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs.
 - **Actions:**
   - Add `good first issue` and `help wanted` labels and link them to `CONTRIBUTING.md`.
   - Add a `MAINTAINERS.md` or contact/triage instructions in the `README`.
   - Open an issue for inactive packages proposing archive, transfer or handoff steps.
 
-### Code Quality & Standards
+### Issues & PR Health
 
-- **Rationale:** A shared code style reduces trivial review comments and confusion.
-  CI checks catch obvious issues before human review.
+- **Rationale:** Well-triaged issues and reviewed PRs keep backlog healthy and contributors unblocked.
 - **Actions:**
-  - Adopt `JuliaFormatter` and add formatting to CI.
-  - Add basic lint or build checks to CI (e.g., docs build, tests pass).
+  - Use the issue/PR comparisons above to prioritize triage and reviews.
+  - Apply `good first issue`/`help wanted` labels to surface approachable work.
 
-### Package Structure & Maturity
+### Contributors (Cross-Ecosystem)
 
-- **Rationale:** A standard layout makes packages easier to install and use.
-  Published releases let others depend on stable versions.
+- **Rationale:** Recognizing and engaging active contributors helps sustain momentum across repositories.
 - **Actions:**
-  - Finalize a standard template for package structure.
-  - Publish a release and register in the General Registry if ready; fix registry metadata if needed.
-
-Use the generated lists in [data/results/lists](data/results/lists) to pick concrete targets and open issues or PRs against the repositories listed.
+  - Use the generated lists in [data/results/lists](data/results/lists) to pick concrete targets and open issues or PRs against the repositories listed.
 
 ## Conclusion
 

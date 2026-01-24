@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Kosuri Indu">
+<meta name="dcterms.date" content="2026-01-23">
 <meta name="description" content="A reproducible audit summarizing findings across documentation, CI/testing, community activity and package quality, with actionables to guide maintainers and contributors in improving the JuliaHealth ecosystem.">
 
 <title>JuliaHealth Ecosystem Audit: Documentation, CI and Package Health – JuliaHealth</title>
@@ -159,19 +160,21 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#detailed-findings" id="toc-detailed-findings" class="nav-link" data-scroll-target="#detailed-findings">Detailed Findings</a>
   <ul class="collapse">
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#ci-cd-testing" id="toc-ci-cd-testing" class="nav-link" data-scroll-target="#ci-cd-testing">CI/CD &amp; Testing</a></li>
-  <li><a href="#community-activity" id="toc-community-activity" class="nav-link" data-scroll-target="#community-activity">Community &amp; Activity</a></li>
-  <li><a href="#code-quality-standards" id="toc-code-quality-standards" class="nav-link" data-scroll-target="#code-quality-standards">Code Quality &amp; Standards</a></li>
-  <li><a href="#package-structure-maturity" id="toc-package-structure-maturity" class="nav-link" data-scroll-target="#package-structure-maturity">Package Structure &amp; Maturity</a></li>
+  <li><a href="#documentation-readme" id="toc-documentation-readme" class="nav-link" data-scroll-target="#documentation-readme">Documentation &amp; README</a></li>
+  <li><a href="#ci-cd-testing-coverage" id="toc-ci-cd-testing-coverage" class="nav-link" data-scroll-target="#ci-cd-testing-coverage">CI/CD, Testing &amp; Coverage</a></li>
+  <li><a href="#structure-licensing-maturity" id="toc-structure-licensing-maturity" class="nav-link" data-scroll-target="#structure-licensing-maturity">Structure, Licensing &amp; Maturity</a></li>
+  <li><a href="#activity-releases-engagement" id="toc-activity-releases-engagement" class="nav-link" data-scroll-target="#activity-releases-engagement">Activity, Releases &amp; Engagement</a></li>
+  <li><a href="#issues-pr-health" id="toc-issues-pr-health" class="nav-link" data-scroll-target="#issues-pr-health">Issues &amp; PR Health</a></li>
+  <li><a href="#contributors-cross-ecosystem" id="toc-contributors-cross-ecosystem" class="nav-link" data-scroll-target="#contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</a></li>
   </ul></li>
   <li><a href="#actionables" id="toc-actionables" class="nav-link" data-scroll-target="#actionables">Actionables</a>
   <ul class="collapse">
-  <li><a href="#documentation-1" id="toc-documentation-1" class="nav-link" data-scroll-target="#documentation-1">Documentation</a></li>
-  <li><a href="#cicd-testing" id="toc-cicd-testing" class="nav-link" data-scroll-target="#cicd-testing">CI/CD &amp; Testing</a></li>
-  <li><a href="#community-activity-1" id="toc-community-activity-1" class="nav-link" data-scroll-target="#community-activity-1">Community &amp; Activity</a></li>
-  <li><a href="#code-quality-standards-1" id="toc-code-quality-standards-1" class="nav-link" data-scroll-target="#code-quality-standards-1">Code Quality &amp; Standards</a></li>
-  <li><a href="#package-structure-maturity-1" id="toc-package-structure-maturity-1" class="nav-link" data-scroll-target="#package-structure-maturity-1">Package Structure &amp; Maturity</a></li>
+  <li><a href="#documentation-readme-1" id="toc-documentation-readme-1" class="nav-link" data-scroll-target="#documentation-readme-1">Documentation &amp; README</a></li>
+  <li><a href="#cicd-testing-coverage" id="toc-cicd-testing-coverage" class="nav-link" data-scroll-target="#cicd-testing-coverage">CI/CD, Testing &amp; Coverage</a></li>
+  <li><a href="#structure-licensing-maturity-1" id="toc-structure-licensing-maturity-1" class="nav-link" data-scroll-target="#structure-licensing-maturity-1">Structure, Licensing &amp; Maturity</a></li>
+  <li><a href="#activity-releases-engagement-1" id="toc-activity-releases-engagement-1" class="nav-link" data-scroll-target="#activity-releases-engagement-1">Activity, Releases &amp; Engagement</a></li>
+  <li><a href="#issues-pr-health-1" id="toc-issues-pr-health-1" class="nav-link" data-scroll-target="#issues-pr-health-1">Issues &amp; PR Health</a></li>
+  <li><a href="#contributors-cross-ecosystem-1" id="toc-contributors-cross-ecosystem-1" class="nav-link" data-scroll-target="#contributors-cross-ecosystem-1">Contributors (Cross-Ecosystem)</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
@@ -207,6 +210,12 @@ ul.task-list li input[type="checkbox"] {
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 23, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -244,26 +253,29 @@ ul.task-list li input[type="checkbox"] {
 <p>Before diving into detailed findings, let’s look at the big picture. This section provides a snapshot of the entire JuliaHealth ecosystem.</p>
 <section id="general-registry-status" class="level3">
 <h3 class="anchored" data-anchor-id="general-registry-status">General Registry Status</h3>
-<p>The General Registry is Julia’s central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run <code>using PackageName</code> or <code>] add PackageName</code> without needing to know the GitHub URL. Out of 48 packages, <strong>38 are registered</strong> in the General Registry (79%), while <strong>10 remain unregistered</strong> (21%).</p>
+<p>The General Registry is Julia’s central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run <code>using PackageName</code> or <code>] add PackageName</code> without needing to know the GitHub URL. Out of 48 packages, <strong>34 are registered</strong> in the General Registry (79%), while <strong>14 remain unregistered</strong> (21%).</p>
 <br>
 <div style="text-align: center;">
 <p><img src="./images/packages_registry_status.png" class="img-fluid"></p>
 </div>
-<p><strong>Packages NOT in General Registry (10):</strong></p>
+<p><strong>Packages NOT in General Registry (14):</strong></p>
 <ul>
-<li>Thunderbolt.jl</li>
-<li>PubMedMiner.jl</li>
 <li>CTakesParser.jl</li>
-<li>OMOPCDMFeasibility.jl</li>
-<li>OMOPCDMPathways.jl</li>
+<li>CloToP.jl</li>
+<li>GitHubAnalytics.jl</li>
 <li>HealthDash.jl</li>
 <li>HealthLLM.jl</li>
-<li>OHDSIAPI.jl</li>
-<li>GitHubAnalytics.jl</li>
 <li>IPUMS.jl</li>
-<li>CloToP.jl</li>
+<li>ITKIOWrapp.jl</li>
+<li>MTIWrapper.jl</li>
+<li>OHDSIAPI.jl</li>
+<li>OMOPCDMFeasibility.jl</li>
+<li>OMOPCDMPathways.jl</li>
+<li>PubMedMiner.jl</li>
+<li>Thunderbolt.jl</li>
+<li>WrapperITKIO.jl</li>
 </ul>
-<p><strong>Packages with Repo Link Mismatches (7):</strong></p>
+<p><strong>Packages with Repo Link Mismatches (7):</strong> What I have noticed is that, even though the repo-link stated is different, it is redirecting to the JuliaHealth page.</p>
 <ul>
 <li>BlindingIndex.jl</li>
 <li>DICOMTree.jl</li>
@@ -303,7 +315,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="non-package-repositories" class="level3">
 <h3 class="anchored" data-anchor-id="non-package-repositories">Non-Package Repositories</h3>
 <p>The JuliaHealth organization also hosts <strong>12 non-package repositories</strong> for documentation, tutorials, papers, and infrastructure:</p>
-<p><strong>Note:</strong> The audit identified 10 non-package repositories through the GitHub API. Two additional repositories (juliahealth.github.io and juliahealth.github.io-previews) could not be identified due to API privacy constraints.</p>
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_all_stars.png" class="img-fluid"></p>
 </div>
@@ -316,15 +327,16 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="detailed-findings">Detailed Findings</h2>
 <p>Now let’s dive deeper into specific aspects of the JuliaHealth ecosystem. This section breaks down the audit findings by categories:</p>
 <ul>
-<li><a href="#documentation">Documentation</a></li>
-<li><a href="#ci-cd-testing">CI/CD &amp; Testing</a></li>
-<li><a href="#community-activity">Community &amp; Activity</a></li>
-<li><a href="#code-quality-standards">Code Quality &amp; Standards</a></li>
-<li><a href="#package-structure-maturity">Package Structure &amp; Maturity</a></li>
+<li><a href="#documentation-readme">Documentation &amp; README</a></li>
+<li><a href="#ci-cd-testing-coverage">CI/CD, Testing &amp; Coverage</a></li>
+<li><a href="#structure-licensing-maturity">Structure, Licensing &amp; Maturity</a></li>
+<li><a href="#activity-releases-engagement">Activity, Releases &amp; Engagement</a></li>
+<li><a href="#issues-pr-health">Issues &amp; PR Health</a></li>
+<li><a href="#contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</a></li>
 </ul>
-<section id="documentation" class="level3">
-<h3 class="anchored" data-anchor-id="documentation">Documentation</h3>
-<p>Documentation is crucial for package adoption and contribution. We evaluated multiple aspects: whether packages have a docs/ directory, use Documenter.jl, deploy to GitHub Pages, and include contributor guidelines.</p>
+<section id="documentation-readme" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-readme">Documentation &amp; README</h3>
+<p>Documentation is crucial for package adoption and contribution. We evaluated whether packages have a docs/ directory, use Documenter.jl, deploy to GitHub Pages, and include contributor guidelines.</p>
 <section id="documentation-coverage" class="level4">
 <h4 class="anchored" data-anchor-id="documentation-coverage">Documentation Coverage</h4>
 <div style="text-align: center;">
@@ -333,7 +345,6 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="github-pages-deployment" class="level4">
 <h4 class="anchored" data-anchor-id="github-pages-deployment">GitHub Pages Deployment</h4>
-<p><br></p>
 <div style="text-align: center;">
 <p><img src="./images/packages_github_pages_adoption.png" class="img-fluid"></p>
 </div>
@@ -360,13 +371,29 @@ ul.task-list li input[type="checkbox"] {
 <li>MTIWrapper.jl</li>
 </ul>
 </section>
+<section id="readme-completeness" class="level4">
+<h4 class="anchored" data-anchor-id="readme-completeness">README Completeness</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_readme_completeness.png" class="img-fluid"></p>
+</div>
+<p>README completeness scoring (0–8), one point each:</p>
+<ul>
+<li>Install/quickstart instructions</li>
+<li>Usage or examples section</li>
+<li>Contributing guidance</li>
+<li>Lists that break up dense text</li>
+<li>Links to docs/issues/community</li>
+<li>Code blocks or inline examples</li>
+<li>Badges (build, coverage, license, etc.)</li>
+<li>Section headers (##) for structure</li>
+</ul>
 </section>
-<section id="ci-cd-testing" class="level3">
-<h3 class="anchored" data-anchor-id="ci-cd-testing">CI/CD &amp; Testing</h3>
-<p>Continuous Integration and testing infrastructure ensure code quality and catch bugs early. We examined CI adoption, infrastructure choices, code coverage tracking, and testing practices.</p>
+</section>
+<section id="ci-cd-testing-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="ci-cd-testing-coverage">CI/CD, Testing &amp; Coverage</h3>
+<p>Continuous Integration and testing infrastructure ensure code quality and catch bugs early. We examined CI adoption, CI status, code coverage tracking, and testing practices.</p>
 <section id="cicd-adoption" class="level4">
 <h4 class="anchored" data-anchor-id="cicd-adoption">CI/CD Adoption</h4>
-<br>
 <div style="text-align: center;">
 <p><img src="./images/packages_ci_adoption.png" class="img-fluid"></p>
 </div>
@@ -379,7 +406,6 @@ ul.task-list li input[type="checkbox"] {
 <li>WrapperITKIO.jl</li>
 <li>ITKIOWrapp.jl</li>
 </ul>
-<br>
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_ci_adoption.png" class="img-fluid"></p>
 </div>
@@ -402,7 +428,6 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="code-coverage" class="level4">
 <h4 class="anchored" data-anchor-id="code-coverage">Code Coverage</h4>
-<br>
 <div style="text-align: center;">
 <p><img src="./images/packages_code_coverage.png" class="img-fluid"></p>
 </div>
@@ -428,98 +453,41 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 </section>
 </section>
-<section id="community-activity" class="level3">
-<h3 class="anchored" data-anchor-id="community-activity">Community &amp; Activity</h3>
-<p>Community engagement and maintenance activity indicate package health. We analyzed stars, contributors, issues, pull requests, and maintenance status.</p>
-<section id="contributors-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="contributors-distribution">Contributors Distribution</h4>
+<section id="structure-licensing-maturity" class="level3">
+<h3 class="anchored" data-anchor-id="structure-licensing-maturity">Structure, Licensing &amp; Maturity</h3>
+<p>Proper package structure, licensing clarity, and maturity indicators help users assess reliability. We evaluated standard layout compliance, registry status, archive status, maturity tiers, and license coverage.</p>
+<p>For clarity, in this audit a package is considered to follow the “standard layout” when it meets the required items and all recommended checks below.</p>
+<ul>
+<li>Required items (all required):
+<ul>
+<li><code>has_src_dir</code>: repository contains a <code>src/</code> directory</li>
+<li><code>has_project_toml</code>: <code>Project.toml</code> is present</li>
+<li><code>has_license</code>: a LICENSE file is present</li>
+</ul></li>
+<li>Recommended checks (all recommended):
+<ul>
+<li><code>has_test_dir</code>: <code>test/</code> directory exists</li>
+<li><code>has_docs_dir</code>: <code>docs/</code> directory exists</li>
+<li><code>has_ci</code>: CI workflows exist (e.g., <code>.github/workflows/</code>)</li>
+<li><code>uses_documenter</code>: uses Documenter.jl for docs</li>
+<li><code>code_coverage_config</code>: code coverage reporting configured (e.g., Codecov)</li>
+</ul></li>
+</ul>
+<p>Packages marked as following the standard layout must satisfy every item in both lists.</p>
+<section id="structure-compliance" class="level4">
+<h4 class="anchored" data-anchor-id="structure-compliance">Structure Compliance</h4>
 <div style="text-align: center;">
-<p><img src="./images/packages_contributors_distribution.png" class="img-fluid"></p>
+<p><img src="./images/packages_standards_compliance.png" class="img-fluid"></p>
 </div>
 </section>
-<section id="stars-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="stars-distribution">Stars Distribution</h4>
+<section id="standards-percentages" class="level4">
+<h4 class="anchored" data-anchor-id="standards-percentages">Standards Percentages</h4>
 <div style="text-align: center;">
-<p><img src="./images/packages_stars_distribution.png" class="img-fluid"></p>
+<p><img src="./images/packages_standards_percentages.png" class="img-fluid"></p>
 </div>
-</section>
-<section id="maintenance-health" class="level4">
-<h4 class="anchored" data-anchor-id="maintenance-health">Maintenance Health</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_maintenance_health.png" class="img-fluid"></p>
-</div>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Status</th>
-<th>Criteria</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Active</td>
-<td>Last push &lt; 180 days</td>
-</tr>
-<tr class="even">
-<td>Maintenance</td>
-<td>Last push 180–365 days</td>
-</tr>
-<tr class="odd">
-<td>Inactive</td>
-<td>Last push &gt; 365 days</td>
-</tr>
-<tr class="even">
-<td>Unknown</td>
-<td>Timestamp unavailable or unparsable</td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-</section>
-<section id="issues-comparison" class="level4">
-<h4 class="anchored" data-anchor-id="issues-comparison">Issues Comparison</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_issues_comparison.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="pull-requests-comparison" class="level4">
-<h4 class="anchored" data-anchor-id="pull-requests-comparison">Pull Requests Comparison</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_prs_comparison.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="releases-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="releases-distribution">Releases Distribution</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_releases_distribution.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="non-package-issues" class="level4">
-<h4 class="anchored" data-anchor-id="non-package-issues">Non-Package Issues</h4>
-<div style="text-align: center;">
-<p><img src="./images/nonpackages_issues_comparison.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="non-package-pull-requests" class="level4">
-<h4 class="anchored" data-anchor-id="non-package-pull-requests">Non-Package Pull Requests</h4>
-<div style="text-align: center;">
-<p><img src="./images/nonpackages_prs_comparison.png" class="img-fluid"></p>
-</div>
-</section>
-</section>
-<section id="code-quality-standards" class="level3">
-<h3 class="anchored" data-anchor-id="code-quality-standards">Code Quality &amp; Standards</h3>
-<p>Code quality standards improve maintainability and collaboration. We checked for README quality, style guide adoption, license compliance, and overall standards.</p>
-<section id="readme-quality" class="level4">
-<h4 class="anchored" data-anchor-id="readme-quality">README Quality</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_readme_quality.png" class="img-fluid"></p>
-</div>
-<p>README quality is assessed by evaluating: (1) presence of code blocks/examples, (2) content length (indicating comprehensiveness), and (3) documentation completeness. These metrics help users quickly understand package functionality and usage.</p>
 </section>
 <section id="style-guide-distribution" class="level4">
 <h4 class="anchored" data-anchor-id="style-guide-distribution">Style Guide Distribution</h4>
-<br>
 <div style="text-align: center;">
 <p><img src="./images/packages_style_guide_distribution.png" class="img-fluid"></p>
 </div>
@@ -562,41 +530,6 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><br></p>
-</section>
-</section>
-<section id="package-structure-maturity" class="level3">
-<h3 class="anchored" data-anchor-id="package-structure-maturity">Package Structure &amp; Maturity</h3>
-<p>Proper package structure and maturity indicators help users assess reliability. We evaluated standard layout compliance, registry status, archive status, and maturity tiers.</p>
-<p>For clarity, in this audit a package is considered to follow the “standard layout” when it meets the required items and all recommended checks below.</p>
-<ul>
-<li>Required items (all required):
-<ul>
-<li><code>has_src_dir</code>: repository contains a <code>src/</code> directory</li>
-<li><code>has_project_toml</code>: <code>Project.toml</code> is present</li>
-<li><code>has_license</code>: a LICENSE file is present</li>
-</ul></li>
-<li>Recommended checks (all recommended):
-<ul>
-<li><code>has_test_dir</code>: <code>test/</code> directory exists</li>
-<li><code>has_docs_dir</code>: <code>docs/</code> directory exists</li>
-<li><code>has_ci</code>: CI workflows exist (e.g., <code>.github/workflows/</code>)</li>
-<li><code>uses_documenter</code>: uses Documenter.jl for docs</li>
-<li><code>code_coverage_config</code>: code coverage reporting configured (e.g., Codecov)</li>
-</ul></li>
-</ul>
-<p>Packages marked as following the standard layout must satisfy every item in both lists.</p>
-<section id="structure-compliance" class="level4">
-<h4 class="anchored" data-anchor-id="structure-compliance">Structure Compliance</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_standards_compliance.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="standards-percentages" class="level4">
-<h4 class="anchored" data-anchor-id="standards-percentages">Standards Percentages</h4>
-<div style="text-align: center;">
-<p><img src="./images/packages_standards_percentages.png" class="img-fluid"></p>
-</div>
 </section>
 <section id="maturity-tiers" class="level4">
 <h4 class="anchored" data-anchor-id="maturity-tiers">Maturity Tiers</h4>
@@ -612,28 +545,203 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Stable</td>
-<td>In General Registry; releases &gt;= 10</td>
+<td>Mature</td>
+<td>In General Registry; releases_count ≥ 20</td>
 </tr>
 <tr class="even">
-<td>Developing</td>
-<td>In General Registry; releases &gt;= 1</td>
+<td>Stable</td>
+<td>In General Registry; 5 ≤ releases_count ≤ 19</td>
 </tr>
 <tr class="odd">
-<td>Early</td>
-<td>Not in General Registry OR no releases</td>
+<td>Early Release</td>
+<td>In General Registry; 1–4 releases</td>
+</tr>
+<tr class="even">
+<td>Registered (No Releases)</td>
+<td>In General Registry; releases_count = 0</td>
+</tr>
+<tr class="odd">
+<td>Not Registered</td>
+<td>Not in General Registry</td>
 </tr>
 </tbody>
 </table>
-<p><br></p>
+</section>
+<section id="license-presence-types" class="level4">
+<h4 class="anchored" data-anchor-id="license-presence-types">License Presence &amp; Types</h4>
+<p>All JuliaHealth packages have licenses – 100% license compliance! This is an important ecosystem signal showing professionalism and legal clarity.</p>
+<div style="text-align: center;">
+<p><img src="./images/packages_license_presence.png" class="img-fluid"></p>
+</div>
+<p>License types vary across the ecosystem. The most common licenses include MIT, Apache-2.0 and BSD variants, reflecting standard open-source practices:</p>
+<div style="text-align: center;">
+<p><img src="./images/packages_license_types.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="non-package-license-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="non-package-license-coverage">Non-Package License Coverage</h4>
+<p>Non-package repositories also show strong license compliance:</p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_license_presence.png" class="img-fluid"></p>
+</div>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_license_status.png" class="img-fluid"></p>
+</div>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_license_types.png" class="img-fluid"></p>
+</div>
+<p>Non-package repositories missing a LICENSE file:</p>
+<ul>
+<li>JuliaHealthEcosystemPaper</li>
+<li>JuliaHealthWebsiteOld</li>
+<li>JuliaHealthZoo</li>
+<li>MedPipe3DTutorial</li>
+<li>ObservationalHealthSubecosystemPaper</li>
+</ul>
+</section>
+</section>
+<section id="activity-releases-engagement" class="level3">
+<h3 class="anchored" data-anchor-id="activity-releases-engagement">Activity, Releases &amp; Engagement</h3>
+<p>Community engagement and maintenance activity indicate package health. We analyzed activity recency, releases, stars, contributors, and popularity.</p>
+<section id="activity-recency" class="level4">
+<h4 class="anchored" data-anchor-id="activity-recency">Activity Recency</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_activity_recency.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="releases-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="releases-distribution">Releases Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_releases_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="stars-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="stars-distribution">Stars Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_stars_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="contributors-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="contributors-distribution">Contributors Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_contributors_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-stars-1" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-stars-1">Top Packages by Stars</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_stars.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-contributors-1" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-contributors-1">Top Packages by Contributors</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_contributors.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-releases" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-releases">Top Packages by Releases</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top_releases.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="non-package-stars-and-contributors" class="level4">
+<h4 class="anchored" data-anchor-id="non-package-stars-and-contributors">Non-Package Stars and Contributors</h4>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_all_stars.png" class="img-fluid"></p>
+</div>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_all_contributors.png" class="img-fluid"></p>
+</div>
+</section>
+</section>
+<section id="issues-pr-health" class="level3">
+<h3 class="anchored" data-anchor-id="issues-pr-health">Issues &amp; PR Health</h3>
+<section id="issues-comparison-packages" class="level4">
+<h4 class="anchored" data-anchor-id="issues-comparison-packages">Issues Comparison (Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_issues_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="prs-comparison-packages" class="level4">
+<h4 class="anchored" data-anchor-id="prs-comparison-packages">PRs Comparison (Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_prs_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="issues-comparison-non-packages" class="level4">
+<h4 class="anchored" data-anchor-id="issues-comparison-non-packages">Issues Comparison (Non-Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_issues_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="prs-comparison-non-packages" class="level4">
+<h4 class="anchored" data-anchor-id="prs-comparison-non-packages">PRs Comparison (Non-Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_prs_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+</section>
+<section id="contributors-cross-ecosystem" class="level3">
+<h3 class="anchored" data-anchor-id="contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</h3>
+<p>Human contributors across all JuliaHealth repos (bots excluded). <code>total_contributions</code> sums all contributions across repos; <code>num_repos_contributed</code> counts distinct repos touched.</p>
+<section id="top-contributors-by-total" class="level4">
+<h4 class="anchored" data-anchor-id="top-contributors-by-total">Top Contributors by Total</h4>
+<div style="text-align: center;">
+<p><img src="./images/contributors_top_by_total.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-contributors-by-repo-count" class="level4">
+<h4 class="anchored" data-anchor-id="top-contributors-by-repo-count">Top Contributors by Repo Count</h4>
+<div style="text-align: center;">
+<p><img src="./images/contributors_top_by_repo_count.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="contribution-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="contribution-distribution">Contribution Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/contributors_contribution_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="engagement-tiers" class="level4">
+<h4 class="anchored" data-anchor-id="engagement-tiers">Engagement Tiers</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tier</th>
+<th>Rule (total_contributions, num_repos_contributed)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Core</td>
+<td>total &gt; 500 or repos &gt; 10</td>
+</tr>
+<tr class="even">
+<td>Regular</td>
+<td>total ≥ 100 or repos ≥ 3</td>
+</tr>
+<tr class="odd">
+<td>Occasional</td>
+<td>total ≥ 10 or repos ≥ 1</td>
+</tr>
+<tr class="even">
+<td>One-time</td>
+<td>Otherwise</td>
+</tr>
+</tbody>
+</table>
+<div style="text-align: center;">
+<p><img src="./images/contributors_engagement_tiers.png" class="img-fluid"></p>
+</div>
 </section>
 </section>
 </section>
 <section id="actionables" class="level2">
 <h2 class="anchored" data-anchor-id="actionables">Actionables</h2>
-<p>Looking at our findings, here are concise, prioritized actions organized in the requested order. Each item is phrased as a small, actionable task that can be addressed in a single PR or issue.</p>
-<section id="documentation-1" class="level3">
-<h3 class="anchored" data-anchor-id="documentation-1">Documentation</h3>
+<p>Looking at our findings, here are concise, prioritized actions organized in the updated categories. Each item is phrased as a small, actionable task that can be addressed in a single PR or issue.</p>
+<section id="documentation-readme-1" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-readme-1">Documentation &amp; README</h3>
 <ul>
 <li><strong>Rationale:</strong> Good documentation makes it easy for users to learn and use the package. Good docs also help contributors get started and contribute safely.</li>
 <li><strong>Actions:</strong>
@@ -645,8 +753,8 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 </section>
-<section id="cicd-testing" class="level3">
-<h3 class="anchored" data-anchor-id="cicd-testing">CI/CD &amp; Testing</h3>
+<section id="cicd-testing-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="cicd-testing-coverage">CI/CD, Testing &amp; Coverage</h3>
 <ul>
 <li><strong>Rationale:</strong> CI runs tests automatically to find bugs early. Coverage helps identify parts of the code that need more tests.</li>
 <li><strong>Actions:</strong>
@@ -657,8 +765,21 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 </section>
-<section id="community-activity-1" class="level3">
-<h3 class="anchored" data-anchor-id="community-activity-1">Community &amp; Activity</h3>
+<section id="structure-licensing-maturity-1" class="level3">
+<h3 class="anchored" data-anchor-id="structure-licensing-maturity-1">Structure, Licensing &amp; Maturity</h3>
+<ul>
+<li><strong>Rationale:</strong> A standard layout makes packages easier to install and use. Published releases and clear licensing let others depend on stable, compliant versions. A shared code style reduces trivial review comments and confusion, and CI checks catch obvious issues before human review.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Finalize a standard template for package structure.</li>
+<li>Publish a release and register in the General Registry if ready; fix registry metadata if needed.</li>
+<li>Adopt <code>JuliaFormatter</code> and add formatting to CI.</li>
+<li>Add basic lint or build checks to CI (e.g., docs build, tests pass).</li>
+</ul></li>
+</ul>
+</section>
+<section id="activity-releases-engagement-1" class="level3">
+<h3 class="anchored" data-anchor-id="activity-releases-engagement-1">Activity, Releases &amp; Engagement</h3>
 <ul>
 <li><strong>Rationale:</strong> Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs.</li>
 <li><strong>Actions:</strong>
@@ -669,28 +790,26 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 </section>
-<section id="code-quality-standards-1" class="level3">
-<h3 class="anchored" data-anchor-id="code-quality-standards-1">Code Quality &amp; Standards</h3>
+<section id="issues-pr-health-1" class="level3">
+<h3 class="anchored" data-anchor-id="issues-pr-health-1">Issues &amp; PR Health</h3>
 <ul>
-<li><strong>Rationale:</strong> A shared code style reduces trivial review comments and confusion. CI checks catch obvious issues before human review.</li>
+<li><strong>Rationale:</strong> Well-triaged issues and reviewed PRs keep backlog healthy and contributors unblocked.</li>
 <li><strong>Actions:</strong>
 <ul>
-<li>Adopt <code>JuliaFormatter</code> and add formatting to CI.</li>
-<li>Add basic lint or build checks to CI (e.g., docs build, tests pass).</li>
+<li>Use the issue/PR comparisons above to prioritize triage and reviews.</li>
+<li>Apply <code>good first issue</code>/<code>help wanted</code> labels to surface approachable work.</li>
 </ul></li>
 </ul>
 </section>
-<section id="package-structure-maturity-1" class="level3">
-<h3 class="anchored" data-anchor-id="package-structure-maturity-1">Package Structure &amp; Maturity</h3>
+<section id="contributors-cross-ecosystem-1" class="level3">
+<h3 class="anchored" data-anchor-id="contributors-cross-ecosystem-1">Contributors (Cross-Ecosystem)</h3>
 <ul>
-<li><strong>Rationale:</strong> A standard layout makes packages easier to install and use. Published releases let others depend on stable versions.</li>
+<li><strong>Rationale:</strong> Recognizing and engaging active contributors helps sustain momentum across repositories.</li>
 <li><strong>Actions:</strong>
 <ul>
-<li>Finalize a standard template for package structure.</li>
-<li>Publish a release and register in the General Registry if ready; fix registry metadata if needed.</li>
+<li>Use the generated lists in <a href="data/results/lists">data/results/lists</a> to pick concrete targets and open issues or PRs against the repositories listed.</li>
 </ul></li>
 </ul>
-<p>Use the generated lists in <a href="data/results/lists">data/results/lists</a> to pick concrete targets and open issues or PRs against the repositories listed.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
