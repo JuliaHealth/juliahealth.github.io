@@ -2,7 +2,7 @@
 title: "JuliaHealth Ecosystem Audit: Documentation, CI and Package Health"
 description: "A reproducible audit summarizing findings across documentation, CI/testing, community activity and package quality, with actionables to guide maintainers and contributors in improving the JuliaHealth ecosystem."
 author: "Kosuri Indu"
-date: "1/23/2026"
+date: "01/23/2026"
 toc: true
 engine: julia
 image: false
@@ -16,7 +16,7 @@ categories:
 
 Hi everyone! I'm Kosuri Lakshmi Indu, a final-year undergraduate student majoring in Computer Science and a Google Summer of Code 2025 contributor. Over the past year, I've had the wonderful opportunity to work with the JuliaHealth community, where I've been learning, contributing and getting involved in various projects focused on improving how we work with healthcare data and strengthen our ecosystem.
 
-This blog post is part of my work on a **NumFOCUS Small Development Grant** project focused on [**Improving JuliaHealth Documentation Accessibility for Community Onboarding**](https://github.com/JuliaHealth/JuliaHealth.github.io/issues/59). The grant supports three main goals:
+This blog post is part of my work on a **NumFOCUS Small Development Grant** project focused on [**Improving JuliaHealth Documentation Accessibility for Community Onboarding**](https://github.com/numfocus/small-development-grant-proposals/issues/59). The grant supports three main goals:
 
 1. Attracting new community members and contributors: by making documentation more accessible and centralized
 2. Highlighting JuliaHealth workflows: through practical guides and examples
@@ -30,10 +30,11 @@ The JuliaHealth organization currently maintains 60 (48 packages + 12 non-packag
 
 This audit helps us answer important questions:
 
-- How many packages have documentation deployed for users?
+- How many packages hve documentation deployed for users?
 - Do packages have contributing guidelines to help newcomers get started?
 - Which packages track code coverage to ensure test quality?
-- Are packages actively maintained or have some gone quiet? and etc
+- Are packages actively maintained or have some gone quiet?
+- Who are the active maintainers across the ecosystem?
 
 In this blog post, I'll walk you through what I discovered about the JuliaHealth ecosystem. The work is well documented in repository: [**JuliaHealthAudit**](https://github.com/JuliaHealth/JuliaHealthAudit)
 
@@ -158,7 +159,7 @@ Documentation is crucial for package adoption and contribution. We evaluated whe
 
 </div>
 
-Packages without GitHub Pages
+**Packages without GitHub Pages:**
 
 - DICOM.jl
 - NeuroAnalyzer.jl
@@ -188,7 +189,7 @@ Packages without GitHub Pages
 
 </div>
 
-README completeness scoring (0–8), one point each:
+**README completeness scoring (0–8), one point each:**
 
 - Install/quickstart instructions
 - Usage or examples section
@@ -211,7 +212,7 @@ Continuous Integration and testing infrastructure ensure code quality and catch 
 
 </div>
 
-Packages missing CI workflows
+**Packages missing CI workflows:**
 
 - MedPipe3D.jl
 - MedEval3D.jl
@@ -226,7 +227,7 @@ Packages missing CI workflows
 
 </div>
 
-#### Non-package repositories missing CI workflows
+**Non-package repositories missing CI workflows:**
 
 - MedPipe3DTutorial
 - OMOPCDMPredictor
@@ -250,7 +251,7 @@ Packages missing CI workflows
 
 </div>
 
-Packages without code coverage configured
+**Packages without code coverage configured:**
 
 - BloodFlowTrixi.jl
 - NeuroAnalyzer.jl
@@ -326,6 +327,8 @@ Packages marked as following the standard layout must satisfy every item in both
 | HealthLLM.jl | Blue |
 | IPUMS.jl | Blue |
 
+<br>
+
 #### Maturity Tiers
 
 <div style="text-align: center;">
@@ -342,6 +345,8 @@ Packages marked as following the standard layout must satisfy every item in both
 | Registered (No Releases) | In General Registry; releases_count = 0 |
 | Not Registered | Not in General Registry |
 
+<br>
+
 #### License Presence & Types
 
 All JuliaHealth packages have licenses -- 100% license compliance! This is an important ecosystem signal showing professionalism and legal clarity.
@@ -353,6 +358,8 @@ All JuliaHealth packages have licenses -- 100% license compliance! This is an im
 </div>
 
 License types vary across the ecosystem. The most common licenses include MIT, Apache-2.0 and BSD variants, reflecting standard open-source practices:
+
+<br>
 
 <div style="text-align: center;">
 
@@ -370,11 +377,15 @@ Non-package repositories also show strong license compliance:
 
 </div>
 
+<br>
+
 <div style="text-align: center;">
 
 ![](./images/nonpackages_license_status.png)
 
 </div>
+
+<br>
 
 <div style="text-align: center;">
 
@@ -382,7 +393,7 @@ Non-package repositories also show strong license compliance:
 
 </div>
 
-Non-package repositories missing a LICENSE file:
+**Non-package repositories missing a LICENSE file:**
 
 - JuliaHealthEcosystemPaper
 - JuliaHealthWebsiteOld
@@ -393,6 +404,57 @@ Non-package repositories missing a LICENSE file:
 ### Activity, Releases & Engagement {#activity-releases-engagement}
 
 Community engagement and maintenance activity indicate package health. We analyzed activity recency, releases, stars, contributors, and popularity.
+
+#### Maintainers & Maintenance Status
+
+Understanding who maintains packages and their current activity status is critical for ecosystem health. We identify maintainers as people with push/admin/maintain access who have committed code in the last 10 years. Active maintainers are those who contributed within the last 6 months.
+
+**Maintainers Comparison (Packages):**
+
+<div style="text-align: center;">
+
+![](./images/packages_maintainers_comparison.png)
+
+</div>
+
+This chart shows all maintainers (people with push access who committed in the last 10 years) versus active maintainers (those who contributed in the last 6 months). The gap between the two bars indicates maintainer availability - a large gap suggests maintainers who could help but aren't currently active.
+
+**Maintenance Status (Packages):**
+
+<div style="text-align: center;">
+
+![](./images/packages_maintenance_status.png)
+
+</div>
+
+Classification criteria:
+
+| Status | Criteria |
+|---|---|
+| **Concept** | Less than 1 release |
+| **Active** | Has active maintainers (contributed in last 6 months) |
+| **Inactive** | Has maintainers but no active ones, last activity < 540 days (~18 months) |
+| **Abandoned** | No maintainers OR last activity ≥ 540 days |
+
+**Maintainers Comparison (Non-Packages):**
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_maintainers_comparison.png)
+
+</div>
+
+<br>
+
+**Maintenance Status (Non-Packages):**
+
+<div style="text-align: center;">
+
+![](./images/nonpackages_maintenance_status.png)
+
+</div>
+
+The maintenance status distribution helps identify which packages and repositories need immediate attention. **Active** packages have maintainers currently engaged, **Inactive** packages have maintainers who could be re-engaged, **Abandoned** packages need new maintainers or archival consideration, and **Concept** packages are experimental or pre-release.
 
 #### Activity Recency
 
@@ -498,9 +560,7 @@ Community engagement and maintenance activity indicate package health. We analyz
 
 </div>
 
-### Contributors (Cross-Ecosystem) {#contributors-cross-ecosystem}
-
-Human contributors across all JuliaHealth repos (bots excluded). `total_contributions` sums all contributions across repos; `num_repos_contributed` counts distinct repos touched.
+### Contributors (Cross-Ecosyste) {#contributors-cross-ecosystem}
 
 #### Top Contributors by Total
 
@@ -527,6 +587,8 @@ Human contributors across all JuliaHealth repos (bots excluded). `total_contribu
 </div>
 
 #### Engagement Tiers
+
+<br>
 
 | Tier | Rule (total_contributions, num_repos_contributed) |
 | --- | --- |
@@ -573,11 +635,14 @@ Looking at our findings, here are concise, prioritized actions organized in the 
 
 ### Activity, Releases & Engagement
 
-- **Rationale:** Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs.
+- **Rationale:** Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs. Active maintenance signals health and reliability to users.
 - **Actions:**
   - Add `good first issue` and `help wanted` labels and link them to `CONTRIBUTING.md`.
   - Add a `MAINTAINERS.md` or contact/triage instructions in the `README`.
-  - Open an issue for inactive packages proposing archive, transfer or handoff steps.
+  - For **Abandoned** packages: Consider archiving, transferring ownership, or recruiting new maintainers.
+  - For **Inactive** packages: Reach out to existing maintainers to gauge interest in returning or recruiting help.
+  - For **Concept** packages: Decide whether to develop toward first release or archive as experimental.
+  - Recognize and thank active maintainers publicly to sustain engagement.
 
 ### Issues & PR Health
 

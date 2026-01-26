@@ -165,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#structure-licensing-maturity" id="toc-structure-licensing-maturity" class="nav-link" data-scroll-target="#structure-licensing-maturity">Structure, Licensing &amp; Maturity</a></li>
   <li><a href="#activity-releases-engagement" id="toc-activity-releases-engagement" class="nav-link" data-scroll-target="#activity-releases-engagement">Activity, Releases &amp; Engagement</a></li>
   <li><a href="#issues-pr-health" id="toc-issues-pr-health" class="nav-link" data-scroll-target="#issues-pr-health">Issues &amp; PR Health</a></li>
-  <li><a href="#contributors-cross-ecosystem" id="toc-contributors-cross-ecosystem" class="nav-link" data-scroll-target="#contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</a></li>
+  <li><a href="#contributors-cross-ecosystem" id="toc-contributors-cross-ecosystem" class="nav-link" data-scroll-target="#contributors-cross-ecosystem">Contributors (Cross-Ecosyste)</a></li>
   </ul></li>
   <li><a href="#actionables" id="toc-actionables" class="nav-link" data-scroll-target="#actionables">Actionables</a>
   <ul class="collapse">
@@ -228,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Hi everyone! I’m Kosuri Lakshmi Indu, a final-year undergraduate student majoring in Computer Science and a Google Summer of Code 2025 contributor. Over the past year, I’ve had the wonderful opportunity to work with the JuliaHealth community, where I’ve been learning, contributing and getting involved in various projects focused on improving how we work with healthcare data and strengthen our ecosystem.</p>
-<p>This blog post is part of my work on a <strong>NumFOCUS Small Development Grant</strong> project focused on <a href="https://github.com/JuliaHealth/JuliaHealth.github.io/issues/59"><strong>Improving JuliaHealth Documentation Accessibility for Community Onboarding</strong></a>. The grant supports three main goals:</p>
+<p>This blog post is part of my work on a <strong>NumFOCUS Small Development Grant</strong> project focused on <a href="https://github.com/numfocus/small-development-grant-proposals/issues/59"><strong>Improving JuliaHealth Documentation Accessibility for Community Onboarding</strong></a>. The grant supports three main goals:</p>
 <ol type="1">
 <li>Attracting new community members and contributors: by making documentation more accessible and centralized</li>
 <li>Highlighting JuliaHealth workflows: through practical guides and examples</li>
@@ -241,10 +241,11 @@ ul.task-list li input[type="checkbox"] {
 <p>The JuliaHealth organization currently maintains 60 (48 packages + 12 non-package) repositories focused on healthcare, medical imaging, bioinformatics and health data analysis. But without a systematic way to assess all packages, it’s impossible to know which ones are well-documented, which have good testing infrastructure and which are actively maintained. So I built an automated audit system to evaluate the entire ecosystem across a set of metrics.</p>
 <p>This audit helps us answer important questions:</p>
 <ul>
-<li>How many packages have documentation deployed for users?</li>
+<li>How many packages hve documentation deployed for users?</li>
 <li>Do packages have contributing guidelines to help newcomers get started?</li>
 <li>Which packages track code coverage to ensure test quality?</li>
-<li>Are packages actively maintained or have some gone quiet? and etc</li>
+<li>Are packages actively maintained or have some gone quiet?</li>
+<li>Who are the active maintainers across the ecosystem?</li>
 </ul>
 <p>In this blog post, I’ll walk you through what I discovered about the JuliaHealth ecosystem. The work is well documented in repository: <a href="https://github.com/JuliaHealth/JuliaHealthAudit"><strong>JuliaHealthAudit</strong></a></p>
 </section>
@@ -348,7 +349,7 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <p><img src="./images/packages_github_pages_adoption.png" class="img-fluid"></p>
 </div>
-<p>Packages without GitHub Pages</p>
+<p><strong>Packages without GitHub Pages:</strong></p>
 <ul>
 <li>DICOM.jl</li>
 <li>NeuroAnalyzer.jl</li>
@@ -376,7 +377,7 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <p><img src="./images/packages_readme_completeness.png" class="img-fluid"></p>
 </div>
-<p>README completeness scoring (0–8), one point each:</p>
+<p><strong>README completeness scoring (0–8), one point each:</strong></p>
 <ul>
 <li>Install/quickstart instructions</li>
 <li>Usage or examples section</li>
@@ -397,7 +398,7 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <p><img src="./images/packages_ci_adoption.png" class="img-fluid"></p>
 </div>
-<p>Packages missing CI workflows</p>
+<p><strong>Packages missing CI workflows:</strong></p>
 <ul>
 <li>MedPipe3D.jl</li>
 <li>MedEval3D.jl</li>
@@ -409,9 +410,7 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_ci_adoption.png" class="img-fluid"></p>
 </div>
-</section>
-<section id="non-package-repositories-missing-ci-workflows" class="level4">
-<h4 class="anchored" data-anchor-id="non-package-repositories-missing-ci-workflows">Non-package repositories missing CI workflows</h4>
+<p><strong>Non-package repositories missing CI workflows:</strong></p>
 <ul>
 <li>MedPipe3DTutorial</li>
 <li>OMOPCDMPredictor</li>
@@ -431,7 +430,7 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <p><img src="./images/packages_code_coverage.png" class="img-fluid"></p>
 </div>
-<p>Packages without code coverage configured</p>
+<p><strong>Packages without code coverage configured:</strong></p>
 <ul>
 <li>BloodFlowTrixi.jl</li>
 <li>NeuroAnalyzer.jl</li>
@@ -530,6 +529,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p><br></p>
 </section>
 <section id="maturity-tiers" class="level4">
 <h4 class="anchored" data-anchor-id="maturity-tiers">Maturity Tiers</h4>
@@ -566,6 +566,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p><br></p>
 </section>
 <section id="license-presence-types" class="level4">
 <h4 class="anchored" data-anchor-id="license-presence-types">License Presence &amp; Types</h4>
@@ -574,6 +575,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="./images/packages_license_presence.png" class="img-fluid"></p>
 </div>
 <p>License types vary across the ecosystem. The most common licenses include MIT, Apache-2.0 and BSD variants, reflecting standard open-source practices:</p>
+<p><br></p>
 <div style="text-align: center;">
 <p><img src="./images/packages_license_types.png" class="img-fluid"></p>
 </div>
@@ -584,13 +586,15 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_license_presence.png" class="img-fluid"></p>
 </div>
+<p><br></p>
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_license_status.png" class="img-fluid"></p>
 </div>
+<p><br></p>
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_license_types.png" class="img-fluid"></p>
 </div>
-<p>Non-package repositories missing a LICENSE file:</p>
+<p><strong>Non-package repositories missing a LICENSE file:</strong></p>
 <ul>
 <li>JuliaHealthEcosystemPaper</li>
 <li>JuliaHealthWebsiteOld</li>
@@ -603,6 +607,60 @@ ul.task-list li input[type="checkbox"] {
 <section id="activity-releases-engagement" class="level3">
 <h3 class="anchored" data-anchor-id="activity-releases-engagement">Activity, Releases &amp; Engagement</h3>
 <p>Community engagement and maintenance activity indicate package health. We analyzed activity recency, releases, stars, contributors, and popularity.</p>
+<section id="maintainers-maintenance-status" class="level4">
+<h4 class="anchored" data-anchor-id="maintainers-maintenance-status">Maintainers &amp; Maintenance Status</h4>
+<p>Understanding who maintains packages and their current activity status is critical for ecosystem health. We identify maintainers as people with push/admin/maintain access who have committed code in the last 10 years. Active maintainers are those who contributed within the last 6 months.</p>
+<p><strong>Maintainers Comparison (Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/packages_maintainers_comparison.png" class="img-fluid"></p>
+</div>
+<p>This chart shows all maintainers (people with push access who committed in the last 10 years) versus active maintainers (those who contributed in the last 6 months). The gap between the two bars indicates maintainer availability - a large gap suggests maintainers who could help but aren’t currently active.</p>
+<p><strong>Maintenance Status (Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/packages_maintenance_status.png" class="img-fluid"></p>
+</div>
+<p>Classification criteria:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Status</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Concept</strong></td>
+<td>Less than 1 release</td>
+</tr>
+<tr class="even">
+<td><strong>Active</strong></td>
+<td>Has active maintainers (contributed in last 6 months)</td>
+</tr>
+<tr class="odd">
+<td><strong>Inactive</strong></td>
+<td>Has maintainers but no active ones, last activity &lt; 540 days (~18 months)</td>
+</tr>
+<tr class="even">
+<td><strong>Abandoned</strong></td>
+<td>No maintainers OR last activity ≥ 540 days</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Maintainers Comparison (Non-Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_maintainers_comparison.png" class="img-fluid"></p>
+</div>
+<p><br></p>
+<p><strong>Maintenance Status (Non-Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_maintenance_status.png" class="img-fluid"></p>
+</div>
+<p>The maintenance status distribution helps identify which packages and repositories need immediate attention. <strong>Active</strong> packages have maintainers currently engaged, <strong>Inactive</strong> packages have maintainers who could be re-engaged, <strong>Abandoned</strong> packages need new maintainers or archival consideration, and <strong>Concept</strong> packages are experimental or pre-release.</p>
+</section>
 <section id="activity-recency" class="level4">
 <h4 class="anchored" data-anchor-id="activity-recency">Activity Recency</h4>
 <div style="text-align: center;">
@@ -683,8 +741,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </section>
 <section id="contributors-cross-ecosystem" class="level3">
-<h3 class="anchored" data-anchor-id="contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</h3>
-<p>Human contributors across all JuliaHealth repos (bots excluded). <code>total_contributions</code> sums all contributions across repos; <code>num_repos_contributed</code> counts distinct repos touched.</p>
+<h3 class="anchored" data-anchor-id="contributors-cross-ecosystem">Contributors (Cross-Ecosyste)</h3>
 <section id="top-contributors-by-total" class="level4">
 <h4 class="anchored" data-anchor-id="top-contributors-by-total">Top Contributors by Total</h4>
 <div style="text-align: center;">
@@ -705,6 +762,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="engagement-tiers" class="level4">
 <h4 class="anchored" data-anchor-id="engagement-tiers">Engagement Tiers</h4>
+<p><br></p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -781,12 +839,15 @@ ul.task-list li input[type="checkbox"] {
 <section id="activity-releases-engagement-1" class="level3">
 <h3 class="anchored" data-anchor-id="activity-releases-engagement-1">Activity, Releases &amp; Engagement</h3>
 <ul>
-<li><strong>Rationale:</strong> Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs.</li>
+<li><strong>Rationale:</strong> Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs. Active maintenance signals health and reliability to users.</li>
 <li><strong>Actions:</strong>
 <ul>
 <li>Add <code>good first issue</code> and <code>help wanted</code> labels and link them to <code>CONTRIBUTING.md</code>.</li>
 <li>Add a <code>MAINTAINERS.md</code> or contact/triage instructions in the <code>README</code>.</li>
-<li>Open an issue for inactive packages proposing archive, transfer or handoff steps.</li>
+<li>For <strong>Abandoned</strong> packages: Consider archiving, transferring ownership, or recruiting new maintainers.</li>
+<li>For <strong>Inactive</strong> packages: Reach out to existing maintainers to gauge interest in returning or recruiting help.</li>
+<li>For <strong>Concept</strong> packages: Decide whether to develop toward first release or archive as experimental.</li>
+<li>Recognize and thank active maintainers publicly to sustain engagement.</li>
 </ul></li>
 </ul>
 </section>
@@ -832,15 +893,16 @@ ul.task-list li input[type="checkbox"] {
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{indu,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{indu2026,
   author = {Indu, Kosuri},
   title = {JuliaHealth {Ecosystem} {Audit:} {Documentation,} {CI} and
     {Package} {Health}},
+  date = {2026-01-23},
   langid = {en}
 }
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-indu" class="csl-entry quarto-appendix-citeas" role="listitem">
-Indu, Kosuri. n.d. <span>“JuliaHealth Ecosystem Audit: Documentation, CI
-and Package Health.”</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-indu2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Indu, Kosuri. 2026. <span>“JuliaHealth Ecosystem Audit: Documentation,
+CI and Package Health.”</span> January 23, 2026.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
