@@ -150,14 +150,8 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#why-this-audit" id="toc-why-this-audit" class="nav-link" data-scroll-target="#why-this-audit">Why This Audit?</a></li>
-  <li><a href="#general-stats" id="toc-general-stats" class="nav-link" data-scroll-target="#general-stats">General Stats</a>
-  <ul class="collapse">
   <li><a href="#general-registry-status" id="toc-general-registry-status" class="nav-link" data-scroll-target="#general-registry-status">General Registry Status</a></li>
   <li><a href="#archived-and-forked-packages" id="toc-archived-and-forked-packages" class="nav-link" data-scroll-target="#archived-and-forked-packages">Archived and Forked Packages</a></li>
-  <li><a href="#top-packages-by-stars" id="toc-top-packages-by-stars" class="nav-link" data-scroll-target="#top-packages-by-stars">Top Packages by Stars</a></li>
-  <li><a href="#top-packages-by-contributors" id="toc-top-packages-by-contributors" class="nav-link" data-scroll-target="#top-packages-by-contributors">Top Packages by Contributors</a></li>
-  <li><a href="#non-package-repositories" id="toc-non-package-repositories" class="nav-link" data-scroll-target="#non-package-repositories">Non-Package Repositories</a></li>
-  </ul></li>
   <li><a href="#detailed-findings" id="toc-detailed-findings" class="nav-link" data-scroll-target="#detailed-findings">Detailed Findings</a>
   <ul class="collapse">
   <li><a href="#documentation-readme" id="toc-documentation-readme" class="nav-link" data-scroll-target="#documentation-readme">Documentation &amp; README</a></li>
@@ -249,11 +243,8 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>In this blog post, I’ll walk you through what I discovered about the JuliaHealth ecosystem. The work is well documented in repository: <a href="https://github.com/JuliaHealth/JuliaHealthAudit"><strong>JuliaHealthAudit</strong></a></p>
 </section>
-<section id="general-stats" class="level2">
-<h2 class="anchored" data-anchor-id="general-stats">General Stats</h2>
-<p>Before diving into detailed findings, let’s look at the big picture. This section provides a snapshot of the entire JuliaHealth ecosystem.</p>
-<section id="general-registry-status" class="level3">
-<h3 class="anchored" data-anchor-id="general-registry-status">General Registry Status</h3>
+<section id="general-registry-status" class="level2">
+<h2 class="anchored" data-anchor-id="general-registry-status">General Registry Status</h2>
 <p>The General Registry is Julia’s central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run <code>using PackageName</code> or <code>] add PackageName</code> without needing to know the GitHub URL. Out of 48 packages, <strong>34 are registered</strong> in the General Registry (79%), while <strong>14 remain unregistered</strong> (21%).</p>
 <br>
 <div style="text-align: center;">
@@ -287,8 +278,8 @@ ul.task-list li input[type="checkbox"] {
 <li>OMOPVocabMapper.jl</li>
 </ul>
 </section>
-<section id="archived-and-forked-packages" class="level3">
-<h3 class="anchored" data-anchor-id="archived-and-forked-packages">Archived and Forked Packages</h3>
+<section id="archived-and-forked-packages" class="level2">
+<h2 class="anchored" data-anchor-id="archived-and-forked-packages">Archived and Forked Packages</h2>
 <p>Archived packages are read-only repositories that are no longer actively maintained. Forked packages originate from other repositories and may have development happening elsewhere.</p>
 <p><strong>Archived Packages (2):</strong></p>
 <ul>
@@ -299,30 +290,6 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>NCEI.jl</li>
 </ul>
-<p><br></p>
-</section>
-<section id="top-packages-by-stars" class="level3">
-<h3 class="anchored" data-anchor-id="top-packages-by-stars">Top Packages by Stars</h3>
-<div style="text-align: center;">
-<p><img src="./images/packages_top15_stars.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="top-packages-by-contributors" class="level3">
-<h3 class="anchored" data-anchor-id="top-packages-by-contributors">Top Packages by Contributors</h3>
-<div style="text-align: center;">
-<p><img src="./images/packages_top15_contributors.png" class="img-fluid"></p>
-</div>
-</section>
-<section id="non-package-repositories" class="level3">
-<h3 class="anchored" data-anchor-id="non-package-repositories">Non-Package Repositories</h3>
-<p>The JuliaHealth organization also hosts <strong>12 non-package repositories</strong> for documentation, tutorials, papers, and infrastructure:</p>
-<div style="text-align: center;">
-<p><img src="./images/nonpackages_all_stars.png" class="img-fluid"></p>
-</div>
-<div style="text-align: center;">
-<p><img src="./images/nonpackages_all_contributors.png" class="img-fluid"></p>
-</div>
-</section>
 </section>
 <section id="detailed-findings" class="level2">
 <h2 class="anchored" data-anchor-id="detailed-findings">Detailed Findings</h2>
@@ -650,6 +617,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p><br></p>
 <p><strong>Maintainers Comparison (Non-Packages):</strong></p>
 <div style="text-align: center;">
 <p><img src="./images/nonpackages_maintainers_comparison.png" class="img-fluid"></p>
@@ -685,14 +653,26 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="./images/packages_contributors_distribution.png" class="img-fluid"></p>
 </div>
 </section>
-<section id="top-packages-by-stars-1" class="level4">
-<h4 class="anchored" data-anchor-id="top-packages-by-stars-1">Top Packages by Stars</h4>
+<section id="top-packages-by-stars" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-stars">Top Packages by Stars</h4>
 <div style="text-align: center;">
 <p><img src="./images/packages_top15_stars.png" class="img-fluid"></p>
 </div>
 </section>
-<section id="top-packages-by-contributors-1" class="level4">
-<h4 class="anchored" data-anchor-id="top-packages-by-contributors-1">Top Packages by Contributors</h4>
+<section id="top-packages-by-monthly-downloads" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-monthly-downloads">Top Packages by Monthly Downloads</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_monthly_downloads.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-total-downloads" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-total-downloads">Top Packages by Total Downloads</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_total_downloads.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-contributors" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-contributors">Top Packages by Contributors</h4>
 <div style="text-align: center;">
 <p><img src="./images/packages_top15_contributors.png" class="img-fluid"></p>
 </div>

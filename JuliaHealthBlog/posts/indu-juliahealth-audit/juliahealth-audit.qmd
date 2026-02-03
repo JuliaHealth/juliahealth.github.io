@@ -38,11 +38,7 @@ This audit helps us answer important questions:
 
 In this blog post, I'll walk you through what I discovered about the JuliaHealth ecosystem. The work is well documented in repository: [**JuliaHealthAudit**](https://github.com/JuliaHealth/JuliaHealthAudit)
 
-## General Stats
-
-Before diving into detailed findings, let's look at the big picture. This section provides a snapshot of the entire JuliaHealth ecosystem.
-
-### General Registry Status
+## General Registry Status
 
 The General Registry is Julia's central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run `using PackageName` or `] add PackageName` without needing to know the GitHub URL. Out of 48 packages, **34 are registered** in the General Registry (79%), while **14 remain unregistered** (21%). 
 
@@ -80,7 +76,7 @@ The General Registry is Julia's central package repository that makes packages e
 - NeuroAnalyzer.jl
 - OMOPVocabMapper.jl
 
-### Archived and Forked Packages
+## Archived and Forked Packages
 
 Archived packages are read-only repositories that are no longer actively maintained. Forked packages originate from other repositories and may have development happening elsewhere.
 
@@ -92,41 +88,6 @@ Archived packages are read-only repositories that are no longer actively maintai
 **Forked Packages (1):**
 
 - NCEI.jl
-
-<br>
-
-### Top Packages by Stars
-
-<div style="text-align: center;">
-
-![](./images/packages_top15_stars.png)
-
-</div>
-
-### Top Packages by Contributors
-
-<div style="text-align: center;">
-
-![](./images/packages_top15_contributors.png)
-
-</div>
-
-
-### Non-Package Repositories
-
-The JuliaHealth organization also hosts **12 non-package repositories** for documentation, tutorials, papers, and infrastructure:
-
-<div style="text-align: center;">
-
-![](./images/nonpackages_all_stars.png)
-
-</div>
-
-<div style="text-align: center;">
-
-![](./images/nonpackages_all_contributors.png)
-
-</div>
 
 ## Detailed Findings
 
@@ -436,6 +397,8 @@ Classification criteria:
 | **Inactive** | Has maintainers but no active ones, last activity < 540 days (~18 months) |
 | **Abandoned** | No maintainers OR last activity ≥ 540 days |
 
+<br>
+
 **Maintainers Comparison (Non-Packages):**
 
 <div style="text-align: center;">
@@ -493,6 +456,22 @@ The maintenance status distribution helps identify which packages and repositori
 <div style="text-align: center;">
 
 ![](./images/packages_top15_stars.png)
+
+</div>
+
+#### Top Packages by Monthly Downloads
+
+<div style="text-align: center;">
+
+![](./images/packages_top15_monthly_downloads.png)
+
+</div>
+
+#### Top Packages by Total Downloads
+
+<div style="text-align: center;">
+
+![](./images/packages_top15_total_downloads.png)
 
 </div>
 
