@@ -40,7 +40,7 @@ In this blog post, I'll walk you through what I discovered about the JuliaHealth
 
 ## General Registry Status
 
-The General Registry is Julia's central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run `using PackageName` or `] add PackageName` without needing to know the GitHub URL. Out of 48 packages, **34 are registered** in the General Registry (79%), while **14 remain unregistered** (21%). 
+The General Registry is Julia's central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run `using PackageName` or `] add PackageName` without needing to know the GitHub URL. Out of 48 packages, **33 are registered** in the General Registry, while **15 remain unregistered**. 
 
 <br>
 <div style="text-align: center;">
@@ -49,7 +49,7 @@ The General Registry is Julia's central package repository that makes packages e
 
 </div>
 
-**Packages NOT in General Registry (14):**
+**Packages NOT in General Registry:**
 
 - CTakesParser.jl
 - CloToP.jl
@@ -72,7 +72,6 @@ The General Registry is Julia's central package repository that makes packages e
 - DICOMTree.jl
 - MedEval3D.jl
 - MedPipe3D.jl
-- NCEI.jl
 - NeuroAnalyzer.jl
 - OMOPVocabMapper.jl
 
