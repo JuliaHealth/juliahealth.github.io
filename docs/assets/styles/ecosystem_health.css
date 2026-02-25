@@ -1,0 +1,123 @@
+.quarto-container {
+	max-width: 1700px;
+}
+
+.ecosystem-summary-grid {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	gap: 0.9rem;
+}
+
+@media (min-width: 768px) {
+	.ecosystem-summary-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1200px) {
+	.ecosystem-summary-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+.ecosystem-summary-card {
+	border: 1px solid var(--bs-border-color, #dee2e6);
+	border-radius: 0.7rem;
+	padding: 0.85rem 0.95rem;
+	background: var(--bs-body-bg, #fff);
+}
+
+.ecosystem-summary-label {
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	color: var(--bs-secondary-color, #6c757d);
+	margin-bottom: 0.2rem;
+}
+
+.ecosystem-summary-value {
+	font-size: 1.7rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.ecosystem-summary-note {
+	font-size: 0.8rem;
+	color: var(--bs-secondary-color, #6c757d);
+}
+
+.ecosystem-status-badge {
+	display: inline-block;
+	border-radius: 999px;
+	padding: 0.2rem 0.62rem;
+	font-size: 0.82rem;
+	font-weight: 600;
+	border: 1px solid transparent;
+}
+
+.ecosystem-status-active { background: #e9f6ef; color: #1e7d4f; border-color: #bfe4d0; }
+.ecosystem-status-concept { background: #eaf3fb; color: #2a6f9e; border-color: #c5def2; }
+.ecosystem-status-inactive { background: #fff4e8; color: #b06a1f; border-color: #f2d7b8; }
+.ecosystem-status-abandoned { background: #fceced; color: #b5474c; border-color: #f3c8cb; }
+.ecosystem-status-other { background: #eef0f3; color: #5f6b77; border-color: #d8dde3; }
+
+.ecosystem-boolean-mark {
+	display: inline-block;
+	font-size: 0.92rem;
+	font-weight: 800;
+	line-height: 1;
+}
+
+.ecosystem-boolean-mark-yes { color: #1e7d4f; }
+.ecosystem-boolean-mark-no { color: #c0392b; }
+
+.ecosystem-table-card {
+	border: 1px solid var(--bs-border-color, #dee2e6);
+	border-radius: 0.7rem;
+	padding: 0.65rem;
+	margin: 0.9rem 0 1.5rem;
+}
+
+.ecosystem-section-note {
+	color: var(--bs-secondary-color, #6c757d);
+	font-size: 0.94rem;
+}
+
+h2 {
+	margin-top: 2.1rem;
+	margin-bottom: 0.85rem;
+}
+
+h3 {
+	margin-top: 1.55rem;
+	margin-bottom: 0.65rem;
+}
+
+.ecosystem-progress-track {
+	height: 0.48rem;
+	background: var(--bs-tertiary-bg, #e9ecef);
+	border: 1px solid var(--bs-border-color, #d4d9de);
+	border-radius: 999px;
+	overflow: hidden;
+}
+
+.ecosystem-progress-fill {
+	height: 100%;
+	background: var(--bs-primary, #0d6efd);
+	border-radius: 999px;
+}
+
+.ecosystem-visual-note {
+	color: var(--bs-secondary-color, #6c757d);
+	font-size: 0.93rem;
+	margin-top: -0.2rem;
+	margin-bottom: 0.85rem;
+}
+
+.ecosystem-centered-figure {
+	text-align: center;
+}
+
+.ecosystem-centered-figure img {
+	display: inline-block;
+	max-width: 100%;
+}
