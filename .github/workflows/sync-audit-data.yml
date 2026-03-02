@@ -1,0 +1,114 @@
+name: Sync Audit Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: Source repository containing audit outputs
+        required: false
+        default: JuliaHealth/JuliaHealthAudit
+      source_ref:
+        description: Branch, tag or SHA in source repo
+        required: false
+        default: main
+      audit_data_path:
+        description: Path in source repo that contains results/history/visualizations
+        required: false
+        default: assets/data/audit
+  repository_dispatch:
+    types: [audit-data-updated]
+
+permissions:
+  contents: write
+
+jobs:
+  sync-audit-data:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_REPO: ${{ github.event.client_payload.source_repo || inputs.source_repo || 'JuliaHealth/JuliaHealthAudit' }}
+      SOURCE_REF: ${{ github.event.client_payload.source_ref || inputs.source_ref || 'main' }}
+      AUDIT_DATA_PATH: ${{ github.event.client_payload.audit_data_path || inputs.audit_data_path || 'assets/data/audit' }}
+    steps:
+      - name: Checkout site repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout audit source repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ env.SOURCE_REF }}
+          path: _audit_source
+          token: ${{ github.token }}
+
+      - name: Copy audit data into site repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="_audit_source/${AUDIT_DATA_PATH%/}"
+          dst="assets/data/audit"
+
+          if [ ! -d "$src" ]; then
+            echo "Expected source path not found: $src"
+            exit 1
+          fi
+
+          mkdir -p "$dst"
+          rsync -av --delete "$src/" "$dst/"
+
+      - name: Detect audit data changes
+        id: audit_changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/data/audit
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No audit data changes detected."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Audit data changes detected."
+          fi
+
+      - name: Setup Julia
+        if: steps.audit_changes.outputs.changed == 'true'
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.10'
+
+      - name: Setup Quarto
+        if: steps.audit_changes.outputs.changed == 'true'
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Instantiate Julia project
+        if: steps.audit_changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+      - name: Render ecosystem health page
+        if: steps.audit_changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          quarto render pages/ecosystem_health.qmd
+
+      - name: Commit and push if changed
+        if: steps.audit_changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/data/audit docs
+          if git diff --cached --quiet; then
+            echo "No audit data changes to commit."
+            exit 0
+          fi
+
+          ts=$(date -u +"%Y-%m-%d %H:%M:%SZ")
+          git commit -m "chore(audit): sync audit data (${ts})"
+          git push
