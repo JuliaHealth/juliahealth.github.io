@@ -20,15 +20,30 @@ website:
       - href: index.qmd
         text: Home
         icon: house-door
+      - text: About Us
+        icon: info-circle
+        menu:
+          - href: pages/who_we_are.qmd
+            text: Who We Are
+            icon: people
+          - href: pages/research.qmd
+            text: Research
+            icon: journal-text
+          - href: pages/connect_with_us.qmd
+            text: Connect With Us
+            icon: chat-heart
       - href: pages/packages.qmd
         text: Packages
         icon: boxes
       - href: JuliaHealthBlog/index.qmd
         text: Blogs
         icon: journal-richtext
-      - href: pages/connect_with_us.qmd
-        text: Connect With Us
-        icon: chat-heart
+      - text: Contributing
+        icon: heart
+        menu:
+          - href: pages/contributing.qmd
+            text: Migrating your package to JuliaHealth
+            icon: arrow-left-right
       - text: "More"
         menu:
           - href: pages/meeting_notes.qmd
