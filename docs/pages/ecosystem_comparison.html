@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Users, Researchers, and Developers – JuliaHealth</title>
+<title>Ecosystem Comparison – JuliaHealth</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,6 +135,25 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Blogs</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ecosystem" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-diagram-3" role="img">
+</i> 
+ <span class="menu-text">Ecosystem</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ecosystem">    
+        <li>
+    <a class="dropdown-item" href="../pages/ecosystem_health.html"><i class="bi bi-activity" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Health</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/ecosystem_comparison.html"><i class="bi bi-columns-gap" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Comparison</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contributing" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-heart" role="img">
 </i> 
@@ -176,15 +195,26 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#observational-health-research-omop-cdm" id="toc-observational-health-research-omop-cdm" class="nav-link active" data-scroll-target="#observational-health-research-omop-cdm">Observational Health Research (OMOP CDM)</a></li>
+  <li><a href="#epidemiology-and-health-data-analysis" id="toc-epidemiology-and-health-data-analysis" class="nav-link" data-scroll-target="#epidemiology-and-health-data-analysis">Epidemiology and Health Data Analysis</a></li>
+  <li><a href="#biomedical-imaging-and-signals" id="toc-biomedical-imaging-and-signals" class="nav-link" data-scroll-target="#biomedical-imaging-and-signals">Biomedical Imaging and Signals</a></li>
+  <li><a href="#bioinformatics" id="toc-bioinformatics" class="nav-link" data-scroll-target="#bioinformatics">Bioinformatics</a></li>
+  <li><a href="#ecosystem-level-tools" id="toc-ecosystem-level-tools" class="nav-link" data-scroll-target="#ecosystem-level-tools">Ecosystem-Level Tools</a></li>
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Users, Researchers, and Developers</h1>
+<h1 class="title">Ecosystem Comparison</h1>
 </div>
 
 
@@ -201,8 +231,198 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>JuliaHealth provides tools for health data science, observational health research, and biomedical imaging in the Julia ecosystem. Researchers often rely on Python and R frameworks for similar workflows. This page highlights how key functionalities available in those ecosystems can also be achieved using Julia and the JuliaHealth ecosystem.</p>
+<p>This comparison focuses on <strong>functional capabilities</strong>, rather than benchmarking performance.</p>
+<section id="observational-health-research-omop-cdm" class="level3">
+<h3 class="anchored" data-anchor-id="observational-health-research-omop-cdm">Observational Health Research (OMOP CDM)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Functionality</th>
+<th>Julia / JuliaHealth</th>
+<th>R (OHDSI / HADES)</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Database connection to OMOP CDM</td>
+<td><a href="https://github.com/JuliaHealth/OMOPCDMDatabaseConnector.jl">OMOPCDMDatabaseConnector.jl</a></td>
+<td><a href="https://github.com/OHDSI/DatabaseConnector">DatabaseConnector</a></td>
+<td><a href="https://github.com/OHDSI/ohdsi-python-client">ohdsi-python-client</a></td>
+</tr>
+<tr class="even">
+<td>OMOP CDM data model handling</td>
+<td><a href="https://github.com/JuliaHealth/OMOPCommonDataModel.jl">OMOPCommonDataModel.jl</a> † <a href="https://github.com/JuliaHealth/HealthBase.jl">HealthBase.jl</a></td>
+<td><a href="https://github.com/OHDSI/CommonDataModel">OMOP Common Data Model</a></td>
+<td><a href="https://github.com/OHDSI/ohdsi-common">ohdsi-common</a></td>
+</tr>
+<tr class="odd">
+<td>SQL generation from cohort definitions</td>
+<td><a href="https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl">OHDSICohortExpressions.jl</a>†</td>
+<td><a href="https://github.com/OHDSI/SqlRender">SqlRender</a> † <a href="https://github.com/OHDSI/CirceR">CirceR</a></td>
+<td><a href="https://github.com/OHDSI/ohdsi-sqlrender">ohdsi-sqlrender</a></td>
+</tr>
+<tr class="even">
+<td>Cohort creation</td>
+<td><a href="https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl">OMOPCDMCohortCreator.jl</a></td>
+<td><a href="https://github.com/OHDSI/CohortGenerator">CohortGenerator</a></td>
+<td><a href="https://pypi.org/project/ohdsi-cohort-generator/">ohdsi-cohort-generator</a></td>
+</tr>
+<tr class="odd">
+<td>Patient pathway analysis</td>
+<td><a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl">OMOPCDMPathways.jl</a>‡</td>
+<td><a href="https://github.com/OHDSI/TreatmentPatterns">TreatmentPatterns</a></td>
+<td>Limited native support</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="epidemiology-and-health-data-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="epidemiology-and-health-data-analysis">Epidemiology and Health Data Analysis</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Functionality</th>
+<th>Julia</th>
+<th>R</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Epidemiological modelling</td>
+<td><a href="https://github.com/JuliaEpi">JuliaEpi</a>† ecosystem</td>
+<td><a href="https://github.com/statnet/EpiModel">EpiModel</a></td>
+<td><a href="https://cmrivers.github.io/epipy/">Epipy</a></td>
+</tr>
+<tr class="even">
+<td>Cohort feature extraction</td>
+<td><a href="https://github.com/JuliaData/DataFrames.jl">DataFrames.jl</a> † <a href="https://github.com/alan-turing-institute/MLJ.jl">MLJ.jl</a> (via <a href="https://github.com/JuliaHealth/HealthBase.jl">HealthBase.jl</a>)</td>
+<td><a href="https://github.com/OHDSI/FeatureExtraction">FeatureExtraction</a></td>
+<td>Limited native implementations</td>
+</tr>
+<tr class="odd">
+<td>Patient-level prediction pipelines</td>
+<td><a href="https://github.com/alan-turing-institute/MLJ.jl">MLJ.jl</a> workflows</td>
+<td><a href="https://github.com/OHDSI/PatientLevelPrediction">PatientLevelPrediction</a></td>
+<td><a href="https://scikit-learn.org/">scikit-learn</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="biomedical-imaging-and-signals" class="level3">
+<h3 class="anchored" data-anchor-id="biomedical-imaging-and-signals">Biomedical Imaging and Signals</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Functionality</th>
+<th>Julia</th>
+<th>R</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MRI simulation</td>
+<td><a href="https://github.com/JuliaHealth/KomaMRI.jl">KomaMRI.jl</a></td>
+<td>Limited support</td>
+<td><a href="https://nipy.org/nibabel/">NiBabel</a></td>
+</tr>
+<tr class="even">
+<td>Medical image reconstruction</td>
+<td><a href="https://github.com/JuliaImageRecon">JuliaImageRecon</a>† ecosystem</td>
+<td><a href="https://cran.r-project.org/package=AnalyzeFMRI">AnalyzeFMRI</a></td>
+<td><a href="https://dipy.org/">DIPY</a></td>
+</tr>
+<tr class="odd">
+<td>Medical image visualization</td>
+<td><a href="https://github.com/JuliaHealth/MedEye3d.jl">MedEye3d.jl</a></td>
+<td><a href="https://cran.r-project.org/package=oro.nifti">oro.nifti</a></td>
+<td><a href="https://napari.org/">napari</a></td>
+</tr>
+<tr class="even">
+<td>Physiological signal analysis</td>
+<td><a href="https://github.com/JuliaDSP/DSP.jl">DSP.jl</a> † time-series tools</td>
+<td><a href="https://cran.r-project.org/package=biosignalEMG">biosignalEMG</a></td>
+<td><a href="https://github.com/neuropsychology/NeuroKit">NeuroKit2</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bioinformatics" class="level3">
+<h3 class="anchored" data-anchor-id="bioinformatics">Bioinformatics</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Functionality</th>
+<th>Julia</th>
+<th>R</th>
+<th>Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bioinformatics workflows</td>
+<td><a href="https://github.com/BioJulia">BioJulia</a>† ecosystem</td>
+<td><a href="https://www.bioconductor.org/">Bioconductor</a></td>
+<td><a href="https://biopython.org/">Biopython</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="ecosystem-level-tools" class="level3">
+<h3 class="anchored" data-anchor-id="ecosystem-level-tools">Ecosystem-Level Tools</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Application</th>
+<th>Julia</th>
+<th>Python</th>
+<th>R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data manipulation</td>
+<td><a href="https://github.com/JuliaData/DataFrames.jl">DataFrames.jl</a></td>
+<td><a href="https://pandas.pydata.org/">pandas</a></td>
+<td><a href="https://dplyr.tidyverse.org/">dplyr</a></td>
+</tr>
+<tr class="even">
+<td>Visualization</td>
+<td><a href="https://makie.org/">Makie</a> / <a href="https://github.com/JuliaPlots/Plots.jl">Plots.jl</a></td>
+<td><a href="https://matplotlib.org/">matplotlib</a></td>
+<td><a href="https://ggplot2.tidyverse.org/">ggplot2</a></td>
+</tr>
+<tr class="odd">
+<td>Machine learning</td>
+<td><a href="https://github.com/alan-turing-institute/MLJ.jl">MLJ.jl</a>, <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a></td>
+<td><a href="https://scikit-learn.org/">scikit-learn</a></td>
+<td><a href="https://cran.r-project.org/package=caret">caret</a></td>
+</tr>
+<tr class="even">
+<td>Numerical computing</td>
+<td>Julia LinearAlgebra / SciML</td>
+<td><a href="https://numpy.org/">NumPy</a></td>
+<td>base R</td>
+</tr>
+<tr class="odd">
+<td>Notebooks</td>
+<td><a href="https://plutojl.org/">Pluto.jl</a> / <a href="https://github.com/JuliaLang/IJulia.jl">IJulia</a></td>
+<td><a href="https://jupyter.org/">Jupyter</a></td>
+<td><a href="https://rmarkdown.rstudio.com/">RMarkdown</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes" class="level3">
+<h3 class="anchored" data-anchor-id="notes">Notes</h3>
+<p>† Not an official JuliaHealth package.</p>
+<p>‡ Limited support.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

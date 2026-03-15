@@ -135,6 +135,25 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Blogs</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ecosystem" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-diagram-3" role="img">
+</i> 
+ <span class="menu-text">Ecosystem</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ecosystem">    
+        <li>
+    <a class="dropdown-item" href="../pages/ecosystem_health.html"><i class="bi bi-activity" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Health</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/ecosystem_comparison.html"><i class="bi bi-columns-gap" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Comparison</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contributing" role="link" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-heart" role="img">
 </i> 
@@ -176,8 +195,17 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#juliahealth-ecosystem" id="toc-juliahealth-ecosystem" class="nav-link active" data-scroll-target="#juliahealth-ecosystem">JuliaHealth Ecosystem</a></li>
+  <li><a href="#medical-imaging-ecosystem" id="toc-medical-imaging-ecosystem" class="nav-link" data-scroll-target="#medical-imaging-ecosystem">Medical Imaging Ecosystem</a></li>
+  <li><a href="#juliahealth-software-and-tools" id="toc-juliahealth-software-and-tools" class="nav-link" data-scroll-target="#juliahealth-software-and-tools">JuliaHealth Software and Tools</a></li>
+  <li><a href="#juliahealth-researchers" id="toc-juliahealth-researchers" class="nav-link" data-scroll-target="#juliahealth-researchers">JuliaHealth Researchers</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -201,8 +229,169 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>JuliaHealth supports research across healthcare data science, observational health research, and medical imaging. The ecosystem is actively used in academic research and collaborative scientific projects across the Julia community.</p>
+<p>Below are selected publications connected to the JuliaHealth ecosystem and its contributors.</p>
+<section id="juliahealth-ecosystem" class="level3">
+<h3 class="anchored" data-anchor-id="juliahealth-ecosystem">JuliaHealth Ecosystem</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Publication</th>
+<th>Authors</th>
+<th>Venue</th>
+<th>Year</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bringing Julia to Health: A Concise Overview of JuliaHealth</td>
+<td>Jacob S. Zelko, Carlos Castillo-Passi, Jakub Mitura, Divyansh Goyal, Kosuri Lakshmi Indu, Jay Sanjay Landge</td>
+<td>JuliaCon Proceedings</td>
+<td>2026</td>
+<td><a href="https://doi.org/10.21105/jcon.00194">DOI</a></td>
+</tr>
+<tr class="even">
+<td>Physiological signal analysis and open science using the Julia language and associated software</td>
+<td>George Datseris, Jacob S. Zelko</td>
+<td>Frontiers in Network Physiology</td>
+<td>2024</td>
+<td><a href="https://doi.org/10.3389/fnetp.2024.1478280">DOI</a></td>
+</tr>
+<tr class="odd">
+<td>The use of the Julia programming language for global health informatics and observational health research</td>
+<td>Jacob S. Zelko, Varshini Chinta, Malina Hy, Fareeda Abdelazeez</td>
+<td>OHDSI Global Symposium</td>
+<td>2023</td>
+<td><a href="https://www.ohdsi.org/2023showcase-213">Conference Page</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="medical-imaging-ecosystem" class="level3">
+<h3 class="anchored" data-anchor-id="medical-imaging-ecosystem">Medical Imaging Ecosystem</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Publication</th>
+<th>Authors</th>
+<th>Venue</th>
+<th>Year</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>KomaMRI.jl: An open-source framework for general MRI simulations with GPU acceleration</td>
+<td>Carlos Castillo-Passi, Ronal Coronado, Gabriel Varela-Mattatall, Carlos Alberola-López, René Botnar, Pablo Irarrazaval</td>
+<td>Magnetic Resonance in Medicine</td>
+<td>2023</td>
+<td><a href="https://doi.org/10.1002/mrm.29635">DOI</a></td>
+</tr>
+<tr class="even">
+<td>Versatile and highly efficient MRI simulation of arbitrary motion in KomaMRI</td>
+<td>Pablo Villacorta-Aylagas et al.</td>
+<td>Magnetic Resonance in Medicine</td>
+<td>2025</td>
+<td><a href="https://doi.org/10.1002/mrm.70145">DOI</a></td>
+</tr>
+<tr class="odd">
+<td>Highly efficient image navigator based 3D whole-heart cardiac MRA at 0.55T</td>
+<td>Carlos Castillo-Passi et al.</td>
+<td>Magnetic Resonance in Medicine</td>
+<td>2025</td>
+<td><a href="https://doi.org/10.1002/mrm.30316">DOI</a></td>
+</tr>
+<tr class="even">
+<td>Cardiac magnetic resonance fingerprinting for simultaneous T1, T2 and fat-fraction quantification at 0.55T</td>
+<td>Diego Pedraza, Carlos Castillo-Passi et al.</td>
+<td>NMR in Biomedicine</td>
+<td>2025</td>
+<td><a href="https://doi.org/10.1002/nbm.70143">DOI</a></td>
+</tr>
+<tr class="odd">
+<td>Simultaneous 3D aortic lumen and vessel wall imaging at 0.55T</td>
+<td>Matias Paredes, Carlos Castillo-Passi et al.</td>
+<td>Magnetic Resonance in Medicine</td>
+<td>2025</td>
+<td><a href="https://doi.org/10.1002/mrm.30611">DOI</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="juliahealth-software-and-tools" class="level3">
+<h3 class="anchored" data-anchor-id="juliahealth-software-and-tools">JuliaHealth Software and Tools</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Publication</th>
+<th>Authors</th>
+<th>Venue</th>
+<th>Year</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OMOPCDMCohortCreator</td>
+<td>Jacob S. Zelko, Varshini Chinta</td>
+<td>Zenodo</td>
+<td>2022</td>
+<td><a href="https://doi.org/10.5281/zenodo.7052105">DOI</a></td>
+</tr>
+<tr class="even">
+<td>OMOPCDMPathways.jl</td>
+<td>Jay Sanjay Landge, Jacob S. Zelko</td>
+<td>Zenodo</td>
+<td>2024</td>
+<td><a href="https://doi.org/10.5281/zenodo.14674051">DOI</a></td>
+</tr>
+<tr class="odd">
+<td>3D Medical Segmentation Visualization in Julia with MedEye3D</td>
+<td>Jakub Mitura, Beata E. Chrapko</td>
+<td>Zeszyty Naukowe WWSI</td>
+<td>2021</td>
+<td><a href="https://doi.org/10.26348/znwwsi.25.57">DOI</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="juliahealth-researchers" class="level3">
+<h3 class="anchored" data-anchor-id="juliahealth-researchers">JuliaHealth Researchers</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Researcher</th>
+<th>Area</th>
+<th>Google Scholar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Jacob S. Zelko</td>
+<td>JuliaHealth Lead, Observational Health Research</td>
+<td><a href="https://scholar.google.com/citations?user=hNlNUewAAAAJ">Profile</a></td>
+</tr>
+<tr class="even">
+<td>Carlos Castillo-Passi</td>
+<td>Medical Imaging and MRI Simulation</td>
+<td><a href="https://scholar.google.com/citations?user=WzleS8YAAAAJ">Profile</a></td>
+</tr>
+<tr class="odd">
+<td>Adam Wysokiński</td>
+<td>Health data science and statistical computing</td>
+<td><a href="https://scholar.google.com/citations?user=9-zz7IwAAAAJ">Profile</a></td>
+</tr>
+<tr class="even">
+<td>Aurora Rossi</td>
+<td>Computational health research</td>
+<td><a href="https://scholar.google.com/citations?user=3aIZuFkAAAAJ">Profile</a></td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Michela Rocchetti">
-<meta name="dcterms.date" content="2024-08-26">
-<meta name="description" content="A summary of my project for Google Summer of Code">
 
-<title>GSoC ’24: IPUMS.jl Small Project – JuliaHealth</title>
+<title>Ecosystem Health – JuliaHealth</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,60 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../../">
-<link href="../../../assets/favicon.ico" rel="icon">
-<script src="../../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-51278565e4f4f6ace0c1facf99b82dcc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4d76bf8491c20bad77d141916dc28e1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -119,10 +82,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="../../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">JuliaHealth</span>
     </a>
   </div>
@@ -133,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../../index.html"> <i class="bi bi-house-door" role="img">
+    <a class="nav-link" href="../index.html"> <i class="bi bi-house-door" role="img">
 </i> 
 <span class="menu-text">Home</span></a>
   </li>  
@@ -145,29 +108,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-about-us">    
         <li>
-    <a class="dropdown-item" href="../../../pages/who_we_are.html"><i class="bi bi-people" role="img">
+    <a class="dropdown-item" href="../pages/who_we_are.html"><i class="bi bi-people" role="img">
 </i> 
  <span class="dropdown-text">Who We Are</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/research.html"><i class="bi bi-journal-text" role="img">
+    <a class="dropdown-item" href="../pages/research.html"><i class="bi bi-journal-text" role="img">
 </i> 
  <span class="dropdown-text">Research</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/connect_with_us.html"><i class="bi bi-chat-heart" role="img">
+    <a class="dropdown-item" href="../pages/connect_with_us.html"><i class="bi bi-chat-heart" role="img">
 </i> 
  <span class="dropdown-text">Connect With Us</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../../../pages/packages.html"> <i class="bi bi-boxes" role="img">
+    <a class="nav-link" href="../pages/packages.html"> <i class="bi bi-boxes" role="img">
 </i> 
 <span class="menu-text">Packages</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> <i class="bi bi-journal-richtext" role="img">
+    <a class="nav-link" href="../JuliaHealthBlog/index.html"> <i class="bi bi-journal-richtext" role="img">
 </i> 
 <span class="menu-text">Blogs</span></a>
   </li>  
@@ -179,12 +142,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-ecosystem">    
         <li>
-    <a class="dropdown-item" href="../../../pages/ecosystem_health.html"><i class="bi bi-activity" role="img">
+    <a class="dropdown-item" href="../pages/ecosystem_health.html"><i class="bi bi-activity" role="img">
 </i> 
  <span class="dropdown-text">Ecosystem Health</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/ecosystem_comparison.html"><i class="bi bi-columns-gap" role="img">
+    <a class="dropdown-item" href="../pages/ecosystem_comparison.html"><i class="bi bi-columns-gap" role="img">
 </i> 
  <span class="dropdown-text">Ecosystem Comparison</span></a>
   </li>  
@@ -198,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-contributing">    
         <li>
-    <a class="dropdown-item" href="../../../pages/contributing.html"><i class="bi bi-arrow-left-right" role="img">
+    <a class="dropdown-item" href="../pages/contributing.html"><i class="bi bi-arrow-left-right" role="img">
 </i> 
  <span class="dropdown-text">Migrating your package to JuliaHealth</span></a>
   </li>  
@@ -210,12 +173,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
         <li>
-    <a class="dropdown-item" href="../../../pages/meeting_notes.html"><i class="bi bi-card-text" role="img">
+    <a class="dropdown-item" href="../pages/meeting_notes.html"><i class="bi bi-card-text" role="img">
 </i> 
  <span class="dropdown-text">Meetings Notes</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../../pages/related_organizations.html"><i class="bi bi-buildings" role="img">
+    <a class="dropdown-item" href="../pages/related_organizations.html"><i class="bi bi-buildings" role="img">
 </i> 
  <span class="dropdown-text">Related Organizations</span></a>
   </li>  
@@ -232,56 +195,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#hello" id="toc-hello" class="nav-link active" data-scroll-target="#hello">Hello! 👋</a></li>
-  <li><a href="#project-description" id="toc-project-description" class="nav-link" data-scroll-target="#project-description">Project Description</a></li>
-  <li><a href="#tasks-and-goals" id="toc-tasks-and-goals" class="nav-link" data-scroll-target="#tasks-and-goals">Tasks and Goals</a></li>
-  <li><a href="#how-the-work-was-done" id="toc-how-the-work-was-done" class="nav-link" data-scroll-target="#how-the-work-was-done">How the work was done</a></li>
-  <li><a href="#how-to-work-with-ipums" id="toc-how-to-work-with-ipums" class="nav-link" data-scroll-target="#how-to-work-with-ipums">How to work with IPUMS</a></li>
-  <li><a href="#functions-testing" id="toc-functions-testing" class="nav-link" data-scroll-target="#functions-testing">Functions testing</a></li>
-  <li><a href="#accomplished-goals-and-future-development" id="toc-accomplished-goals-and-future-development" class="nav-link" data-scroll-target="#accomplished-goals-and-future-development">Accomplished Goals and Future Development</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">GSoC ’24: IPUMS.jl Small Project</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">gsoc</div>
-    <div class="quarto-category">geospatial</div>
-    <div class="quarto-category">census</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    A summary of my project for Google Summer of Code
-  </div>
+<h1 class="title">Ecosystem Health</h1>
 </div>
+
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Michela Rocchetti </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">August 26, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -291,125 +220,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="hello" class="level1">
-<h1>Hello! 👋</h1>
-<p>Hi! I am Michela, I have a Master’s degree in Physics of Complex Systems and I am currently working as a software engineer in Rome, where I am from. During my studies, I became interested in the use of modeling and AI methods to improve healthcare and how these tools can be used to better understand how cultural and social backgrounds influence the health of individuals. I am also interested in the computational modeling of the brain and the human body and its implications for a better understanding of certain pathological conditions.</p>
-<p>With these motivations in mind, I heard about Google Summer of Code. Since I had studied Julia in some courses and given that the language is expanding rapidly, I decided to find a project within Julia. As a result, I found the project of <a href="https://jacobzelko.com">Jacob Zelko (<span class="citation" data-cites="TheCedarPrince">@TheCedarPrince</span>)</a> to start this experience.</p>
-<blockquote class="blockquote">
-<p>If you want to learn more about me, you can connect with me here: <a href="https://www.linkedin.com/in/michela-rocchetti-261793218/"><strong>LinkedIn</strong></a>, <a href="https://github.com/MichelaRocchetti"><strong>GitHub</strong></a></p>
-</blockquote>
-</section>
-<section id="project-description" class="level1">
-<h1>Project Description</h1>
-<p><em>IPUMS</em> is the “world’s largest available single database of census microdata”, providing survey and census data from around the world. It includes several projects that provide a wide variety of datasets. The information and data collected by <em>IPUMS</em> are useful for comparative research, as well as for the analysis of individuals in their life contexts. These data can be used to create a more comprehensive dataset that will facilitate research on the social determinants of health for different types of diseases, social communities, and geographical areas.</p>
-<p><img src="./IPUMS_grid_logo.png" class="img-fluid"></p>
-<blockquote class="blockquote">
-<p>To learn more about IPUMS, visit the <a href="https://www.ipums.org">website</a></p>
-</blockquote>
-</section>
-<section id="tasks-and-goals" class="level1">
-<h1>Tasks and Goals</h1>
-<p>The primary objectives of this proposal are to:</p>
-<ol type="1">
-<li><p>Develop a native Julia package to interact with the APIs available around the datasets <em>IPUMS</em> provides.</p></li>
-<li><p>Provide useful utilities within this package for manipulating <em>IPUMS</em> datasets.</p></li>
-<li><p>Compose this package with the wider Julia ecosystem to enable novel research in health, economics, and more.</p></li>
-</ol>
-<p>To achieve this, the work was distributed as follows:</p>
-<ol type="1">
-<li>Expand some of the functionality developed in <code>ipumsr</code> <em>IPUMS</em> NHGIS
-<ul>
-<li>Create a link between OpenAPI documentation and the functions internally used in IPUMS.jl: updating already present functions, determining if updating is needed, and testing them</li>
-<li>Develop functionality similar to the get_metadata_nghis function present in ipumsr</li>
-</ul></li>
-<li>Update <em>IPUMS</em> documentation
-<ul>
-<li>Set up and deploy DocumenterVitepress.jl<br>
-</li>
-<li>Write a blog post on how IPUMS.jl can be composed within the ecosystem.</li>
-</ul></li>
-</ol>
-</section>
-<section id="how-the-work-was-done" class="level1">
-<h1>How the work was done</h1>
-<p>The first task was to migrate documents from Documenter to DocumenterVitepress.This issue aims to support the significant refactoring underway across JuliaHealth, aimed at improving the discoverability and cohesion of the JuliaHealth ecosystem, particularly about documentation. This issue is intended to create a more attractive entry point for new Julia users interested in health research within the Julia community. To accomplish this task, a dependency of DocumenterVitepress was added to the docs directory of the IPUMS.jl repository. Once this was done, the Documenter.jl make.jl file was migrated into a DocumenterVitepress.jl make.jl file. Working on the make.jl file, the pages structure were added to the web page explaining the IPUMS.jl package. With this in mind, those were added: 1. Home: to explain the main purpose of the package 2. Workflows: to explain the working process 3. How to: to give general information 4. Tutorials: to show how to use IPUMS.jl<br>
-5. Examples: some examples of activities 6. Mission: to explain why the package is useful for the community 7. References: references used to write the pages.</p>
-<p>This first task takes some time, especially setting up GitHub and cloning the repository locally. At this point, my experience with GitHub was really limited and I had to learn how to use the Git environment from scratch, for example how to do continuous integration (to commit code to a shared repository), documentation release and merge, and local testing. I found the support of my mentors and searching for material online was really helpful.</p>
-<p>The second task was to update the documentation of IPUMS.jl by modifying the functionality within the model folder in the IPUMS.jl folder. The main aim of this task was to a description of the function and its attributes, an example of possible implementation and result, and finally to show how to use it. The documentation to be updated as of several types of functions: 1. Data extract 2. Data set 3. Data Table 4. Time series table 5. Error 6. Shapefile. Each of these macro-categories (from 1 to 4) contains a set of functions, each signaling the different expected output and specific purpose. Information about what each function does, and the meaning of each specific input variable, has been found on the <em>IPUMS</em> website and references have been made in the written documentation.</p>
-</section>
-<section id="how-to-work-with-ipums" class="level1">
-<h1>How to work with IPUMS</h1>
-<p>After writing down the description of the function and the inputs, examples were formulated, starting from the <em>IPUMS</em> website: when you register at <a href="https://uma.pop.umn.edu/usa/user/new">IPUMS</a>, an API key is given. which is used, among other things, to run pre-written code on the website. This code contains examples of these functions, and these examples have been adapted by changing some input values and adapting them to work in the Julia framework. The latter task was done by simply rewriting some structures, such as dictionaries, maps, or lists, in the Julia language. Here is a small guide on how to set up working with the API: 1. Create an <em>IPUMS</em> account 2. Log in to your account 3. Copy the API key, which can be obtained from the <a href="https://account.ipums.org/api_keys">website</a> 4. Use the key to run the code that is already available on the <a href="https://developer.ipums.org/docs/v2/reference/"><em>IPUMS</em> Developer Portal</a>, where you will also find information about the variables and packages.</p>
-</section>
-<section id="functions-testing" class="level1">
-<h1>Functions testing</h1>
-<p>A final task was to test the functions in the ‘api_IPUMSAPI.jl’ file. In this file, the function to be tested and other functions are defined and the most important ones are extracted to be available in the available throughout the framework. Some of the functions to be tested were the following:</p>
-<ol type="1">
-<li><code>metadata_nhgis_data_tables_get</code></li>
-<li><code>metadata_nhgis_datasets_dataset_data_tables_data_table_get</code></li>
-<li><code>metadata_nhgis_datasets_dataset_get</code></li>
-<li><code>metadata_nhgis_datasets_get</code></li>
-</ol>
-<p>Before working on the Julia files, testing and understanding the original R function was done using R studio.</p>
-<p><img src="./rstudio.png" class="img-fluid"></p>
-<p>Each function was then tested using the API key from the <em>IPUMS</em> registration as well as other input examples taken from the documentation or the <em>IPUMS</em> website. or from the <em>IPUMS</em> website. All functions were displayed successfully, giving the expected result, so it can be concluded that the translation from R to Julia is successful.</p>
-<div id="2" class="cell" data-execution_count="0">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">IPUMS</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">OpenAPI</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>api_key <span class="op">=</span> <span class="st">"insert your key here"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>version <span class="op">=</span> <span class="st">"2"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>page_number <span class="op">=</span> <span class="fl">1</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>page_size <span class="op">=</span> <span class="fl">2500</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#media_type = </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>api <span class="op">=</span> <span class="fu">IPUMSAPI</span>(<span class="st">"https://api.ipums.org"</span>, <span class="fu">Dict</span>(<span class="st">"Authorization"</span> <span class="op">=&gt;</span> api_key));</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>res1 <span class="op">=</span> <span class="fu">metadata_nhgis_data_tables_get</span>(api, version)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>res2 <span class="op">=</span> <span class="fu">metadata_nhgis_datasets_dataset_get</span>(api, <span class="st">"2022_ACS1"</span>, <span class="st">"2"</span>);</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>res3 <span class="op">=</span> <span class="fu">metadata_nhgis_datasets_dataset_data_tables_data_table_get</span>(api, <span class="st">"2022_ACS1"</span>,<span class="st">"B01001"</span>, <span class="st">"2"</span>);</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>res4 <span class="op">=</span> <span class="fu">metadata_nhgis_datasets_get</span>(api, <span class="st">"2"</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>An example of the output is:</p>
-<pre class="{json}"><code>. . .
-
-{
-  "name": "NT1",
-  "nhgisCode": "AAA",
-  "description": "Total Population",
-  "universe": "Persons",
-  "sequence": 1,
-  "datasetName": "1790_cPop",
-  "nVariables": [
-    1
-  ]
-}
-
-. . .</code></pre>
-</section>
-<section id="accomplished-goals-and-future-development" class="level1">
-<h1>Accomplished Goals and Future Development</h1>
-<p>The project was a 90-hour small project and during this time the documentation was completed and the testing of the metadata function was done, as well as the migration from Documenter.jl to DocumenterVitepress.jl. During these months some things took longer than I expected because of some problems that occurred, so some things were missing in relation to the original plan. However, this time was useful for learning new things: - I saw how to work with a package under development, how to work with large datasets, and how to write documentation - I had the opportunity to better understand how to work with Git and GitHub - I learned some new things about R, which was a completely unknown language to me. - I deepened my knowledge of Julia, a language I had worked with during my time at university. - I had the chance to work on a large open-source project, to be part of a large community, and to learn how to communicate with it efficiently.</p>
-<p>A special thanks goes to my mentors, Jacob Zelko and Krishna Bhogaonker, for helping me through this process.</p>
-<p>Future developments of this work could include deepening the work that my mentors and I have started, with the possibility of integrating this package with other machine learning packages in Julia and, from there, doing new analyses of the data in terms of social and geographical implications for health.</p>
 
 
-</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{rocchetti2024,
-  author = {Rocchetti, Michela},
-  title = {GSoC ’24: {IPUMS.jl} {Small} {Project}},
-  date = {2024-08-26},
-  langid = {en}
-}
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-rocchetti2024" class="csl-entry quarto-appendix-citeas" role="listitem">
-Rocchetti, Michela. 2024. <span>“GSoC ’24: IPUMS.jl Small
-Project.”</span> August 26, 2024.
-</div></div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -826,8 +640,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 <footer class="footer">
