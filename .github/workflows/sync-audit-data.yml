@@ -21,17 +21,22 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
-          repository: JuliaHealth/JuliaHealthAudit
+          repository: kosuri-indu/JuliaHealthAudit
           ref: main
           path: _audit_source
 
       - name: Copy audit data
         run: |
+          set -e
+
           src="_audit_source/data"
           dst="assets/data/audit"
 
           mkdir -p "$dst"
-          rsync -av --delete "$src/" "$dst/"
+
+          rsync -av --delete "$src/results/" "$dst/results/"
+          rsync -av --delete "$src/visualizations/" "$dst/visualizations/"
+          rsync -av --delete "$src/history/" "$dst/history/" || true
 
       - name: Detect changes
         id: audit_changes
