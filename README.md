@@ -40,7 +40,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://jacobzelko.com"><img src="https://avatars.githubusercontent.com/u/29561456?v=4?s=100" width="100px;" alt="Jacob S. Zelko"/><br /><sub><b>Jacob S. Zelko</b></sub></a><br /><a href="https://github.com/JuliaHealth/juliahealth.github.io/pulls?q=is%3Apr+reviewed-by%3ATheCedarPrince" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="10%"><a href="https://jacobzelko.com"><img src="https://avatars.githubusercontent.com/u/29561456?v=4?s=100" width="30px;" alt="Jacob S. Zelko"/><br /><sub><b>Jacob S. Zelko</b></sub></a><br /><a href="https://github.com/JuliaHealth/juliahealth.github.io/pulls?q=is%3Apr+reviewed-by%3ATheCedarPrince" title="Reviewed Pull Requests">👀</a></td>
     </tr>
   </tbody>
 </table>
