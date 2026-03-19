@@ -2,7 +2,10 @@
   "files": [
     "README.md"
   ],
-  "imageSize": 50,
+  "imageSize": 40,
+  "contributorsPerLine": 8,
+  "contributorTemplate": "<a href=\"<%= contributor.profile %>\" title=\"<%= contributor.name %>\"><img src=\"<%= contributor.avatar_url %>\" width=\"<%= options.imageSize %>px;\" style=\"border-radius:50%; margin:4px;\"/></a>",
+  "wrapperTemplate": "<div style=\"display:flex; flex-wrap:wrap; align-items:center;\">\n<%= bodyContent %>\n</div>\n",
   "commit": false,
   "commitType": "docs",
   "commitConvention": "angular",
@@ -17,7 +20,6 @@
       ]
     }
   ],
-  "contributorsPerLine": 5,
   "skipCi": true,
   "repoType": "github",
   "repoHost": "https://github.com",
