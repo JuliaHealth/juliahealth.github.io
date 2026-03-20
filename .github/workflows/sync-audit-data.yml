@@ -1,0 +1,85 @@
+name: Sync Audit Data
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [audit-data-updated]
+
+permissions:
+  contents: write
+
+jobs:
+
+  sync-audit-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.target_branch || 'main' }}
+          fetch-depth: 0
+
+      - uses: actions/checkout@v4
+        with:
+          repository: JuliaHealth/JuliaHealthAudit
+          ref: main
+          path: _audit_source
+
+      - name: Copy audit data
+        run: |
+          set -e
+
+          src="_audit_source/data"
+          dst="assets/data/audit"
+
+          mkdir -p "$dst"
+
+          rsync -av --delete "$src/results/" "$dst/results/"
+          rsync -av --delete "$src/visualizations/" "$dst/visualizations/"
+          rsync -av --delete "$src/history/" "$dst/history/" || true
+
+      - name: Detect changes
+        id: audit_changes
+        run: |
+          git add assets/data/audit
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: julia-actions/setup-julia@v2
+        if: steps.audit_changes.outputs.changed == 'true'
+        with:
+          version: "1.10"
+
+      - uses: julia-actions/cache@v2
+        if: steps.audit_changes.outputs.changed == 'true'
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        if: steps.audit_changes.outputs.changed == 'true'
+
+      - name: Instantiate project
+        if: steps.audit_changes.outputs.changed == 'true'
+        run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+      - name: Render site
+        if: steps.audit_changes.outputs.changed == 'true'
+        run: quarto render
+
+      - name: Commit changes
+        if: steps.audit_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/data/audit docs
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          ts=$(date -u +"%Y-%m-%d %H:%M:%SZ")
+          git commit -m "chore(audit): sync audit data (${ts})"
+          git push
