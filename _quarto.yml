@@ -26,9 +26,12 @@ website:
       - href: JuliaHealthBlog/index.qmd
         text: Blogs
         icon: journal-richtext
-      - href: pages/ecosystem_health.qmd
-        text: Ecosystem Health
-        icon: graph-up
+      - text: Ecosystem
+        icon: diagram-3
+        menu:
+          - href: pages/ecosystem_health.qmd
+            text: Ecosystem Health
+            icon: activity
       - href: pages/connect_with_us.qmd
         text: Connect With Us
         icon: chat-heart

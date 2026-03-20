@@ -1,5 +1,5 @@
 ---
-title: "Health Ecosystem"
+title: "Ecosystem Health"
 engine: julia
 format:
   html:
@@ -511,8 +511,6 @@ end
 render_standards_compliance_table(package_audit_data)
 ```
 
-<br>
-
 ## Monthly Tops
 
 <div class="ecosystem-section-note">This section is sourced directly from <code>history/monthly_tops.csv</code> and highlights top packages for core metrics.<br>It captures who is leading right now in stars, monthly downloads, contributor activity, and active maintainership.<br>Use it as a quick leaderboard for ecosystem momentum in the latest completed run.</div>
@@ -522,8 +520,6 @@ render_standards_compliance_table(package_audit_data)
 
 render_monthly_tops_section()
 ```
-
-<br>
 
 ## Run Summary
 
@@ -535,8 +531,6 @@ render_monthly_tops_section()
 render_run_summary_section()
 ```
 
-<br>
-
 ## Full Package Data Table
 
 <div class="ecosystem-section-note">This full table lists all package repositories and is sorted by stars for quick ranking.<br>It combines registration status, maintenance health, CI/docs coverage, and issue/PR load in one place.<br>Use it for deeper package-level review beyond the aggregate summary cards above.</div>
@@ -546,8 +540,6 @@ render_run_summary_section()
 
 render_package_overview_table(package_audit_data)
 ```
-
-<br>
 
 ## Full Non-package Data Table
 
@@ -559,8 +551,6 @@ render_package_overview_table(package_audit_data)
 render_non_package_overview_table(non_package_audit_data)
 ```
 
-<br>
-
 ## Contributors Overview
 
 <div class="ecosystem-section-note">Contributors are grouped by audit tier (core, regular, casual) and sorted by total contributions.<br>Each row also shows cross-repo participation and whether the account is human or bot, based on the audit output.<br>This helps distinguish concentrated leadership from broad community engagement.</div>
@@ -570,8 +560,6 @@ render_non_package_overview_table(non_package_audit_data)
 
 render_contributor_table(contributor_audit_data)
 ```
-
-<br>
 
 ## Audit Visualizations
 
