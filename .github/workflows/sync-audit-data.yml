@@ -9,7 +9,6 @@ permissions:
   contents: write
 
 jobs:
-
   sync-audit-data:
     runs-on: ubuntu-latest
 
@@ -34,52 +33,43 @@ jobs:
 
           mkdir -p "$dst"
 
-          rsync -av --delete "$src/results/" "$dst/results/"
+          # --- RESULTS (only selected CSVs) ---
+          rm -rf "$dst/results"
+          mkdir -p "$dst/results"
+
+          cp "$src/results/audit_packages.csv" "$dst/results/" || true
+          cp "$src/results/audit_non_packages.csv" "$dst/results/" || true
+          cp "$src/results/audit_contributors.csv" "$dst/results/" || true
+
+          # --- VISUALIZATIONS (all PNGs) ---
           rsync -av --delete "$src/visualizations/" "$dst/visualizations/"
+
+          # --- HISTORY (all CSVs) ---
           rsync -av --delete "$src/history/" "$dst/history/" || true
 
-      - name: Detect changes
-        id: audit_changes
-        run: |
-          git add assets/data/audit
-          if git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - uses: julia-actions/setup-julia@v2
-        if: steps.audit_changes.outputs.changed == 'true'
         with:
           version: "1.10"
 
       - uses: julia-actions/cache@v2
-        if: steps.audit_changes.outputs.changed == 'true'
 
       - uses: quarto-dev/quarto-actions/setup@v2
-        if: steps.audit_changes.outputs.changed == 'true'
 
       - name: Instantiate project
-        if: steps.audit_changes.outputs.changed == 'true'
         run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
 
       - name: Render site
-        if: steps.audit_changes.outputs.changed == 'true'
         run: quarto render
 
       - name: Commit changes
-        if: steps.audit_changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add assets/data/audit docs
-
-          if git diff --cached --quiet; then
-            echo "No changes"
-            exit 0
-          fi
+          # Stage EVERYTHING relevant (handles CSV + PNG correctly)
+          git add -A assets/data/audit docs
 
           ts=$(date -u +"%Y-%m-%d %H:%M:%SZ")
-          git commit -m "chore(audit): sync audit data (${ts})"
+          git commit -m "chore(audit): sync audit data (${ts})" || echo "No changes"
+
           git push
