@@ -37,11 +37,13 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<div style="display:flex; flex-wrap:wrap; align-items:center;">
-  <a href="https://jacobzelko.com" title="Jacob S. Zelko">
-    <img src="https://avatars.githubusercontent.com/u/29561456?v=4" width="40px;" style="border-radius:50%; margin:4px;"/>
-  </a>
-</div>
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://jacobzelko.com"><img src="https://avatars.githubusercontent.com/u/29561456?v=4?s=100" width="60px;" alt="Jacob S. Zelko"/><br /><sub style="font-size:12px;"><b>Jacob S. Zelko</b></sub></a><br /><a href="https://github.com/JuliaHealth/juliahealth.github.io/pulls?q=is%3Apr+reviewed-by%3ATheCedarPrince" title="Reviewed Pull Requests">👀</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
