@@ -17,7 +17,6 @@ on:
       - "styles.css"
       - "Project.toml"
       - "Manifest.toml"
-      - "docs/**"
 
 permissions:
   contents: write
@@ -28,28 +27,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  guard-generated-docs:
-    if: github.event.action != 'closed'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Fail on manual docs changes
-        run: |
-          changed_files=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
-          if echo "$changed_files" | grep -q '^docs/'; then
-            echo "Manual edits under docs/ are not allowed."
-            echo "Please remove docs/ changes from this PR; CI will regenerate docs automatically."
-            exit 1
-          fi
-
   preview:
     if: github.event.action != 'closed'
-    needs: guard-generated-docs
     runs-on: ubuntu-latest
 
     steps:
@@ -83,9 +62,9 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: main
-          publish_dir: ./docs
-          destination_dir: docs/previews/PR${{ github.event.pull_request.number }}
+          publish_branch: gh-pages
+          publish_dir: ./_site
+          destination_dir: previews/PR${{ github.event.pull_request.number }}
           keep_files: true
           commit_message: "ci: update preview for PR #${{ github.event.pull_request.number }} [skip ci]"
 
@@ -130,21 +109,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out main branch
+      - name: Check out gh-pages branch
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: gh-pages
           fetch-depth: 0
 
       - name: Remove preview folder
         run: |
-          target="docs/previews/PR${{ github.event.pull_request.number }}"
+          target="previews/PR${{ github.event.pull_request.number }}"
           if [ -d "$target" ]; then
             rm -rf "$target"
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "chore: remove preview for PR #${{ github.event.pull_request.number }}"
+            git commit -m "chore: remove preview for PR #${{ github.event.pull_request.number }} [skip ci]"
             git push
           else
             echo "No preview directory to clean."

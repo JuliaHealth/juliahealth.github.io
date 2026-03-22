@@ -20,8 +20,9 @@ quarto preview . --port 3000 --no-browser
 
 ### CI Build and Deploy Workflow
 
-- Contributors should commit source files only (`.qmd`, styles, assets, and data files) and should not manually commit generated files under `docs/`.
-- Site output is generated in CI and deployed automatically from `main`.
+- Contributors should commit source files only (`.qmd`, styles, assets, and data files).
+- Generated outputs (`docs/`, `_freeze/`, and `_site/`) are for local/CI build artifacts and should not be committed.
+- Site output is generated in CI and deployed automatically to the `gh-pages` branch.
 - Pull requests can publish previews at `https://juliahealth.org/previews/PR<NUMBER>/`.
 - Local builds are recommended for testing before opening a pull request.
 

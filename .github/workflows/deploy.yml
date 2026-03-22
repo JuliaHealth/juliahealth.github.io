@@ -14,8 +14,6 @@ on:
       - "styles.css"
       - "Project.toml"
       - "Manifest.toml"
-    paths-ignore:
-      - "docs/**"
   workflow_dispatch:
 
 permissions:
@@ -55,12 +53,12 @@ jobs:
       - name: Render site
         uses: quarto-dev/quarto-actions/render@v2
 
-      - name: Deploy website to main/docs
+      - name: Deploy website to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: main
-          publish_dir: ./docs
-          destination_dir: docs
+          publish_branch: gh-pages
+          publish_dir: ./_site
           keep_files: true
-          commit_message: "ci: update generated docs [skip ci]"
+          cname: juliahealth.org
+          commit_message: "ci: deploy website [skip ci]"
