@@ -18,6 +18,13 @@
 quarto preview . --port 3000 --no-browser
 ```
 
+### CI Build and Deploy Workflow
+
+- Contributors should commit source files only (`.qmd`, styles, assets, and data files) and should not manually commit generated files under `docs/`.
+- Site output is generated in CI and deployed automatically from `main`.
+- Pull requests can publish previews at `https://juliahealth.org/previews/PR<NUMBER>/`.
+- Local builds are recommended for testing before opening a pull request.
+
 ### Quarto API reference
 
 https://quarto.org/docs/reference/

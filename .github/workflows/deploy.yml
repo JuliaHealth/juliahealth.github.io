@@ -1,0 +1,66 @@
+name: Build and Deploy Website
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.qmd"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "assets/**"
+      - "pages/**"
+      - "JuliaHealthBlog/**"
+      - "styles.css"
+      - "Project.toml"
+      - "Manifest.toml"
+    paths-ignore:
+      - "docs/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+
+      - name: Cache Julia packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.julia
+          key: ${{ runner.os }}-julia-${{ hashFiles('Project.toml', 'Manifest.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-julia-
+
+      - name: Instantiate Julia project
+        run: julia --project=. -e "using Pkg; Pkg.instantiate()"
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render site
+        uses: quarto-dev/quarto-actions/render@v2
+
+      - name: Deploy website to main/docs
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: main
+          publish_dir: ./docs
+          destination_dir: docs
+          keep_files: true
+          commit_message: "ci: update generated docs [skip ci]"
