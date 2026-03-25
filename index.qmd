@@ -18,11 +18,15 @@ julia:
 ```
 
 ```{julia}
-#| echo: false
+#| include: false
 
 using JSON
 import Base.Docs.HTML
 import Markdown: htmlesc
+```
+
+```{julia}
+#| echo: false
 
 MAX_PACKAGES_COUNT = 5
 packages = JSON.parsefile("assets/json/packages.json")
@@ -100,10 +104,6 @@ HTML(
 
 ```{julia}
 #| echo: false
-
-using JSON
-import Base.Docs.HTML
-import Markdown: htmlesc
 
 MAX_ORGS_COUNT = 5
 orgs = JSON.parsefile("assets/json/orgs.json")
