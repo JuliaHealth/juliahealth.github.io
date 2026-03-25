@@ -8,15 +8,16 @@ format:
 ---
 
 ```{julia}
-#| echo: false
-#| message: false
-#| warning: false
-#| output: false
+#| include: false
 
 using CSV
 using DataFrames
 using Dates
 import Base.Docs.HTML
+```
+
+```{julia}
+#| echo: false
 
 results_directory = "../assets/data/audit/results"
 history_directory = "../assets/data/audit/history"
