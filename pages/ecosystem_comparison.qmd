@@ -4,53 +4,53 @@ title: "Ecosystem Comparison"
 
 JuliaHealth provides tools for health data science, observational health research, and biomedical imaging in the Julia ecosystem. Researchers often rely on Python and R frameworks for similar workflows. This page highlights how key functionalities available in those ecosystems can also be achieved using Julia and the JuliaHealth ecosystem.
 
-This comparison focuses on **functional capabilities**, rather than benchmarking performance.
+This comparison focuses on **functional capabilities**, rather than benchmarking performance. Mappings below are capability-level comparisons and may be approximate rather than exact one-to-one package equivalents.
+
+R (via OHDSI/HADES) currently provides the most mature and standardized ecosystem for OMOP-based observational research. The JuliaHealth ecosystem is actively developing and already provides growing support across key workflows, with the goal of broader coverage over time.
 
 ### Observational Health Research (OMOP CDM)
 
 | Functionality | Julia / JuliaHealth | R (OHDSI / HADES) | Python |
 |---|---|---|---|
-| Database connection to OMOP CDM | [OMOPCDMDatabaseConnector.jl](https://github.com/JuliaHealth/OMOPCDMDatabaseConnector.jl) | [DatabaseConnector](https://github.com/OHDSI/DatabaseConnector) | [ohdsi-python-client](https://github.com/OHDSI/ohdsi-python-client) |
-| OMOP CDM data model handling | [OMOPCommonDataModel.jl](https://github.com/JuliaHealth/OMOPCommonDataModel.jl) † [HealthBase.jl](https://github.com/JuliaHealth/HealthBase.jl) | [OMOP Common Data Model](https://github.com/OHDSI/CommonDataModel) | [ohdsi-common](https://github.com/OHDSI/ohdsi-common) |
-| SQL generation from cohort definitions | [OHDSICohortExpressions.jl](https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl)† | [SqlRender](https://github.com/OHDSI/SqlRender) † [CirceR](https://github.com/OHDSI/CirceR) | [ohdsi-sqlrender](https://github.com/OHDSI/ohdsi-sqlrender) |
-| Cohort creation | [OMOPCDMCohortCreator.jl](https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl) | [CohortGenerator](https://github.com/OHDSI/CohortGenerator) | [ohdsi-cohort-generator](https://pypi.org/project/ohdsi-cohort-generator/) |
-| Patient pathway analysis | [OMOPCDMPathways.jl](https://github.com/JuliaHealth/OMOPCDMPathways.jl)‡ | [TreatmentPatterns](https://github.com/OHDSI/TreatmentPatterns) | Limited native support |
+| Database connection to OMOP CDM | [OMOPCDMDatabaseConnector.jl](https://github.com/JuliaHealth/OMOPCDMDatabaseConnector.jl) | [DatabaseConnector](https://github.com/OHDSI/DatabaseConnector) | Fragmented ecosystem; no unified OHDSI-equivalent standard  |
+| OMOP CDM data model handling | [OMOPCommonDataModel.jl](https://github.com/JuliaHealth/OMOPCommonDataModel.jl),  [HealthBase.jl](https://github.com/JuliaHealth/HealthBase.jl) (emerging support) | [OMOP Common Data Model](https://github.com/OHDSI/CommonDataModel) | Fragmented ecosystem; no unified OHDSI-equivalent standard  |
+| SQL generation from cohort definitions | [OHDSICohortExpressions.jl](https://github.com/MechanicalRabbit/OHDSICohortExpressions.jl)† | [SqlRender](https://github.com/OHDSI/SqlRender), [CirceR](https://github.com/OHDSI/CirceR) | Fragmented ecosystem; no unified OHDSI-equivalent standard  |
+| Cohort creation | [OMOPCDMCohortCreator.jl](https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl) | [CohortGenerator](https://github.com/OHDSI/CohortGenerator), [Characterization](https://github.com/OHDSI/Characterization)| [ohdsi-cohort-generator](https://pypi.org/project/ohdsi-cohort-generator/) |
+| Patient pathway analysis | [OMOPCDMPathways.jl](https://github.com/JuliaHealth/OMOPCDMPathways.jl) | OHDSI treatment pathway tooling (package availability varies)  | Limited native support |
 
-### Epidemiology and Health Data Analysis
-
-| Functionality | Julia | R | Python |
-|---|---|---|---|
-| Epidemiological modelling | [JuliaEpi](https://github.com/JuliaEpi)† ecosystem | [EpiModel](https://github.com/statnet/EpiModel) | [Epipy](https://cmrivers.github.io/epipy/) |
-| Cohort feature extraction | [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl) † [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl) (via [HealthBase.jl](https://github.com/JuliaHealth/HealthBase.jl)) | [FeatureExtraction](https://github.com/OHDSI/FeatureExtraction) | Limited native implementations |
-| Patient-level prediction pipelines | [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl) workflows | [PatientLevelPrediction](https://github.com/OHDSI/PatientLevelPrediction) | [scikit-learn](https://scikit-learn.org/) |
-
-### Biomedical Imaging and Signals
+### Epidemiology & Health Data Analysis
 
 | Functionality | Julia | R | Python |
 |---|---|---|---|
-| MRI simulation | [KomaMRI.jl](https://github.com/JuliaHealth/KomaMRI.jl) | Limited support | [NiBabel](https://nipy.org/nibabel/) |
-| Medical image reconstruction | [JuliaImageRecon](https://github.com/JuliaImageRecon)† ecosystem | [AnalyzeFMRI](https://cran.r-project.org/package=AnalyzeFMRI) | [DIPY](https://dipy.org/) |
+| Epidemiological modelling | Emerging epidemiology tooling (e.g., [JuliaEpi](https://github.com/JuliaEpi)†, [DifferentialEquations.jl](https://github.com/SciML/DifferentialEquations.jl)†) | [EpiModel](https://github.com/statnet/EpiModel) | [Epipy](https://cmrivers.github.io/epipy/) |
+| Cohort feature extraction | [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl)† [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl)† (via [HealthBase.jl](https://github.com/JuliaHealth/HealthBase.jl)) | [FeatureExtraction](https://github.com/OHDSI/FeatureExtraction) | General-purpose tools (e.g., statsmodels, lifelines); fewer standardized epidemiology pipelines |
+| Patient-level prediction pipelines | [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl)† workflows | [PatientLevelPrediction](https://github.com/OHDSI/PatientLevelPrediction) | [scikit-learn](https://scikit-learn.org/) |
+
+### Biomedical Imaging & Signals
+
+| Functionality | Julia | R | Python |
+|---|---|---|---|
+| MRI simulation | [KomaMRI.jl](https://github.com/JuliaHealth/KomaMRI.jl) | Limited support | Custom workflows (no common direct equivalent) |
+| Medical image reconstruction | [JuliaImageRecon](https://github.com/JuliaImageRecon)† ecosystem | Domain-specific package mix (varies) | [SimpleITK](https://simpleitk.org/) / [MONAI](https://github.com/Project-MONAI/MONAI) |
 | Medical image visualization | [MedEye3d.jl](https://github.com/JuliaHealth/MedEye3d.jl) | [oro.nifti](https://cran.r-project.org/package=oro.nifti) | [napari](https://napari.org/) |
-| Physiological signal analysis | [DSP.jl](https://github.com/JuliaDSP/DSP.jl) † time-series tools | [biosignalEMG](https://cran.r-project.org/package=biosignalEMG) | [NeuroKit2](https://github.com/neuropsychology/NeuroKit) |
+| Physiological signal analysis | [NeuroAnalyzer.jl](https://github.com/JuliaHealth/NeuroAnalyzer.jl), [DSP.jl](https://github.com/JuliaDSP/DSP.jl)† | [biosignalEMG](https://cran.r-project.org/package=biosignalEMG) | [NeuroKit2](https://github.com/neuropsychology/NeuroKit) |
 
 ### Bioinformatics
 
 | Functionality | Julia | R | Python |
 |---|---|---|---|
-| Bioinformatics workflows | [BioJulia](https://github.com/BioJulia)† ecosystem | [Bioconductor](https://www.bioconductor.org/) | [Biopython](https://biopython.org/) |
+| Bioinformatics workflows | [BioJulia](https://github.com/BioJulia)† ecosystem (growing; less mature than Bioconductor) | [Bioconductor](https://www.bioconductor.org/) | [Biopython](https://biopython.org/) |
 
 ### Ecosystem-Level Tools
 
-| Application | Julia | Python | R |
+| Functionality / Application | Julia | R | Python |
 |---|---|---|---|
-| Data manipulation | [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl) | [pandas](https://pandas.pydata.org/) | [dplyr](https://dplyr.tidyverse.org/) |
-| Visualization | [Makie](https://makie.org/) / [Plots.jl](https://github.com/JuliaPlots/Plots.jl) | [matplotlib](https://matplotlib.org/) | [ggplot2](https://ggplot2.tidyverse.org/) |
-| Machine learning | [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl), [Flux.jl](https://github.com/FluxML/Flux.jl) | [scikit-learn](https://scikit-learn.org/) | [caret](https://cran.r-project.org/package=caret) |
-| Numerical computing | Julia LinearAlgebra / SciML | [NumPy](https://numpy.org/) | base R |
-| Notebooks | [Pluto.jl](https://plutojl.org/) / [IJulia](https://github.com/JuliaLang/IJulia.jl) | [Jupyter](https://jupyter.org/) | [RMarkdown](https://rmarkdown.rstudio.com/) |
+| Data manipulation | [DataFrames.jl](https://github.com/JuliaData/DataFrames.jl)† | [dplyr](https://dplyr.tidyverse.org/) | [pandas](https://pandas.pydata.org/) |
+| Visualization | [Makie](https://makie.org/)† / [Plots.jl](https://github.com/JuliaPlots/Plots.jl)† | [ggplot2](https://ggplot2.tidyverse.org/) | [matplotlib](https://matplotlib.org/) |
+| Machine learning | [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl)†, [Flux.jl](https://github.com/FluxML/Flux.jl)† | [tidymodels](https://www.tidymodels.org/) / [caret](https://cran.r-project.org/package=caret) | [scikit-learn](https://scikit-learn.org/) |
+| Numerical computing | Julia (LinearAlgebra, SciML ecosystem) | base R (matrix, stats) + [Matrix](https://cran.r-project.org/package=Matrix) / [Rcpp](https://cran.r-project.org/package=Rcpp) |[NumPy](https://numpy.org/) |
+| Notebooks | [Pluto.jl](https://plutojl.org/) / [IJulia](https://github.com/JuliaLang/IJulia.jl)† | [RMarkdown](https://rmarkdown.rstudio.com/) | [Jupyter](https://jupyter.org/) |
 
 ### Notes
 
-† Not an official JuliaHealth package.  
-
-‡ Limited support.
+† Not a JuliaHealth package.  
