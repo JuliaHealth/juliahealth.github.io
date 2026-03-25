@@ -21,4 +21,6 @@ Manifest.toml
 
 /.quarto/
 /_site/
+/docs/
+/_freeze/
 **/*.quarto_ipynb
