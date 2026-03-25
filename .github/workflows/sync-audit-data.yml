@@ -2,6 +2,11 @@ name: Sync Audit Data
 
 on:
   workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Target branch to update"
+        required: true
+        default: "add/ecosystem-health-section"
   repository_dispatch:
     types: [audit-data-updated]
 
@@ -15,8 +20,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.client_payload.target_branch || 'main' }}
+          ref: ${{ github.event.client_payload.target_branch || github.event.inputs.target_branch || 'add/ecosystem-health-section' }}
           fetch-depth: 0
+
+      - name: Guard against main updates
+        run: |
+          set -e
+          target="${{ github.event.client_payload.target_branch || github.event.inputs.target_branch || 'add/ecosystem-health-section' }}"
+          if [ "$target" = "main" ]; then
+            echo "Refusing to update main from this workflow"
+            exit 1
+          fi
 
       - uses: actions/checkout@v4
         with:
@@ -36,15 +50,14 @@ jobs:
           # --- RESULTS (only selected CSVs) ---
           rm -rf "$dst/results"
           mkdir -p "$dst/results"
+          cp "$src/results/audit_packages.csv" "$dst/results/"
+          cp "$src/results/audit_non_packages.csv" "$dst/results/"
+          cp "$src/results/audit_contributors.csv" "$dst/results/"
 
-          cp "$src/results/audit_packages.csv" "$dst/results/" || true
-          cp "$src/results/audit_non_packages.csv" "$dst/results/" || true
-          cp "$src/results/audit_contributors.csv" "$dst/results/" || true
-
-          # --- VISUALIZATIONS (all PNGs) ---
+          # --- VISUALIZATIONS (all files) ---
           rsync -av --delete "$src/visualizations/" "$dst/visualizations/"
 
-          # --- HISTORY (all CSVs) ---
+          # --- HISTORY (all files) ---
           rsync -av --delete "$src/history/" "$dst/history/" || true
 
       - uses: julia-actions/setup-julia@v2
@@ -66,10 +79,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Stage EVERYTHING relevant (handles CSV + PNG correctly)
-          git add -A assets/data/audit docs
+          # Stage only synced audit artifacts.
+          git add -A assets/data/audit
 
           ts=$(date -u +"%Y-%m-%d %H:%M:%SZ")
-          git commit -m "chore(audit): sync audit data (${ts})" || echo "No changes"
+          git commit --allow-empty -m "chore(audit): sync audit data (${ts})"
 
-          git push
+          git push origin "HEAD:${{ github.event.client_payload.target_branch || github.event.inputs.target_branch || 'add/ecosystem-health-section' }}"
