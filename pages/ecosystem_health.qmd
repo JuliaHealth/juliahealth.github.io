@@ -9,6 +9,9 @@ format:
 
 ```{julia}
 #| echo: false
+#| message: false
+#| warning: false
+#| output: false
 
 using CSV
 using DataFrames
