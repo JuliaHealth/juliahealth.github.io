@@ -1,0 +1,693 @@
+---
+title: "Ecosystem Health"
+engine: julia
+format:
+  html:
+    css:
+      - ../assets/styles/ecosystem_health.css
+---
+
+```{julia}
+#| include: false
+
+using CSV
+using DataFrames
+using Dates
+import Base.Docs.HTML
+```
+
+```{julia}
+#| echo: false
+
+results_directory = "../assets/data/audit/results"
+history_directory = "../assets/data/audit/history"
+
+function find_latest_audit_csv(prefix::String)
+	canonical_file = "$(prefix).csv"
+	all_csv_files = filter(file -> endswith(lowercase(file), ".csv"), readdir(results_directory))
+
+	if canonical_file in all_csv_files
+		return joinpath(results_directory, canonical_file)
+	end
+
+	matching_files = filter(file -> startswith(file, prefix), all_csv_files)
+	isempty(matching_files) && error("No audit result CSV found for prefix: $(prefix)")
+
+	sorted_files = sort(matching_files; by = file -> stat(joinpath(results_directory, file)).mtime, rev = true)
+	return joinpath(results_directory, first(sorted_files))
+end
+
+package_audit_file = find_latest_audit_csv("audit_packages")
+non_package_audit_file = find_latest_audit_csv("audit_non_packages")
+contributor_audit_file = find_latest_audit_csv("audit_contributors")
+run_summary_file = joinpath(history_directory, "run_summary.csv")
+
+package_audit_data = CSV.read(package_audit_file, DataFrame)
+non_package_audit_data = CSV.read(non_package_audit_file, DataFrame)
+contributor_audit_data = CSV.read(contributor_audit_file, DataFrame)
+run_summary_data = isfile(run_summary_file) ? CSV.read(run_summary_file, DataFrame) : DataFrame()
+
+function escape_html(value)
+	text = string(value)
+	text = replace(text, "&" => "&amp;")
+	text = replace(text, "<" => "&lt;")
+	text = replace(text, ">" => "&gt;")
+	return text
+end
+
+function to_integer(value)
+	if ismissing(value)
+		return 0
+	elseif value isa Integer
+		return Int(value)
+	elseif value isa AbstractFloat
+		return Int(round(value))
+	else
+		try
+			return Int(parse(Float64, String(value)))
+		catch
+			return 0
+		end
+	end
+end
+
+function format_timestamp_for_display(raw_value)
+	if ismissing(raw_value)
+		return "Unknown"
+	end
+	raw_timestamp = string(raw_value)
+	normalized_timestamp = replace(raw_timestamp, "Z" => "")
+	parsed_timestamp = tryparse(DateTime, normalized_timestamp)
+	if isnothing(parsed_timestamp)
+		return raw_timestamp
+	end
+	return "$(Dates.format(parsed_timestamp, "u d, yyyy at HH:MM")) UTC"
+end
+
+function boolean_mark(value)
+	is_true = ismissing(value) ? false : Bool(value)
+	return is_true ?
+		"<span class=\"ecosystem-boolean-mark ecosystem-boolean-mark-yes\" title=\"Yes\">✓</span>" :
+		"<span class=\"ecosystem-boolean-mark ecosystem-boolean-mark-no\" title=\"No\">✕</span>"
+end
+
+function repository_status_badge(value)
+	status_text = ismissing(value) || isempty(String(value)) ? "Unknown" : String(value)
+	status_class =
+		status_text == "Active" ? "ecosystem-status-active" :
+		status_text == "Concept" ? "ecosystem-status-concept" :
+		status_text == "Inactive" ? "ecosystem-status-inactive" :
+		status_text == "Abandoned" ? "ecosystem-status-abandoned" : "ecosystem-status-other"
+
+	return "<span class=\"ecosystem-status-badge $(status_class)\">$(escape_html(status_text))</span>"
+end
+
+function standards_compliance_row(standard_name::String, adopted_count::Int, total_count::Int)
+	adoption_percent = total_count == 0 ? 0.0 : round(100 * adopted_count / total_count; digits=1)
+	progress_bar_html = """
+	<div class=\"ecosystem-progress-track\"><div class=\"ecosystem-progress-fill\" style=\"width: $(adoption_percent)%\"></div></div>
+	"""
+	status_text = adoption_percent >= 80 ? "Strong" : adoption_percent >= 50 ? "Moderate" : "Needs work"
+	status_class = adoption_percent >= 80 ? "ecosystem-adoption-strong" : adoption_percent >= 50 ? "ecosystem-adoption-moderate" : "ecosystem-adoption-needs-work"
+
+	return """
+	<tr>
+	  <td>$(escape_html(standard_name))</td>
+	  <td style=\"width: 220px;\">$(progress_bar_html)</td>
+	  <td><span class=\"ecosystem-adoption-badge $(status_class)\">$(status_text)</span></td>
+	  <td>$(adopted_count)/$(total_count)</td>
+	  <td>$(adoption_percent)%</td>
+	</tr>
+	"""
+end
+
+function render_standards_compliance_table(package_data::DataFrame)
+	package_count = nrow(package_data)
+
+	table_rows_html = ""
+	table_rows_html *= standards_compliance_row("CI Workflow", count(identity, coalesce.(package_data.has_ci_workflow, false)), package_count)
+	table_rows_html *= standards_compliance_row("License", count(identity, coalesce.(package_data.has_license, false)), package_count)
+	table_rows_html *= standards_compliance_row("Source Directory", count(identity, coalesce.(package_data.has_src_dir, false)), package_count)
+	table_rows_html *= standards_compliance_row("Test Directory", count(identity, coalesce.(package_data.has_test_dir, false)), package_count)
+	table_rows_html *= standards_compliance_row("Project.toml", count(identity, coalesce.(package_data.has_project_toml, false)), package_count)
+	table_rows_html *= standards_compliance_row("Docs Directory", count(identity, coalesce.(package_data.has_docs_dir, false)), package_count)
+	table_rows_html *= standards_compliance_row("Uses Documenter", count(identity, coalesce.(package_data.uses_documenter, false)), package_count)
+	table_rows_html *= standards_compliance_row("GitHub Pages", count(identity, coalesce.(package_data.has_gh_pages, false)), package_count)
+	table_rows_html *= standards_compliance_row("Code Coverage", count(identity, coalesce.(package_data.has_code_coverage, false)), package_count)
+	table_rows_html *= standards_compliance_row("CONTRIBUTING.md", count(identity, coalesce.(package_data.has_contributing_md, false)), package_count)
+	table_rows_html *= standards_compliance_row("CODE_OF_CONDUCT", count(identity, coalesce.(package_data.has_code_of_conduct, false)), package_count)
+
+	return HTML("""
+	<div class=\"ecosystem-table-card\">
+	  <div class=\"table-responsive\">
+	    <table class=\"table align-middle\">
+	      <thead>
+	        <tr>
+	          <th>Standard</th>
+	          <th>Visual</th>
+	          <th>Status</th>
+	          <th>Fraction</th>
+	          <th>Value</th>
+	        </tr>
+	      </thead>
+	      <tbody>$(table_rows_html)</tbody>
+	    </table>
+	  </div>
+	</div>
+	""")
+end
+
+function contributor_tier_badge(tier_value)
+	tier = ismissing(tier_value) ? "Unclassified" : String(tier_value)
+	tier_class =
+		lowercase(tier) == "core" ? "ecosystem-tier-core" :
+		lowercase(tier) == "regular" ? "ecosystem-tier-regular" :
+		lowercase(tier) == "casual" ? "ecosystem-tier-casual" : "ecosystem-tier-other"
+	return "<span class=\"ecosystem-tier-badge $(tier_class)\">$(escape_html(tier))</span>"
+end
+
+function contributor_type_mark(is_bot_value)
+	if ismissing(is_bot_value)
+		return "Unknown"
+	end
+	return Bool(is_bot_value) ? "Bot" : "Human"
+end
+
+function render_contributor_table(contributor_data::DataFrame)
+	sorted_data = sort(contributor_data, :total_contributions, rev=true)
+	table_rows_html = ""
+
+	for row in eachrow(sorted_data)
+		login = escape_html(row.login)
+		display_name = ismissing(row.name) || isempty(String(row.name)) ? "—" : escape_html(row.name)
+		tier_badge = contributor_tier_badge(row.contributor_tier)
+		repo_count = to_integer(row.num_repos_contributed)
+		contribution_count = to_integer(row.total_contributions)
+		contributor_type = contributor_type_mark(row.is_bot)
+
+		table_rows_html *= """
+		<tr>
+		  <td><strong>$(login)</strong></td>
+		  <td>$(display_name)</td>
+		  <td>$(tier_badge)</td>
+		  <td class=\"text-end\">$(repo_count)</td>
+		  <td class=\"text-end\">$(contribution_count)</td>
+		  <td>$(contributor_type)</td>
+		</tr>
+		"""
+	end
+
+	return HTML("""
+	<div class=\"ecosystem-table-card\">
+	  <div class=\"table-responsive\">
+	    <table class=\"table table-hover align-middle\">
+	      <thead>
+	        <tr>
+	          <th>Login</th>
+	          <th>Name</th>
+	          <th>Tier</th>
+	          <th class=\"text-end\">Repos</th>
+	          <th class=\"text-end\">Contributions</th>
+	          <th>Type</th>
+	        </tr>
+	      </thead>
+	      <tbody>$(table_rows_html)</tbody>
+	    </table>
+	  </div>
+	</div>
+	""")
+end
+
+function render_run_summary_section()
+	if !isfile(run_summary_file)
+		return HTML("<p class=\"ecosystem-section-note\">Run summary data not found in assets/data/audit/history/run_summary.csv.</p>")
+	end
+	if nrow(run_summary_data) == 0
+		return HTML("<p class=\"ecosystem-section-note\">Run summary data is empty.</p>")
+	end
+
+	latest = run_summary_data[end, :]
+
+	function mini_metric_card(label::String, value::Int)
+		return """
+		<div class=\"ecosystem-run-mini-card\">
+		  <div class=\"ecosystem-run-mini-label\">$(escape_html(label))</div>
+		  <div class=\"ecosystem-run-mini-value\">$(value)</div>
+		</div>
+		"""
+	end
+
+	additional_metrics = [
+		("Forks", to_integer(latest.forks_count)),
+		("Archived", to_integer(latest.archived_count)),
+		("Releases", to_integer(latest.releases_total)),
+		("Total Downloads", to_integer(latest.total_downloads_total)),
+		("Closed Issues", to_integer(latest.closed_issues_total)),
+		("Closed PRs", to_integer(latest.closed_prs_total)),
+		("Maintenance: Active", to_integer(latest.maintenance_active_count)),
+		("Maintenance: Inactive", to_integer(latest.maintenance_inactive_count)),
+		("Maintenance: Concept", to_integer(latest.maintenance_concept_count)),
+		("Maintenance: Abandoned", to_integer(latest.maintenance_abandoned_count)),
+	]
+
+	additional_blocks_html = ""
+	for (label, value) in additional_metrics
+		additional_blocks_html *= mini_metric_card(label, value)
+	end
+
+	return HTML("""
+	<div class=\"ecosystem-table-card\">
+	  <div class=\"ecosystem-run-mini-grid\">$(additional_blocks_html)</div>
+	</div>
+	""")
+end
+
+function render_monthly_tops_section()
+	monthly_tops_path = joinpath(history_directory, "monthly_tops.csv")
+	if !isfile(monthly_tops_path)
+		return HTML("<p class=\"ecosystem-section-note\">Monthly tops data not found in assets/data/audit/history/monthly_tops.csv.</p>")
+	end
+
+	monthly_tops_data = CSV.read(monthly_tops_path, DataFrame)
+	if nrow(monthly_tops_data) == 0
+		return HTML("<p class=\"ecosystem-section-note\">Monthly tops data is empty.</p>")
+	end
+
+	latest = monthly_tops_data[end, :]
+
+	function top5_list_html(row, metric_prefix::String, value_suffix::String="")
+		rows = ""
+		for i in 1:5
+			package_field = Symbol("$(metric_prefix)_top$(i)_package")
+			value_field = Symbol("$(metric_prefix)_top$(i)_value")
+			package_name = hasproperty(row, package_field) ? string(getproperty(row, package_field)) : ""
+			metric_value = hasproperty(row, value_field) ? to_integer(getproperty(row, value_field)) : 0
+			if !isempty(strip(package_name))
+				rows *= "<li><span>$(escape_html(package_name))</span><strong>$(metric_value)$(value_suffix)</strong></li>"
+			end
+		end
+		isempty(rows) && (rows = "<li><span>No data available</span><strong>—</strong></li>")
+		return rows
+	end
+
+	stars_list = top5_list_html(latest, "stars")
+	monthly_downloads_list = top5_list_html(latest, "monthly_downloads")
+	human_contributors_list = top5_list_html(latest, "human_contributors_count")
+	active_maintainers_list = top5_list_html(latest, "active_maintainers_count")
+
+	return HTML("""
+	<div class=\"ecosystem-table-card\">
+	  <p class=\"ecosystem-section-note\">Snapshot month: $(escape_html(string(latest.run_month)))</p>
+	  <div class=\"ecosystem-monthly-top-grid\">
+	    <div class=\"ecosystem-monthly-top-card\"><h4>⭐ Top 5 by Stars</h4><ol>$(stars_list)</ol></div>
+	    <div class=\"ecosystem-monthly-top-card\"><h4>📥 Top 5 by Monthly Downloads</h4><ol>$(monthly_downloads_list)</ol></div>
+	    <div class=\"ecosystem-monthly-top-card\"><h4>👥 Top 5 by Human Contributors</h4><ol>$(human_contributors_list)</ol></div>
+	    <div class=\"ecosystem-monthly-top-card\"><h4>🛠️ Top 5 by Active Maintainers</h4><ol>$(active_maintainers_list)</ol></div>
+	  </div>
+	</div>
+	""")
+end
+
+function render_package_overview_table(package_data::DataFrame)
+	sorted_data = sort(package_data, :stars, rev=true)
+	table_body_html = ""
+
+	for row in eachrow(sorted_data)
+		package_name = escape_html(row.package_name)
+		repository_url = ismissing(row.github_repo_url) ? "" : String(row.github_repo_url)
+		display_name = isempty(repository_url) ? package_name : "<a href=\"$(escape_html(repository_url))\" target=\"_blank\">$(package_name)</a>"
+
+		registry_mark = boolean_mark(row.in_general_registry)
+		status_badge = repository_status_badge(row.maintenance_status)
+		star_count = to_integer(row.stars)
+		release_count = to_integer(row.releases_count)
+		ci_mark = boolean_mark(row.has_ci_workflow)
+		docs_mark = boolean_mark(row.has_docs_dir)
+		open_issues = to_integer(row.open_issues_count)
+		open_prs = to_integer(row.open_prs_count)
+
+		table_body_html *= """
+		<tr>
+		  <td><strong>$(display_name)</strong></td>
+		  <td class=\"text-center\">$(registry_mark)</td>
+		  <td>$(status_badge)</td>
+		  <td class=\"text-end\">$(star_count)</td>
+		  <td class=\"text-end\">$(release_count)</td>
+		  <td class=\"text-center\">$(ci_mark)</td>
+		  <td class=\"text-center\">$(docs_mark)</td>
+		  <td class=\"text-end\">$(open_issues)</td>
+		  <td class=\"text-end\">$(open_prs)</td>
+		</tr>
+		"""
+	end
+
+	return HTML("""
+	<div class=\"ecosystem-table-card\">
+	  <div class=\"table-responsive\">
+	    <table class=\"table table-hover align-middle\">
+	      <thead>
+	        <tr>
+	          <th>Package</th>
+	          <th class=\"text-center\">Registered</th>
+	          <th>Status</th>
+	          <th class=\"text-end\">⭐</th>
+	          <th class=\"text-end\">Releases</th>
+	          <th class=\"text-center\">CI</th>
+	          <th class=\"text-center\">Docs</th>
+	          <th class=\"text-end\">Open issues</th>
+	          <th class=\"text-end\">Open PRs</th>
+	        </tr>
+	      </thead>
+	      <tbody>$(table_body_html)</tbody>
+	    </table>
+	  </div>
+	</div>
+	""")
+end
+
+function render_non_package_overview_table(non_package_data::DataFrame)
+	sorted_data = sort(non_package_data, :stars, rev=true)
+	table_body_html = ""
+
+	for row in eachrow(sorted_data)
+		repository_name = escape_html(row.repo_name)
+		repository_url = ismissing(row.github_repo_url) ? "" : String(row.github_repo_url)
+		display_name = isempty(repository_url) ? repository_name : "<a href=\"$(escape_html(repository_url))\" target=\"_blank\">$(repository_name)</a>"
+
+		status_badge = repository_status_badge(row.maintenance_status)
+		star_count = to_integer(row.stars)
+		ci_mark = boolean_mark(row.has_ci_workflow)
+		docs_mark = boolean_mark(row.readme_has_usage)
+		open_issues = to_integer(row.open_issues_count)
+		open_prs = to_integer(row.open_prs_count)
+
+		table_body_html *= """
+		<tr>
+		  <td><strong>$(display_name)</strong></td>
+		  <td>$(status_badge)</td>
+		  <td class=\"text-end\">$(star_count)</td>
+		  <td class=\"text-center\">$(ci_mark)</td>
+		  <td class=\"text-center\">$(docs_mark)</td>
+		  <td class=\"text-end\">$(open_issues)</td>
+		  <td class=\"text-end\">$(open_prs)</td>
+		</tr>
+		"""
+	end
+
+	return HTML("""
+	<div class=\"ecosystem-table-card\">
+	  <div class=\"table-responsive\">
+	    <table class=\"table table-hover align-middle\">
+	      <thead>
+	        <tr>
+	          <th>Repository</th>
+	          <th>Status</th>
+	          <th class=\"text-end\">⭐</th>
+	          <th class=\"text-center\">CI</th>
+	          <th class=\"text-center\">Docs</th>
+	          <th class=\"text-end\">Open issues</th>
+	          <th class=\"text-end\">Open PRs</th>
+	        </tr>
+	      </thead>
+	      <tbody>$(table_body_html)</tbody>
+	    </table>
+	  </div>
+	</div>
+	""")
+end
+
+latest_run = nrow(run_summary_data) > 0 ? run_summary_data[end, :] : nothing
+
+function run_value(column_name::Symbol, fallback)
+	if isnothing(latest_run)
+		return fallback
+	end
+	if hasproperty(latest_run, column_name)
+		return getproperty(latest_run, column_name)
+	end
+	return fallback
+end
+
+function run_value_any(column_names::Vector{Symbol}, fallback)
+	for column_name in column_names
+		value = run_value(column_name, missing)
+		if value !== missing
+			return value
+		end
+	end
+	return fallback
+end
+
+total_repository_count = to_integer(run_value_any([:total_repositories, :total_repositories_count], nrow(package_audit_data) + nrow(non_package_audit_data)))
+total_package_count = to_integer(run_value(:total_packages, nrow(package_audit_data)))
+total_non_package_count = to_integer(run_value_any([:total_non_packages, :total_non_package_repositories], max(total_repository_count - total_package_count, nrow(non_package_audit_data))))
+total_star_count = to_integer(run_value(:stars_total, sum(coalesce.(package_audit_data.stars, 0)) + sum(coalesce.(non_package_audit_data.stars, 0))))
+total_open_issue_count = to_integer(run_value(:open_issues_total, sum(coalesce.(package_audit_data.open_issues_count, 0)) + sum(coalesce.(non_package_audit_data.open_issues_count, 0))))
+total_open_pr_count = to_integer(run_value(:open_prs_total, sum(coalesce.(package_audit_data.open_prs_count, 0)) + sum(coalesce.(non_package_audit_data.open_prs_count, 0))))
+registered_package_count = to_integer(run_value(:in_general_registry_count, count(identity, coalesce.(package_audit_data.in_general_registry, false))))
+human_contributor_count = to_integer(run_value(:human_contributors_total, count(is_bot -> is_bot == false, coalesce.(contributor_audit_data.is_bot, false))))
+bot_contributor_count = to_integer(run_value(:bot_contributors_total, count(is_bot -> is_bot == true, coalesce.(contributor_audit_data.is_bot, false))))
+total_contributor_count = human_contributor_count + bot_contributor_count
+
+summary_metric_items = [
+	("Total Repositories", string(total_repository_count), "All audited repositories"),
+	("Packages", string(total_package_count), "Package repositories"),
+	("Non-packages", string(total_non_package_count), "Website/tools/papers/etc."),
+	("Total Contributors", string(total_contributor_count), "Humans: $(human_contributor_count), Bots: $(bot_contributor_count)"),
+	("Total Stars", string(total_star_count), "Across all repositories"),
+	("Packages in Registry", string(registered_package_count), "In Julia General registry"),
+	("Total Open Issues", string(total_open_issue_count), "Current open issues across all repos"),
+	("Total Open PRs", string(total_open_pr_count), "Current open pull requests across all repos"),
+]
+
+summary_metrics_html = ""
+for (label, value, note) in summary_metric_items
+	summary_metrics_html *= """
+	<div class=\"ecosystem-summary-card\">
+	  <div class=\"ecosystem-summary-label\">$(label)</div>
+	  <div class=\"ecosystem-summary-value\">$(value)</div>
+	  <div class=\"ecosystem-summary-note\">$(note)</div>
+	</div>
+	"""
+end
+
+dashboard_updated_text = "Updated date unavailable"
+if !isnothing(latest_run) && hasproperty(latest_run, :run_timestamp)
+	dashboard_updated_text = format_timestamp_for_display(latest_run.run_timestamp)
+end
+
+HTML(
+	"""
+	<p class=\"ecosystem-section-note\">This dashboard tracks the health of JuliaHealth repositories using the latest audit outputs in assets/data/audit/results. (Updated on $(dashboard_updated_text))</p>
+	<div class=\"ecosystem-summary-grid\">
+	  $(summary_metrics_html)
+	</div>
+	"""
+)
+```
+
+<br>
+
+## Standards Compliance
+
+<div class="ecosystem-section-note">Package-only scope: this standards view tracks adoption of key engineering practices across JuliaHealth packages.<br>Each row combines a visual bar, a status label, and exact adoption values so trends are easy to interpret quickly.<br>Use this section to identify standards that are broadly adopted versus standards that still need focused improvement.</div>
+
+<br>
+
+```{julia}
+#| echo: false
+
+standards_heatmap_image = "../assets/data/audit/visualizations/packages_standards_compliance.png"
+if isfile(standards_heatmap_image)
+	HTML("""
+	<figure class=\"ecosystem-centered-figure mb-4\">
+	  <img src=\"$(standards_heatmap_image)\" class=\"img-fluid rounded\" alt=\"Packages Standards Compliance\">
+	</figure>
+	""")
+else
+	HTML("<p class=\"ecosystem-section-note\">Packages standards compliance image not found in visualization outputs.</p>")
+end
+```
+
+```{julia}
+#| echo: false
+
+render_standards_compliance_table(package_audit_data)
+```
+
+## Monthly Tops
+
+<div class="ecosystem-section-note">This section is sourced directly from <code>history/monthly_tops.csv</code> and highlights top packages for core metrics.<br>It captures who is leading right now in stars, monthly downloads, contributor activity, and active maintainership.<br>Use it as a quick leaderboard for ecosystem momentum in the latest completed run.</div>
+
+```{julia}
+#| echo: false
+
+render_monthly_tops_section()
+```
+
+## Run Summary
+
+<div class="ecosystem-section-note">This summary reads from <code>history/run_summary.csv</code> and shows selected operational counts.</div>
+
+```{julia}
+#| echo: false
+
+render_run_summary_section()
+```
+
+## Full Package Data Table
+
+<div class="ecosystem-section-note">This full table lists all package repositories and is sorted by stars for quick ranking.<br>It combines registration status, maintenance health, CI/docs coverage, and issue/PR load in one place.<br>Use it for deeper package-level review beyond the aggregate summary cards above.</div>
+
+```{julia}
+#| echo: false
+
+render_package_overview_table(package_audit_data)
+```
+
+## Full Non-package Data Table
+
+<div class="ecosystem-section-note">This table covers non-package repositories such as websites, documentation projects, and supporting tools.<br>It mirrors the package view with maintenance status, CI/docs indicators, and issue/PR workload fields.<br>Use it to compare health signals across the broader JuliaHealth ecosystem, not just registered packages.</div>
+
+```{julia}
+#| echo: false
+
+render_non_package_overview_table(non_package_audit_data)
+```
+
+## Contributors Overview
+
+<div class="ecosystem-section-note">Contributors are grouped by audit tier (core, regular, casual) and sorted by total contributions.<br>Each row also shows cross-repo participation and whether the account is human or bot, based on the audit output.<br>This helps distinguish concentrated leadership from broad community engagement.</div>
+
+```{julia}
+#| echo: false
+
+render_contributor_table(contributor_audit_data)
+```
+
+## Audit Visualizations
+
+These visualizations are loaded directly from `assets/data/audit/visualizations` at render time, so monthly updates are picked up automatically.
+
+```{julia}
+#| echo: false
+
+visualization_directory = "../assets/data/audit/visualizations"
+all_visualization_files = sort(filter(file -> endswith(lowercase(file), ".png"), readdir(visualization_directory)))
+
+function keep_existing_files(target_files, available_files)
+	return filter(in(available_files), target_files)
+end
+
+function render_visualization_images(files; note="")
+	if isempty(files)
+		return "<p class=\"text-muted\">No visualizations found for this section.</p>"
+	end
+
+	images_html = ""
+	if !isempty(note)
+		images_html *= "<p class=\"ecosystem-section-note\">$(escape_html(note))</p>"
+	end
+
+	for file_name in files
+		image_path = "../assets/data/audit/visualizations/$(file_name)"
+		images_html *= """
+		<figure class=\"ecosystem-centered-figure mb-4\">
+		  <img src=\"$(image_path)\" class=\"img-fluid rounded\" alt=\"$(escape_html(file_name))\">
+		</figure>
+		"""
+	end
+
+	return images_html
+end
+
+growth_visuals = [
+	"packages_top15_stars.png",
+	"packages_top15_monthly_downloads.png",
+	"packages_top15_total_downloads.png",
+	"nonpackages_all_stars.png",
+]
+
+quality_visuals = [
+	"packages_maintenance_status.png",
+	"packages_readme_completeness.png",
+	"packages_docs_audit_coverage.png",
+]
+
+workload_visuals = [
+	"packages_issues_comparison.png",
+	"packages_prs_comparison.png",
+	"contributors_top_by_total.png",
+	"contributors_engagement_tiers.png",
+]
+
+standards_visuals = [
+	"packages_standards_compliance.png",
+]
+
+excluded_additional_visuals = Set([
+	"contributors_contribution_distribution.png",
+	"nonpackages_all_contributors.png",
+	"nonpackages_license_presence.png",
+	"nonpackages_license_status.png",
+	"nonpackages_license_types.png",
+	"packages_activity_recency.png",
+	"packages_ci_adoption.png",
+	"packages_ci_status.png",
+	"packages_contributors_distribution.png",
+	"packages_license_presence.png",
+	"packages_maintainers_comparison.png",
+	"packages_registry_status.png",
+])
+
+curated_visuals = vcat(growth_visuals, quality_visuals, workload_visuals, standards_visuals)
+already_shown_visuals = Set(curated_visuals)
+
+growth_visuals_html = render_visualization_images(keep_existing_files(growth_visuals, all_visualization_files); note="Adoption and usage: stars + downloads across package and non-package artifacts.")
+quality_visuals_html = render_visualization_images(keep_existing_files(quality_visuals, all_visualization_files); note="Maintenance and quality signals: status, CI adoption, README/docs coverage.")
+workload_visuals_html = render_visualization_images(keep_existing_files(workload_visuals, all_visualization_files); note="Collaboration pressure: issue/PR volumes and contributor engagement tiers.")
+
+additional_visuals = [
+	file for file in all_visualization_files
+	if !(file in already_shown_visuals) && !(file in excluded_additional_visuals)
+]
+additional_visuals_html = render_visualization_images(additional_visuals; note="Additional monthly snapshots generated by JuliaHealthAudit.")
+
+HTML(
+	"""
+	<h3>Growth & Adoption</h3>
+	<p class=\"ecosystem-visual-note\">This section highlights where ecosystem interest is concentrated across repositories. It compares package adoption through stars and downloads, and also shows visibility of non-package projects.</p>
+	$(growth_visuals_html)
+	<br>
+	<h3>Maintenance & Quality</h3>
+	<p class=\"ecosystem-visual-note\">These charts summarize project hygiene and maintainability signals. They show how widely docs and README quality practices are adopted.</p>
+	$(quality_visuals_html)
+	<br>
+	<h3>Collaboration & Workload</h3>
+	<p class=\"ecosystem-visual-note\">This block captures issue and PR pressure across repositories and contributor engagement tiers to help identify potential bottlenecks.</p>
+	$(workload_visuals_html)
+	<br>
+	<details>
+	  <summary><strong>Additional monthly snapshots (auto-discovered)</strong></summary>
+	  <div class=\"mt-3\">$(additional_visuals_html)</div>
+	</details>
+	"""
+)
+```
+
+## Data Transparency
+
+```{julia}
+#| echo: false
+
+raw_data_links = """
+<ul>
+	<li>Raw package audit data: <a href=\"../assets/data/audit/results/$(basename(package_audit_file))\">$(basename(package_audit_file))</a></li>
+	<li>Raw non-package audit data: <a href=\"../assets/data/audit/results/$(basename(non_package_audit_file))\">$(basename(non_package_audit_file))</a></li>
+	<li>Raw contributor audit data: <a href=\"../assets/data/audit/results/$(basename(contributor_audit_file))\">$(basename(contributor_audit_file))</a></li>
+	<li>Visualization outputs: <a href=\"../assets/data/audit/visualizations/\">assets/data/audit/visualizations</a></li>
+</ul>
+"""
+
+HTML(raw_data_links)
+```
