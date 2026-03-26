@@ -2,11 +2,6 @@ name: Sync Audit Data
 
 on:
   workflow_dispatch:
-    inputs:
-      target_branch:
-        description: "Target branch to update"
-        required: true
-        default: "add/ecosystem-health-section"
   repository_dispatch:
     types: [audit-data-updated]
 
@@ -20,17 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.client_payload.target_branch || github.event.inputs.target_branch || 'add/ecosystem-health-section' }}
+          ref: main
           fetch-depth: 0
-
-      - name: Guard against main updates
-        run: |
-          set -e
-          target="${{ github.event.client_payload.target_branch || github.event.inputs.target_branch || 'add/ecosystem-health-section' }}"
-          if [ "$target" = "main" ]; then
-            echo "Refusing to update main from this workflow"
-            exit 1
-          fi
 
       - uses: actions/checkout@v4
         with:
@@ -85,4 +71,4 @@ jobs:
           ts=$(date -u +"%Y-%m-%d %H:%M:%SZ")
           git commit --allow-empty -m "chore(audit): sync audit data (${ts})"
 
-          git push origin "HEAD:${{ github.event.client_payload.target_branch || github.event.inputs.target_branch || 'add/ecosystem-health-section' }}"
+          git push origin HEAD:main
