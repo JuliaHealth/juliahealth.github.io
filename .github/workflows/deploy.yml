@@ -4,16 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "**/*.qmd"
-      - "**/*.yml"
-      - "**/*.yaml"
-      - "assets/**"
-      - "pages/**"
-      - "JuliaHealthBlog/**"
-      - "styles.css"
-      - "Project.toml"
-      - "Manifest.toml"
   workflow_dispatch:
 
 permissions:
