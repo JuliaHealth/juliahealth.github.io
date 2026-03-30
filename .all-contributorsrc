@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 60,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "TheCedarPrince",
+      "name": "Jacob S. Zelko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29561456?v=4",
+      "profile": "https://jacobzelko.com",
+      "contributions": [
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "juliahealth.github.io",
+  "projectOwner": "JuliaHealth"
+}
