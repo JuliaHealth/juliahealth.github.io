@@ -26,7 +26,7 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -43,7 +43,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-dea667461a5c81afc9ba75ce94cd63f3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-be3771519f21acc1c5b6733774c6dcd8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,9 +71,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../assets/styles/ecosystem_health.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -200,8 +204,21 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#standards-compliance" id="toc-standards-compliance" class="nav-link active" data-scroll-target="#standards-compliance">Standards Compliance</a></li>
+  <li><a href="#monthly-tops" id="toc-monthly-tops" class="nav-link" data-scroll-target="#monthly-tops">Monthly Tops</a></li>
+  <li><a href="#run-summary" id="toc-run-summary" class="nav-link" data-scroll-target="#run-summary">Run Summary</a></li>
+  <li><a href="#full-package-data-table" id="toc-full-package-data-table" class="nav-link" data-scroll-target="#full-package-data-table">Full Package Data Table</a></li>
+  <li><a href="#full-non-package-data-table" id="toc-full-non-package-data-table" class="nav-link" data-scroll-target="#full-non-package-data-table">Full Non-package Data Table</a></li>
+  <li><a href="#contributors-overview" id="toc-contributors-overview" class="nav-link" data-scroll-target="#contributors-overview">Contributors Overview</a></li>
+  <li><a href="#audit-visualizations" id="toc-audit-visualizations" class="nav-link" data-scroll-target="#audit-visualizations">Audit Visualizations</a></li>
+  <li><a href="#data-transparency" id="toc-data-transparency" class="nav-link" data-scroll-target="#data-transparency">Data Transparency</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -225,8 +242,1852 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div id="4" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<p class="ecosystem-section-note">This dashboard tracks the health of JuliaHealth repositories using the latest audit outputs in assets/data/audit/results. (Updated on Mar 26, 2026 at 06:19 UTC)</p>
+<div class="ecosystem-summary-grid">
+  <div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Total Repositories</div>
+  <div class="ecosystem-summary-value">60</div>
+  <div class="ecosystem-summary-note">All audited repositories</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Packages</div>
+  <div class="ecosystem-summary-value">48</div>
+  <div class="ecosystem-summary-note">Package repositories</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Non-packages</div>
+  <div class="ecosystem-summary-value">12</div>
+  <div class="ecosystem-summary-note">Website/tools/papers/etc.</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Total Contributors</div>
+  <div class="ecosystem-summary-value">88</div>
+  <div class="ecosystem-summary-note">Humans: 81, Bots: 7</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Total Stars</div>
+  <div class="ecosystem-summary-value">547</div>
+  <div class="ecosystem-summary-note">Across all repositories</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Packages in Registry</div>
+  <div class="ecosystem-summary-value">33</div>
+  <div class="ecosystem-summary-note">In Julia General registry</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Total Open Issues</div>
+  <div class="ecosystem-summary-value">288</div>
+  <div class="ecosystem-summary-note">Current open issues across all repos</div>
+</div>
+<div class="ecosystem-summary-card">
+  <div class="ecosystem-summary-label">Total Open PRs</div>
+  <div class="ecosystem-summary-value">81</div>
+  <div class="ecosystem-summary-note">Current open pull requests across all repos</div>
+</div>
+
+</div>
+</div>
+</div>
+<p><br></p>
+<section id="standards-compliance" class="level2">
+<h2 class="anchored" data-anchor-id="standards-compliance">Standards Compliance</h2>
+<div class="ecosystem-section-note">
+Package-only scope: this standards view tracks adoption of key engineering practices across JuliaHealth packages.<br>Each row combines a visual bar, a status label, and exact adoption values so trends are easy to interpret quickly.<br>Use this section to identify standards that are broadly adopted versus standards that still need focused improvement.
+</div>
+<p><br></p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_standards_compliance.png" class="img-fluid rounded figure-img" alt="Packages Standards Compliance">
+</figure>
+</div>
+</div>
+<div id="8" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ecosystem-table-card">
+  <div class="table-responsive">
+    
+<table class="table align-middle caption-top table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Standard</th>
+<th data-quarto-table-cell-role="th">Visual</th>
+<th data-quarto-table-cell-role="th">Status</th>
+<th data-quarto-table-cell-role="th">Fraction</th>
+<th data-quarto-table-cell-role="th">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CI Workflow</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 87.5%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
+<td>42/48</td>
+<td>87.5%</td>
+</tr>
+<tr class="even">
+<td>License</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 100.0%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
+<td>48/48</td>
+<td>100.0%</td>
+</tr>
+<tr class="odd">
+<td>Source Directory</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 100.0%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
+<td>48/48</td>
+<td>100.0%</td>
+</tr>
+<tr class="even">
+<td>Test Directory</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 89.6%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
+<td>43/48</td>
+<td>89.6%</td>
+</tr>
+<tr class="odd">
+<td>Project.toml</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 100.0%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
+<td>48/48</td>
+<td>100.0%</td>
+</tr>
+<tr class="even">
+<td>Docs Directory</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 72.9%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
+<td>35/48</td>
+<td>72.9%</td>
+</tr>
+<tr class="odd">
+<td>Uses Documenter</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 68.8%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
+<td>33/48</td>
+<td>68.8%</td>
+</tr>
+<tr class="even">
+<td>GitHub Pages</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 60.4%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
+<td>29/48</td>
+<td>60.4%</td>
+</tr>
+<tr class="odd">
+<td>Code Coverage</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 64.6%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
+<td>31/48</td>
+<td>64.6%</td>
+</tr>
+<tr class="even">
+<td>CONTRIBUTING.md</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 6.2%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-needs-work">Needs work</span></td>
+<td>3/48</td>
+<td>6.2%</td>
+</tr>
+<tr class="odd">
+<td>CODE_OF_CONDUCT</td>
+<td style="width: 220px"><div class="ecosystem-progress-track">
+<div class="ecosystem-progress-fill" style="width: 6.2%">
+
+</div>
+</div></td>
+<td><span class="ecosystem-adoption-badge ecosystem-adoption-needs-work">Needs work</span></td>
+<td>3/48</td>
+<td>6.2%</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+</div>
+</div>
+</div>
+</section>
+<section id="monthly-tops" class="level2">
+<h2 class="anchored" data-anchor-id="monthly-tops">Monthly Tops</h2>
+<div class="ecosystem-section-note">
+This section is sourced directly from <code>history/monthly_tops.csv</code> and highlights top packages for core metrics.<br>It captures who is leading right now in stars, monthly downloads, contributor activity, and active maintainership.<br>Use it as a quick leaderboard for ecosystem momentum in the latest completed run.
+</div>
+<div id="10" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ecosystem-table-card">
+  <p class="ecosystem-section-note">Snapshot month: 2026-03-01</p>
+  <div class="ecosystem-monthly-top-grid">
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">⭐ Top 5 by Stars</h4><ol><li><span>KomaMRI.jl</span><strong>192</strong></li><li><span>DICOM.jl</span><strong>60</strong></li><li><span>BloodFlowTrixi.jl</span><strong>44</strong></li><li><span>PubChemCrawler.jl</span><strong>28</strong></li><li><span>Thunderbolt.jl</span><strong>23</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">📥 Top 5 by Monthly Downloads</h4><ol><li><span>PubChemCrawler.jl</span><strong>121</strong></li><li><span>DICOM.jl</span><strong>116</strong></li><li><span>KomaMRI.jl</span><strong>69</strong></li><li><span>ITKIOWrapper.jl</span><strong>14</strong></li><li><span>NeuroAnalyzer.jl</span><strong>10</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">👥 Top 5 by Human Contributors</h4><ol><li><span>DICOM.jl</span><strong>18</strong></li><li><span>KomaMRI.jl</span><strong>18</strong></li><li><span>BioMedQuery.jl</span><strong>8</strong></li><li><span>MedPipe3D.jl</span><strong>6</strong></li><li><span>Thunderbolt.jl</span><strong>6</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">🛠️ Top 5 by Active Maintainers</h4><ol><li><span>KomaMRI.jl</span><strong>4</strong></li><li><span>MedPipe3D.jl</span><strong>4</strong></li><li><span>Thunderbolt.jl</span><strong>4</strong></li><li><span>IPUMS.jl</span><strong>3</strong></li><li><span>HealthLLM.jl</span><strong>2</strong></li></ol></div>
+  </div>
+</div>
+</div>
+</div>
+</section>
+<section id="run-summary" class="level2">
+<h2 class="anchored" data-anchor-id="run-summary">Run Summary</h2>
+<div class="ecosystem-section-note">
+This summary reads from <code>history/run_summary.csv</code> and shows selected operational counts.
+</div>
+<div id="12" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ecosystem-table-card">
+  <div class="ecosystem-run-mini-grid"><div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Forks</div>
+  <div class="ecosystem-run-mini-value">1</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Archived</div>
+  <div class="ecosystem-run-mini-value">2</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Releases</div>
+  <div class="ecosystem-run-mini-value">221</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Total Downloads</div>
+  <div class="ecosystem-run-mini-value">6861</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Closed Issues</div>
+  <div class="ecosystem-run-mini-value">416</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Closed PRs</div>
+  <div class="ecosystem-run-mini-value">1436</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Maintenance: Active</div>
+  <div class="ecosystem-run-mini-value">4</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Maintenance: Inactive</div>
+  <div class="ecosystem-run-mini-value">6</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Maintenance: Concept</div>
+  <div class="ecosystem-run-mini-value">18</div>
+</div>
+<div class="ecosystem-run-mini-card">
+  <div class="ecosystem-run-mini-label">Maintenance: Abandoned</div>
+  <div class="ecosystem-run-mini-value">20</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="full-package-data-table" class="level2">
+<h2 class="anchored" data-anchor-id="full-package-data-table">Full Package Data Table</h2>
+<div class="ecosystem-section-note">
+This full table lists all package repositories and is sorted by stars for quick ranking.<br>It combines registration status, maintenance health, CI/docs coverage, and issue/PR load in one place.<br>Use it for deeper package-level review beyond the aggregate summary cards above.
+</div>
+<div id="14" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ecosystem-table-card">
+  <div class="table-responsive">
+    
+<table class="table table-hover align-middle caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Package</th>
+<th class="text-center" data-quarto-table-cell-role="th">Registered</th>
+<th data-quarto-table-cell-role="th">Status</th>
+<th class="text-end" data-quarto-table-cell-role="th">⭐</th>
+<th class="text-end" data-quarto-table-cell-role="th">Releases</th>
+<th class="text-center" data-quarto-table-cell-role="th">CI</th>
+<th class="text-center" data-quarto-table-cell-role="th">Docs</th>
+<th class="text-end" data-quarto-table-cell-role="th">Open issues</th>
+<th class="text-end" data-quarto-table-cell-role="th">Open PRs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/KomaMRI.jl" target="_blank">KomaMRI.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-active">Active</span></td>
+<td class="text-end">192</td>
+<td class="text-end">31</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">91</td>
+<td class="text-end">13</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/DICOM.jl" target="_blank">DICOM.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">60</td>
+<td class="text-end">17</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">19</td>
+<td class="text-end">3</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/BloodFlowTrixi.jl" target="_blank">BloodFlowTrixi.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-active">Active</span></td>
+<td class="text-end">44</td>
+<td class="text-end">19</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">3</td>
+<td class="text-end">2</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/PubChemCrawler.jl" target="_blank">PubChemCrawler.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-inactive">Inactive</span></td>
+<td class="text-end">28</td>
+<td class="text-end">6</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">2</td>
+<td class="text-end">2</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/Thunderbolt.jl" target="_blank">Thunderbolt.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">23</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">62</td>
+<td class="text-end">3</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/NeuroAnalyzer.jl" target="_blank">NeuroAnalyzer.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-active">Active</span></td>
+<td class="text-end">20</td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/BioMedQuery.jl" target="_blank">BioMedQuery.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">18</td>
+<td class="text-end">10</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">8</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/ICD_GEMs.jl" target="_blank">ICD_GEMs.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">17</td>
+<td class="text-end">7</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/MedEye3d.jl" target="_blank">MedEye3d.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-inactive">Inactive</span></td>
+<td class="text-end">16</td>
+<td class="text-end">8</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">16</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/FHIRClient.jl" target="_blank">FHIRClient.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">13</td>
+<td class="text-end">31</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">2</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/ARules.jl" target="_blank">ARules.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">12</td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">2</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCDMCohortCreator.jl" target="_blank">OMOPCDMCohortCreator.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">10</td>
+<td class="text-end">11</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">16</td>
+<td class="text-end">4</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/MedImages.jl" target="_blank">MedImages.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">9</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">3</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/PubMedMiner.jl" target="_blank">PubMedMiner.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">9</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/MedPipe3D.jl" target="_blank">MedPipe3D.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">8</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">17</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/HealthBase.jl" target="_blank">HealthBase.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-inactive">Inactive</span></td>
+<td class="text-end">7</td>
+<td class="text-end">7</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/CTakesParser.jl" target="_blank">CTakesParser.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">6</td>
+<td class="text-end">3</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/DICOMTree.jl" target="_blank">DICOMTree.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">6</td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCommonDataModel.jl" target="_blank">OMOPCommonDataModel.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-active">Active</span></td>
+<td class="text-end">6</td>
+<td class="text-end">6</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">4</td>
+<td class="text-end">2</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/PharmaceuticalClassification.jl" target="_blank">PharmaceuticalClassification.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">6</td>
+<td class="text-end">3</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/MedEval3D.jl" target="_blank">MedEval3D.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">4</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">3</td>
+<td class="text-end">3</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCDMFeasibility.jl" target="_blank">OMOPCDMFeasibility.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">4</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">4</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/CAOS.jl" target="_blank">CAOS.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">3</td>
+<td class="text-end">5</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/IPUMS.jl" target="_blank">IPUMS.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">3</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">8</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl" target="_blank">OMOPCDMPathways.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">3</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">4</td>
+<td class="text-end">8</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/GitHubAnalytics.jl" target="_blank">GitHubAnalytics.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/HealthDash.jl" target="_blank">HealthDash.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/HealthLLM.jl" target="_blank">HealthLLM.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">3</td>
+<td class="text-end">17</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/HealthSampleData.jl" target="_blank">HealthSampleData.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">7</td>
+<td class="text-end">3</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/OHDSIAPI.jl" target="_blank">OHDSIAPI.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">4</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/SMARTAppLaunch.jl" target="_blank">SMARTAppLaunch.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">2</td>
+<td class="text-end">21</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/CloToP.jl" target="_blank">CloToP.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/DICOMClient.jl" target="_blank">DICOMClient.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">3</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/DiagnosisClassification.jl" target="_blank">DiagnosisClassification.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/HealthMLBase.jl" target="_blank">HealthMLBase.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">1</td>
+<td class="text-end">6</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/ITKIOWrapper.jl" target="_blank">ITKIOWrapper.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-inactive">Inactive</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCDMDatabaseConnector.jl" target="_blank">OMOPCDMDatabaseConnector.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPVocabMapper.jl" target="_blank">OMOPVocabMapper.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-inactive">Inactive</span></td>
+<td class="text-end">1</td>
+<td class="text-end">3</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">2</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/WrapperITKIO.jl" target="_blank">WrapperITKIO.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/BlindingIndex.jl" target="_blank">BlindingIndex.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/DateShifting.jl" target="_blank">DateShifting.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">0</td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">1</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/EHRAuthentication.jl" target="_blank">EHRAuthentication.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">0</td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/FHIRClientJSON.jl" target="_blank">FHIRClientJSON.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">0</td>
+<td class="text-end">4</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/FHIRClientXML.jl" target="_blank">FHIRClientXML.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">0</td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/ITKIOWrapp.jl" target="_blank">ITKIOWrapp.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/MTIWrapper.jl" target="_blank">MTIWrapper.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
+<td class="text-end">0</td>
+<td class="text-end">3</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/NCEI.jl" target="_blank">NCEI.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/SMARTBackendServices.jl" target="_blank">SMARTBackendServices.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-inactive">Inactive</span></td>
+<td class="text-end">0</td>
+<td class="text-end">6</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">1</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+</div>
+</div>
+</div>
+</section>
+<section id="full-non-package-data-table" class="level2">
+<h2 class="anchored" data-anchor-id="full-non-package-data-table">Full Non-package Data Table</h2>
+<div class="ecosystem-section-note">
+This table covers non-package repositories such as websites, documentation projects, and supporting tools.<br>It mirrors the package view with maintenance status, CI/docs indicators, and issue/PR workload fields.<br>Use it to compare health signals across the broader JuliaHealth ecosystem, not just registered packages.
+</div>
+<div id="16" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ecosystem-table-card">
+  <div class="table-responsive">
+    
+<table class="table table-hover align-middle caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Repository</th>
+<th data-quarto-table-cell-role="th">Status</th>
+<th class="text-end" data-quarto-table-cell-role="th">⭐</th>
+<th class="text-center" data-quarto-table-cell-role="th">CI</th>
+<th class="text-center" data-quarto-table-cell-role="th">Docs</th>
+<th class="text-end" data-quarto-table-cell-role="th">Open issues</th>
+<th class="text-end" data-quarto-table-cell-role="th">Open PRs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/JuliaHealthWebsiteOld" target="_blank">JuliaHealthWebsiteOld</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">15</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">12</td>
+<td class="text-end">2</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/MedPipe3DTutorial" target="_blank">MedPipe3DTutorial</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">9</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/juliahealth.github.io" target="_blank">juliahealth.github.io</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">6</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">12</td>
+<td class="text-end">4</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/JuliaHealthLLM" target="_blank">JuliaHealthLLM</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">4</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">3</td>
+<td class="text-end">33</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCDMPredictor" target="_blank">OMOPCDMPredictor</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">4</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/EpiJ" target="_blank">EpiJ</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/JuliaHealthAudit" target="_blank">JuliaHealthAudit</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/JuliaHealthEcosystemPaper" target="_blank">JuliaHealthEcosystemPaper</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/ObservationalHealthSubecosystemPaper" target="_blank">ObservationalHealthSubecosystemPaper</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">2</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/JuliaHealthZoo" target="_blank">JuliaHealthZoo</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">3</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/OMOPCDMMetrics" target="_blank">OMOPCDMMetrics</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">1</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">5</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/juliahealth.github.io-previews" target="_blank">juliahealth.github.io-previews</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+</div>
+</div>
+</div>
+</section>
+<section id="contributors-overview" class="level2">
+<h2 class="anchored" data-anchor-id="contributors-overview">Contributors Overview</h2>
+<div class="ecosystem-section-note">
+Contributors are grouped by audit tier (core, regular, casual) and sorted by total contributions.<br>Each row also shows cross-repo participation and whether the account is human or bot, based on the audit output.<br>This helps distinguish concentrated leadership from broad community engagement.
+</div>
+<div id="18" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div class="ecosystem-table-card">
+  <div class="table-responsive">
+    
+<table class="table table-hover align-middle caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Login</th>
+<th data-quarto-table-cell-role="th">Name</th>
+<th data-quarto-table-cell-role="th">Tier</th>
+<th class="text-end" data-quarto-table-cell-role="th">Repos</th>
+<th class="text-end" data-quarto-table-cell-role="th">Contributions</th>
+<th data-quarto-table-cell-role="th">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>AdamWysokinski</strong></td>
+<td>Adam Wysokiński</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">3</td>
+<td class="text-end">2731</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>cncastillo</strong></td>
+<td>Carlos Castillo Passi</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1163</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>jakubMitura14</strong></td>
+<td>Jakub Mitura</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">8</td>
+<td class="text-end">879</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>pvillacorta</strong></td>
+<td>Pablo Villacorta Aylagas</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">1</td>
+<td class="text-end">742</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>DilumAluthge</strong></td>
+<td>Dilum Aluthge</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">24</td>
+<td class="text-end">644</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>beorostica</strong></td>
+<td>beorostica</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">1</td>
+<td class="text-end">549</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>mirestrepo</strong></td>
+<td>Maria Isabel Restrepo</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">5</td>
+<td class="text-end">468</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>mcmcgrath13</strong></td>
+<td>Mary McGrath</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">3</td>
+<td class="text-end">268</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>divital-coder</strong></td>
+<td>Night-Glimmers</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">6</td>
+<td class="text-end">230</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>TheCedarPrince</strong></td>
+<td>Jacob S. Zelko</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">19</td>
+<td class="text-end">230</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>yolhan83</strong></td>
+<td>yolhan mannes</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">1</td>
+<td class="text-end">195</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>paulstey</strong></td>
+<td>Paul Stey</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">3</td>
+<td class="text-end">188</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>kosuri-indu</strong></td>
+<td>Kosuri Indu</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">11</td>
+<td class="text-end">156</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>termi-official</strong></td>
+<td>Dennis Ogiermann</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">1</td>
+<td class="text-end">138</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>Stockless</strong></td>
+<td>Stockless</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">1</td>
+<td class="text-end">120</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>rkierulf</strong></td>
+<td>rkierulf</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">2</td>
+<td class="text-end">116</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>notZaki</strong></td>
+<td>Zaki A.</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">1</td>
+<td class="text-end">113</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>Nosferican</strong></td>
+<td>José Bayoán Santiago Calderón</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">96</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>ParamThakkar123</strong></td>
+<td>Param Thakkar</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">4</td>
+<td class="text-end">74</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>jagiellonczyk14</strong></td>
+<td>jagiellonczyk14</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">68</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>google-labs-jules[bot]</strong></td>
+<td>google-labs-jules[bot]</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">66</td>
+<td>Bot</td>
+</tr>
+<tr class="even">
+<td><strong>github-actions[bot]</strong></td>
+<td>github-actions[bot]</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">10</td>
+<td class="text-end">57</td>
+<td>Bot</td>
+</tr>
+<tr class="odd">
+<td><strong>aTrotier</strong></td>
+<td>aTrotier</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">46</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>Jay-sanjay</strong></td>
+<td>Jay-sanjay</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">3</td>
+<td class="text-end">41</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>dependabot[bot]</strong></td>
+<td>dependabot[bot]</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">7</td>
+<td class="text-end">34</td>
+<td>Bot</td>
+</tr>
+<tr class="even">
+<td><strong>jasonk33</strong></td>
+<td>Jason Katz</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">34</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>InterdisciplinaryPhysicsTeam</strong></td>
+<td>Interdisciplinary Physics Team (InPhyT)</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">33</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>Mounika-Thakkallapally</strong></td>
+<td>Mounika Thakkallapally</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">28</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>gsahonero</strong></td>
+<td>Guillermo Sahonero Alvarez</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">27</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>curtcorum</strong></td>
+<td>Curt Corum</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">24</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>Esraa-Hassan0</strong></td>
+<td>Esraa</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">24</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>timholy</strong></td>
+<td>Tim Holy</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">22</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>devmotion</strong></td>
+<td>David Müller-Widmann</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">4</td>
+<td class="text-end">21</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>fdekerme</strong></td>
+<td>François de Kermenguy</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">20</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>AshlinHarris</strong></td>
+<td>Ashlin Harris</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">17</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>Muskan121622</strong></td>
+<td>Muskan121622</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">16</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>ibacher</strong></td>
+<td>Ian</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">15</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>vsaase</strong></td>
+<td>Victor Saase</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">13</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>JanZubik</strong></td>
+<td>Jan Zubik</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">3</td>
+<td class="text-end">10</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>pitmonticone</strong></td>
+<td>Pietro Monticone</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">10</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>AbdAlazezAhmed</strong></td>
+<td>AbdulazizAhmed</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">9</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>bors[bot]</strong></td>
+<td>bors[bot]</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">3</td>
+<td class="text-end">9</td>
+<td>Bot</td>
+</tr>
+<tr class="odd">
+<td><strong>ihnorton</strong></td>
+<td>Isaiah Norton</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">9</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>Hetarth02</strong></td>
+<td>Hetarth Shah</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">8</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>JuliaTagBot</strong></td>
+<td>Julia TagBot</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">8</td>
+<td class="text-end">8</td>
+<td>Bot</td>
+</tr>
+<tr class="even">
+<td><strong>tinorodriguez</strong></td>
+<td>Tino Rodríguez</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">7</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>Vaibhavdixit02</strong></td>
+<td>Vaibhav Dixit</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">7</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>00krishna</strong></td>
+<td>Krishna Bhogaonker</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">6</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>simonster</strong></td>
+<td>Simon Kornblith</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">6</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>bcbi-bot</strong></td>
+<td>BCBI Bot</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">3</td>
+<td class="text-end">6</td>
+<td>Bot</td>
+</tr>
+<tr class="odd">
+<td><strong>MarijaGijic</strong></td>
+<td>Marija Gijic</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">5</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>ultradian</strong></td>
+<td>ultradian</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">5</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>Abdelrahman912</strong></td>
+<td>Abdelrahman Fathy (Tee)</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">5</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>mateuszbaran</strong></td>
+<td>Mateusz Baran</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">4</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>tp2750</strong></td>
+<td>Thomas Poulsen</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">4</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>KushalTrivedi19032005</strong></td>
+<td>Kushal Trivedi</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">4</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>rupalimits</strong></td>
+<td>Rupali Patel</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">4</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>JeffBezanson</strong></td>
+<td>Jeff Bezanson</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">3</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>StefanKarpinski</strong></td>
+<td>Stefan Karpinski</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">3</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>AaronGhost</strong></td>
+<td>AaronGhost</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">3</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>KookiesNKareem</strong></td>
+<td>Kareem</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">3</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>Farreeda</strong></td>
+<td>Farida Abdelazeez</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>adambrewster</strong></td>
+<td>Adam Brewster</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>BenRussert</strong></td>
+<td>Ben Russert</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>tkelman</strong></td>
+<td>Tony Kelman</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>SimonDanisch</strong></td>
+<td>Simon</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>kylebeggs</strong></td>
+<td>Kyle Beggs</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>jw3126</strong></td>
+<td>Jan Weidner</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">2</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>pabloirarrazaval</strong></td>
+<td>Pablo Irarrazaval</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>fossabot</strong></td>
+<td>fossabot</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Bot</td>
+</tr>
+<tr class="odd">
+<td><strong>MichelaRocchetti</strong></td>
+<td>MichelaRocchetti</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>nicoleepp</strong></td>
+<td>Nicole Epp</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>Keno</strong></td>
+<td>Keno Fischer</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>fredrikekre</strong></td>
+<td>Fredrik Ekre</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>fchichorro</strong></td>
+<td>Filipe Chichorro</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>carlobaldassi</strong></td>
+<td>Carlo Baldassi</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>nHackel</strong></td>
+<td>Niklas Hackelberg</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>asinghvi17</strong></td>
+<td>Anshul Singhvi</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>logankilpatrick</strong></td>
+<td>Logan Kilpatrick</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>riteshbhirud</strong></td>
+<td>Ritesh Bhirud</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>gabuzi</strong></td>
+<td>gabuzi</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>thePlasm</strong></td>
+<td>Rasmus Jepsen</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>dublinsubway</strong></td>
+<td>dublinsubway</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>oscardssmith</strong></td>
+<td>Oscar Smith</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>ChrisRackauckas</strong></td>
+<td>Christopher Rackauckas</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>calberolalopez</strong></td>
+<td>calberolalopez</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="odd">
+<td><strong>Dale-Black</strong></td>
+<td>Dale-Black</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+<tr class="even">
+<td><strong>davidssmith</strong></td>
+<td>David Smith</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">1</td>
+<td class="text-end">1</td>
+<td>Human</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+</div>
+</div>
+</div>
+</section>
+<section id="audit-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="audit-visualizations">Audit Visualizations</h2>
+<p>These visualizations are loaded directly from <code>assets/data/audit/visualizations</code> at render time, so monthly updates are picked up automatically.</p>
+<div id="20" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<h3 class="anchored">Growth &amp; Adoption</h3>
+<p class="ecosystem-visual-note">This section highlights where ecosystem interest is concentrated across repositories. It compares package adoption through stars and downloads, and also shows visibility of non-package projects.</p>
+<p class="ecosystem-section-note">Adoption and usage: stars + downloads across package and non-package artifacts.</p><figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_top15_stars.png" class="img-fluid rounded figure-img" alt="packages_top15_stars.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_top15_monthly_downloads.png" class="img-fluid rounded figure-img" alt="packages_top15_monthly_downloads.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_top15_total_downloads.png" class="img-fluid rounded figure-img" alt="packages_top15_total_downloads.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/nonpackages_all_stars.png" class="img-fluid rounded figure-img" alt="nonpackages_all_stars.png">
+</figure>
+
+<br>
+<h3 class="anchored">Maintenance &amp; Quality</h3>
+<p class="ecosystem-visual-note">These charts summarize project hygiene and maintainability signals. They show how widely docs and README quality practices are adopted.</p>
+<p class="ecosystem-section-note">Maintenance and quality signals: status, CI adoption, README/docs coverage.</p><figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_maintenance_status.png" class="img-fluid rounded figure-img" alt="packages_maintenance_status.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_readme_completeness.png" class="img-fluid rounded figure-img" alt="packages_readme_completeness.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_docs_audit_coverage.png" class="img-fluid rounded figure-img" alt="packages_docs_audit_coverage.png">
+</figure>
+
+<br>
+<h3 class="anchored">Collaboration &amp; Workload</h3>
+<p class="ecosystem-visual-note">This block captures issue and PR pressure across repositories and contributor engagement tiers to help identify potential bottlenecks.</p>
+<p class="ecosystem-section-note">Collaboration pressure: issue/PR volumes and contributor engagement tiers.</p><figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_issues_comparison.png" class="img-fluid rounded figure-img" alt="packages_issues_comparison.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_prs_comparison.png" class="img-fluid rounded figure-img" alt="packages_prs_comparison.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/contributors_top_by_total.png" class="img-fluid rounded figure-img" alt="contributors_top_by_total.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/contributors_engagement_tiers.png" class="img-fluid rounded figure-img" alt="contributors_engagement_tiers.png">
+</figure>
+
+<br>
+<details>
+  <summary><strong>Additional monthly snapshots (auto-discovered)</strong></summary>
+  <div class="mt-3"><p class="ecosystem-section-note">Additional monthly snapshots generated by JuliaHealthAudit.</p><figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/contributors_top_by_repo_count.png" class="img-fluid rounded figure-img" alt="contributors_top_by_repo_count.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/nonpackages_ci_adoption.png" class="img-fluid rounded figure-img" alt="nonpackages_ci_adoption.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/nonpackages_issues_comparison.png" class="img-fluid rounded figure-img" alt="nonpackages_issues_comparison.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/nonpackages_maintainers_comparison.png" class="img-fluid rounded figure-img" alt="nonpackages_maintainers_comparison.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/nonpackages_maintenance_status.png" class="img-fluid rounded figure-img" alt="nonpackages_maintenance_status.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/nonpackages_prs_comparison.png" class="img-fluid rounded figure-img" alt="nonpackages_prs_comparison.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_archive_status.png" class="img-fluid rounded figure-img" alt="packages_archive_status.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_code_coverage.png" class="img-fluid rounded figure-img" alt="packages_code_coverage.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_fork_status.png" class="img-fluid rounded figure-img" alt="packages_fork_status.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_github_pages_adoption.png" class="img-fluid rounded figure-img" alt="packages_github_pages_adoption.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_license_types.png" class="img-fluid rounded figure-img" alt="packages_license_types.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_maturity_tiers.png" class="img-fluid rounded figure-img" alt="packages_maturity_tiers.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_releases_distribution.png" class="img-fluid rounded figure-img" alt="packages_releases_distribution.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_standards_percentages.png" class="img-fluid rounded figure-img" alt="packages_standards_percentages.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_stars_distribution.png" class="img-fluid rounded figure-img" alt="packages_stars_distribution.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_style_guide_distribution.png" class="img-fluid rounded figure-img" alt="packages_style_guide_distribution.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_top15_contributors.png" class="img-fluid rounded figure-img" alt="packages_top15_contributors.png">
+</figure>
+<figure class="ecosystem-centered-figure mb-4 figure">
+  <img src="../assets/data/audit/visualizations/packages_top_releases.png" class="img-fluid rounded figure-img" alt="packages_top_releases.png">
+</figure>
+</div>
+</details>
+</div>
+</div>
+</section>
+<section id="data-transparency" class="level2">
+<h2 class="anchored" data-anchor-id="data-transparency">Data Transparency</h2>
+<div id="22" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<ul>
+    <li>Raw package audit data: <a href="../assets/data/audit/results/audit_packages.csv">audit_packages.csv</a></li>
+    <li>Raw non-package audit data: <a href="../assets/data/audit/results/audit_non_packages.csv">audit_non_packages.csv</a></li>
+    <li>Raw contributor audit data: <a href="../assets/data/audit/results/audit_contributors.csv">audit_contributors.csv</a></li>
+    <li>Visualization outputs: <a href="../assets/data/audit/visualizations/">assets/data/audit/visualizations</a></li>
+</ul>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
