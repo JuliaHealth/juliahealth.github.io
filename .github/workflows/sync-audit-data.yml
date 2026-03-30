@@ -1,0 +1,71 @@
+name: Sync Audit Data
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [audit-data-updated]
+
+permissions:
+  contents: write
+
+jobs:
+  sync-audit-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/checkout@v4
+        with:
+          repository: JuliaHealth/JuliaHealthAudit
+          ref: main
+          path: _audit_source
+
+      - name: Copy audit data
+        run: |
+          set -e
+
+          src="_audit_source/data"
+          dst="assets/data/audit"
+
+          mkdir -p "$dst"
+
+          # --- RESULTS (only selected CSVs) ---
+          rm -rf "$dst/results"
+          mkdir -p "$dst/results"
+          cp "$src/results/audit_packages.csv" "$dst/results/"
+          cp "$src/results/audit_non_packages.csv" "$dst/results/"
+          cp "$src/results/audit_contributors.csv" "$dst/results/"
+
+          # --- VISUALIZATIONS (all files) ---
+          rsync -av --delete "$src/visualizations/" "$dst/visualizations/"
+
+          # --- HISTORY (all files) ---
+          rsync -av --delete "$src/history/" "$dst/history/" || true
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1.10"
+
+      - uses: julia-actions/cache@v2
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Instantiate project
+        run: julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Stage only synced audit artifacts.
+          git add -A assets/data/audit
+
+          ts=$(date -u +"%Y-%m-%d %H:%M:%SZ")
+          git commit --allow-empty -m "chore(audit): sync audit data (${ts})"
+
+          git push origin HEAD:main
