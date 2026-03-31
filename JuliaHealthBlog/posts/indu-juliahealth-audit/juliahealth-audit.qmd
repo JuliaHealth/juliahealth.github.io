@@ -8,6 +8,8 @@ engine: julia
 image: false
 categories:
   - julia
+  - numfocus
+  - sdg
   - audit
   - ecosystem
 ---
