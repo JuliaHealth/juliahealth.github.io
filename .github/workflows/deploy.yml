@@ -4,6 +4,19 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/**
+      - _quarto.yml
+      - Project.toml
+      - Manifest.toml
+      - CNAME
+      - index.qmd
+      - index-listing.json
+      - index.feed-full-staged
+      - styles.css
+      - pages/**
+      - JuliaHealthBlog/**
+      - assets/**
   workflow_dispatch:
 
 permissions:
