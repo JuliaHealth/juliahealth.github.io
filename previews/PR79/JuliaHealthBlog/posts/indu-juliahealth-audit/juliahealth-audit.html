@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kosuri Indu">
+<meta name="dcterms.date" content="2026-01-23">
+<meta name="description" content="A reproducible audit summarizing findings across documentation, CI/testing, community activity and package quality, with actionables to guide maintainers and contributors in improving the JuliaHealth ecosystem.">
+
+<title>JuliaHealth Ecosystem Audit: Documentation, CI and Package Health – JuliaHealth</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-53dbf3989f126eec4a9ac713cf3202b7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <div id="quarto-announcement" data-announcement-id="fdcc6ba07ee5c4e92eba5725cbff0470" class="alert alert-primary hidden"><i class="bi bi-megaphone quarto-announcement-icon"></i><div class="quarto-announcement-content">
+<p><a href="https://juliacon.org/2026/"><strong>JuliaCon 2026</strong></a>: Submit your talks for the Health Mini-Symposium <a href="https://pretalx.com/juliacon-2026/talk/NR9PGW/">here</a>!</p>
+</div><i class="bi bi-x-lg quarto-announcement-action"></i></div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo light-content">
+    <img src="../../../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> <i class="bi bi-house-door" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about-us" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-circle" role="img">
+</i> 
+ <span class="menu-text">About Us</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about-us">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/who_we_are.html"><i class="bi bi-people" role="img">
+</i> 
+ <span class="dropdown-text">Who We Are</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/research.html"><i class="bi bi-journal-text" role="img">
+</i> 
+ <span class="dropdown-text">Research</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/connect_with_us.html"><i class="bi bi-chat-heart" role="img">
+</i> 
+ <span class="dropdown-text">Connect With Us</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/packages.html"> <i class="bi bi-boxes" role="img">
+</i> 
+<span class="menu-text">Packages</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> <i class="bi bi-journal-richtext" role="img">
+</i> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ecosystem" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-diagram-3" role="img">
+</i> 
+ <span class="menu-text">Ecosystem</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ecosystem">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/ecosystem_health.html"><i class="bi bi-activity" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Health</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/ecosystem_comparison.html"><i class="bi bi-columns-gap" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Comparison</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-contributing" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-heart" role="img">
+</i> 
+ <span class="menu-text">Contributing</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-contributing">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/contributing.html"><i class="bi bi-arrow-left-right" role="img">
+</i> 
+ <span class="dropdown-text">Migrating your package to JuliaHealth</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/meeting_notes.html"><i class="bi bi-card-text" role="img">
+</i> 
+ <span class="dropdown-text">Meetings Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/related_organizations.html"><i class="bi bi-buildings" role="img">
+</i> 
+ <span class="dropdown-text">Related Organizations</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#why-this-audit" id="toc-why-this-audit" class="nav-link" data-scroll-target="#why-this-audit">Why This Audit?</a></li>
+  <li><a href="#general-registry-status" id="toc-general-registry-status" class="nav-link" data-scroll-target="#general-registry-status">General Registry Status</a></li>
+  <li><a href="#archived-and-forked-packages" id="toc-archived-and-forked-packages" class="nav-link" data-scroll-target="#archived-and-forked-packages">Archived and Forked Packages</a></li>
+  <li><a href="#detailed-findings" id="toc-detailed-findings" class="nav-link" data-scroll-target="#detailed-findings">Detailed Findings</a>
+  <ul class="collapse">
+  <li><a href="#documentation-readme" id="toc-documentation-readme" class="nav-link" data-scroll-target="#documentation-readme">Documentation &amp; README</a></li>
+  <li><a href="#ci-cd-testing-coverage" id="toc-ci-cd-testing-coverage" class="nav-link" data-scroll-target="#ci-cd-testing-coverage">CI/CD, Testing &amp; Coverage</a></li>
+  <li><a href="#structure-licensing-maturity" id="toc-structure-licensing-maturity" class="nav-link" data-scroll-target="#structure-licensing-maturity">Structure, Licensing &amp; Maturity</a></li>
+  <li><a href="#activity-releases-engagement" id="toc-activity-releases-engagement" class="nav-link" data-scroll-target="#activity-releases-engagement">Activity, Releases &amp; Engagement</a></li>
+  <li><a href="#issues-pr-health" id="toc-issues-pr-health" class="nav-link" data-scroll-target="#issues-pr-health">Issues &amp; PR Health</a></li>
+  <li><a href="#contributors-cross-ecosystem" id="toc-contributors-cross-ecosystem" class="nav-link" data-scroll-target="#contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</a></li>
+  </ul></li>
+  <li><a href="#actionables" id="toc-actionables" class="nav-link" data-scroll-target="#actionables">Actionables</a>
+  <ul class="collapse">
+  <li><a href="#documentation-readme-1" id="toc-documentation-readme-1" class="nav-link" data-scroll-target="#documentation-readme-1">Documentation &amp; README</a></li>
+  <li><a href="#cicd-testing-coverage" id="toc-cicd-testing-coverage" class="nav-link" data-scroll-target="#cicd-testing-coverage">CI/CD, Testing &amp; Coverage</a></li>
+  <li><a href="#structure-licensing-maturity-1" id="toc-structure-licensing-maturity-1" class="nav-link" data-scroll-target="#structure-licensing-maturity-1">Structure, Licensing &amp; Maturity</a></li>
+  <li><a href="#activity-releases-engagement-1" id="toc-activity-releases-engagement-1" class="nav-link" data-scroll-target="#activity-releases-engagement-1">Activity, Releases &amp; Engagement</a></li>
+  <li><a href="#issues-pr-health-1" id="toc-issues-pr-health-1" class="nav-link" data-scroll-target="#issues-pr-health-1">Issues &amp; PR Health</a></li>
+  <li><a href="#contributors-cross-ecosystem-1" id="toc-contributors-cross-ecosystem-1" class="nav-link" data-scroll-target="#contributors-cross-ecosystem-1">Contributors (Cross-Ecosystem)</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/JuliaHealth/juliahealth.github.io/edit/add/website-updates/JuliaHealthBlog/posts/indu-juliahealth-audit/juliahealth-audit.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">JuliaHealth Ecosystem Audit: Documentation, CI and Package Health</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">julia</div>
+    <div class="quarto-category">numfocus</div>
+    <div class="quarto-category">sdg</div>
+    <div class="quarto-category">audit</div>
+    <div class="quarto-category">ecosystem</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A reproducible audit summarizing findings across documentation, CI/testing, community activity and package quality, with actionables to guide maintainers and contributors in improving the JuliaHealth ecosystem.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Kosuri Indu </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 23, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Hi everyone! I’m Kosuri Lakshmi Indu, a final-year undergraduate student majoring in Computer Science and a Google Summer of Code 2025 contributor. Over the past year, I’ve had the wonderful opportunity to work with the JuliaHealth community, where I’ve been learning, contributing and getting involved in various projects focused on improving how we work with healthcare data and strengthen our ecosystem.</p>
+<p>This blog post is part of my work on a <strong>NumFOCUS Small Development Grant</strong> project focused on <a href="https://github.com/numfocus/small-development-grant-proposals/issues/59"><strong>Improving JuliaHealth Documentation Accessibility for Community Onboarding</strong></a>. The grant supports three main goals:</p>
+<ol type="1">
+<li>Attracting new community members and contributors: by making documentation more accessible and centralized</li>
+<li>Highlighting JuliaHealth workflows: through practical guides and examples</li>
+<li>Strengthening community robustness: by improving documentation practices, CI pipelines and package maintenance</li>
+</ol>
+</section>
+<section id="why-this-audit" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-audit">Why This Audit?</h2>
+<p>As the first phase of this grant work, I conducted a comprehensive audit of the entire JuliaHealth ecosystem. The goal was simple: understand the current state of our org packages so we can identify what’s working well and where we need help.</p>
+<p>The JuliaHealth organization currently maintains 60 (48 packages + 12 non-package) repositories focused on healthcare, medical imaging, bioinformatics and health data analysis. But without a systematic way to assess all packages, it’s impossible to know which ones are well-documented, which have good testing infrastructure and which are actively maintained. So I built an automated audit system to evaluate the entire ecosystem across a set of metrics.</p>
+<p>This audit helps us answer important questions:</p>
+<ul>
+<li>How many packages have documentation deployed for users?</li>
+<li>Do packages have contributing guidelines to help newcomers get started?</li>
+<li>Which packages track code coverage to ensure test quality?</li>
+<li>Are packages actively maintained or have some gone quiet?</li>
+<li>Who are the active maintainers across the ecosystem?</li>
+</ul>
+<p>In this blog post, I’ll walk you through what I discovered about the JuliaHealth ecosystem. The work is well documented in repository: <a href="https://github.com/JuliaHealth/JuliaHealthAudit"><strong>JuliaHealthAudit</strong></a></p>
+</section>
+<section id="general-registry-status" class="level2">
+<h2 class="anchored" data-anchor-id="general-registry-status">General Registry Status</h2>
+<p>The General Registry is Julia’s central package repository that makes packages easily discoverable and installable via the built-in package manager. Being registered means users can simply run <code>using PackageName</code> or <code>] add PackageName</code> without needing to know the GitHub URL. Out of 48 packages (1 forked), <strong>33 are registered</strong> in the General Registry, while <strong>14 remain unregistered</strong>.</p>
+<br>
+<div style="text-align: center;">
+<p><img src="./images/packages_registry_status.png" class="img-fluid"></p>
+</div>
+<p><strong>Packages NOT in General Registry:</strong></p>
+<ul>
+<li>CTakesParser.jl</li>
+<li>CloToP.jl</li>
+<li>GitHubAnalytics.jl</li>
+<li>HealthDash.jl</li>
+<li>HealthLLM.jl</li>
+<li>IPUMS.jl</li>
+<li>ITKIOWrapp.jl</li>
+<li>MTIWrapper.jl</li>
+<li>OHDSIAPI.jl</li>
+<li>OMOPCDMFeasibility.jl</li>
+<li>OMOPCDMPathways.jl</li>
+<li>PubMedMiner.jl</li>
+<li>Thunderbolt.jl</li>
+<li>WrapperITKIO.jl</li>
+</ul>
+<p><strong>Packages with Repo Link Mismatches (7):</strong> What I have noticed is that, even though the repo-link stated is different, it is redirecting to the JuliaHealth page.</p>
+<ul>
+<li>BlindingIndex.jl</li>
+<li>DICOMTree.jl</li>
+<li>MedEval3D.jl</li>
+<li>MedPipe3D.jl</li>
+<li>NeuroAnalyzer.jl</li>
+<li>OMOPVocabMapper.jl</li>
+</ul>
+</section>
+<section id="archived-and-forked-packages" class="level2">
+<h2 class="anchored" data-anchor-id="archived-and-forked-packages">Archived and Forked Packages</h2>
+<p>Archived packages are read-only repositories that are no longer actively maintained. Forked packages originate from other repositories and may have development happening elsewhere.</p>
+<p><strong>Archived Packages (2):</strong></p>
+<ul>
+<li>WrapperITKIO.jl</li>
+<li>ITKIOWrapp.jl</li>
+</ul>
+<p><strong>Forked Packages (1):</strong></p>
+<ul>
+<li>NCEI.jl</li>
+</ul>
+</section>
+<section id="detailed-findings" class="level2">
+<h2 class="anchored" data-anchor-id="detailed-findings">Detailed Findings</h2>
+<p>Now let’s dive deeper into specific aspects of the JuliaHealth ecosystem. This section breaks down the audit findings by categories:</p>
+<ul>
+<li><a href="#documentation-readme">Documentation &amp; README</a></li>
+<li><a href="#ci-cd-testing-coverage">CI/CD, Testing &amp; Coverage</a></li>
+<li><a href="#structure-licensing-maturity">Structure, Licensing &amp; Maturity</a></li>
+<li><a href="#activity-releases-engagement">Activity, Releases &amp; Engagement</a></li>
+<li><a href="#issues-pr-health">Issues &amp; PR Health</a></li>
+<li><a href="#contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</a></li>
+</ul>
+<section id="documentation-readme" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-readme">Documentation &amp; README</h3>
+<p>Documentation is crucial for package adoption and contribution. We evaluated whether packages have a docs/ directory, use Documenter.jl, deploy to GitHub Pages, and include contributor guidelines.</p>
+<section id="documentation-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="documentation-coverage">Documentation Coverage</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_docs_audit_coverage.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="github-pages-deployment" class="level4">
+<h4 class="anchored" data-anchor-id="github-pages-deployment">GitHub Pages Deployment</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_github_pages_adoption.png" class="img-fluid"></p>
+</div>
+<p><strong>Packages without GitHub Pages:</strong></p>
+<ul>
+<li>DICOM.jl</li>
+<li>NeuroAnalyzer.jl</li>
+<li>MedEye3d.jl</li>
+<li>MedPipe3D.jl</li>
+<li>DICOMTree.jl</li>
+<li>MedEval3D.jl</li>
+<li>HealthSampleData.jl</li>
+<li>ITKIOWrapper.jl</li>
+<li>OMOPVocabMapper.jl</li>
+<li>BlindingIndex.jl</li>
+<li>NCEI.jl</li>
+<li>PubMedMiner.jl</li>
+<li>CTakesParser.jl</li>
+<li>HealthDash.jl</li>
+<li>HealthLLM.jl</li>
+<li>CloToP.jl</li>
+<li>WrapperITKIO.jl</li>
+<li>ITKIOWrapp.jl</li>
+<li>MTIWrapper.jl</li>
+</ul>
+</section>
+<section id="readme-completeness" class="level4">
+<h4 class="anchored" data-anchor-id="readme-completeness">README Completeness</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_readme_completeness.png" class="img-fluid"></p>
+</div>
+<p><strong>README completeness scoring (0–8), one point each:</strong></p>
+<ul>
+<li>Install/quickstart instructions</li>
+<li>Usage or examples section</li>
+<li>Contributing guidance</li>
+<li>Lists that break up dense text</li>
+<li>Links to docs/issues/community</li>
+<li>Code blocks or inline examples</li>
+<li>Badges (build, coverage, license, etc.)</li>
+<li>Section headers (##) for structure</li>
+</ul>
+</section>
+</section>
+<section id="ci-cd-testing-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="ci-cd-testing-coverage">CI/CD, Testing &amp; Coverage</h3>
+<p>Continuous Integration and testing infrastructure ensure code quality and catch bugs early. We examined CI adoption, CI status, code coverage tracking, and testing practices.</p>
+<section id="cicd-adoption" class="level4">
+<h4 class="anchored" data-anchor-id="cicd-adoption">CI/CD Adoption</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_ci_adoption.png" class="img-fluid"></p>
+</div>
+<p><strong>Packages missing CI workflows:</strong></p>
+<ul>
+<li>MedPipe3D.jl</li>
+<li>MedEval3D.jl</li>
+<li>HealthDash.jl</li>
+<li>CloToP.jl</li>
+<li>WrapperITKIO.jl</li>
+<li>ITKIOWrapp.jl</li>
+</ul>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_ci_adoption.png" class="img-fluid"></p>
+</div>
+<p><strong>Non-package repositories missing CI workflows:</strong></p>
+<ul>
+<li>MedPipe3DTutorial</li>
+<li>OMOPCDMPredictor</li>
+<li>ObservationalHealthSubecosystemPaper</li>
+<li>JuliaHealthEcosystemPaper</li>
+<li>JuliaHealthZoo</li>
+</ul>
+</section>
+<section id="ci-status" class="level4">
+<h4 class="anchored" data-anchor-id="ci-status">CI Status</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_ci_status.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="code-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="code-coverage">Code Coverage</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_code_coverage.png" class="img-fluid"></p>
+</div>
+<p><strong>Packages without code coverage configured:</strong></p>
+<ul>
+<li>BloodFlowTrixi.jl</li>
+<li>NeuroAnalyzer.jl</li>
+<li>BioMedQuery.jl</li>
+<li>MedEye3d.jl</li>
+<li>ARules.jl</li>
+<li>MedPipe3D.jl</li>
+<li>DICOMTree.jl</li>
+<li>MedEval3D.jl</li>
+<li>ITKIOWrapper.jl</li>
+<li>OMOPCDMDatabaseConnector.jl</li>
+<li>BlindingIndex.jl</li>
+<li>PubMedMiner.jl</li>
+<li>HealthDash.jl</li>
+<li>GitHubAnalytics.jl</li>
+<li>CloToP.jl</li>
+<li>WrapperITKIO.jl</li>
+<li>ITKIOWrapp.jl</li>
+</ul>
+</section>
+</section>
+<section id="structure-licensing-maturity" class="level3">
+<h3 class="anchored" data-anchor-id="structure-licensing-maturity">Structure, Licensing &amp; Maturity</h3>
+<p>Proper package structure, licensing clarity, and maturity indicators help users assess reliability. We evaluated standard layout compliance, registry status, archive status, maturity tiers, and license coverage.</p>
+<p>For clarity, in this audit a package is considered to follow the “standard layout” when it meets the required items and all recommended checks below.</p>
+<ul>
+<li>Required items (all required):
+<ul>
+<li><code>has_src_dir</code>: repository contains a <code>src/</code> directory</li>
+<li><code>has_project_toml</code>: <code>Project.toml</code> is present</li>
+<li><code>has_license</code>: a LICENSE file is present</li>
+</ul></li>
+<li>Recommended checks (all recommended):
+<ul>
+<li><code>has_test_dir</code>: <code>test/</code> directory exists</li>
+<li><code>has_docs_dir</code>: <code>docs/</code> directory exists</li>
+<li><code>has_ci</code>: CI workflows exist (e.g., <code>.github/workflows/</code>)</li>
+<li><code>uses_documenter</code>: uses Documenter.jl for docs</li>
+<li><code>code_coverage_config</code>: code coverage reporting configured (e.g., Codecov)</li>
+</ul></li>
+</ul>
+<p>Packages marked as following the standard layout must satisfy every item in both lists.</p>
+<section id="structure-compliance" class="level4">
+<h4 class="anchored" data-anchor-id="structure-compliance">Structure Compliance</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_standards_compliance.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="standards-percentages" class="level4">
+<h4 class="anchored" data-anchor-id="standards-percentages">Standards Percentages</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_standards_percentages.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="style-guide-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="style-guide-distribution">Style Guide Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_style_guide_distribution.png" class="img-fluid"></p>
+</div>
+<p><strong>Packages Following Blue or SciML Style Guides:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Style Guide</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>KomaMRI.jl</td>
+<td>Blue</td>
+</tr>
+<tr class="even">
+<td>HealthSampleData.jl</td>
+<td>Blue</td>
+</tr>
+<tr class="odd">
+<td>Thunderbolt.jl</td>
+<td>SciML</td>
+</tr>
+<tr class="even">
+<td>OMOPCDMFeasibility.jl</td>
+<td>Blue</td>
+</tr>
+<tr class="odd">
+<td>OMOPCDMPathways.jl</td>
+<td>Blue</td>
+</tr>
+<tr class="even">
+<td>HealthLLM.jl</td>
+<td>Blue</td>
+</tr>
+<tr class="odd">
+<td>IPUMS.jl</td>
+<td>Blue</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+<section id="maturity-tiers" class="level4">
+<h4 class="anchored" data-anchor-id="maturity-tiers">Maturity Tiers</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_maturity_tiers.png" class="img-fluid"></p>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tier</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mature</td>
+<td>In General Registry; releases_count ≥ 20</td>
+</tr>
+<tr class="even">
+<td>Stable</td>
+<td>In General Registry; 5 ≤ releases_count ≤ 19</td>
+</tr>
+<tr class="odd">
+<td>Early Release</td>
+<td>In General Registry; 1–4 releases</td>
+</tr>
+<tr class="even">
+<td>Registered (No Releases)</td>
+<td>In General Registry; releases_count = 0</td>
+</tr>
+<tr class="odd">
+<td>Not Registered</td>
+<td>Not in General Registry</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+<section id="license-presence-types" class="level4">
+<h4 class="anchored" data-anchor-id="license-presence-types">License Presence &amp; Types</h4>
+<p>All JuliaHealth packages have licenses – 100% license compliance! This is an important ecosystem signal showing professionalism and legal clarity.</p>
+<div style="text-align: center;">
+<p><img src="./images/packages_license_presence.png" class="img-fluid"></p>
+</div>
+<p>License types vary across the ecosystem. The most common licenses include MIT, Apache-2.0 and BSD variants, reflecting standard open-source practices:</p>
+<p><br></p>
+<div style="text-align: center;">
+<p><img src="./images/packages_license_types.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="non-package-license-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="non-package-license-coverage">Non-Package License Coverage</h4>
+<p>Non-package repositories also show strong license compliance:</p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_license_presence.png" class="img-fluid"></p>
+</div>
+<p><br></p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_license_status.png" class="img-fluid"></p>
+</div>
+<p><br></p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_license_types.png" class="img-fluid"></p>
+</div>
+<p><strong>Non-package repositories missing a LICENSE file:</strong></p>
+<ul>
+<li>JuliaHealthEcosystemPaper</li>
+<li>JuliaHealthWebsiteOld</li>
+<li>JuliaHealthZoo</li>
+<li>MedPipe3DTutorial</li>
+<li>ObservationalHealthSubecosystemPaper</li>
+</ul>
+</section>
+</section>
+<section id="activity-releases-engagement" class="level3">
+<h3 class="anchored" data-anchor-id="activity-releases-engagement">Activity, Releases &amp; Engagement</h3>
+<p>Community engagement and maintenance activity indicate package health. We analyzed activity recency, releases, stars, contributors, and popularity.</p>
+<section id="maintainers-maintenance-status" class="level4">
+<h4 class="anchored" data-anchor-id="maintainers-maintenance-status">Maintainers &amp; Maintenance Status</h4>
+<p>Understanding who maintains packages and their current activity status is critical for ecosystem health. We identify maintainers as people with push/admin/maintain access who have committed code in the last 10 years. Active maintainers are those who contributed within the last 6 months.</p>
+<p><strong>Maintainers Comparison (Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/packages_maintainers_comparison.png" class="img-fluid"></p>
+</div>
+<p>This chart shows all maintainers (people with push access who committed in the last 10 years) versus active maintainers (those who contributed in the last 6 months). The gap between the two bars indicates maintainer availability - a large gap suggests maintainers who could help but aren’t currently active.</p>
+<p><strong>Maintenance Status (Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/packages_maintenance_status.png" class="img-fluid"></p>
+</div>
+<p>Classification criteria:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Status</th>
+<th>Criteria</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Concept</strong></td>
+<td>Less than 1 release</td>
+</tr>
+<tr class="even">
+<td><strong>Active</strong></td>
+<td>Has active maintainers (contributed in last 6 months)</td>
+</tr>
+<tr class="odd">
+<td><strong>Inactive</strong></td>
+<td>Has maintainers but no active ones, last activity &lt; 540 days (~18 months)</td>
+</tr>
+<tr class="even">
+<td><strong>Abandoned</strong></td>
+<td>No maintainers OR last activity ≥ 540 days</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p><strong>Maintainers Comparison (Non-Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_maintainers_comparison.png" class="img-fluid"></p>
+</div>
+<p><br></p>
+<p><strong>Maintenance Status (Non-Packages):</strong></p>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_maintenance_status.png" class="img-fluid"></p>
+</div>
+<p>The maintenance status distribution helps identify which packages and repositories need immediate attention. <strong>Active</strong> packages have maintainers currently engaged, <strong>Inactive</strong> packages have maintainers who could be re-engaged, <strong>Abandoned</strong> packages need new maintainers or archival consideration, and <strong>Concept</strong> packages are experimental or pre-release.</p>
+</section>
+<section id="activity-recency" class="level4">
+<h4 class="anchored" data-anchor-id="activity-recency">Activity Recency</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_activity_recency.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="releases-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="releases-distribution">Releases Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_releases_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="stars-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="stars-distribution">Stars Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_stars_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="contributors-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="contributors-distribution">Contributors Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_contributors_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-stars" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-stars">Top Packages by Stars</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_stars.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-monthly-downloads" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-monthly-downloads">Top Packages by Monthly Downloads</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_monthly_downloads.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-total-downloads" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-total-downloads">Top Packages by Total Downloads</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_total_downloads.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-contributors" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-contributors">Top Packages by Contributors</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top15_contributors.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-packages-by-releases" class="level4">
+<h4 class="anchored" data-anchor-id="top-packages-by-releases">Top Packages by Releases</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_top_releases.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="non-package-stars-and-contributors" class="level4">
+<h4 class="anchored" data-anchor-id="non-package-stars-and-contributors">Non-Package Stars and Contributors</h4>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_all_stars.png" class="img-fluid"></p>
+</div>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_all_contributors.png" class="img-fluid"></p>
+</div>
+</section>
+</section>
+<section id="issues-pr-health" class="level3">
+<h3 class="anchored" data-anchor-id="issues-pr-health">Issues &amp; PR Health</h3>
+<section id="issues-comparison-packages" class="level4">
+<h4 class="anchored" data-anchor-id="issues-comparison-packages">Issues Comparison (Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_issues_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="prs-comparison-packages" class="level4">
+<h4 class="anchored" data-anchor-id="prs-comparison-packages">PRs Comparison (Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/packages_prs_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="issues-comparison-non-packages" class="level4">
+<h4 class="anchored" data-anchor-id="issues-comparison-non-packages">Issues Comparison (Non-Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_issues_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="prs-comparison-non-packages" class="level4">
+<h4 class="anchored" data-anchor-id="prs-comparison-non-packages">PRs Comparison (Non-Packages)</h4>
+<div style="text-align: center;">
+<p><img src="./images/nonpackages_prs_comparison.png" class="img-fluid"></p>
+</div>
+</section>
+</section>
+<section id="contributors-cross-ecosystem" class="level3">
+<h3 class="anchored" data-anchor-id="contributors-cross-ecosystem">Contributors (Cross-Ecosystem)</h3>
+<section id="top-contributors-by-total" class="level4">
+<h4 class="anchored" data-anchor-id="top-contributors-by-total">Top Contributors by Total</h4>
+<div style="text-align: center;">
+<p><img src="./images/contributors_top_by_total.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="top-contributors-by-repo-count" class="level4">
+<h4 class="anchored" data-anchor-id="top-contributors-by-repo-count">Top Contributors by Repo Count</h4>
+<div style="text-align: center;">
+<p><img src="./images/contributors_top_by_repo_count.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="contribution-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="contribution-distribution">Contribution Distribution</h4>
+<div style="text-align: center;">
+<p><img src="./images/contributors_contribution_distribution.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="engagement-tiers" class="level4">
+<h4 class="anchored" data-anchor-id="engagement-tiers">Engagement Tiers</h4>
+<p><br></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tier</th>
+<th>Rule (total_contributions, num_repos_contributed)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Core</td>
+<td>total &gt; 500 or repos &gt; 10</td>
+</tr>
+<tr class="even">
+<td>Regular</td>
+<td>total ≥ 100 or repos ≥ 3</td>
+</tr>
+<tr class="odd">
+<td>Occasional</td>
+<td>total ≥ 10 or repos ≥ 1</td>
+</tr>
+<tr class="even">
+<td>One-time</td>
+<td>Otherwise</td>
+</tr>
+</tbody>
+</table>
+<div style="text-align: center;">
+<p><img src="./images/contributors_engagement_tiers.png" class="img-fluid"></p>
+</div>
+</section>
+</section>
+</section>
+<section id="actionables" class="level2">
+<h2 class="anchored" data-anchor-id="actionables">Actionables</h2>
+<p>Looking at our findings, here are concise, prioritized actions organized in the updated categories. Each item is phrased as a small, actionable task that can be addressed in a single PR or issue.</p>
+<section id="documentation-readme-1" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-readme-1">Documentation &amp; README</h3>
+<ul>
+<li><strong>Rationale:</strong> Good documentation makes it easy for users to learn and use the package. Good docs also help contributors get started and contribute safely.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Deploy <code>docs/</code> to GitHub Pages.</li>
+<li>Add a short <code>CONTRIBUTING.md</code> and a <code>CODE_OF_CONDUCT.md</code>.</li>
+<li>Add a well-defined example and description with a code block to the <code>README</code>.</li>
+<li>Use <code>Documenter.jl</code> to build docs when appropriate.</li>
+</ul></li>
+</ul>
+</section>
+<section id="cicd-testing-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="cicd-testing-coverage">CI/CD, Testing &amp; Coverage</h3>
+<ul>
+<li><strong>Rationale:</strong> CI runs tests automatically to find bugs early. Coverage helps identify parts of the code that need more tests.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Add a GitHub Actions workflow that runs tests and builds docs.</li>
+<li>Enable coverage reporting and add a coverage badge (codecov) to the <code>README</code>.</li>
+<li>Add <code>test/</code> for key functionality.</li>
+</ul></li>
+</ul>
+</section>
+<section id="structure-licensing-maturity-1" class="level3">
+<h3 class="anchored" data-anchor-id="structure-licensing-maturity-1">Structure, Licensing &amp; Maturity</h3>
+<ul>
+<li><strong>Rationale:</strong> A standard layout makes packages easier to install and use. Published releases and clear licensing let others depend on stable, compliant versions. A shared code style reduces trivial review comments and confusion, and CI checks catch obvious issues before human review.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Finalize a standard template for package structure.</li>
+<li>Publish a release and register in the General Registry if ready; fix registry metadata if needed.</li>
+<li>Adopt <code>JuliaFormatter</code> and add formatting to CI.</li>
+<li>Add basic lint or build checks to CI (e.g., docs build, tests pass).</li>
+</ul></li>
+</ul>
+</section>
+<section id="activity-releases-engagement-1" class="level3">
+<h3 class="anchored" data-anchor-id="activity-releases-engagement-1">Activity, Releases &amp; Engagement</h3>
+<ul>
+<li><strong>Rationale:</strong> Clear labels and simple guides help new contributors find tasks. Public maintainer info makes it easier to coordinate work and handoffs. Active maintenance signals health and reliability to users.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Add <code>good first issue</code> and <code>help wanted</code> labels and link them to <code>CONTRIBUTING.md</code>.</li>
+<li>Add a <code>MAINTAINERS.md</code> or contact/triage instructions in the <code>README</code>.</li>
+<li>For <strong>Abandoned</strong> packages: Consider archiving, transferring ownership, or recruiting new maintainers.</li>
+<li>For <strong>Inactive</strong> packages: Reach out to existing maintainers to gauge interest in returning or recruiting help.</li>
+<li>For <strong>Concept</strong> packages: Decide whether to develop toward first release or archive as experimental.</li>
+<li>Recognize and thank active maintainers publicly to sustain engagement.</li>
+</ul></li>
+</ul>
+</section>
+<section id="issues-pr-health-1" class="level3">
+<h3 class="anchored" data-anchor-id="issues-pr-health-1">Issues &amp; PR Health</h3>
+<ul>
+<li><strong>Rationale:</strong> Well-triaged issues and reviewed PRs keep backlog healthy and contributors unblocked.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Use the issue/PR comparisons above to prioritize triage and reviews.</li>
+<li>Apply <code>good first issue</code>/<code>help wanted</code> labels to surface approachable work.</li>
+</ul></li>
+</ul>
+</section>
+<section id="contributors-cross-ecosystem-1" class="level3">
+<h3 class="anchored" data-anchor-id="contributors-cross-ecosystem-1">Contributors (Cross-Ecosystem)</h3>
+<ul>
+<li><strong>Rationale:</strong> Recognizing and engaging active contributors helps sustain momentum across repositories.</li>
+<li><strong>Actions:</strong>
+<ul>
+<li>Use the generated lists in <a href="data/results/lists">data/results/lists</a> to pick concrete targets and open issues or PRs against the repositories listed.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The JuliaHealth ecosystem is growing and has a strong foundation. Most packages follow good practices like CI/CD automation and General Registry registration. We have excellent examples like KomaMRI.jl that show what well-maintained packages look like. But there’s room for improvement. Some packages lack documentation, contributing guidelines and code of conduct files. Some valuable packages have become inactive and need new maintainers.</p>
+<p>The good news is that every gap we identified is an opportunity to contribute. This audit is just the beginning. The goal is to make JuliaHealth more accessible so new members can easily discover packages, understand how to use them, and contribute improvements.</p>
+<p>If you want to get involved, check out the audit repository, browse the detailed findings and pick something you’d like to work on. The JuliaHealth community is friendly and supportive. Reach out on Julia Slack (#health-and-medicine) or Discourse if you have questions. Let’s work together to make JuliaHealth even better ❤️.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>This work was made possible by the <strong>NumFOCUS Small Development Grant</strong> program. Thank you to NumFOCUS for supporting ecosystem health and community sustainability. Special thanks to my mentors: <strong>Carlos Castillo Passi</strong> and <strong>Jacob Zelko (TheCedarPrince)</strong> - for project guidance, technical mentorship and insights into the JuliaHealth ecosystem</p>
+<p><strong>Thank you to:</strong></p>
+<ul>
+<li>The <strong>JuliaHealth community</strong> - Over 300 members across Slack, Zulip, and Discourse who make this ecosystem welcoming and collaborative</li>
+<li>All <strong>package maintainers and developers</strong> - For building and maintaining the tools that make this audit possible</li>
+<li>The <strong>Julia community</strong> - For creating an amazing language and ecosystem</li>
+</ul>
+<p><em>Note: This blog post was drafted with the assistance of LLM technologies to support grammar, clarity and structure.</em></p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{indu2026,
+  author = {Indu, Kosuri},
+  title = {JuliaHealth {Ecosystem} {Audit:} {Documentation,} {CI} and
+    {Package} {Health}},
+  date = {2026-01-23},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-indu2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Indu, Kosuri. 2026. <span>“JuliaHealth Ecosystem Audit: Documentation,
+CI and Package Health.”</span> January 23.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+      <i class="bi bi-c-circle" role="img">
+</i> 
+ Copyright 2024-25, JuliaHealth.
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/JuliaHealth/juliahealth.github.io/edit/add/website-updates/JuliaHealthBlog/posts/indu-juliahealth-audit/juliahealth-audit.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
