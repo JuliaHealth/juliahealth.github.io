@@ -7,6 +7,9 @@ website:
   title: "JuliaHealth"
   image: "assets/images/logo.png"
   image-alt: "JuliaHub Logo"
+  repo-url: https://github.com/JuliaHealth/juliahealth.github.io
+  repo-branch: main
+  repo-actions: [edit]
   announcement:
     icon: megaphone
     dismissable: true

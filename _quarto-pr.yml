@@ -1,4 +1,2 @@
 website:
-  repo-url: https://github.com/JuliaHealth/juliahealth.github.io
   repo-branch: "${GITHUB_HEAD_REF}"
-  repo-actions: [edit]
