@@ -1,2 +1,2 @@
 website:
-  repo-branch: "${GITHUB_HEAD_REF}"
+  repo-branch: "__PR_BRANCH__"
