@@ -1,7 +1,7 @@
 login,name,num_repos_contributed,total_contributions,contributor_tier,is_bot,repos_list
 AdamWysokinski,Adam Wysokiński,3,2731,Core,false,BlindingIndex.jl; CloToP.jl; NeuroAnalyzer.jl
 cncastillo,Carlos Castillo Passi,1,1163,Core,false,KomaMRI.jl
-jakubMitura14,Jakub Mitura,8,879,Core,false,ITKIOWrapp.jl; ITKIOWrapper.jl; MedEval3D.jl; MedEye3d.jl; MedImages.jl; MedPipe3D.jl; MedPipe3DTutorial; WrapperITKIO.jl
+jakubMitura14,Jakub Mitura,8,890,Core,false,ITKIOWrapp.jl; ITKIOWrapper.jl; MedEval3D.jl; MedEye3d.jl; MedImages.jl; MedPipe3D.jl; MedPipe3DTutorial; WrapperITKIO.jl
 pvillacorta,Pablo Villacorta Aylagas,1,742,Core,false,KomaMRI.jl
 DilumAluthge,Dilum Aluthge,24,644,Core,false,ARules.jl; BioMedQuery.jl; CAOS.jl; CTakesParser.jl; DICOM.jl; DICOMClient.jl; DateShifting.jl; DiagnosisClassification.jl; EHRAuthentication.jl; FHIRClient.jl; FHIRClientJSON.jl; FHIRClientXML.jl; HealthBase.jl; HealthMLBase.jl; JuliaHealthWebsiteOld; KomaMRI.jl; MTIWrapper.jl; OMOPCommonDataModel.jl; PharmaceuticalClassification.jl; PubChemCrawler.jl; PubMedMiner.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl; juliahealth.github.io-previews
 beorostica,beorostica,1,549,Core,false,KomaMRI.jl
@@ -11,7 +11,7 @@ divital-coder,Night-Glimmers,6,230,Regular,false,GitHubAnalytics.jl; ITKIOWrapp.
 TheCedarPrince,Jacob S. Zelko,19,230,Core,false,EpiJ; HealthBase.jl; HealthLLM.jl; HealthSampleData.jl; IPUMS.jl; JuliaHealthEcosystemPaper; JuliaHealthLLM; JuliaHealthWebsiteOld; KomaMRI.jl; NeuroAnalyzer.jl; OHDSIAPI.jl; OMOPCDMCohortCreator.jl; OMOPCDMDatabaseConnector.jl; OMOPCDMFeasibility.jl; OMOPCDMMetrics; OMOPCDMPathways.jl; OMOPCDMPredictor; ObservationalHealthSubecosystemPaper; juliahealth.github.io
 yolhan83,yolhan mannes,1,195,Regular,false,BloodFlowTrixi.jl
 paulstey,Paul Stey,3,188,Regular,false,ARules.jl; BioMedQuery.jl; CAOS.jl
-kosuri-indu,Kosuri Indu,11,156,Core,false,HealthBase.jl; HealthDash.jl; JuliaHealthAudit; JuliaHealthEcosystemPaper; JuliaHealthZoo; KomaMRI.jl; OHDSIAPI.jl; OMOPCDMFeasibility.jl; OMOPCommonDataModel.jl; Thunderbolt.jl; juliahealth.github.io
+kosuri-indu,Kosuri Indu,11,162,Core,false,HealthBase.jl; HealthDash.jl; JuliaHealthAudit; JuliaHealthEcosystemPaper; JuliaHealthZoo; KomaMRI.jl; OHDSIAPI.jl; OMOPCDMFeasibility.jl; OMOPCommonDataModel.jl; Thunderbolt.jl; juliahealth.github.io
 termi-official,Dennis Ogiermann,1,138,Regular,false,Thunderbolt.jl
 Stockless,Stockless,1,120,Regular,false,KomaMRI.jl
 rkierulf,rkierulf,2,116,Regular,false,KomaMRI.jl; juliahealth.github.io
@@ -20,7 +20,7 @@ Nosferican,José Bayoán Santiago Calderón,1,96,Occasional,false,NCEI.jl
 ParamThakkar123,Param Thakkar,4,74,Regular,false,HealthLLM.jl; HealthSampleData.jl; JuliaHealthLLM; MedEval3D.jl
 jagiellonczyk14,jagiellonczyk14,2,68,Occasional,false,MedEval3D.jl; MedEye3d.jl
 google-labs-jules[bot],google-labs-jules[bot],1,66,Occasional,true,MedImages.jl
-github-actions[bot],github-actions[bot],10,57,Regular,true,EHRAuthentication.jl; FHIRClient.jl; HealthBase.jl; ICD_GEMs.jl; IPUMS.jl; JuliaHealthAudit; KomaMRI.jl; PubChemCrawler.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl
+github-actions[bot],github-actions[bot],11,59,Core,true,EHRAuthentication.jl; FHIRClient.jl; HealthBase.jl; ICD_GEMs.jl; IPUMS.jl; JuliaHealthAudit; KomaMRI.jl; PubChemCrawler.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl; juliahealth.github.io
 aTrotier,aTrotier,1,46,Occasional,false,KomaMRI.jl
 Jay-sanjay,Jay-sanjay,3,41,Regular,false,OMOPCDMCohortCreator.jl; OMOPCDMPathways.jl; juliahealth.github.io
 dependabot[bot],dependabot[bot],7,34,Regular,true,BloodFlowTrixi.jl; FHIRClient.jl; IPUMS.jl; KomaMRI.jl; OMOPCDMPathways.jl; SMARTBackendServices.jl; Thunderbolt.jl
@@ -73,6 +73,7 @@ MichelaRocchetti,MichelaRocchetti,1,1,Occasional,false,juliahealth.github.io
 nicoleepp,Nicole Epp,1,1,Occasional,false,BioMedQuery.jl
 Keno,Keno Fischer,1,1,Occasional,false,DICOM.jl
 fredrikekre,Fredrik Ekre,1,1,Occasional,false,NCEI.jl
+allcontributors[bot],allcontributors[bot],1,1,Occasional,true,juliahealth.github.io
 fchichorro,Filipe Chichorro,1,1,Occasional,false,PubChemCrawler.jl
 carlobaldassi,Carlo Baldassi,1,1,Occasional,false,DICOM.jl
 nHackel,Niklas Hackelberg,1,1,Occasional,false,KomaMRI.jl
