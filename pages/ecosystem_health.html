@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -40,10 +43,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bba5ebae505b5c03f3f0d8040a416a6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-6ac2aec46ad7f46b16024ee4409aa65c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -206,16 +209,16 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="4" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display" data-execution_count="1">
-<p class="ecosystem-section-note">This dashboard tracks the health of JuliaHealth repositories using the latest audit outputs in assets/data/audit/results. (Updated on Jul 1, 2026 at 04:02 UTC)</p>
+<p class="ecosystem-section-note">This dashboard tracks the health of JuliaHealth repositories using the latest audit outputs in assets/data/audit/results. (Updated on Aug 1, 2026 at 02:55 UTC)</p>
 <div class="ecosystem-summary-grid">
   <div class="ecosystem-summary-card">
   <div class="ecosystem-summary-label">Total Repositories</div>
-  <div class="ecosystem-summary-value">62</div>
+  <div class="ecosystem-summary-value">63</div>
   <div class="ecosystem-summary-note">All audited repositories</div>
 </div>
 <div class="ecosystem-summary-card">
   <div class="ecosystem-summary-label">Packages</div>
-  <div class="ecosystem-summary-value">49</div>
+  <div class="ecosystem-summary-value">50</div>
   <div class="ecosystem-summary-note">Package repositories</div>
 </div>
 <div class="ecosystem-summary-card">
@@ -230,7 +233,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="ecosystem-summary-card">
   <div class="ecosystem-summary-label">Total Stars</div>
-  <div class="ecosystem-summary-value">567</div>
+  <div class="ecosystem-summary-value">573</div>
   <div class="ecosystem-summary-note">Across all repositories</div>
 </div>
 <div class="ecosystem-summary-card">
@@ -240,12 +243,12 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="ecosystem-summary-card">
   <div class="ecosystem-summary-label">Total Open Issues</div>
-  <div class="ecosystem-summary-value">287</div>
+  <div class="ecosystem-summary-value">271</div>
   <div class="ecosystem-summary-note">Current open issues across all repos</div>
 </div>
 <div class="ecosystem-summary-card">
   <div class="ecosystem-summary-label">Total Open PRs</div>
-  <div class="ecosystem-summary-value">81</div>
+  <div class="ecosystem-summary-value">93</div>
   <div class="ecosystem-summary-note">Current open pull requests across all repos</div>
 </div>
 
@@ -292,13 +295,13 @@ Package-only scope: this standards view tracks adoption of key engineering pract
 <tr class="odd">
 <td>CI Workflow</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 85.7%">
+<div class="ecosystem-progress-fill" style="width: 86.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
-<td>42/49</td>
-<td>85.7%</td>
+<td>43/50</td>
+<td>86.0%</td>
 </tr>
 <tr class="even">
 <td>License</td>
@@ -308,107 +311,107 @@ Package-only scope: this standards view tracks adoption of key engineering pract
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
-<td>48/49</td>
+<td>49/50</td>
 <td>98.0%</td>
 </tr>
 <tr class="odd">
 <td>Source Directory</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 98.0%">
+<div class="ecosystem-progress-fill" style="width: 96.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
-<td>48/49</td>
-<td>98.0%</td>
+<td>48/50</td>
+<td>96.0%</td>
 </tr>
 <tr class="even">
 <td>Test Directory</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 87.8%">
+<div class="ecosystem-progress-fill" style="width: 86.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
-<td>43/49</td>
-<td>87.8%</td>
+<td>43/50</td>
+<td>86.0%</td>
 </tr>
 <tr class="odd">
 <td>Project.toml</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 98.0%">
+<div class="ecosystem-progress-fill" style="width: 96.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-strong">Strong</span></td>
-<td>48/49</td>
-<td>98.0%</td>
+<td>48/50</td>
+<td>96.0%</td>
 </tr>
 <tr class="even">
 <td>Docs Directory</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 71.4%">
+<div class="ecosystem-progress-fill" style="width: 70.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
-<td>35/49</td>
-<td>71.4%</td>
+<td>35/50</td>
+<td>70.0%</td>
 </tr>
 <tr class="odd">
 <td>Uses Documenter</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 67.3%">
+<div class="ecosystem-progress-fill" style="width: 68.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
-<td>33/49</td>
-<td>67.3%</td>
+<td>34/50</td>
+<td>68.0%</td>
 </tr>
 <tr class="even">
 <td>GitHub Pages</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 59.2%">
+<div class="ecosystem-progress-fill" style="width: 60.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
-<td>29/49</td>
-<td>59.2%</td>
+<td>30/50</td>
+<td>60.0%</td>
 </tr>
 <tr class="odd">
 <td>Code Coverage</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 65.3%">
+<div class="ecosystem-progress-fill" style="width: 64.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-moderate">Moderate</span></td>
-<td>32/49</td>
-<td>65.3%</td>
+<td>32/50</td>
+<td>64.0%</td>
 </tr>
 <tr class="even">
 <td>CONTRIBUTING.md</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 10.2%">
+<div class="ecosystem-progress-fill" style="width: 10.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-needs-work">Needs work</span></td>
-<td>5/49</td>
-<td>10.2%</td>
+<td>5/50</td>
+<td>10.0%</td>
 </tr>
 <tr class="odd">
 <td>CODE_OF_CONDUCT</td>
 <td style="width: 220px"><div class="ecosystem-progress-track">
-<div class="ecosystem-progress-fill" style="width: 12.2%">
+<div class="ecosystem-progress-fill" style="width: 12.0%">
 
 </div>
 </div></td>
 <td><span class="ecosystem-adoption-badge ecosystem-adoption-needs-work">Needs work</span></td>
-<td>6/49</td>
-<td>12.2%</td>
+<td>6/50</td>
+<td>12.0%</td>
 </tr>
 </tbody>
 </table>
@@ -426,12 +429,12 @@ This section is sourced directly from <code>history/monthly_tops.csv</code> and 
 <div id="10" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <div class="ecosystem-table-card">
-  <p class="ecosystem-section-note">Snapshot month: 2026-07-01</p>
+  <p class="ecosystem-section-note">Snapshot month: 2026-08-01</p>
   <div class="ecosystem-monthly-top-grid">
-    <div class="ecosystem-monthly-top-card"><h4 class="anchored">⭐ Top 5 by Stars</h4><ol><li><span>KomaMRI.jl</span><strong>209</strong></li><li><span>DICOM.jl</span><strong>59</strong></li><li><span>BloodFlowTrixi.jl</span><strong>44</strong></li><li><span>PubChemCrawler.jl</span><strong>28</strong></li><li><span>Thunderbolt.jl</span><strong>26</strong></li></ol></div>
-    <div class="ecosystem-monthly-top-card"><h4 class="anchored">📥 Top 5 by Monthly Downloads</h4><ol><li><span>KomaMRI.jl</span><strong>139</strong></li><li><span>PubChemCrawler.jl</span><strong>96</strong></li><li><span>DICOM.jl</span><strong>72</strong></li><li><span>SMARTAppLaunch.jl</span><strong>27</strong></li><li><span>NeuroAnalyzer.jl</span><strong>26</strong></li></ol></div>
-    <div class="ecosystem-monthly-top-card"><h4 class="anchored">👥 Top 5 by Human Contributors</h4><ol><li><span>KomaMRI.jl</span><strong>24</strong></li><li><span>DICOM.jl</span><strong>18</strong></li><li><span>BioMedQuery.jl</span><strong>8</strong></li><li><span>MedPipe3D.jl</span><strong>6</strong></li><li><span>PubChemCrawler.jl</span><strong>6</strong></li></ol></div>
-    <div class="ecosystem-monthly-top-card"><h4 class="anchored">🛠️ Top 5 by Active Maintainers</h4><ol><li><span>KomaMRI.jl</span><strong>4</strong></li><li><span>MedPipe3D.jl</span><strong>4</strong></li><li><span>Thunderbolt.jl</span><strong>4</strong></li><li><span>IPUMS.jl</span><strong>3</strong></li><li><span>PubChemCrawler.jl</span><strong>3</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">⭐ Top 5 by Stars</h4><ol><li><span>KomaMRI.jl</span><strong>215</strong></li><li><span>DICOM.jl</span><strong>59</strong></li><li><span>BloodFlowTrixi.jl</span><strong>43</strong></li><li><span>PubChemCrawler.jl</span><strong>28</strong></li><li><span>Thunderbolt.jl</span><strong>26</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">📥 Top 5 by Monthly Downloads</h4><ol><li><span>KomaMRI.jl</span><strong>138</strong></li><li><span>PubChemCrawler.jl</span><strong>92</strong></li><li><span>DICOM.jl</span><strong>75</strong></li><li><span>SMARTAppLaunch.jl</span><strong>27</strong></li><li><span>NeuroAnalyzer.jl</span><strong>26</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">👥 Top 5 by Human Contributors</h4><ol><li><span>KomaMRI.jl</span><strong>25</strong></li><li><span>DICOM.jl</span><strong>18</strong></li><li><span>BioMedQuery.jl</span><strong>8</strong></li><li><span>MedPipe3D.jl</span><strong>6</strong></li><li><span>PubChemCrawler.jl</span><strong>6</strong></li></ol></div>
+    <div class="ecosystem-monthly-top-card"><h4 class="anchored">🛠️ Top 5 by Active Maintainers</h4><ol><li><span>MedPipe3D.jl</span><strong>4</strong></li><li><span>Thunderbolt.jl</span><strong>4</strong></li><li><span>IPUMS.jl</span><strong>3</strong></li><li><span>KomaMRI.jl</span><strong>3</strong></li><li><span>MedImages.jl</span><strong>3</strong></li></ol></div>
   </div>
 </div>
 </div>
@@ -455,19 +458,19 @@ This summary reads from <code>history/run_summary.csv</code> and shows selected 
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Releases</div>
-  <div class="ecosystem-run-mini-value">247</div>
+  <div class="ecosystem-run-mini-value">265</div>
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Total Downloads</div>
-  <div class="ecosystem-run-mini-value">8325</div>
+  <div class="ecosystem-run-mini-value">8340</div>
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Closed Issues</div>
-  <div class="ecosystem-run-mini-value">452</div>
+  <div class="ecosystem-run-mini-value">470</div>
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Closed PRs</div>
-  <div class="ecosystem-run-mini-value">1531</div>
+  <div class="ecosystem-run-mini-value">1655</div>
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Maintenance: Active</div>
@@ -479,7 +482,7 @@ This summary reads from <code>history/run_summary.csv</code> and shows selected 
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Maintenance: Concept</div>
-  <div class="ecosystem-run-mini-value">19</div>
+  <div class="ecosystem-run-mini-value">20</div>
 </div>
 <div class="ecosystem-run-mini-card">
   <div class="ecosystem-run-mini-label">Maintenance: Abandoned</div>
@@ -519,12 +522,12 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td><strong><a href="https://github.com/JuliaHealth/KomaMRI.jl" target="_blank">KomaMRI.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-active">Active</span></td>
-<td class="text-end">209</td>
-<td class="text-end">56</td>
+<td class="text-end">215</td>
+<td class="text-end">74</td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-end">86</td>
-<td class="text-end">14</td>
+<td class="text-end">72</td>
+<td class="text-end">17</td>
 </tr>
 <tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/DICOM.jl" target="_blank">DICOM.jl</a></strong></td>
@@ -541,12 +544,12 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td><strong><a href="https://github.com/JuliaHealth/BloodFlowTrixi.jl" target="_blank">BloodFlowTrixi.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-active">Active</span></td>
-<td class="text-end">44</td>
+<td class="text-end">43</td>
 <td class="text-end">19</td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-end">2</td>
-<td class="text-end">2</td>
+<td class="text-end">3</td>
 </tr>
 <tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/PubChemCrawler.jl" target="_blank">PubChemCrawler.jl</a></strong></td>
@@ -557,7 +560,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-end">1</td>
-<td class="text-end">1</td>
+<td class="text-end">2</td>
 </tr>
 <tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/Thunderbolt.jl" target="_blank">Thunderbolt.jl</a></strong></td>
@@ -567,7 +570,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">0</td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-end">60</td>
+<td class="text-end">57</td>
 <td class="text-end">4</td>
 </tr>
 <tr class="even">
@@ -655,7 +658,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">0</td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-end">3</td>
+<td class="text-end">4</td>
 <td class="text-end">0</td>
 </tr>
 <tr class="even">
@@ -774,12 +777,23 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">3</td>
 <td class="text-end">0</td>
-<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-end">1</td>
 <td class="text-end">0</td>
 </tr>
 <tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/HealthLLM.jl" target="_blank">HealthLLM.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">3</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">12</td>
+<td class="text-end">20</td>
+</tr>
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/IPUMS.jl" target="_blank">IPUMS.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
@@ -790,7 +804,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">8</td>
 <td class="text-end">5</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/OMOPCDMPathways.jl" target="_blank">OMOPCDMPathways.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
@@ -801,7 +815,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">4</td>
 <td class="text-end">8</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/GitHubAnalytics.jl" target="_blank">GitHubAnalytics.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
@@ -811,17 +825,6 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-end">1</td>
 <td class="text-end">0</td>
-</tr>
-<tr class="even">
-<td><strong><a href="https://github.com/JuliaHealth/HealthLLM.jl" target="_blank">HealthLLM.jl</a></strong></td>
-<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
-<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
-<td class="text-end">2</td>
-<td class="text-end">0</td>
-<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-end">12</td>
-<td class="text-end">13</td>
 </tr>
 <tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/HealthSampleData.jl" target="_blank">HealthSampleData.jl</a></strong></td>
@@ -1011,6 +1014,17 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">0</td>
 </tr>
 <tr class="even">
+<td><strong><a href="https://github.com/JuliaHealth/MRISequenceBuildingBlocks.jl" target="_blank">MRISequenceBuildingBlocks.jl</a></strong></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
+<td class="text-end">0</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/MTIWrapper.jl" target="_blank">MTIWrapper.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
@@ -1021,7 +1035,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/NCEI.jl" target="_blank">NCEI.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
@@ -1032,7 +1046,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/Pulseq.jl" target="_blank">Pulseq.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
@@ -1043,7 +1057,7 @@ This full table lists all package repositories and is sorted by stars for quick 
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/SMARTBackendServices.jl" target="_blank">SMARTBackendServices.jl</a></strong></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td><span class="ecosystem-status-badge ecosystem-status-abandoned">Abandoned</span></td>
@@ -1104,6 +1118,15 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">0</td>
 </tr>
 <tr class="odd">
+<td><strong><a href="https://github.com/JuliaHealth/komamripy" target="_blank">komamripy</a></strong></td>
+<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
+<td class="text-end">7</td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
+<td class="text-end">1</td>
+<td class="text-end">0</td>
+</tr>
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/juliahealth.github.io" target="_blank">juliahealth.github.io</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">6</td>
@@ -1112,16 +1135,16 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">11</td>
 <td class="text-end">2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/JuliaHealthLLM" target="_blank">JuliaHealthLLM</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
-<td class="text-end">4</td>
+<td class="text-end">5</td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td class="text-end">3</td>
-<td class="text-end">35</td>
+<td class="text-end">36</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/OMOPCDMPredictor" target="_blank">OMOPCDMPredictor</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">4</td>
@@ -1130,7 +1153,7 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/JuliaHealthEcosystemPaper" target="_blank">JuliaHealthEcosystemPaper</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">3</td>
@@ -1139,7 +1162,7 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/EpiJ" target="_blank">EpiJ</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">2</td>
@@ -1148,7 +1171,7 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/JuliaHealthAudit" target="_blank">JuliaHealthAudit</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">2</td>
@@ -1157,7 +1180,7 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/ObservationalHealthSubecosystemPaper" target="_blank">ObservationalHealthSubecosystemPaper</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">2</td>
@@ -1166,7 +1189,7 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">0</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/JuliaHealthZoo" target="_blank">JuliaHealthZoo</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">1</td>
@@ -1175,7 +1198,7 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-end">3</td>
 <td class="text-end">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong><a href="https://github.com/JuliaHealth/OMOPCDMMetrics" target="_blank">OMOPCDMMetrics</a></strong></td>
 <td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
 <td class="text-end">1</td>
@@ -1183,15 +1206,6 @@ This table covers non-package repositories such as websites, documentation proje
 <td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-no" title="No">✕</span></td>
 <td class="text-end">0</td>
 <td class="text-end">5</td>
-</tr>
-<tr class="even">
-<td><strong><a href="https://github.com/JuliaHealth/komamripy" target="_blank">komamripy</a></strong></td>
-<td><span class="ecosystem-status-badge ecosystem-status-concept">Concept</span></td>
-<td class="text-end">1</td>
-<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-center"><span class="ecosystem-boolean-mark ecosystem-boolean-mark-yes" title="Yes">✓</span></td>
-<td class="text-end">0</td>
-<td class="text-end">1</td>
 </tr>
 <tr class="odd">
 <td><strong><a href="https://github.com/JuliaHealth/juliahealth.github.io-previews" target="_blank">juliahealth.github.io-previews</a></strong></td>
@@ -1244,8 +1258,8 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td><strong>cncastillo</strong></td>
 <td>Carlos Castillo Passi</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
-<td class="text-end">3</td>
-<td class="text-end">1237</td>
+<td class="text-end">4</td>
+<td class="text-end">1270</td>
 <td>Human</td>
 </tr>
 <tr class="odd">
@@ -1253,7 +1267,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Jakub Mitura</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
 <td class="text-end">8</td>
-<td class="text-end">897</td>
+<td class="text-end">904</td>
 <td>Human</td>
 </tr>
 <tr class="even">
@@ -1261,7 +1275,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Pablo Villacorta Aylagas</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
 <td class="text-end">1</td>
-<td class="text-end">750</td>
+<td class="text-end">752</td>
 <td>Human</td>
 </tr>
 <tr class="odd">
@@ -1297,19 +1311,19 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Human</td>
 </tr>
 <tr class="odd">
+<td><strong>divingdiv</strong></td>
+<td>Div</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">6</td>
+<td class="text-end">240</td>
+<td>Human</td>
+</tr>
+<tr class="even">
 <td><strong>TheCedarPrince</strong></td>
 <td>Jacob S. Zelko</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
 <td class="text-end">19</td>
 <td class="text-end">230</td>
-<td>Human</td>
-</tr>
-<tr class="even">
-<td><strong>divingdiv</strong></td>
-<td>Div</td>
-<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
-<td class="text-end">6</td>
-<td class="text-end">228</td>
 <td>Human</td>
 </tr>
 <tr class="odd">
@@ -1333,7 +1347,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Kosuri Indu</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
 <td class="text-end">14</td>
-<td class="text-end">179</td>
+<td class="text-end">183</td>
 <td>Human</td>
 </tr>
 <tr class="even">
@@ -1341,7 +1355,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Dennis Ogiermann</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
 <td class="text-end">1</td>
-<td class="text-end">145</td>
+<td class="text-end">147</td>
 <td>Human</td>
 </tr>
 <tr class="odd">
@@ -1385,6 +1399,14 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Human</td>
 </tr>
 <tr class="even">
+<td><strong>github-actions[bot]</strong></td>
+<td>github-actions[bot]</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
+<td class="text-end">11</td>
+<td class="text-end">69</td>
+<td>Bot</td>
+</tr>
+<tr class="odd">
 <td><strong>jagiellonczyk14</strong></td>
 <td>jagiellonczyk14</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
@@ -1392,28 +1414,20 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">68</td>
 <td>Human</td>
 </tr>
-<tr class="odd">
-<td><strong>github-actions[bot]</strong></td>
-<td>github-actions[bot]</td>
-<td><span class="ecosystem-tier-badge ecosystem-tier-core">Core</span></td>
-<td class="text-end">11</td>
-<td class="text-end">67</td>
+<tr class="even">
+<td><strong>dependabot[bot]</strong></td>
+<td>dependabot[bot]</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
+<td class="text-end">8</td>
+<td class="text-end">57</td>
 <td>Bot</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>google-labs-jules[bot]</strong></td>
 <td>google-labs-jules[bot]</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
 <td class="text-end">1</td>
 <td class="text-end">54</td>
-<td>Bot</td>
-</tr>
-<tr class="odd">
-<td><strong>dependabot[bot]</strong></td>
-<td>dependabot[bot]</td>
-<td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
-<td class="text-end">7</td>
-<td class="text-end">50</td>
 <td>Bot</td>
 </tr>
 <tr class="even">
@@ -1425,6 +1439,14 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td>Human</td>
 </tr>
 <tr class="odd">
+<td><strong>anvika-singhal</strong></td>
+<td>Anvika Singhal</td>
+<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
+<td class="text-end">2</td>
+<td class="text-end">43</td>
+<td>Human</td>
+</tr>
+<tr class="even">
 <td><strong>Jay-sanjay</strong></td>
 <td>Jay-sanjay</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-regular">Regular</span></td>
@@ -1432,7 +1454,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">41</td>
 <td>Human</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>InterdisciplinaryPhysicsTeam</strong></td>
 <td>Interdisciplinary Physics Team (InPhyT)</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
@@ -1440,7 +1462,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">33</td>
 <td>Human</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Mounika-Thakkallapally</strong></td>
 <td>Mounika Thakkallapally</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
@@ -1448,7 +1470,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">28</td>
 <td>Human</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>gsahonero</strong></td>
 <td>Guillermo Sahonero Alvarez</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
@@ -1456,7 +1478,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">27</td>
 <td>Human</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>timholy</strong></td>
 <td>Tim Holy</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
@@ -1464,7 +1486,7 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">25</td>
 <td>Human</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>curtcorum</strong></td>
 <td>Curt Corum</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
@@ -1472,20 +1494,12 @@ Contributors are grouped by audit tier (core, regular, casual) and sorted by tot
 <td class="text-end">24</td>
 <td>Human</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>Esraa-Hassan0</strong></td>
 <td>Esraa</td>
 <td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
 <td class="text-end">1</td>
 <td class="text-end">24</td>
-<td>Human</td>
-</tr>
-<tr class="even">
-<td><strong>anvika-singhal</strong></td>
-<td>Anvika Singhal</td>
-<td><span class="ecosystem-tier-badge ecosystem-tier-other">Occasional</span></td>
-<td class="text-end">1</td>
-<td class="text-end">21</td>
 <td>Human</td>
 </tr>
 <tr class="odd">

@@ -1,28 +1,29 @@
 login,name,num_repos_contributed,total_contributions,contributor_tier,is_bot,repos_list
 AdamWysokinski,Adam Wysokiński,3,2733,Core,false,BlindingIndex.jl; CloToP.jl; NeuroAnalyzer.jl
-cncastillo,Carlos Castillo Passi,3,1237,Core,false,KomaMRI.jl; Pulseq.jl; komamripy
-jakubMitura14,Jakub Mitura,8,897,Core,false,ITKIOWrapp.jl; ITKIOWrapper.jl; MedEval3D.jl; MedEye3d.jl; MedImages.jl; MedPipe3D.jl; MedPipe3DTutorial; WrapperITKIO.jl
-pvillacorta,Pablo Villacorta Aylagas,1,750,Core,false,KomaMRI.jl
+cncastillo,Carlos Castillo Passi,4,1270,Core,false,KomaMRI.jl; MRISequenceBuildingBlocks.jl; Pulseq.jl; komamripy
+jakubMitura14,Jakub Mitura,8,904,Core,false,ITKIOWrapp.jl; ITKIOWrapper.jl; MedEval3D.jl; MedEye3d.jl; MedImages.jl; MedPipe3D.jl; MedPipe3DTutorial; WrapperITKIO.jl
+pvillacorta,Pablo Villacorta Aylagas,1,752,Core,false,KomaMRI.jl
 DilumAluthge,Dilum Aluthge,24,644,Core,false,ARules.jl; BioMedQuery.jl; CAOS.jl; CTakesParser.jl; DICOM.jl; DICOMClient.jl; DateShifting.jl; DiagnosisClassification.jl; EHRAuthentication.jl; FHIRClient.jl; FHIRClientJSON.jl; FHIRClientXML.jl; HealthBase.jl; HealthMLBase.jl; JuliaHealthWebsiteOld; KomaMRI.jl; MTIWrapper.jl; OMOPCommonDataModel.jl; PharmaceuticalClassification.jl; PubChemCrawler.jl; PubMedMiner.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl; juliahealth.github.io-previews
 beorostica,beorostica,1,549,Core,false,KomaMRI.jl
 mirestrepo,Maria Isabel Restrepo,5,468,Regular,false,ARules.jl; BioMedQuery.jl; CTakesParser.jl; MTIWrapper.jl; PubMedMiner.jl
 mcmcgrath13,Mary McGrath,3,268,Regular,false,ARules.jl; BioMedQuery.jl; PubMedMiner.jl
+divingdiv,Div,6,240,Regular,false,GitHubAnalytics.jl; ITKIOWrapp.jl; ITKIOWrapper.jl; MedEye3d.jl; MedImages.jl; juliahealth.github.io
 TheCedarPrince,Jacob S. Zelko,19,230,Core,false,EpiJ; HealthBase.jl; HealthLLM.jl; HealthSampleData.jl; IPUMS.jl; JuliaHealthEcosystemPaper; JuliaHealthLLM; JuliaHealthWebsiteOld; KomaMRI.jl; NeuroAnalyzer.jl; OHDSIAPI.jl; OMOPCDMCohortCreator.jl; OMOPCDMDatabaseConnector.jl; OMOPCDMFeasibility.jl; OMOPCDMMetrics; OMOPCDMPathways.jl; OMOPCDMPredictor; ObservationalHealthSubecosystemPaper; juliahealth.github.io
-divingdiv,Div,6,228,Regular,false,GitHubAnalytics.jl; ITKIOWrapp.jl; ITKIOWrapper.jl; MedEye3d.jl; MedImages.jl; juliahealth.github.io
 yolhan83,yolhan mannes,1,199,Regular,false,BloodFlowTrixi.jl
 paulstey,Paul Stey,3,188,Regular,false,ARules.jl; BioMedQuery.jl; CAOS.jl
-kosuri-indu,Kosuri Indu,14,179,Core,false,BloodFlowTrixi.jl; HealthBase.jl; HealthDash.jl; JuliaHealthAudit; JuliaHealthEcosystemPaper; JuliaHealthZoo; KomaMRI.jl; NeuroAnalyzer.jl; OHDSIAPI.jl; OMOPCDMFeasibility.jl; OMOPCommonDataModel.jl; PubChemCrawler.jl; Thunderbolt.jl; juliahealth.github.io
-termi-official,Dennis Ogiermann,1,145,Regular,false,Thunderbolt.jl
+kosuri-indu,Kosuri Indu,14,183,Core,false,BloodFlowTrixi.jl; HealthBase.jl; HealthDash.jl; JuliaHealthAudit; JuliaHealthEcosystemPaper; JuliaHealthZoo; KomaMRI.jl; NeuroAnalyzer.jl; OHDSIAPI.jl; OMOPCDMFeasibility.jl; OMOPCommonDataModel.jl; PubChemCrawler.jl; Thunderbolt.jl; juliahealth.github.io
+termi-official,Dennis Ogiermann,1,147,Regular,false,Thunderbolt.jl
 Stockless,Stockless,1,120,Regular,false,KomaMRI.jl
 rkierulf,rkierulf,2,116,Regular,false,KomaMRI.jl; juliahealth.github.io
 notZaki,Zaki A.,1,113,Regular,false,DICOM.jl
 ParamThakkar123,Param Thakkar,4,101,Regular,false,HealthLLM.jl; HealthSampleData.jl; JuliaHealthLLM; MedEval3D.jl
 Nosferican,José Bayoán Santiago Calderón,1,96,Occasional,false,NCEI.jl
+github-actions[bot],github-actions[bot],11,69,Core,true,EHRAuthentication.jl; FHIRClient.jl; HealthBase.jl; ICD_GEMs.jl; IPUMS.jl; JuliaHealthAudit; KomaMRI.jl; PubChemCrawler.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl; juliahealth.github.io
 jagiellonczyk14,jagiellonczyk14,2,68,Occasional,false,MedEval3D.jl; MedEye3d.jl
-github-actions[bot],github-actions[bot],11,67,Core,true,EHRAuthentication.jl; FHIRClient.jl; HealthBase.jl; ICD_GEMs.jl; IPUMS.jl; JuliaHealthAudit; KomaMRI.jl; PubChemCrawler.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl; juliahealth.github.io
+dependabot[bot],dependabot[bot],8,57,Regular,true,BloodFlowTrixi.jl; FHIRClient.jl; IPUMS.jl; KomaMRI.jl; OMOPCDMPathways.jl; SMARTBackendServices.jl; Thunderbolt.jl; komamripy
 google-labs-jules[bot],google-labs-jules[bot],1,54,Occasional,true,MedImages.jl
-dependabot[bot],dependabot[bot],7,50,Regular,true,BloodFlowTrixi.jl; FHIRClient.jl; IPUMS.jl; KomaMRI.jl; OMOPCDMPathways.jl; SMARTBackendServices.jl; Thunderbolt.jl
 aTrotier,aTrotier,1,46,Occasional,false,KomaMRI.jl
+anvika-singhal,Anvika Singhal,2,43,Occasional,false,KomaMRI.jl; komamripy
 Jay-sanjay,Jay-sanjay,3,41,Regular,false,OMOPCDMCohortCreator.jl; OMOPCDMPathways.jl; juliahealth.github.io
 InterdisciplinaryPhysicsTeam,Interdisciplinary Physics Team (InPhyT),1,33,Occasional,false,ICD_GEMs.jl
 Mounika-Thakkallapally,Mounika Thakkallapally,2,28,Occasional,false,OMOPVocabMapper.jl; juliahealth.github.io
@@ -30,7 +31,6 @@ gsahonero,Guillermo Sahonero Alvarez,1,27,Occasional,false,KomaMRI.jl
 timholy,Tim Holy,1,25,Occasional,false,PubChemCrawler.jl
 curtcorum,Curt Corum,1,24,Occasional,false,KomaMRI.jl
 Esraa-Hassan0,Esraa,1,24,Occasional,false,MedPipe3D.jl
-anvika-singhal,Anvika Singhal,1,21,Occasional,false,komamripy
 devmotion,David Müller-Widmann,4,21,Regular,false,EHRAuthentication.jl; FHIRClient.jl; SMARTAppLaunch.jl; SMARTBackendServices.jl
 fdekerme,François de Kermenguy,1,20,Occasional,false,DICOMTree.jl
 AshlinHarris,Ashlin Harris,1,17,Occasional,false,OMOPVocabMapper.jl
