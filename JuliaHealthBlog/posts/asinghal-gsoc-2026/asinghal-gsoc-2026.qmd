@@ -178,7 +178,7 @@ Workloads use a simple 1-2 spin phantom to keep precompilation relatively fast. 
 
 The script used for benchmarking runs each of the 10 functions 10x in separate Python subprocesses so that every run has the full Julia cold-start cost. Average run times are then compared before and after precompilation.
 
-![Two bar charts side by side. Left chart: CPU precompilation benchmark, comparing v0.0.6 (before) and v0.0.7 (after) average times in seconds for each of the 10 benchmarked functions. Right chart: GPU precompilation benchmark, comparing v0.0.9 (before) and v0.0.10 (after). Both charts: x-axis = function name (Scanner, brain_phantom2D, EPI_example, discretize, simulate, Phantom, write_phantom, read_phantom, ...), y-axis = time in seconds, two grouped bars per function.](benchmarks_figure.png)
+![Two bar charts side by side. Left chart: CPU precompilation benchmark, comparing v0.0.6 (before) and v0.0.7 (after) average times in seconds for each of the 10 benchmarked functions. Right chart: GPU precompilation benchmark, comparing v0.0.9 (before) and v0.0.10 (after). Both charts: x-axis = function name (Scanner, brain_phantom2D, EPI_example, discretize, simulate, Phantom, write_phantom, read_phantom, ...), y-axis = time in seconds, two grouped bars per function.](komamripy_benchmark.png){fig-align="center" width="80%"}
 
 >NOTE: the precompilation workload focuses on the most common sequence types, but real pulse sequences are highly dynamic. It is probable that some combinations are not addressed by precompilation. A good portion of `simulate()` time may also be spent in `discretize()`. This may be an area for future optimization.
 
