@@ -155,6 +155,10 @@ The reference study trained 432 networks — 3 architectures × 9 data condition
 
 Both halves of the table tell the same story: **CapsNet leads at every fraction, and the lead is largest exactly where data is scarcest** — the paper's gap shrinks from +3.4 F1 points at 1% to +1.0 at 10%, the port's from +8.1 accuracy points to +2.4. The port's wider gaps are consistent with its shorter budget: 10 epochs punishes the CNN's appetite for data harder than 50-with-early-stopping does.
 
+For the full picture, here is the original study's own summary of its findings — **these are the reference TensorFlow results, not outputs of this port** (figure by Jiménez-Sánchez et al., reproduced from the [reference repository](https://github.com/ameliajimenez/capsule-networks-medical-data-challenges), MIT License):
+
+![The original study's summary of findings across all four datasets (TUPAC16, DIARETDB1, Fashion-MNIST, MNIST): mean F1-scores under decreasing training data, class imbalance, and data augmentation. Reproduced from the reference TensorFlow implementation by Jiménez-Sánchez, Albarqouni & Mateus (MIT License).](reference-summary.png)
+
 On the medical datasets — the ones this port's pipelines are pointed at — the paper reports the same graceful degradation: on DIARETDB1, CapsNet beats both CNNs at every training fraction, and on TUPAC16 it trails LeNet at 1%, draws level at 5%, and leads from 10% up. It is also the most robust of the three to class imbalance on both medical datasets. Those tables are the yardstick the port's medical runs will be measured against once the registration-gated downloads land.
 
 # The medical pipelines
