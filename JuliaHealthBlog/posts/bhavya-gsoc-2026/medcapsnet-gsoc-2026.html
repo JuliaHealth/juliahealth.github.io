@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Bhavya Goyal">
+<meta name="dcterms.date" content="2026-08-23">
+<meta name="description" content="A native Julia/Flux.jl reproduction of the LABELS@MICCAI 2018 capsule network study, testing how CapsNet and CNNs cope with limited data, class imbalance, and augmentation. Plus the bugs, surprises, and GPU detours along the way.">
+
+<title>GSoC ’26: MedCapsNet.jl, Capsule Networks against Medical Imaging Data Challenges – JuliaHealth</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../assets/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-54501c6f4d8fcbe8b6dd67a2cc408366.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <div id="quarto-announcement" data-announcement-id="fdcc6ba07ee5c4e92eba5725cbff0470" class="alert alert-primary hidden"><i class="bi bi-megaphone quarto-announcement-icon"></i><div class="quarto-announcement-content">
+<p><a href="https://juliacon.org/2026/"><strong>JuliaCon 2026</strong></a>: Submit your talks for the Health Mini-Symposium <a href="https://pretalx.com/juliacon-2026/talk/NR9PGW/">here</a>!</p>
+</div><i class="bi bi-x-lg quarto-announcement-action"></i></div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo light-content">
+    <img src="../../../assets/images/logo.png" alt="JuliaHub Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">JuliaHealth</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> <i class="bi bi-house-door" role="img">
+</i> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/packages.html"> <i class="bi bi-boxes" role="img">
+</i> 
+<span class="menu-text">Packages</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../JuliaHealthBlog/index.html"> <i class="bi bi-journal-richtext" role="img">
+</i> 
+<span class="menu-text">Blogs</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-ecosystem" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-diagram-3" role="img">
+</i> 
+ <span class="menu-text">Ecosystem</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-ecosystem">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/ecosystem_health.html"><i class="bi bi-activity" role="img">
+</i> 
+ <span class="dropdown-text">Ecosystem Health</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../pages/connect_with_us.html"> <i class="bi bi-chat-heart" role="img">
+</i> 
+<span class="menu-text">Connect With Us</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">More</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-more">    
+        <li>
+    <a class="dropdown-item" href="../../../pages/meeting_notes.html"><i class="bi bi-card-text" role="img">
+</i> 
+ <span class="dropdown-text">Meetings Notes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../../pages/related_organizations.html"><i class="bi bi-buildings" role="img">
+</i> 
+ <span class="dropdown-text">Related Organizations</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#hello-everyone" id="toc-hello-everyone" class="nav-link active" data-scroll-target="#hello-everyone">Hello Everyone! 👋</a></li>
+  <li><a href="#why-capsule-networks-for-medical-imaging" id="toc-why-capsule-networks-for-medical-imaging" class="nav-link" data-scroll-target="#why-capsule-networks-for-medical-imaging">Why capsule networks for medical imaging?</a></li>
+  <li><a href="#the-architecture" id="toc-the-architecture" class="nav-link" data-scroll-target="#the-architecture">The architecture</a></li>
+  <li><a href="#stressing-the-data" id="toc-stressing-the-data" class="nav-link" data-scroll-target="#stressing-the-data">Stressing the data</a></li>
+  <li><a href="#what-reimplementation-taught-me" id="toc-what-reimplementation-taught-me" class="nav-link" data-scroll-target="#what-reimplementation-taught-me">What reimplementation taught me</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#how-the-numbers-compare-to-the-papers" id="toc-how-the-numbers-compare-to-the-papers" class="nav-link" data-scroll-target="#how-the-numbers-compare-to-the-papers">How the numbers compare to the paper’s</a></li>
+  <li><a href="#the-medical-pipelines" id="toc-the-medical-pipelines" class="nav-link" data-scroll-target="#the-medical-pipelines">The medical pipelines</a></li>
+  <li><a href="#a-detour-training-on-apple-gpus" id="toc-a-detour-training-on-apple-gpus" class="nav-link" data-scroll-target="#a-detour-training-on-apple-gpus">A detour: training on Apple GPUs</a></li>
+  <li><a href="#reproducing-this-work" id="toc-reproducing-this-work" class="nav-link" data-scroll-target="#reproducing-this-work">Reproducing this work</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s next</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GSoC ’26: MedCapsNet.jl, Capsule Networks against Medical Imaging Data Challenges</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">gsoc</div>
+    <div class="quarto-category">deep-learning</div>
+    <div class="quarto-category">imaging</div>
+    <div class="quarto-category">flux</div>
+    <div class="quarto-category">julia</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A native Julia/Flux.jl reproduction of the LABELS@MICCAI 2018 capsule network study, testing how CapsNet and CNNs cope with limited data, class imbalance, and augmentation. Plus the bugs, surprises, and GPU detours along the way.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Bhavya Goyal </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 23, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="hello-everyone" class="level1">
+<h1>Hello Everyone! 👋</h1>
+<p>I am Bhavya, and this summer I participated in Google Summer of Code 2026 with JuliaHealth. My project, <strong><a href="https://github.com/BhavyaQuantDeveloper/MedCapsNet">MedCapsNet.jl</a></strong>, is a from-scratch Julia and <a href="https://fluxml.ai">Flux.jl</a> reproduction of <em>Capsule Networks against Medical Imaging Data Challenges</em> by Jiménez-Sánchez, Albarqouni and Mateus (<a href="https://arxiv.org/abs/1807.07559">LABELS@MICCAI 2018</a>).</p>
+<p>The question behind that paper is one that anyone working with medical images runs into eventually. Annotated medical data is expensive. Datasets are small, the pathological classes you care about most are the rarest, and every label costs an expert’s time. The paper asks whether capsule networks, an architecture designed to be equivariant by construction, cope with these constraints better than ordinary convolutional networks do. My job this summer was to rebuild their entire experimental setup in Julia and see whether the story holds up.</p>
+<blockquote class="blockquote">
+<p>The code lives at <a href="https://github.com/BhavyaQuantDeveloper/MedCapsNet"><strong>BhavyaQuantDeveloper/MedCapsNet</strong></a>, and the full project page with every figure below is at <a href="https://bhavyaquantdeveloper.github.io/MedCapsNet/"><strong>bhavyaquantdeveloper.github.io/MedCapsNet</strong></a>.</p>
+</blockquote>
+<p>In this post I want to walk through the ideas, the results, and the parts of the journey that surprised me. Reproducing someone else’s research turns out to be a research project of its own.</p>
+</section>
+<section id="why-capsule-networks-for-medical-imaging" class="level1">
+<h1>Why capsule networks for medical imaging?</h1>
+<p>Capsule networks come from Sabour, Frosst and Hinton’s NeurIPS 2017 paper (<a href="https://arxiv.org/abs/1710.09829">Dynamic Routing Between Capsules</a>). The core idea is to replace scalar neurons with small vectors called capsules. The length of a capsule’s output encodes the probability that some entity is present in the image, and its orientation encodes the pose of that entity: position, scale, stroke thickness, skew. Where a CNN throws away spatial relationships through max pooling, a capsule layer negotiates them. Each lower capsule sends its output to the higher capsule whose prediction it agrees with, a procedure called routing by agreement.</p>
+<p>For medical imaging this promises something concrete: a smaller appetite for data. If the network already understands that a rotated lesion is the same lesion, it should not need thousands of augmented examples to learn that fact.</p>
+<p>The original study tested this claim carefully. It compared CapsNet against LeNet and against the deliberately strong CNN baseline from the capsule paper, on four datasets (MNIST, Fashion-MNIST, TUPAC16 mitosis detection, and DIARETDB1 diabetic retinopathy), under three controlled stressors:</p>
+<ol type="1">
+<li><strong>Limited data</strong>: train on stratified fractions of the training set.</li>
+<li><strong>Class imbalance</strong>: starve selected classes down to 20% of their examples.</li>
+<li><strong>Data augmentation</strong>: append small rotations, and flips where they make sense.</li>
+</ol>
+<p>Their finding was that capsule networks degrade more gracefully than both CNNs as data shrinks or skews. That is the claim my reproduction set out to test.</p>
+</section>
+<section id="the-architecture" class="level1">
+<h1>The architecture</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="capsnet-architecture.svg" class="img-fluid figure-img"></p>
+<figcaption>The reproduced CapsNet. Two 9×9 convolutions produce a tensor that is read as 1152 primary capsules of 8 dimensions each. Three iterations of routing by agreement produce one 16-dimensional capsule per class, and the length of each capsule is the class score. During training, the winning capsule is decoded back into an image, and the reconstruction error regularizes the encoder.</figcaption>
+</figure>
+</div>
+<p>A capsule’s activation is kept inside the unit ball by the squash nonlinearity, which preserves orientation while mapping length into <span class="math inline">\([0,1)\)</span>:</p>
+<p><span class="math display">\[ \mathbf{v}_j = \frac{\lVert \mathbf{s}_j \rVert^2}{1+\lVert \mathbf{s}_j \rVert^2}\,\frac{\mathbf{s}_j}{\lVert \mathbf{s}_j \rVert} \]</span></p>
+<p>Each primary capsule <span class="math inline">\(i\)</span> predicts every class capsule <span class="math inline">\(j\)</span> through a learned transform, <span class="math inline">\(\hat{\mathbf{u}}_{j|i} = \mathbf{W}_{ij}\,\mathbf{u}_i\)</span>, and routing by agreement decides how much each prediction counts. With logits <span class="math inline">\(b_{ij}\)</span> initialized to zero, three iterations of:</p>
+<p><span class="math display">\[ c_{ij} = \operatorname{softmax}_j(b_{ij}), \quad \mathbf{s}_j = \sum_i c_{ij}\,\hat{\mathbf{u}}_{j|i}, \quad \mathbf{v}_j = \operatorname{squash}(\mathbf{s}_j), \quad b_{ij} \mathrel{+}= \hat{\mathbf{u}}_{j|i}\cdot\mathbf{v}_j \]</span></p>
+<p>Training uses the margin loss (<span class="math inline">\(m^+{=}\,0.9\)</span>, <span class="math inline">\(m^-{=}\,0.1\)</span>, <span class="math inline">\(\lambda{=}\,0.5\)</span>) plus a small reconstruction term weighted by <span class="math inline">\(\alpha = 5\times10^{-4}\)</span>, so the decoder regularizes the encoder without dominating it:</p>
+<p><span class="math display">\[ L_k = T_k\,\max(0,\, m^+ - \lVert \mathbf{v}_k \rVert)^2 + \lambda\,(1-T_k)\,\max(0,\, \lVert \mathbf{v}_k \rVert - m^-)^2, \qquad \mathcal{L} = \sum_k L_k + \alpha \,\lVert \hat{\mathbf{x}} - \mathbf{x} \rVert^2 \]</span></p>
+<p>I treated every number in the reference implementation as normative and copied it exactly, asserting it in tests wherever a test could reach it:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Value (identical to the reference)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Convolutions</td>
+<td>256 filters, 9×9, valid, ReLU; stride 1 then stride 2</td>
+</tr>
+<tr class="even">
+<td>Primary capsules</td>
+<td>1152 capsules of 8 dimensions, squash</td>
+</tr>
+<tr class="odd">
+<td>Class capsules</td>
+<td><span class="math inline">\(n\)</span> capsules of 16 dimensions</td>
+</tr>
+<tr class="even">
+<td>Routing</td>
+<td>3 iterations, softmax over classes</td>
+</tr>
+<tr class="odd">
+<td>Decoder</td>
+<td>Dense 16·<span class="math inline">\(n\)</span> → 512 → 1024 → 784</td>
+</tr>
+<tr class="even">
+<td>Loss</td>
+<td>margin (<span class="math inline">\(0.9/0.1/0.5\)</span>) plus <span class="math inline">\(5{\times}10^{-4}\)</span> times reconstruction error</td>
+</tr>
+<tr class="odd">
+<td>Optimizer</td>
+<td>Adam, learning rate <span class="math inline">\(10^{-3}\)</span>, times 0.95 each epoch</td>
+</tr>
+<tr class="even">
+<td>Batch size</td>
+<td>64 (CapsNet), 128 (CNNs)</td>
+</tr>
+</tbody>
+</table>
+<p>The two comparison networks matter as much as CapsNet itself. LeNet is the small classic, exactly 61,706 trainable parameters, and the test suite asserts that count. The Baseline CNN is the deliberately strong one from the capsule paper, roughly 25 million parameters against CapsNet’s 8 million. That asymmetry is the point: if CapsNet still wins in the low data regime, it is not because it has more capacity.</p>
+</section>
+<section id="stressing-the-data" class="level1">
+<h1>Stressing the data</h1>
+<p>The heart of the study is a harness that damages the training data in controlled ways. Each stressor is a pure function that takes a labeled dataset and returns a new one, with an explicit random number generator so every run is reproducible:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># keep a stratified 10% of every class</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="fu">limit_data</span>(train, <span class="fl">10</span>; rng)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># starve two chosen classes down to 20% of their examples</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="fu">unbalance_data</span>(train, [<span class="fl">1</span>, <span class="fl">9</span>], <span class="fl">20</span>; rng)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># append rotated copies of 5% of the samples</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> <span class="fu">augment_data</span>(train; flips<span class="op">=</span><span class="cn">false</span>, rng)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>These sound trivial to implement, and they almost are, which is exactly why they are dangerous. The details are easy to get subtly wrong: the limited data subsample has to be stratified per class, and augmentation has to append copies rather than replace originals. I mirrored the reference’s behavior on each of these points and wrote tests around them.</p>
+</section>
+<section id="what-reimplementation-taught-me" class="level1">
+<h1>What reimplementation taught me</h1>
+<p>I built the port test first, in small reviewed steps, and the suite grew to 64 assertions. Not just shape checks: hand computed loss values, a property test that capsules voting coherently for a class must beat incoherent votes, a checkpoint round trip that must reproduce the best validation loss exactly, and a synthetic stained image that must separate its two dyes. Those tests earned their keep, because reproducing a paper turns out to be a very effective way of reviewing it, and of reviewing yourself.</p>
+<p>Three stories stand out.</p>
+<p><strong>The stain separation bug.</strong> The medical histology pipeline needs stain normalization, and since the sparse dictionary method the reference used has no Julia equivalent, I substituted the standard Macenko method, which separates stains with an SVD on optical densities. My first draft picked the hematoxylin stain vector as the one with the larger blue component. That is the intuitive choice, since hematoxylin is the blue-purple stain. It is also wrong. Hematoxylin looks blue because it absorbs red light, and on normalized optical density vectors the comparison inverts, so my code was selecting eosin instead. A test on a synthetic stained image failed, I re-derived the optics to understand why, and the fix is what standard Macenko implementations actually do: compare the red component. No shape check would ever have caught this. The lesson stayed with me for the rest of the summer: test the semantics, not the dimensions.</p>
+<p><strong>The flaky test.</strong> One test asked a simple question, “does the trainer learn?”, and failed roughly one run in three. The cause was a single layer drawing its initial weights from the global random number generator while everything else was carefully seeded. Fixing the seed made the suite deterministic, and then revealed something more interesting: about a quarter of all seeds genuinely fail the assertion that five epochs are enough to learn a tiny toy problem. Reproducibility bugs love to hide behind assertions that are merely usually true.</p>
+<p><strong>Memory layouts lie politely.</strong> The reference code, written in TensorFlow, reshapes its convolutional output so that groups of 8 consecutive channels at one spatial position become capsules. Julia stores arrays in a different memory order, so the same reshape produces valid shapes, trains without complaint, and quietly means something different. Getting the equivalent grouping right required a permutation before the reshape, and verifying it required sitting down with the index algebra by hand. A network that is wrong in this particular way still learns reasonably well, which is precisely what makes the mistake so easy to ship.</p>
+<p>There was also a small pile of ordinary defects found by review or by failing builds before they could do harm: a results file format that embedded a comma inside a comma separated file, compatibility bounds that silently raised the minimum Julia version, an initialization order that could not compile. None of these are glamorous. All of them are the actual texture of reproduction work.</p>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<p>The low data regime is where the paper’s claim lives, so that is what I swept: both architectures trained on 1%, 5%, and 10% of MNIST for 10 epochs with the exact optimizer schedule above, evaluated on the untouched test set of 10,000 images.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="results-limited.svg" class="img-fluid figure-img"></p>
+<figcaption>Test accuracy in the low data regime. CapsNet’s advantage is largest exactly where the paper predicts: 8.1 points at 1% of the training data, which is just 550 images, narrowing to 2.4 points at 10%. Built-in equivariance pays most when examples are scarcest.</figcaption>
+</figure>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Configuration</th>
+<th>Training images</th>
+<th>CapsNet</th>
+<th>LeNet</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1% of MNIST</td>
+<td>550</td>
+<td><strong>91.55%</strong></td>
+<td>83.45%</td>
+</tr>
+<tr class="even">
+<td>5% of MNIST</td>
+<td>2,750</td>
+<td><strong>97.70%</strong></td>
+<td>93.70%</td>
+</tr>
+<tr class="odd">
+<td>10% of MNIST</td>
+<td>5,501</td>
+<td><strong>98.51%</strong></td>
+<td>96.07%</td>
+</tr>
+<tr class="even">
+<td>100% of MNIST</td>
+<td>55,000</td>
+<td>not run</td>
+<td>98.75%</td>
+</tr>
+<tr class="odd">
+<td>Imbalance (two digits at 20%)</td>
+<td>46,364</td>
+<td>not run</td>
+<td>98.73%</td>
+</tr>
+<tr class="even">
+<td>Augmented</td>
+<td>57,750</td>
+<td>not run</td>
+<td>98.92%</td>
+</tr>
+</tbody>
+</table>
+<p>The “not run” entries are honest budget lines rather than gaps in the port. A full data CapsNet run costs about ten times the 10% run, and the harness runs every one of these configurations with a single command line flag, so anyone with the compute can fill the table in.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="reconstructions.png" class="img-fluid figure-img"></p>
+<figcaption>Inputs on top, and the decoder’s reconstructions from the winning 16-dimensional class capsule below, for a CapsNet trained on 10% of MNIST. The decoder sees only 16 numbers per image. The blur is the price of that bottleneck, and also the point: the capsule keeps what identifies the digit.</figcaption>
+</figure>
+</div>
+<p>My favorite result is also the least quantitative one. If you take the winning capsule, nudge one of its 16 dimensions, and decode each nudged version, you can watch what that dimension learned to represent:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="tweak_dim_a.png" class="img-fluid figure-img"></p>
+<figcaption>Each row is one test digit, and each column decodes the winning capsule with one dimension shifted a little further. This dimension morphs stroke topology. Watch the 2’s loop open and close.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="tweak_dim_b.png" class="img-fluid figure-img"></p>
+<figcaption>The same sweep for a second dimension, which shifts stroke weight and the 7’s serif. Nobody labeled these factors. Routing discovered them on its own.</figcaption>
+</figure>
+</div>
+</section>
+<section id="how-the-numbers-compare-to-the-papers" class="level1">
+<h1>How the numbers compare to the paper’s</h1>
+<p>The reference study trained 432 networks in total: 3 architectures, 9 data conditions, 4 repetitions, 4 datasets, 50 epochs with early stopping, reporting mean F1 scores. My runs are a much smaller budget, a single seed for 10 epochs reporting accuracy, so the honest comparison is of trends rather than of individual cells:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>MNIST fraction</th>
+<th>LeNet, paper (F1)</th>
+<th>CapsNet, paper (F1)</th>
+<th>LeNet, this port (acc.)</th>
+<th>CapsNet, this port (acc.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1%</td>
+<td>0.909</td>
+<td><strong>0.943</strong></td>
+<td>83.45%</td>
+<td><strong>91.55%</strong></td>
+</tr>
+<tr class="even">
+<td>5%</td>
+<td>0.961</td>
+<td><strong>0.975</strong></td>
+<td>93.70%</td>
+<td><strong>97.70%</strong></td>
+</tr>
+<tr class="odd">
+<td>10%</td>
+<td>0.975</td>
+<td><strong>0.985</strong></td>
+<td>96.07%</td>
+<td><strong>98.51%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>The paper columns are mean F1 over 4 repetitions from the original TensorFlow implementation, Table 2 of <a href="https://arxiv.org/abs/1807.07559">arXiv:1807.07559</a>. The port columns are single seed test accuracy from the Julia code. Different metric, different budget: compare the shape, not the cells.</em></p>
+<p>Both halves of the table tell the same story. CapsNet leads at every fraction, and the lead is largest where data is scarcest, shrinking steadily as data grows. The port’s gaps are wider than the paper’s, which makes sense: ten epochs punish a CNN’s appetite for data harder than fifty epochs with early stopping do.</p>
+<p>For the full picture, here is the original study’s own summary of its findings. <strong>These are the reference TensorFlow results, not outputs of this port</strong> (figure by Jiménez-Sánchez et al., reproduced from the <a href="https://github.com/ameliajimenez/capsule-networks-medical-data-challenges">reference repository</a>, MIT License):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="reference-summary.png" class="img-fluid figure-img"></p>
+<figcaption>The original study’s summary of findings across all four datasets: mean F1 scores under decreasing training data, class imbalance, and data augmentation. Reproduced from the reference TensorFlow implementation by Jiménez-Sánchez, Albarqouni and Mateus, MIT License.</figcaption>
+</figure>
+</div>
+<p>On the medical datasets, the ones this port’s pipelines are pointed at, the paper reports the same graceful degradation. On DIARETDB1, CapsNet beats both CNNs at every training fraction. On TUPAC16 it trails LeNet at 1%, draws level at 5%, and leads from 10% up. It is also the most robust of the three to class imbalance on both medical datasets. Those tables are the yardstick my medical runs will be measured against.</p>
+</section>
+<section id="the-medical-pipelines" class="level1">
+<h1>The medical pipelines</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fundus-pipeline.png" class="img-fluid figure-img"></p>
+<figcaption>The retinopathy preprocessing pipeline, run by the package’s own code on a real fundus photograph. Original image, then border cropping with adaptive contrast enhancement, then the green channel, and finally 28×28 patches extracted at lesion centers. This is the exact input format the capsule network trains on.</figcaption>
+</figure>
+</div>
+<p>Both medical datasets from the study are supported end to end, and the difficulty of even obtaining them today is the paper’s thesis writing itself. The original DIARETDB1 host, a 2007 era university server, is offline. The one public mirror labeled DIARETDB1 actually contains its predecessor, DIARETDB0. TUPAC16 sits behind challenge registration. The figure above therefore demonstrates the pipeline on a DIARETDB0 image, taken with the same camera under the same protocol, and the training recipe runs unchanged the moment the real dataset lands.</p>
+<p>For mitosis detection, histology tiles are stain normalized with Macenko, the hematoxylin channel is extracted, and patches are cut around annotated mitosis centers with jittered positives and grid sampled negatives. For diabetic retinopathy, fundus images are cropped, contrast enhanced, reduced to the green channel, and patches are extracted at lesion centers, exudates versus hemorrhages. Both pipelines write the same data contract that the trainer consumes, so a medical run is just a preprocessing script followed by the ordinary train and test commands.</p>
+<p>The one documented algorithmic deviation of the whole port lives here: the reference normalizes stains with the Vahadane method through a library that has no Julia equivalent, so this port uses Macenko, which is the standard substitute.</p>
+</section>
+<section id="a-detour-training-on-apple-gpus" class="level1">
+<h1>A detour: training on Apple GPUs</h1>
+<p>Late in the summer I ported the training loop to Apple Silicon GPUs through <a href="https://github.com/JuliaGPU/Metal.jl">Metal.jl</a>, and the detour earned its place in this post because the negative results were as instructive as the wins.</p>
+<p>The naive port lost to the CPU. Translating the reference code directly produces a capsule layer built from one huge broadcast, and the backward pass through a 380 MB temporary array turns into kernel launch soup: 2,840 ms per gradient step on the GPU against 1,425 ms on the CPU.</p>
+<p>The fix was to notice that the capsule prediction step is exactly a batched matrix multiplication. Expressed that way, it hits Apple’s optimized matmul kernels on the GPU and BLAS on the CPU. The CPU step time dropped about 40% and the GPU finally pulled ahead per step, verified across five independent benchmark runs.</p>
+<p>Then the operating system killed my training run. Multi epoch GPU training ballooned to 62.8 GB of unified memory on a 24 GB machine before macOS stepped in. Half of the cause is a known ecosystem trap: Julia’s garbage collector never feels GPU buffer pressure, which a periodic reclaim in the trainer fixes. The other half, isolated by running each layer alone while sampling memory, is a genuine buffer leak inside Metal.jl’s batched matmul, the exact operation the speedup relies on, and no amount of garbage collection can reclaim it.</p>
+<p>So the honest state of GPU support: the two CNNs train fully on the GPU with bounded memory, and the LeNet results above were produced that way. CapsNet training stays on the CPU until the upstream leak is fixed, which the matmul reformulation made perfectly practical at about 15 minutes for the 10% data model. Every measurement and the bisection procedure ship with the repository.</p>
+</section>
+<section id="reproducing-this-work" class="level1">
+<h1>Reproducing this work</h1>
+<p>Everything in this post comes from runs of the Julia code, and the repository is set up so you can check that claim:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/BhavyaQuantDeveloper/MedCapsNet <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> MedCapsNet</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">julia</span> <span class="at">--project</span><span class="op">=</span>. <span class="at">-e</span> <span class="st">'using Pkg; Pkg.instantiate(); Pkg.test()'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The README documents the commands that regenerate each figure and result above, and a single script sweeps the full experimental grid from the paper for anyone with a few days of compute.</p>
+<p>Some honest limitations. These are single seed, 10 epoch runs on MNIST, a demonstration that the reproduced pipeline behaves like the paper’s rather than a re-derivation of its tables. The medical datasets need registration gated downloads. And beyond the Macenko substitution, two reference behaviors are approximated and flagged in the README: the contrast enhancement parameters, and the optimizer’s decay rate, which the reference leaves unspecified.</p>
+</section>
+<section id="whats-next" class="level1">
+<h1>What’s next</h1>
+<ul>
+<li>Running the full multi seed, 25 epoch sweep across all four datasets once compute allows.</li>
+<li>Chasing the Metal.jl buffer leak upstream so CapsNet training can move to the GPU too.</li>
+<li>Running the medical experiments end to end as soon as the gated downloads land.</li>
+</ul>
+</section>
+<section id="acknowledgments" class="level1">
+<h1>Acknowledgments</h1>
+<p>Thank you to my mentors and the JuliaHealth community for their guidance and reviews throughout the summer, and to the maintainers of Flux.jl, Zygote.jl, Metal.jl, and MLDatasets.jl, whose work this project builds on.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ol type="1">
+<li>A. Jiménez-Sánchez, S. Albarqouni, D. Mateus. <em>Capsule Networks against Medical Imaging Data Challenges.</em> LABELS@MICCAI 2018. <a href="https://arxiv.org/abs/1807.07559">arXiv:1807.07559</a></li>
+<li>S. Sabour, N. Frosst, G. E. Hinton. <em>Dynamic Routing Between Capsules.</em> NeurIPS 2017. <a href="https://arxiv.org/abs/1710.09829">arXiv:1710.09829</a></li>
+<li>M. Macenko et al.&nbsp;<em>A method for normalizing histology slides for quantitative analysis.</em> ISBI 2009.</li>
+<li>Reference implementation: <a href="https://github.com/ameliajimenez/capsule-networks-medical-data-challenges">ameliajimenez/capsule-networks-medical-data-challenges</a> (TensorFlow 1.4).</li>
+<li>This port: <a href="https://github.com/BhavyaQuantDeveloper/MedCapsNet">BhavyaQuantDeveloper/MedCapsNet</a> (Julia ≥ 1.10, Flux 0.16).</li>
+</ol>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{goyal2026,
+  author = {Goyal, Bhavya},
+  title = {GSoC ’26: {MedCapsNet.jl,} {Capsule} {Networks} Against
+    {Medical} {Imaging} {Data} {Challenges}},
+  date = {2026-08-23},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-goyal2026" class="csl-entry quarto-appendix-citeas" role="listitem">
+Goyal, Bhavya. 2026. <span>“GSoC ’26: MedCapsNet.jl, Capsule Networks
+Against Medical Imaging Data Challenges.”</span> August 23.
+</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="JuliaHealth/JuliaHealthBlog" issue-term="title" theme="github-dark" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+      <i class="bi bi-c-circle" role="img">
+</i> 
+ Copyright 2024-25, JuliaHealth.
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/JuliaHealth/JuliaHealthBlog">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
