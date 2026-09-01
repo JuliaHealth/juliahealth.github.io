@@ -1,0 +1,16 @@
+---
+title: "Migrating your package to JuliaHealth"
+---
+
+For package maintainers who want to transfer a package into the JuliaHealth organization.
+
+- Update docs and README links that point to the old repository location.
+- Use the `GitHub transfer option` in the settings.
+- Make a pull request to [this repository](https://github.com/JuliaRegistries/General/pulls) in which you edit the repo URL in the package's Package.toml file 
+- If the PR is not attended to, or if you have any questions, you can ask for help in the `#pkg-registration` Slack channel.
+
+Technically if you skip the second step things will keep working, because GitHub will redirect; but it is best practice. For this reason, when you try to register a new release, the Julia Registrator will complain if the second step is skipped.
+
+Reference: [How do I transfer a package to an organization or another user?](https://github.com/JuliaRegistries/General?tab=readme-ov-file#how-do-i-transfer-a-package-to-an-organization-or-another-user)
+
+If you need help with onboarding or migration, reach out through [Connect With Us](connect_with_us.qmd).
