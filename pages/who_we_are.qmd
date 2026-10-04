@@ -1,0 +1,53 @@
+---
+title: "Who We Are"
+---
+
+JuliaHealth is an open-source ecosystem dedicated to developing healthcare and biomedical research tools in the Julia programming language. The ecosystem brings together researchers, clinicians, data scientists and developers interested in building scalable and high-performance tools for health data science.
+
+The JuliaHealth ecosystem focuses on enabling efficient analysis of healthcare data, including electronic health records, observational health data, medical imaging and machine learning applications in medicine. By leveraging Julia’s performance and composability, the project aims to support interoperable software tools that accelerate biomedical and clinical research.
+
+JuliaHealth promotes open scientific collaboration by providing reusable infrastructure and tools for healthcare analytics and computational medicine.
+
+## Community
+
+JuliaHealth is a global community of researchers and developers contributing to open-source healthcare software. Contributors come from universities, hospitals, research institutes and industry.
+
+Development happens across multiple repositories under the JuliaHealth GitHub organization, where contributors collaborate on packages, documentation, tutorials and research software.
+
+## Leadership
+
+The JuliaHealth ecosystem is guided by maintainers and organization owners within the Julia community.
+
+**Jacob S. Zelko currently serves as the JuliaHealth Lead.**
+
+| Avatar | Name | GitHub | Role |
+|------|------|------|------|
+| ![](https://github.com/aeisman.png){width=60} | Aaron Eisman | aeisman | Organization Owner |
+| ![](https://github.com/andreasnoack.png){width=60} | Andreas Noack | andreasnoack | Organization Owner |
+| ![](https://github.com/cncastillo.png){width=60} | Carlos Castillo Passi | cncastillo | Organization Owner |
+| ![](https://github.com/DilumAluthge.png){width=60} | Dilum Aluthge | DilumAluthge | Organization Owner |
+| ![](https://github.com/INSARKAR.png){width=60} | INSARKAR | INSARKAR | Organization Owner |
+| ![](https://github.com/TheCedarPrince.png){width=60} | **Jacob S. Zelko** | TheCedarPrince | **JuliaHealth Lead** |
+| ![](https://github.com/timholy.png){width=60} | Tim Holy | timholy | Organization Owner |
+| ![](https://github.com/ViralBShah.png){width=60} | Viral B. Shah | ViralBShah | Organization Owner |
+| ![](https://github.com/vjd.png){width=60} | Vijay Ivaturl | vjd | Organization Owner |
+
+## Teams and Sub-Ecosystems
+
+Development within JuliaHealth is organized through several teams responsible for maintaining different parts of the ecosystem.
+
+| Team | Description |
+|-----|-----|
+| Committers (all repos) | Commit access to repositories across the JuliaHealth organization |
+| JuliaHealth Website and Org Documentation | Maintains the JuliaHealth website and ecosystem documentation |
+| JuliaHealthLLMs | Research and experimentation with large language models for healthcare |
+| Medical Imaging Subecosystem | Development of tools and packages for medical imaging workflows |
+| Observational Health Subecosystem | Development of tools for observational health data science and OMOP workflows |
+
+## Governance
+
+JuliaHealth is developed as an open-source community project within the broader Julia ecosystem.
+
+The JuliaHealth organization on GitHub is maintained by a group of organization owners and maintainers who guide the development of the ecosystem. These maintainers help coordinate package development, community discussions and ecosystem growth.
+
+Decisions about the ecosystem are typically made through open discussions on GitHub issues, pull requests and community channels within the Julia community.

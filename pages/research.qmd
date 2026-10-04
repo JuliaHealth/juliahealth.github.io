@@ -1,0 +1,42 @@
+---
+title: "Research"
+---
+
+JuliaHealth supports research across healthcare data science, observational health research, and medical imaging. The ecosystem is actively used in academic research and collaborative scientific projects across the Julia community.
+
+Below are selected publications connected to the JuliaHealth ecosystem and its contributors.
+
+### JuliaHealth Ecosystem
+
+| Publication | Authors | Venue | Year | Link |
+|-------------|--------|------|------|------|
+| Bringing Julia to Health: A Concise Overview of JuliaHealth | Jacob S. Zelko, Carlos Castillo-Passi, Jakub Mitura, Divyansh Goyal, Kosuri Lakshmi Indu, Jay Sanjay Landge | JuliaCon Proceedings | 2026 | [DOI](https://doi.org/10.21105/jcon.00194) |
+| Physiological signal analysis and open science using the Julia language and associated software | George Datseris, Jacob S. Zelko | Frontiers in Network Physiology | 2024 | [DOI](https://doi.org/10.3389/fnetp.2024.1478280) |
+| The use of the Julia programming language for global health informatics and observational health research | Jacob S. Zelko, Varshini Chinta, Malina Hy, Fareeda Abdelazeez | OHDSI Global Symposium | 2023 | [Conference Page](https://www.ohdsi.org/2023showcase-213) |
+
+### Medical Imaging Ecosystem
+
+| Publication | Authors | Venue | Year | Link |
+|-------------|--------|------|------|------|
+| KomaMRI.jl: An open-source framework for general MRI simulations with GPU acceleration | Carlos Castillo-Passi, Ronal Coronado, Gabriel Varela-Mattatall, Carlos Alberola-López, René Botnar, Pablo Irarrazaval | Magnetic Resonance in Medicine | 2023 | [DOI](https://doi.org/10.1002/mrm.29635) |
+| Versatile and highly efficient MRI simulation of arbitrary motion in KomaMRI | Pablo Villacorta-Aylagas et al. | Magnetic Resonance in Medicine | 2025 | [DOI](https://doi.org/10.1002/mrm.70145) |
+| Highly efficient image navigator based 3D whole-heart cardiac MRA at 0.55T | Carlos Castillo-Passi et al. | Magnetic Resonance in Medicine | 2025 | [DOI](https://doi.org/10.1002/mrm.30316) |
+| Cardiac magnetic resonance fingerprinting for simultaneous T1, T2 and fat-fraction quantification at 0.55T | Diego Pedraza, Carlos Castillo-Passi et al. | NMR in Biomedicine | 2025 | [DOI](https://doi.org/10.1002/nbm.70143) |
+| Simultaneous 3D aortic lumen and vessel wall imaging at 0.55T | Matias Paredes, Carlos Castillo-Passi et al. | Magnetic Resonance in Medicine | 2025 | [DOI](https://doi.org/10.1002/mrm.30611) |
+
+### JuliaHealth Software and Tools
+
+| Publication | Authors | Venue | Year | Link |
+|-------------|--------|------|------|------|
+| OMOPCDMCohortCreator | Jacob S. Zelko, Varshini Chinta | Zenodo | 2022 | [DOI](https://doi.org/10.5281/zenodo.7052105) |
+| OMOPCDMPathways.jl | Jay Sanjay Landge, Jacob S. Zelko | Zenodo | 2024 | [DOI](https://doi.org/10.5281/zenodo.14674051) |
+| 3D Medical Segmentation Visualization in Julia with MedEye3D | Jakub Mitura, Beata E. Chrapko | Zeszyty Naukowe WWSI | 2021 | [DOI](https://doi.org/10.26348/znwwsi.25.57) |
+
+### JuliaHealth Researchers
+
+| Researcher | Area | Google Scholar |
+|-----------|------|----------------|
+| Jacob S. Zelko | JuliaHealth Lead, Observational Health Research | [Profile](https://scholar.google.com/citations?user=hNlNUewAAAAJ) |
+| Carlos Castillo-Passi | Medical Imaging and MRI Simulation | [Profile](https://scholar.google.com/citations?user=WzleS8YAAAAJ) |
+| Adam Wysokiński | Health data science and statistical computing | [Profile](https://scholar.google.com/citations?user=9-zz7IwAAAAJ) |
+| Aurora Rossi | Computational health research | [Profile](https://scholar.google.com/citations?user=3aIZuFkAAAAJ) |
