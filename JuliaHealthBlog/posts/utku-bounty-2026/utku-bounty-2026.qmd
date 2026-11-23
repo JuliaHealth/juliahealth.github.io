@@ -9,6 +9,8 @@ toc: true
 image: false
 categories:
   - bounty
+  - numfocus
+  - sdg
   - mri
   - julia
   - documentation
