@@ -7,6 +7,9 @@ website:
   title: "JuliaHealth"
   image: "assets/images/logo.png"
   image-alt: "JuliaHub Logo"
+  repo-url: https://github.com/JuliaHealth/juliahealth.github.io
+  repo-branch: main
+  repo-actions: [edit]
   announcement:
     icon: megaphone
     dismissable: true
@@ -20,6 +23,18 @@ website:
       - href: index.qmd
         text: Home
         icon: house-door
+      - text: About Us
+        icon: info-circle
+        menu:
+          - href: pages/who_we_are.qmd
+            text: Who We Are
+            icon: people
+          - href: pages/research.qmd
+            text: Research
+            icon: journal-text
+          - href: pages/connect_with_us.qmd
+            text: Connect With Us
+            icon: chat-heart
       - href: pages/packages.qmd
         text: Packages
         icon: boxes
@@ -32,9 +47,15 @@ website:
           - href: pages/ecosystem_health.qmd
             text: Ecosystem Health
             icon: activity
-      - href: pages/connect_with_us.qmd
-        text: Connect With Us
-        icon: chat-heart
+          - href: pages/ecosystem_comparison.qmd
+            text: Ecosystem Comparison
+            icon: columns-gap
+      - text: Contributing
+        icon: heart
+        menu:
+          - href: pages/contributing.qmd
+            text: Migrating your package to JuliaHealth
+            icon: arrow-left-right
       - text: "More"
         menu:
           - href: pages/meeting_notes.qmd
