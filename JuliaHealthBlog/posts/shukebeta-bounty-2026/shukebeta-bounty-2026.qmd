@@ -1,0 +1,125 @@
+---
+title: "JuliaHealth Bounty '26: Adapt-able Imaging Operators"
+description: "Moving imaging operators and solvers between CPU and GPU storage explicitly with Adapt.jl, and how a newcomer to Julia planned and reviewed the work."
+author: "Zhong (David) Wei"
+date: "2026-11-26"
+bibliography: ./references.bib
+csl: ./../../ieee-with-url.csl
+toc: true
+image: false
+categories:
+  - bounty
+  - numfocus
+  - sdg
+  - mri
+  - gpu
+  - julia
+---
+
+# Hi!
+
+I'm David ([shukebeta](https://github.com/shukebeta) on GitHub), a software developer in Christchurch, New Zealand. I have spent 14 years on GitHub across C#, TypeScript, Python, Go and other ecosystems, but Julia was new ground for me when I applied for this bounty.
+
+From September to December 2026 I worked on "[`adapt`-able imaging operators](https://github.com/JuliaHealth/JuliaHealth2026BountyProgram/issues/3)", one of six bounties in the JuliaHealth 2026 Bounty Program, funded by a NumFOCUS Small Development Grant and mentored by Niklas Hackelberg ([\@nHackel](https://github.com/nHackel)).
+
+# The problem
+
+[LinearOperatorCollection.jl](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl), the MRIOperators package of [MRIReco.jl](https://github.com/MagneticResonanceImaging/MRIReco.jl) [@Knopp2021MRIReco], and [RegularizedLeastSquares.jl](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl) could already run on the GPU. But an imaging operator is more than its mathematics. It carries a storage type, preallocated temporary buffers, FFT or NFFT plans, and closures that capture all of these. Build an operator for one backend, hand it data from another, and that state stays behind: the result is mixed CPU/GPU execution or storage that does not fit.
+
+The bounty asks for one explicit way to move an operator, or a whole solver, to a target backend:
+
+```julia
+gpu_operator = Adapt.adapt(CuArray, operator)
+gpu_solver   = Adapt.adapt(CuArray, solver)
+```
+
+That one call has to work for nested operators too, such as an MRI encoding built from a sampling pattern, a Fourier transform, coil sensitivities and weights.
+
+# How I worked
+
+I treated the bounty as an engineering project to be planned before it was coded.
+
+**A control repository.** Alongside the upstream forks I kept a private working repository with the reconnaissance reports, a decision log, and the issues that planned and recorded every step.
+
+**The workflow.** The code was written by AI agents, with me in charge of what they built and why. I develop with [my-ai-team](https://mat-docs.shukelabs.com), my own multi-agent workflow on top of GitHub issues, and every step followed the same loop:
+
+1. **Tickets.** I discuss each step with an explorer agent until it is a ticket with a clear problem, approach and acceptance criteria. Some tickets are reconnaissance only, some are implementation.
+2. **Delivery.** A delivery pair, a developer agent and a reviewer agent, plans, implements and tests the ticket, reviews it, and opens the upstream PR.
+3. **Pair review.** I go through the code block by block with a pair-review component I added to my-ai-team for this bounty: the agent explains one block, I give my view, and we move on.
+4. **Improvement.** My findings go back to the delivery pair, which makes the changes. Before the maintainer reviews, I have Claude Opus 5.5 review the PR once more, to catch what we can before he has to.
+
+The agents ran on Codex, Copilot and Claude models.
+
+**Reconnaissance before the first line of code.** The first ticket was reconnaissance only: no upstream change, no PR. It asked ten questions, among them which structs hold backend-dependent fields and how FFT/NFFT plans should be handled. The answer was a report that cites source lines at pinned revisions of LinearOperatorCollection.jl, MRIReco.jl, RegularizedLeastSquares.jl and LinearOperators.jl. Three design questions from it went to Niklas before any code was written, and his answers became the decision log that every later PR followed.
+
+**Push once.** Review fixes were batched into one push, because every push to an open PR queues a build on the shared JuliaGPU Buildkite agents, and those builds took anything from ten minutes to most of a day.
+
+**Small slices, and not fixing what isn't mine.** Each PR covers one operator family. When the tests exposed a bug outside the bounty's target, it was reported upstream with a minimal reproduction instead of being fixed in passing: `DiagOp((op, op))` with one shared FFT operator races when Julia runs with more than one thread ([LinearOperatorCollection.jl#44](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/issues/44)).
+
+# Design decisions
+
+**Rebuild through the constructor, never mutate in place.** The storage type is part of an operator's type, so moving to another backend means building a new object. In LinearOperatorCollection, an operator that owns storage (the FFT, NFFT, Radon, wavelet, sampling and gradient operators) is rebuilt from its kept inputs with the target's storage type, and a composite operator is rebuilt from its adapted children. Moving a solver means moving its state as well as its operators, so RegularizedLeastSquares adapts a solver field by field. The MRIOperators rules rebuild an operator from the inputs it keeps, leaving everything inside to Adapt.jl. In LinearOperatorCollection, workspaces and closures are always fresh, and the source operator is left untouched.
+
+**Rebuild plans, don't adapt them.** FFT and NFFT plans are backend-specific. The operators now keep the arguments they were planned with and replay them on the target, so shape, shift, normalisation, planner flags and the exact NFFT grid survive the move.
+
+**Keep what the constructor needs.** Some operators kept their inputs only inside closures: `RadonOp` knew its image shape nowhere else, and `SamplingOp` and `GradientOp` returned plain `LinearOperator`s. They now keep those inputs in a small wrapper, with existing behaviour and properties unchanged.
+
+**Best effort, and an error rather than a silent CPU fallback.** `DiagOp` can be built with a custom copy function that it does not store, so `adapt` cannot reproduce it. Niklas's guidance was to make only safe assumptions: adapt every child operator independently. In LinearOperatorCollection, an operator that owns storage raises an error when the target is unsupported (`GradientOp` also when the target would change its element type), instead of quietly staying a CPU operator. Elsewhere `adapt` follows Adapt.jl's usual behaviour: a part without its own Adapt rule is left unchanged.
+
+# What was done
+
+| PR | What it does | Status |
+|---|---|---|
+| [LOC #41](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/41) | Composite operators: `WeightingOp`, `ProdOp`, `DiagOp`, `NormalOp` | merged |
+| [LOC #42](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/42) | Normal operators of `ProdOp` and `DiagOp` (`ProdNormalOp`, `DiagNormalOp`); tests on GPU array types | merged |
+| [LOC #43](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/43) | `FFTOp`, `NFFTOp`, Toeplitz normal operator: plans rebuilt on the target | merged |
+| [LOC #45](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/45) | `RadonOp` | merged |
+| [LOC #47](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/47) | `SamplingOp` | merged |
+| [LOC #48](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/48) | `GradientOp` | merged |
+| [LOC #50](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/50), [#51](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/51) | GPU guide: moving an operator to another backend | merged |
+| [LOC #60](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/60) | Metal CI job: the nested product and `SamplingOp ∘ FFTOp` Adapt tests with Float32/ComplexF32 on the `metal` Buildkite queue | merged |
+| [LOC #62](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/62) | `WaveletOp`: rebuilt from its shape and wavelet with new host arrays | merged |
+| [MRIReco #334](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/334) | `SensitivityOp`, `SubspaceOp` | merged |
+| [MRIReco #341](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/341) | `MapSliceOp`, `ExplicitOp`: rebuilt from their kept inputs; the adjoint of an `ExplicitOp` moves with its parent | merged |
+| [MRIReco #342](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/342) | `FieldmapNFFTOp`: keeps its time-segmentation coefficients and rebuilds its NFFT plans on the target with the NFFT backend it was built with | merged |
+| [MRIReco #343](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/343) | Metal CI jobs for MRIReco and MRIOperators: ComplexF32 Adapt tests and the multi-coil CGNR reconstruction | open |
+| [MRIReco #359](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/359) | Reconstruction through the parameter dictionary: encoding operators passed with `encodingOps` are adapted to `arrayType`, so operators built on the CPU also work with a GPU `arrayType`; `multiCoil` now accepts `encodingOps` | merged |
+| [RLS #147](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/147) | The `CGNR` solver | merged |
+| [RLS #150](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/150) | Regularization terms: `TVRegularization` with its cache; GPUArrays-backed prox/norm support for masked, L21, TV and weighted-L2 terms | merged |
+| [RLS #151](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/151) | Projection and plug-and-play regularization: callables adapted with their Adapt rules; `ClampedScalingTransform` and its inverse on GPU arrays | merged |
+| [RLS #152](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/152) | The `ADMM` solver: adapted with its rho-weighted normal operator rebuilt on the target; an iterated solver keeps its progress and rho | merged |
+| [RLS #153](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/153) | The `DirectSolver` and `PseudoInverse` solvers: adapted field by field | merged |
+| [RLS #155](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/155) | The `FISTA`, `OptISTA` and `POGM` solvers: adapted field by field; an iterated solver keeps its step size, momentum and progress | merged |
+| [RLS #156](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/156) | The `SplitBregman` solver: adapted field by field; a partly iterated solver continues on the target from its outer and inner iteration | merged |
+| [RLS #159](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/159) | The `Kaczmarz` solver: adapted field by field; the row schedules stay on the host and an iterated solver keeps its progress | merged |
+| [RLS #160](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/160) | Metal CI job: `CGNR`, `FISTA`, `OptISTA` and `POGM` adapted mid-run with Float32/ComplexF32 | merged |
+| [RLS #161](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/161) | `CGNR` uses the regularization weight in the solver's element type, so Float32 data with a Float64 weight stays in Float32 (it failed on Metal) | merged |
+
+The LinearOperatorCollection operator work up to LOC #50 shipped in [v2.5.0](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/releases/tag/v2.5.0). The rest is merged but not yet in a registered release: `WaveletOp` (LOC #62), the RegularizedLeastSquares solver and regularization work (the latest release, 0.16.13, predates it), and the MRIOperators rules (the latest release, 0.4.3, predates them).
+
+**Testing without a GPU.** Most of the work was tested on the CPU with JLArrays, a reference GPU array type that runs on the CPU. It catches the typical mistakes, such as a buffer left on the host or a plan built for the wrong backend, without GPU hardware. Every test compares the moved operator's forward and adjoint products with the source, checks where its storage lives, and checks that the source is unchanged.
+
+The real GPUs came from the projects' Buildkite CI, which runs every PR on an NVIDIA (CUDA) and an AMD (ROCm) GPU. Every PR with finished GPU jobs passed both, with one exception: the AMD lane for MRIReco.jl itself. That lane is configured as allowed to fail in CI; since [MRIReco #359](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/359) it segfaults in the new `encodingOps` test ([MRIReco #393](https://github.com/MagneticResonanceImaging/MRIReco.jl/issues/393), open). The AMD lane for MRIOperators.jl, where the new operator code lives, passed.
+
+# What I Learned
+
+Image reconstruction and Julia were both new ground for me, and Niklas's reviews taught me how Julia packages are built and maintained: keep each change minimal, and let `adapt` propagate and errors surface rather than guarding against them.
+
+I also learned what it takes to lead AI agents on unfamiliar code. The agents wrote the code quickly; my part was deciding what to build, and reading it. In pair review, about half my time went to understanding each change before I could judge it. Being new to Julia made that reading slower, and more necessary.
+
+# Status and open items
+
+- **The bounty.** After the implementation PRs merged, Niklas asked for one more item, an evaluation of RegularizedLeastSquares with Reactant.jl, and [wrote](https://github.com/JuliaHealth/JuliaHealth2026BountyProgram/issues/3#issuecomment-7006960682) that otherwise he considers all work packages of the bounty finished and addressed. That evaluation is posted, and the last task he [asked for](https://github.com/JuliaHealth/JuliaHealth2026BountyProgram/issues/3#issuecomment-7126918992) is this blog post.
+- **Releases.** For `multiCoil` on a GPU, users of the registered packages need an MRIOperators release that contains the `SensitivityOp` rule from [MRIReco #334](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/334); [MRIReco #359](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/359) asks for it.
+- **Reactant.jl.** The [evaluation](https://github.com/JuliaHealth/JuliaHealth2026BountyProgram/issues/3#issuecomment-7021087346) ran `CGNR` and `FISTA` on a dense matrix, a LinearOperatorCollection product of a weighting and an FFT operator, and an MRIOperators SENSE operator, with Reactant 0.2.308 on its CPU client. No route compiles yet. The dense solvers adapt to Reactant arrays, then `@compile` stops at the solvers' abstract `state` field. The matrix-free problems stop earlier, inside `adapt`, where `FFTOp` rebuilds its FFTW plans on a Reactant array. Niklas [replied](https://github.com/JuliaHealth/JuliaHealth2026BountyProgram/issues/3#issuecomment-7023970160) that he plans to replace the abstract solver state with concrete states and let users switch backends through `adapt`; most of the FFT code is also due to move to a different FFT package.
+- **Known limits.** Niklas saw this list before calling the work packages finished; he did not rule on each item. `DCTOp` and `DSTOp` build FFTW plans and have no Adapt rule, so they stay CPU operators. Greedy randomized Kaczmarz iterates only on the CPU. `DirectSolver` computes an LU factorization on the array type of its operator, so solving on a GPU needs `lu` for that array type, which I have not checked for each backend; `PseudoInverse` moves its stored SVD without recomputing it. An `ADMM` solver initialized with a matrix of measurements (multi-column state) cannot be adapted. And the MRIReco.jl AMD lane failure above ([MRIReco #393](https://github.com/MagneticResonanceImaging/MRIReco.jl/issues/393)) is open.
+- **Accepted limit.** `WaveletOp`'s transform runs on the CPU, with GPU input and output copied through host arrays, as merged in [LOC #62](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/62) and described in the LinearOperatorCollection GPU guide.
+- **Metal.** Metal CI jobs are merged in [LOC #60](https://github.com/JuliaImageRecon/LinearOperatorCollection.jl/pull/60) and [RLS #160](https://github.com/JuliaImageRecon/RegularizedLeastSquares.jl/pull/160), and their selected Adapt tests passed on the Apple Silicon `metal` queue ([LOC build 208](https://buildkite.com/julialang/linearoperatorcollection-dot-jl/builds/208#01a1ca4e-ffd3-44f3-8c5b-ebd98f4cabc4), [RLS build 289](https://buildkite.com/julialang/regularizedleastsquares-dot-jl/builds/289#01a1ca4f-27eb-4f47-aca2-207733fea3c5)). The MRIReco and MRIOperators jobs passed at the head of [MRIReco #343](https://github.com/MagneticResonanceImaging/MRIReco.jl/pull/343) ([build 396](https://buildkite.com/julialang/mrireco-dot-jl/builds/396#01a1ca4f-73b6-44fa-bade-44493eefd5ff)), which is still in review. These cover the selected tests only, not every operator and solver on Metal. The Metal jobs are allowed to fail until they run green.
+
+I enjoyed this work and would be glad to keep contributing to the JuliaImageRecon and MRIReco.jl packages when the chance comes up.
+
+I write short notes on what I learn at [blog.shukebeta.com](https://blog.shukebeta.com).
+
+# Acknowledgements
+
+Thanks to Niklas Hackelberg for choosing me for this bounty, for careful and quick reviews, and for patient answers to design questions; to Carlos Castillo Passi for organising the program; and to NumFOCUS for funding it.
